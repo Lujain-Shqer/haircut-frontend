@@ -15,7 +15,7 @@
           </div>
           <button class="btn">إضافة عميل جديد</button>
         </div>
-        <table class="table table-responsive">
+        <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
             <tr>
               <th scope="col">رقم</th>
@@ -71,14 +71,14 @@
               </td>
             </tr>
           </tbody>
-          <!-- <tfoot>
+          <tfoot>
             <tr>
               <th scope="col"></th>
               <th scope="col"></th>
               <th scope="col"></th>
               <th scope="col" class="text-center"></th>
             </tr>
-          </tfoot> -->
+          </tfoot>
         </table>
       </div>
     </div>

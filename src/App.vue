@@ -7,6 +7,10 @@
     <router-link to="/client">client</router-link> |
     <router-link to="/updateClient">updat client</router-link> |
     <router-link to="/addClient">add client</router-link> |
+    <router-link to="/employeeComissions">employeeComissions</router-link> |
+    <router-link to="/employeeSalary">employeeSalary</router-link> |
+    <router-link to="/EmployeeReport">employeeReport</router-link> |
+    <router-link to="/salafiyatDiscounts">salafiyatDiscounts</router-link> |
   </nav>
 
   <router-view />

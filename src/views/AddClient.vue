@@ -1,6 +1,6 @@
 <template>
   <div class="AddClient">
-    <!-- <div class="container">
+    <div class="container">
       <h3>العملاء</h3>
       <p>
         يعتمدون على خبرة الحلاق في تلبية توقعاتهم وجعلهم يشعرون بالارتياح
@@ -21,8 +21,8 @@
           <button class="btn">إضافة البيانات</button>
         </form>
       </div>
-    </div> -->
-    <div class="table-wrapper-scroll-y my-custom-scrollbar">
+    </div>
+    <!-- <div class="table-wrapper-scroll-y my-custom-scrollbar">
       <table class="table table-bordered table-striped mb-0">
         <thead>
           <tr>
@@ -71,7 +71,7 @@
           </tr>
         </tbody>
       </table>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -80,7 +80,7 @@ export default {
 };
 </script>
 <style scoped>
-.my-custom-scrollbar {
+/* .my-custom-scrollbar {
   position: relative;
   height: 200px;
   width: 100%;
@@ -88,7 +88,7 @@ export default {
 }
 .table-wrapper-scroll-y {
   display: block;
-}
+} */
 .row {
   margin: 0;
 }

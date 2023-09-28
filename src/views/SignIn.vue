@@ -128,6 +128,14 @@ p a {
 .sigin svg {
   color: #3f51b5;
 }
+@media (max-width: 1200px) {
+  .logo-img {
+    display: none;
+  }
+  .logo {
+    margin: auto;
+  }
+}
 /* .sigin button.signup {
   background: white;
   color: #0e36d7;

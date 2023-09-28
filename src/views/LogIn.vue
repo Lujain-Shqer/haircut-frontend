@@ -112,7 +112,14 @@ export default {
 .login svg {
   color: #3f51b5;
 }
-
+@media (max-width: 1200px) {
+  .logo-img {
+    display: none;
+  }
+  .logo {
+    margin: auto;
+  }
+}
 /* .login .ic {
   display: inline;
   width: 5%;

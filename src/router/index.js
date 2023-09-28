@@ -7,6 +7,10 @@ import BranchPage from "../views/BranchPage.vue";
 import ClientPage from "../views/ClientPage.vue";
 import UpdateClient from "../views/UpdateClient.vue";
 import AddClient from "../views/AddClient.vue";
+import EmployeeCommissions from "../views/EmployeeCommissions.vue";
+import EmployeeSalary from "../views/EmployeeSalary.vue";
+import EmployeeReport from "../views/EmployeeReport.vue";
+import SalafiyatDiscounts from "../views/SalafiyatDiscounts.vue";
 
 const routes = [
   {
@@ -55,8 +59,34 @@ const routes = [
   },
   {
     path: "/addClient",
-    name: "AddClient",
+    _name: "AddClient",
+    get name() {
+      return this._name;
+    },
+    set name(value) {
+      this._name = value;
+    },
     component: AddClient,
+  },
+  {
+    path: "/employeeComissions",
+    name: "EmployeeCommissions",
+    component: EmployeeCommissions,
+  },
+  {
+    path: "/employeeSalary",
+    name: "EmployeeSalary",
+    component: EmployeeSalary,
+  },
+  {
+    path: "/EmployeeReport",
+    name: "EmployeeReport",
+    component: EmployeeReport,
+  },
+  {
+    path: "/salafiyatDiscounts",
+    name: "SalafiyatDiscounts",
+    component: SalafiyatDiscounts,
   },
 ];
 

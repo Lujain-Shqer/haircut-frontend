@@ -1,6 +1,4 @@
 <template>
-  <NavBar />
-  <SideBar />
   <div class="ControlBoard">
     <div class="container">
       <h1 class="h1">أهلا و سهلا بك بعالمك !</h1>
@@ -180,14 +178,14 @@
   <router-view />
 </template>
 <script>
-import NavBar from "@/components/NavBar.vue";
-import SideBar from "@/components/SideBar.vue";
+// import NavBar from "@/components/NavBar.vue";
+// import SideBar from "@/components/SideBar.vue";
 
 export default {
   name: "ControlBoard",
   components: {
-    NavBar,
-    SideBar,
+    // NavBar,
+    // SideBar,
   },
 };
 </script>

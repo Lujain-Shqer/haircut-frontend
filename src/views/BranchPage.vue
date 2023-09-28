@@ -66,4 +66,12 @@ export default {
   color: #3f51b5;
   font-weight: 400;
 }
+@media (max-width: 1200px) {
+  .logo-img {
+    display: none;
+  }
+  .logo {
+    margin: auto;
+  }
+}
 </style>
