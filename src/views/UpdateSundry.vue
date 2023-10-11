@@ -1,24 +1,23 @@
 <template>
-  <div class="updateClient">
+  <div class="updateSundry">
     <div class="container">
-      <h3>العملاء</h3>
+      <h3>المنتجات النثرية</h3>
       <p>
-        يعتمدون على خبرة الحلاق في تلبية توقعاتهم وجعلهم يشعرون بالارتياح
-        بمظهرهم الجديد. تلعب العلاقة الجيدة بين الحلاق والعميل دورًا مهمًا في
-        تحقيق رضا الزبون وإعادته لزيارات متكررة.
+        هي المنتجات التي يحتاجها الموظف أثناء العمل و تكون تحت حسابات المالية
+        لبند المنتجات النثرية
       </p>
       <div class="update-info-client">
-        <h5>تحديث بيانات العميل</h5>
+        <h5>تحديث بيانات المنتج</h5>
         <form class="row">
           <div class="col-lg-6 col-md-12">
             <label>الاسم</label>
-            <input type="text" />
+            <input type="text" placeholder="اضف اسم المنتج " />
           </div>
           <div class="col-lg-6 col-md-12">
-            <label>هاتف العميل</label>
-            <input type="text" />
+            <label>سعر الشراء</label>
+            <input type="text" placeholder="اضف سعر الشراء" />
           </div>
-          <button class="btn">تحديث البيانات</button>
+          <button class="btn">تحديث</button>
         </form>
       </div>
     </div>
@@ -26,45 +25,45 @@
 </template>
 <script>
 export default {
-  name: "UpdateClient",
+  name: "UpdateSundry",
 };
 </script>
 <style scoped>
 .row {
   margin: 0;
 }
-.updateClient {
+.updateSundry {
   direction: rtl;
   width: 80%;
 }
-.updateClient h3 {
+.updateSundry h3 {
   color: #3f51b5;
   font-weight: 700px;
 }
-.updateClient p {
+.updateSundry p {
   color: #1a2669;
   font-weight: 400;
 }
-.updateClient .update-info-client {
+.updateSundry .update-info-client {
   margin-top: 8vh;
   border: 1.5px solid #3f51b5;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
   padding: 5vh;
 }
-.updateClient h5 {
+.updateSundry h5 {
   color: #3f51b5;
   font-weight: 700px;
   margin-bottom: 3vh;
 }
-.updateClient label {
+.updateSundry label {
   display: block;
   margin-bottom: 2vh;
   margin-top: 2vh;
   font-weight: 700;
 }
-.updateClient input {
-  border: 1px solid #1a2669;
+.updateSundry input {
+  border: 1px solid #c8c9cc;
   color: #1a2669;
   border-radius: 8px;
   padding: 1vh;
@@ -72,7 +71,7 @@ export default {
   outline: none;
 }
 
-.updateClient button {
+.updateSundry button {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
@@ -82,20 +81,20 @@ export default {
 }
 
 @media (max-width: 991px) {
-  .updateClient input {
+  .updateSundry input {
     width: 100%;
   }
-  .updateClient button {
+  .updateSundry button {
     width: 95%;
     margin-right: 2vh;
     margin-top: 2vh;
   }
-  .updateClient {
+  .updateSundry {
     width: 70%;
   }
 }
 @media (max-width: 765px) {
-  .updateClient {
+  .updateSundry {
     width: 100%;
   }
 }

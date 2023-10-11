@@ -1,7 +1,7 @@
 <template>
-  <div class="employeesalary">
+  <div class="totalCommissions">
     <div class="container">
-      <h3>مسير الرواتب</h3>
+      <h3>إجمالي العمولات</h3>
       <p>
         تعتبر وثائق مالية تُستخدم لتوثيق عمليات البيع بصالون حلاقة خاص بك. تحتوي
         فاتورة المبيعات عادةً على معلومات مهمة تتعلق بالخدمات التي تم بيعها
@@ -9,8 +9,9 @@
       </p>
       <div class="all-table" style="overflow-x: auto">
         <div class="row extra-table">
-          <div class="name">
-            <fa icon="calendar" /> <span> تقرير مسير الرواتب :</span>
+          <div class="input-container">
+            <fa icon="gift" />
+            <span>تقرير إجمالي العمولات</span>
           </div>
           <button class="btn">EXCEL</button>
           <button class="btn">بحث بالتاريخ</button>
@@ -19,86 +20,58 @@
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
             <tr>
-              <th scope="col">كود الموظف</th>
               <th scope="col">الاسم</th>
-              <th scope="col">الوظيفة</th>
-              <th scope="col">نوع الأجر</th>
-              <th scope="col">الأجر</th>
-              <th scope="col">عمولات أخرى</th>
-              <th scope="col">إجمالي الاستحقاق</th>
-              <th scope="col">الخصومات</th>
-              <th scope="col">السلفيات</th>
-              <th scope="col">الصافي</th>
+              <th scope="col">إجمالي الفواتير</th>
+              <th scope="col">إجمالي الإيراد</th>
+              <th scope="col">العمولات</th>
+              <th scope="col">المدفوع</th>
+              <th scope="col">المتبقي</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>561</td>
-              <th scope="row">علي أحدم</th>
-              <td>حلاق</td>
-              <td>راتب</td>
+              <td>20-4-2019</td>
+              <td>INGDU</td>
               <td>2000</td>
               <td>67</td>
-              <td>234</td>
-              <td>678</td>
-              <td>09</td>
-              <td>234</td>
+              <td>2000</td>
+              <td>67</td>
             </tr>
             <tr>
-              <td>561</td>
-              <th scope="row">علي أحدم</th>
-              <td>حلاق</td>
-              <td>راتب</td>
+              <td>20-4-2019</td>
+              <td>INGDU</td>
               <td>2000</td>
               <td>67</td>
-              <td>234</td>
-              <td>678</td>
-              <td>09</td>
-              <td>234</td>
+              <td>2000</td>
+              <td>67</td>
             </tr>
             <tr>
-              <td>561</td>
-              <th scope="row">علي أحدم</th>
-              <td>حلاق</td>
-              <td>راتب</td>
+              <td>20-4-2019</td>
+              <td>INGDU</td>
+              <td>2000</td>
               <td>2000</td>
               <td>67</td>
-              <td>234</td>
-              <td>678</td>
-              <td>09</td>
-              <td>234</td>
+              <td>67</td>
             </tr>
             <tr>
-              <td>561</td>
-              <th scope="row">علي أحدم</th>
-              <td>حلاق</td>
-              <td>راتب</td>
+              <td>20-4-2019</td>
+              <td>INGDU</td>
               <td>2000</td>
               <td>67</td>
-              <td>234</td>
-              <td>678</td>
-              <td>09</td>
-              <td>234</td>
+              <td>2000</td>
+              <td>67</td>
             </tr>
             <tr>
-              <td>561</td>
-              <th scope="row">علي أحدم</th>
-              <td>حلاق</td>
-              <td>راتب</td>
+              <td>20-4-2019</td>
+              <td>INGDU</td>
               <td>2000</td>
               <td>67</td>
-              <td>234</td>
-              <td>678</td>
-              <td>09</td>
-              <td>234</td>
+              <td>2000</td>
+              <td>67</td>
             </tr>
           </tbody>
           <tfoot>
             <td>صفوف لكل الصفحة</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -112,60 +85,65 @@
 </template>
 <script>
 export default {
-  name: "EmployeeSalary",
+  name: "TotalCommissions",
 };
 </script>
 <style scoped>
 .row {
   margin: 0;
 }
-.employeesalary {
+.totalCommissions {
   direction: rtl;
   width: 80%;
 }
-.employeesalary h3 {
+.totalCommissions h3 {
   color: #3f51b5;
   font-weight: 700px;
 }
-.employeesalary p {
+.totalCommissions p {
   color: #1a2669;
   font-weight: 400;
   padding: 2vh;
 }
 
-.employeesalary .extra-table {
+.totalCommissions .extra-table {
   margin: 0 4vh;
   margin-bottom: 3vh;
   display: flow-root;
 }
-.employeesalary .extra-table .name {
-  width: 30%;
+.totalCommissions .input-container {
+  width: 25%;
+  float: right;
+  display: inline;
   float: right;
   color: #3f51b5;
+  padding: 1vh;
+  font-weight: 500;
 }
-.employeesalary .extra-table .name svg {
-  padding-left: 1vh;
+.totalCommissions .input-container svg {
+  padding-left: 2vh;
 }
-.employeesalary .extra-table button {
-  width: 20%;
+
+.totalCommissions .extra-table button {
+  width: 15%;
   margin-right: 10px;
   float: left;
   background: #3f51b5;
   color: #fff;
 }
-.employeesalary .extra-table button:first-of-type,
-.employeesalary .extra-table button:last-of-type {
+.totalCommissions .extra-table button:first-of-type,
+.totalCommissions .extra-table button:last-of-type {
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
 }
-.employeesalary .extra-table button:last-of-type {
+.totalCommissions .extra-table button:last-of-type {
   width: 25%;
 }
-.employeesalary .extra-table button:first-of-type {
+.totalCommissions .extra-table button:first-of-type {
   width: 10%;
 }
-.employeesalary .all-table {
+.totalCommissions .all-table {
   margin-top: 8vh;
   border: 1.5px solid #3f51b5;
   padding: 3vh 0 0;
@@ -173,11 +151,11 @@ export default {
   border-radius: 8px;
   font-weight: 700;
 }
-.employeesalary table {
+.totalCommissions table {
   margin-bottom: 0;
   border: 1.5px solid #3f51b5;
 }
-.employeesalary table tfoot {
+.totalCommissions table tfoot {
   border-radius: 8px;
 }
 tbody,
@@ -189,44 +167,47 @@ tr {
   border-bottom: 1px solid #d9d5ec;
 }
 
-.employeesalary table thead tr th,
-.employeesalary table tfoot tr th {
+.totalCommissions table thead tr th,
+.totalCommissions table tfoot tr th {
   background: #3f51b5;
   color: #e3e3e3;
   height: 5vh;
 }
-.employeesalary table tr td,
-.employeesalary table tr th {
+.totalCommissions table tr td,
+.totalCommissions table tr th {
   color: #1a2669;
 }
-.employeesalary table .td {
+.totalCommissions table .td {
   font-weight: 700;
 }
-.employeesalary table tfoot {
+.totalCommissions table tfoot {
   border-radius: 8px;
   background: #3f51b5;
   width: 100%;
   color: #fff;
 }
-.employeesalary table tfoot td:last-of-type {
+.totalCommissions table tfoot td:last-of-type {
   text-align: end;
   padding-left: 5vh;
 }
-.employeesalary table .delete {
+.totalCommissions table .delete {
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
   margin-left: 2px;
 }
-.employeesalary table .update {
+.totalCommissions table .update {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
   margin-right: 2px;
 }
 @media (max-width: 991px) {
-  .employeesalary {
+  .totalCommissions {
     width: 70%;
+  }
+  .totalCommissions select {
+    width: 50%;
   }
   .extra-table {
     width: 180%;
@@ -236,10 +217,7 @@ tr {
   }
 }
 @media (max-width: 765px) {
-  /* .container {
-    max-width: 650px;
-  } */
-  .employeesalary {
+  .totalCommissions {
     width: 100%;
   }
   .extra-table {
@@ -249,7 +227,11 @@ tr {
     width: 192%;
   }
 }
+
 @media (max-width: 540px) {
+  .totalCommissions select {
+    width: 80%;
+  }
   .extra-table {
     width: 210%;
   }

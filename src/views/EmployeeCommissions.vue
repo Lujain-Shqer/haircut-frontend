@@ -8,21 +8,38 @@
         الأساسي للموظفين
       </p>
       <p class="card">
-        يمكنك البدء في توزيع عمولات اليوم عن طريق الجدول أعلاه ،بعد الانتهاء من
-        توزيع العمولات يمكنك الضغط على الزر أدناه لإقفال اليومية واستخراج تقرير
-        العمولات للتوقيع عليه من قبل الموظفين
+        <span
+          ><fa icon="warning" /> يمكنك البدء في توزيع عمولات اليوم عن طريق
+          الجدول أعلاه ،بعد الانتهاء من توزيع العمولات يمكنك الضغط على الزر
+          أدناه لإقفال اليومية واستخراج تقرير العمولات للتوقيع عليه من قبل
+          الموظفين</span
+        >
+        <fa icon="times" class="times" />
       </p>
       <p class="card">
-        الجدول أدناه يظهر العمولات ابتداءً من آخر بداية لفترة العمل حتى الوقت
-        الحالي فقط
+        <span
+          ><fa icon="warning" /> الجدول أدناه يظهر العمولات ابتداءً من آخر بداية
+          لفترة العمل حتى الوقت الحالي فقط</span
+        >
+        <fa icon="times" class="times" />
       </p>
       <div class="all-table" style="overflow-x: auto">
         <div class="row extra-table">
-          <div class="input-container">
-            <fa icon="search" />
-            <input class="input-field" type="text" placeholder="البحث عن..." />
+          <div class="search">
+            <fa icon="coins" /> <span>رصيد الصندوق :</span>
+            <span> 7000</span>
+            <div class="input-container">
+              <fa icon="search" />
+              <input
+                class="input-field"
+                type="text"
+                placeholder="البحث عن..."
+              />
+            </div>
           </div>
-          <button class="btn">إنهاء فترة العمل وإصدار تقرير العمولات</button>
+          <button class="btn">
+            <fa icon="clock" /> إنهاء فترة العمل وإصدار تقرير العمولات
+          </button>
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
@@ -93,14 +110,12 @@
             </tr>
           </tbody>
           <tfoot>
-            <tr>
-              <th scope="col"></th>
-              <th scope="col"></th>
-              <th scope="col"></th>
-              <th scope="col"></th>
-              <th scope="col"></th>
-              <th scope="col" class="text-center"></th>
-            </tr>
+            <td>صفوف لكل الصفحة</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>1-10 من 100 عنصر</td>
           </tfoot>
         </table>
       </div>
@@ -118,6 +133,7 @@ export default {
 }
 .employeeCommissions {
   direction: rtl;
+  width: 80%;
 }
 .employeeCommissions h3 {
   color: #3f51b5;
@@ -134,19 +150,49 @@ export default {
 .employeeCommissions p:nth-of-type(3) {
   background: #ffe5e5;
 }
+.employeeCommissions p:nth-of-type(2) svg {
+  color: #1298b2;
+  padding-left: 1vh;
+}
+.employeeCommissions p:nth-of-type(3) svg {
+  color: #b22f2f;
+  padding-left: 1vh;
+}
+.employeeCommissions svg.times {
+  position: absolute;
+  top: 5px;
+  left: 0;
+  color: #646466 !important;
+}
 .employeeCommissions .extra-table {
   margin: 0 4vh;
   margin-bottom: 3vh;
   display: flow-root;
+}
+.employeeCommissions .search {
+  width: 65%;
+  float: right;
+}
+.employeeCommissions .search span {
+  padding-left: 2vh;
+  color: #3f51b5;
+}
+.employeeCommissions .search svg {
+  color: #3f51b5;
+  padding-left: 0.7vh;
+}
+.employeeCommissions .search span:first-of-type {
+  font-weight: 500;
+}
+.employeeCommissions .search span:last-of-type {
+  font-weight: 400;
 }
 .employeeCommissions .input-container {
   border: 1px solid #c8c9cc;
   box-shadow: 0px 0px 4px 0px #6e49cb33;
   border-radius: 8px;
   width: 25%;
-  float: right;
   display: inline;
-  float: right;
   color: #3f51b5;
   padding: 1vh;
 }
@@ -159,7 +205,7 @@ export default {
 }
 
 .employeeCommissions .extra-table button {
-  width: 30%;
+  width: 35%;
   float: left;
   background: #3f51b5;
   color: #fff;
@@ -215,9 +261,45 @@ tbody tr th {
   border: 1px solid #3f51b5;
   margin-right: 2px;
 }
+.employeeCommissions table tfoot {
+  border-radius: 8px;
+  background: #3f51b5;
+  width: 100%;
+  color: #fff;
+}
+.employeeCommissions table tfoot td:last-of-type {
+  text-align: end;
+  padding-left: 5vh;
+}
+
 @media (max-width: 991px) {
-  .all-table {
-    overflow-x: auto;
+  .extra-table {
+    width: 130%;
+  }
+  .table {
+    width: 140%;
+  }
+  .employeeCommissions {
+    width: 70%;
+  }
+}
+@media (max-width: 765px) {
+  .extra-table {
+    width: 170%;
+  }
+  .table {
+    width: 182%;
+  }
+  .employeeCommissions {
+    width: 100%;
+  }
+}
+@media (max-width: 540px) {
+  .extra-table {
+    width: 210%;
+  }
+  .table {
+    width: 230%;
   }
 }
 </style>

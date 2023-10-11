@@ -8,7 +8,7 @@
         تحقيق رضا الزبون وإعادته لزيارات متكررة.
       </p>
       <div class="update-info-client">
-        <h6>إضافة بيانات العميل</h6>
+        <h5>إضافة بيانات العميل الجديد</h5>
         <form class="row">
           <div class="col-lg-6 col-md-12">
             <label>الاسم</label>
@@ -18,60 +18,10 @@
             <label>هاتف العميل</label>
             <input type="text" placeholder="إضافة هاتف العميل" />
           </div>
-          <button class="btn">إضافة البيانات</button>
+          <button class="btn">إضافة عميل</button>
         </form>
       </div>
     </div>
-    <!-- <div class="table-wrapper-scroll-y my-custom-scrollbar">
-      <table class="table table-bordered table-striped mb-0">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-          </tr>
-          <tr>
-            <th scope="row">4</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">5</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">6</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-          </tr>
-        </tbody>
-      </table>
-    </div> -->
   </div>
 </template>
 <script>
@@ -80,20 +30,12 @@ export default {
 };
 </script>
 <style scoped>
-/* .my-custom-scrollbar {
-  position: relative;
-  height: 200px;
-  width: 100%;
-  overflow: auto;
-}
-.table-wrapper-scroll-y {
-  display: block;
-} */
 .row {
   margin: 0;
 }
 .AddClient {
   direction: rtl;
+  width: 80%;
 }
 .AddClient h3 {
   color: #3f51b5;
@@ -110,7 +52,7 @@ export default {
   border-radius: 8px;
   padding: 5vh;
 }
-.AddClient h6 {
+.AddClient h5 {
   color: #3f51b5;
   font-weight: 700px;
   margin-bottom: 3vh;
@@ -118,6 +60,8 @@ export default {
 .AddClient label {
   display: block;
   margin-bottom: 2vh;
+  margin-top: 2vh;
+  font-weight: 700;
 }
 .AddClient input {
   border: 1px solid #c8c9cc;
@@ -133,8 +77,26 @@ export default {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
-  width: 20%;
+  width: 25%;
   margin: auto;
   margin-top: 5vh;
+}
+@media (max-width: 991px) {
+  .AddClient input {
+    width: 100%;
+  }
+  .AddClient button {
+    width: 95%;
+    margin-right: 2vh;
+    margin-top: 2vh;
+  }
+  .AddClient {
+    width: 70%;
+  }
+}
+@media (max-width: 765px) {
+  .AddClient {
+    width: 100%;
+  }
 }
 </style>

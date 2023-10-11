@@ -1,41 +1,46 @@
 <template>
   <div class="login">
-    <div class="container">
-      <div class="row">
-        <div class="col-xl-4 col-lg-8 logo text-center">
-          <img src="../assets/logoo.png" />
-          <h5>صالون ذقن &amp; شعر</h5>
-          <h3 class="">تسجيل الدخول إلى حسابك</h3>
-          <form class="input-icons">
-            <label>رقم الجوال</label>
-            <div class="input-container">
-              <input
-                class="input-field"
-                type="text"
-                placeholder="+970 -596 58000"
-              />
-              <fa icon="phone" />
-            </div>
-            <label>كلمة المرور</label>
-            <div class="input-container">
-              <input
-                class="input-field"
-                type="text"
-                placeholder="***************"
-              />
-              <fa icon="lock" />
-            </div>
-            <button class="btn btn-block signin">
-              <router-link to="/control">تسجيل الدخول</router-link>
-            </button>
-          </form>
-          <p>أو</p>
-          <button class="btn btn-block signup">
-            <router-link to="/signin"> إنشاء حساب جديد</router-link>
+    <div class="row">
+      <div class="col-xl-4 col-lg-8 logo text-center">
+        <img src="../assets/logoo.png" />
+        <h6>صالون ذقن &amp; شعر</h6>
+        <h4 class="">تسجيل الدخول إلى حسابك</h4>
+        <form class="input-icons">
+          <label>رقم الجوال</label>
+          <div class="input-container">
+            <input
+              class="input-field"
+              type="text"
+              placeholder="+970 -596 58000"
+            />
+            <fa icon="phone" />
+          </div>
+          <label>كلمة المرور</label>
+          <div class="input-container">
+            <input
+              class="input-field"
+              type="text"
+              placeholder="***************"
+            />
+            <fa icon="lock" />
+          </div>
+          <button class="btn btn-block signin">
+            <router-link to="/control">تسجيل الدخول</router-link>
           </button>
-        </div>
-        <div class="col-xl-8 logo-img">
-          <img src="../assets/two.png" />
+        </form>
+        <span></span>
+        <span>او</span>
+        <span></span>
+        <button class="btn btn-block signup">
+          <router-link to="/signin"> إنشاء حساب جديد</router-link>
+        </button>
+      </div>
+      <div class="col-xl-8 logo-img">
+        <img src="../assets/two.png" />
+        <div class="loading">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
       </div>
     </div>
@@ -51,22 +56,17 @@ export default {
 <style scoped>
 .row {
   margin: 0;
+  height: 100vh;
 }
-.login .logo-img {
-  margin: auto;
-  text-align: center;
-}
-.login .logo-img img {
-  width: 75%;
-}
+
 .login {
   direction: rtl;
 }
 .logo {
   box-shadow: 0px 0px 50px 0px #00000040;
-  margin-top: 2vh;
+  border-radius: 0 8px 8px 0px;
 }
-.login h3 {
+.login h4 {
   color: #3f51b5;
   margin: 5vh 0;
 }
@@ -75,7 +75,7 @@ export default {
   text-align: start;
   color: #1a2669;
   font-weight: 700;
-  margin: 5vh 0 1vh;
+  margin: 5vh 0 2vh;
 }
 .input-container {
   border: 1px solid #c8c9cc;
@@ -83,7 +83,7 @@ export default {
   padding: 1vh;
 }
 .login input {
-  width: 95%;
+  width: 90%;
   border-radius: 8px;
   padding: 1vh 2vh;
   border: 0;
@@ -102,7 +102,7 @@ export default {
   background: white;
   padding: 1vh;
   width: 100%;
-  margin: 2vh 0;
+  margin: 3vh 0;
   border: 2px solid #0e36d7;
 }
 .login button.signup a {
@@ -112,6 +112,54 @@ export default {
 .login svg {
   color: #3f51b5;
 }
+.login .logo span {
+  color: #c2c2c2;
+}
+.login .logo span:first-of-type,
+.login .logo span:last-of-type {
+  display: inline-block;
+  width: 42%;
+  height: 0.1px;
+  background: #c2c2c2;
+}
+.login .logo span:first-of-type {
+  margin-left: 2%;
+}
+.login .logo span:last-of-type {
+  margin-right: 2%;
+}
+.login .logo-img {
+  margin: auto;
+  text-align: center;
+}
+.login .logo-img img {
+  width: 60%;
+}
+.login .logo-img div span:last-of-type {
+  display: inline-block;
+  width: 6vh;
+  height: 1vh;
+  background: #3f51b5;
+  border-radius: 27px;
+  margin-right: 1vh;
+}
+.login .logo-img div span:first-of-type {
+  display: inline-block;
+  width: 1vh;
+  height: 1vh;
+  background: #3f51b5;
+  border-radius: 27px;
+  opacity: 0.5;
+}
+.login .logo-img div span:nth-of-type(2) {
+  display: inline-block;
+  width: 3vh;
+  height: 1vh;
+  background: #3f51b5;
+  border-radius: 27px;
+  opacity: 0.5;
+  margin-right: 1vh;
+}
 @media (max-width: 1200px) {
   .logo-img {
     display: none;
@@ -120,9 +168,4 @@ export default {
     margin: auto;
   }
 }
-/* .login .ic {
-  display: inline;
-  width: 5%;
-  background: #3f51b5;
-} */
 </style>

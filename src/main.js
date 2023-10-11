@@ -11,7 +11,7 @@ import store from "./store";
 // import jQuery from "jquery";
 // global.jQuery = jQuery;
 
-import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.css";
 import "popper.js";
 
 import "normalize.css";
@@ -21,3 +21,4 @@ createApp(App)
   .use(store)
   .use(router)
   .mount("#app");
+import "bootstrap/dist/js/bootstrap.js";

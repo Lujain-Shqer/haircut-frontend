@@ -1,34 +1,28 @@
 <template>
-  <div class="salafiyatDiscounts">
+  <div class="closingAccounts">
     <div class="container">
-      <h3>الخصومات والسلفيات</h3>
+      <h3>تقرير إقفال الحسابات</h3>
       <p>
-        تعتبر وثائق مالية تُستخدم لتوثيق عمليات البيع بصالون حلاقة خاص بك. تحتوي
-        فاتورة المبيعات عادةً على معلومات مهمة تتعلق بالخدمات التي تم بيعها
-        والمبلغ المستحق للدفع.
+        تقرير مالي يُعد عادة في نهاية الفترة المحاسبية (مثل السنة المالية أو
+        الربع السنوي)، وهو يهدف إلى تلخيص حالة الحسابات المالية
       </p>
-      <select class="form-select" aria-label="Default select example">
-        <option selected>اختر الموظف المراد البحث عنه</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-      </select>
       <div class="all-table" style="overflow-x: auto">
         <div class="row extra-table">
           <div class="input-container">
-            <fa icon="gift" />
-            <span>تقرير الخصومات والسلفيات</span>
+            <fa icon="coins" />
+            <span>تقرير إقفال الحسابات</span>
           </div>
-          <button class="btn">EXCEL</button>
           <button class="btn">بحث بالتاريخ</button>
           <button class="btn">من الفترة -> إلى الفترة</button>
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
             <tr>
-              <th scope="col">تاريخ الحركة</th>
-              <th scope="col">البند</th>
-              <th scope="col">القيمة</th>
+              <th scope="col">الاسم</th>
+              <th scope="col">إجمالي الفواتير</th>
+              <th scope="col">إجمالي الإيراد</th>
+              <th scope="col">العمولات</th>
+              <th scope="col">المدفوع</th>
               <th scope="col">المتبقي</th>
             </tr>
           </thead>
@@ -38,10 +32,6 @@
               <td>INGDU</td>
               <td>2000</td>
               <td>67</td>
-            </tr>
-            <tr>
-              <td>20-4-2019</td>
-              <td>INGDU</td>
               <td>2000</td>
               <td>67</td>
             </tr>
@@ -50,22 +40,38 @@
               <td>INGDU</td>
               <td>2000</td>
               <td>67</td>
-            </tr>
-            <tr>
-              <td>20-4-2019</td>
-              <td>INGDU</td>
               <td>2000</td>
               <td>67</td>
             </tr>
             <tr>
               <td>20-4-2019</td>
               <td>INGDU</td>
+              <td>2000</td>
+              <td>2000</td>
+              <td>67</td>
+              <td>67</td>
+            </tr>
+            <tr>
+              <td>20-4-2019</td>
+              <td>INGDU</td>
+              <td>2000</td>
+              <td>67</td>
+              <td>2000</td>
+              <td>67</td>
+            </tr>
+            <tr>
+              <td>20-4-2019</td>
+              <td>INGDU</td>
+              <td>2000</td>
+              <td>67</td>
               <td>2000</td>
               <td>67</td>
             </tr>
           </tbody>
           <tfoot>
             <td>صفوف لكل الصفحة</td>
+            <td></td>
+            <td></td>
             <td></td>
             <td></td>
             <td>1-10 من 100 عنصر</td>
@@ -77,39 +83,33 @@
 </template>
 <script>
 export default {
-  name: "SalafiyatDiscounts",
+  name: "ClosingAccounts",
 };
 </script>
 <style scoped>
 .row {
   margin: 0;
 }
-.salafiyatDiscounts {
+.closingAccounts {
   direction: rtl;
   width: 80%;
 }
-.salafiyatDiscounts h3 {
+.closingAccounts h3 {
   color: #3f51b5;
   font-weight: 700px;
 }
-.salafiyatDiscounts p {
+.closingAccounts p {
   color: #1a2669;
   font-weight: 400;
   padding: 2vh;
 }
-.salafiyatDiscounts select {
-  margin-top: 3vh;
-  width: 35%;
-  color: #3f51b5;
-  border: 1px solid #1a2669;
-}
 
-.salafiyatDiscounts .extra-table {
+.closingAccounts .extra-table {
   margin: 0 4vh;
   margin-bottom: 3vh;
   display: flow-root;
 }
-.salafiyatDiscounts .input-container {
+.closingAccounts .input-container {
   width: 25%;
   float: right;
   display: inline;
@@ -118,30 +118,29 @@ export default {
   padding: 1vh;
   font-weight: 500;
 }
-.salafiyatDiscounts .input-container svg {
+.closingAccounts .input-container svg {
   padding-left: 2vh;
 }
 
-.salafiyatDiscounts .extra-table button {
+.closingAccounts .extra-table button {
   width: 15%;
   margin-right: 10px;
-  float: left;
   background: #3f51b5;
   color: #fff;
 }
-.salafiyatDiscounts .extra-table button:first-of-type,
-.salafiyatDiscounts .extra-table button:last-of-type {
+.closingAccounts .extra-table button:first-of-type,
+.closingAccounts .extra-table button:last-of-type {
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
 }
-.salafiyatDiscounts .extra-table button:last-of-type {
+.closingAccounts .extra-table button:last-of-type {
   width: 25%;
 }
-.salafiyatDiscounts .extra-table button:first-of-type {
-  width: 10%;
+.closingAccounts .extra-table button:first-of-type {
+  width: 15%;
 }
-.salafiyatDiscounts .all-table {
+.closingAccounts .all-table {
   margin-top: 8vh;
   border: 1.5px solid #3f51b5;
   padding: 3vh 0 0;
@@ -149,11 +148,11 @@ export default {
   border-radius: 8px;
   font-weight: 700;
 }
-.salafiyatDiscounts table {
+.closingAccounts table {
   margin-bottom: 0;
   border: 1.5px solid #3f51b5;
 }
-.salafiyatDiscounts table tfoot {
+.closingAccounts table tfoot {
   border-radius: 8px;
 }
 tbody,
@@ -165,46 +164,46 @@ tr {
   border-bottom: 1px solid #d9d5ec;
 }
 
-.salafiyatDiscounts table thead tr th,
-.salafiyatDiscounts table tfoot tr th {
+.closingAccounts table thead tr th,
+.closingAccounts table tfoot tr th {
   background: #3f51b5;
   color: #e3e3e3;
   height: 5vh;
 }
-.salafiyatDiscounts table tr td,
-.salafiyatDiscounts table tr th {
+.closingAccounts table tr td,
+.closingAccounts table tr th {
   color: #1a2669;
 }
-.salafiyatDiscounts table .td {
+.closingAccounts table .td {
   font-weight: 700;
 }
-.salafiyatDiscounts table tfoot {
+.closingAccounts table tfoot {
   border-radius: 8px;
   background: #3f51b5;
   width: 100%;
   color: #fff;
 }
-.salafiyatDiscounts table tfoot td:last-of-type {
+.closingAccounts table tfoot td:last-of-type {
   text-align: end;
   padding-left: 5vh;
 }
-.salafiyatDiscounts table .delete {
+.closingAccounts table .delete {
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
   margin-left: 2px;
 }
-.salafiyatDiscounts table .update {
+.closingAccounts table .update {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
   margin-right: 2px;
 }
 @media (max-width: 991px) {
-  .salafiyatDiscounts {
+  .closingAccounts {
     width: 70%;
   }
-  .salafiyatDiscounts select {
+  .closingAccounts select {
     width: 50%;
   }
   .extra-table {
@@ -215,7 +214,7 @@ tr {
   }
 }
 @media (max-width: 765px) {
-  .salafiyatDiscounts {
+  .closingAccounts {
     width: 100%;
   }
   .extra-table {
@@ -227,7 +226,7 @@ tr {
 }
 
 @media (max-width: 540px) {
-  .salafiyatDiscounts select {
+  .closingAccounts select {
     width: 80%;
   }
   .extra-table {
