@@ -1,36 +1,42 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import ControlBoard from "../views/ControlBoard.vue";
-import LogIn from "../views/LogIn.vue";
-import SignIn from "../views/SignIn.vue";
-import BranchPage from "../views/BranchPage.vue";
-import ClientPage from "../views/ClientPage.vue";
-import UpdateClient from "../views/UpdateClient.vue";
-import AddClient from "../views/AddClient.vue";
-import EmployeeCommissions from "../views/EmployeeCommissions.vue";
-import EmployeeSalary from "../views/EmployeeSalary.vue";
-import EmployeeReport2 from "../views/EmployeeReport2.vue";
-import SalafiyatDiscounts from "../views/SalafiyatDiscounts.vue";
-import SundryProducts from "../views/SundryProducts.vue";
-import GeneralExpenses from "../views/GeneralExpenses.vue";
-import UpdateSundry from "../views/UpdateSundry.vue";
-import UpdateExpenses from "../views/UpdateExpenses.vue";
-import AddSundry from "../views/AddSundry.vue";
-import AddExpenses from "../views/AddExpenses.vue";
-import AddTaxable from "../views/AddTaxable.vue";
-import AddNotTaxable from "../views/AddNotTaxable.vue";
-import SallesBills from "../views/SallesBills.vue";
-import SalesTax from "../views/SalesTax.vue";
-import ProductsPurchases from "../views/ProductsPurchases.vue";
-import SundryPurchases from "../views/SundryPurchases.vue";
-import ExpensesTax from "../views/ExpensesTax.vue";
-import ExpensesNotTax from "../views/ExpensesNotTax.vue";
-import TaxReports from "../views/TaxReports.vue";
-import TotalCommissions from "../views/TotalCommissions.vue";
-import ClosingAccounts from "../views/ClosingAccounts.vue";
-import ClearingCommissions from "../views/ClearingCommissions.vue";
-import PointOfSales from "../views/PointOfSales.vue";
-
+import ControlBoard from "../views/ControlBoard/ControlBoard.vue";
+import LogIn from "../views/LoginPages/LogIn.vue";
+import SignIn from "../views/LoginPages/SignIn.vue";
+import BranchPage from "../views/LoginPages/BranchPage.vue";
+import ClientPage from "../views/Clients/ClientPage.vue";
+import UpdateClient from "../views/Clients/UpdateClient.vue";
+import AddClient from "../views/Clients/AddClient.vue";
+import EmployeeCommissions from "../views/Employees/EmployeeCommissions.vue";
+import EmployeeSalary from "../views/Employees/EmployeeSalary.vue";
+import EmployeeReport2 from "../views/Employees/EmployeeReport2.vue";
+import SalafiyatDiscounts from "../views/Employees/SalafiyatDiscounts.vue";
+import SundryProducts from "../views/SundryProducts/SundryProducts.vue";
+import GeneralExpenses from "../views/SundryProducts/GeneralExpenses.vue";
+import UpdateSundry from "../views/SundryProducts/UpdateSundry.vue";
+import UpdateExpenses from "../views/SundryProducts/UpdateExpenses.vue";
+import AddSundry from "../views/SundryProducts/AddSundry.vue";
+import AddExpenses from "../views/SundryProducts/AddExpenses.vue";
+import AddTaxable from "../views/FinancialTransactions/AddTaxable.vue";
+import AddNotTaxable from "../views/FinancialTransactions/AddNotTaxable.vue";
+import SallesBills from "../views/FinancialTransactions/SallesBills.vue";
+import SalesTax from "../views/FinancialTransactions/SalesTax.vue";
+import ProductsPurchases from "../views/FinancialTransactions/ProductsPurchases.vue";
+import SundryPurchases from "../views/FinancialTransactions/SundryPurchases.vue";
+import ExpensesTax from "../views/FinancialTransactions/ExpensesTax.vue";
+import ExpensesNotTax from "../views/FinancialTransactions/ExpensesNotTax.vue";
+import TaxReports from "../views/FinancialTransactions/TaxReports.vue";
+import TotalCommissions from "../views/FinancialTransactions/TotalCommissions.vue";
+import ClosingAccounts from "../views/FinancialTransactions/ClosingAccounts.vue";
+import ClearingCommissions from "../views/FinancialTransactions/ClearingCommissions.vue";
+import PointOfSales from "../views/SalesPoint/PointOfSales.vue";
+import SalonAppointments from "../views/Reservations/SalonAppointments.vue";
+import DisabledAppoinments from "../views/Reservations/DisabledAppoinments.vue";
+import ShowReservations from "../views/Reservations/ShowReservations.vue";
+import NewReservation1 from "../views/Reservations/NewReservation1.vue";
+import NewReservation2 from "../views/Reservations/NewReservation2.vue";
+import NewReservation3 from "../views/Reservations/NewReservation3.vue";
+import NewReservation4 from "../views/Reservations/NewReservation4.vue";
 const routes = [
   {
     path: "/",
@@ -47,7 +53,7 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
   },
   {
-    path: "/control",
+    path: "/ControlBoard",
     name: "ControlBoard",
     component: ControlBoard,
   },
@@ -67,7 +73,7 @@ const routes = [
     component: BranchPage,
   },
   {
-    path: "/client",
+    path: "/ClientPage",
     name: "ClientPage",
     component: ClientPage,
   },
@@ -88,17 +94,17 @@ const routes = [
     component: AddClient,
   },
   {
-    path: "/employeeComissions",
+    path: "/EmployeeCommissions",
     name: "EmployeeCommissions",
     component: EmployeeCommissions,
   },
   {
-    path: "/employeeSalary",
+    path: "/EmployeeSalary",
     name: "EmployeeSalary",
     component: EmployeeSalary,
   },
   {
-    path: "/salafiyatDiscounts",
+    path: "/SalafiyatDiscounts",
     name: "SalafiyatDiscounts",
     component: SalafiyatDiscounts,
   },
@@ -201,6 +207,41 @@ const routes = [
     path: "/PointOfSales",
     name: "PointOfSales",
     component: PointOfSales,
+  },
+  {
+    path: "/SalonAppointments",
+    name: "SalonAppointments",
+    component: SalonAppointments,
+  },
+  {
+    path: "/DisabledAppoinments",
+    name: "DisabledAppoinments",
+    component: DisabledAppoinments,
+  },
+  {
+    path: "/ShowReservations",
+    name: "ShowReservations",
+    component: ShowReservations,
+  },
+  {
+    path: "/NewReservation1",
+    name: "NewReservation1",
+    component: NewReservation1,
+  },
+  {
+    path: "/NewReservation2",
+    name: "NewReservation2",
+    component: NewReservation2,
+  },
+  {
+    path: "/NewReservation3",
+    name: "NewReservation3",
+    component: NewReservation3,
+  },
+  {
+    path: "/NewReservation4",
+    name: "NewReservation4",
+    component: NewReservation4,
   },
 ];
 

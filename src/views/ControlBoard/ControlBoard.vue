@@ -9,13 +9,13 @@
           <div class="col-xl-3 col-lg-6 col-md-12">
             <h5>إيرادات اليوم</h5>
             <h4>3,456</h4>
-            <img src="../assets/Group.png" />
+            <img src="../../assets/Group.png" />
             <span>إيرادات الأسبوع</span>
           </div>
           <div class="col-xl-3 col-lg-6 col-md-12">
             <h5>إيرادات الإسبوع</h5>
             <h4>5,2</h4>
-            <img src="../assets/Group.png" />
+            <img src="../../assets/Group.png" />
             <span>700 زبون </span>
           </div>
           <div class="col-xl-3 col-lg-6 col-md-12">
@@ -47,7 +47,7 @@
             </div>
           </div>
           <div class="col-xl-4">
-            <img src="../assets/one.png" />
+            <img src="../../assets/one.png" />
           </div>
         </div>
         <h1 class="h1 header">تقرير الإجمالي ( الأربعاء )</h1>
@@ -130,7 +130,7 @@
             <div class="card mb-3">
               <div class="row no-gutters">
                 <div class="col-xl-3 col-lg-12">
-                  <img src="../assets/three.png" />
+                  <img src="../../assets/three.png" />
                 </div>
                 <div class="col-xl-9 col-lg-12">
                   <div class="card-body">
@@ -153,7 +153,7 @@
             <div class="card mb-3">
               <div class="row no-gutters">
                 <div class="col-xl-3 col-lg-12">
-                  <img src="../assets/three.png" />
+                  <img src="../../assets/three.png" />
                 </div>
                 <div class="col-xl-9 col-lg-12">
                   <div class="card-body">
@@ -176,7 +176,7 @@
             <div class="card mb-3">
               <div class="row no-gutters">
                 <div class="col-xl-3 col-lg-12">
-                  <img src="../assets/three.png" />
+                  <img src="../../assets/three.png" />
                 </div>
                 <div class="col-xl-9 col-lg-12">
                   <div class="card-body">

@@ -2,7 +2,7 @@
   <div class="sigin">
     <div class="row">
       <div class="col-xl-4 col-lg-8 logo text-center">
-        <img src="../assets/logoo.png" />
+        <img src="../../assets/logoo.png" />
         <h6>صالون ذقن &amp; شعر</h6>
         <h4 class="">إنشاء حساب جديد</h4>
         <form class="input-icons">
@@ -51,7 +51,7 @@
         </p>
       </div>
       <div class="col-xl-8 logo-img">
-        <img src="../assets/four.png" />
+        <img src="../../assets/four.png" />
         <div class="loading">
           <span></span>
           <span></span>

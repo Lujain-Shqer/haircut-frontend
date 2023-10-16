@@ -2,7 +2,7 @@
   <div class="branch">
     <div class="row">
       <div class="col-xl-4 col-lg-8 logo text-center">
-        <img src="../assets/logoo.png" />
+        <img src="../../assets/logoo.png" />
         <h6>صالون ذقن &amp; شعر</h6>
         <h4 class="h4">اختر الفرع لدخول عالمك</h4>
         <div class="card">
@@ -12,7 +12,7 @@
         <p>اكتشف مزايا حسابك الشخصي <br />وقم بإدارة مواعيدك بكل سهولة</p>
       </div>
       <div class="col-xl-8 logo-img">
-        <img src="../assets/two.png" />
+        <img src="../../assets/two.png" />
         <div class="loading">
           <span></span>
           <span></span>

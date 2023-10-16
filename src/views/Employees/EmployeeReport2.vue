@@ -10,7 +10,7 @@
       <div class="row personal-information">
         <div class="col-xl-6 col-lg-8 col-md-12">
           <div class="row">
-            <img src="../assets/three.png" class="col-4" />
+            <img src="../../assets/three.png" class="col-4" />
             <div class="col-8 information">
               <div class="row">
                 <h6 class="col-6"><fa icon="user" /> الاسم:</h6>
@@ -118,7 +118,7 @@
       <div class="row personal-information per-info">
         <div class="col-xl-4 col-lg-6 col-md-12 img-info">
           <div class="row">
-            <img src="../assets/six.png" class="col-6" />
+            <img src="../../assets/six.png" class="col-6" />
             <div class="col-6">
               <h6><fa icon="user" />متوسط الدخل الشهري:</h6>
               <span>456.00</span>
@@ -142,7 +142,7 @@
       <div class="row personal-information per-info r">
         <div class="col-xl-4 col-lg-6 col-md-12 img-info">
           <div class="row">
-            <img src="../assets/five.png" class="col-6" />
+            <img src="../../assets/five.png" class="col-6" />
             <div class="col-6">
               <h6 style="color: #1cd123">
                 <fa icon="user" /> الخدمة الأكثر مبيعا :

@@ -1,18 +1,11 @@
 <template>
   <nav>
-    <router-link to="/control">control</router-link> |
     <router-link to="/login">login</router-link> |
     <router-link to="/signin">regester</router-link> |
     <router-link to="/branch">branch</router-link> |
-    <router-link to="/client">client</router-link> |
     <router-link to="/updateClient">updat client</router-link> |
     <router-link to="/addClient">add client</router-link> |
-    <router-link to="/employeeComissions">employeeComissions</router-link> |
-    <router-link to="/employeeSalary">employeeSalary</router-link> |
-    <router-link to="/salafiyatDiscounts">salafiyatDiscounts</router-link> |
-    <router-link to="/EmployeeReport2">employeeReport2</router-link> |
-    <router-link to="/SundryProducts">SundryProducts</router-link> |
-    <router-link to="/GeneralExpenses">GeneralExpenses</router-link> |
+
     <router-link to="/UpdateSundry">UpdateSundry</router-link> |
     <router-link to="/UpdateExpenses">UpdateExpenses</router-link> |
     <router-link to="/AddSundry">AddSundry</router-link> |
@@ -29,7 +22,11 @@
     <router-link to="/TotalCommissions">TotalCommissions</router-link> |
     <router-link to="/ClosingAccounts">ClosingAccounts</router-link> |
     <router-link to="/ClearingCommissions">ClearingCommissions</router-link> |
-    <router-link to="/PointOfSales">PointOfSales</router-link> |
+
+    <router-link to="/ShowReservations">ShowReservations</router-link> |
+    <router-link to="/NewReservation2">NewReservation2</router-link> |
+    <router-link to="/NewReservation3">NewReservation3</router-link> |
+    <router-link to="/NewReservation4">NewReservation4</router-link> |
   </nav>
   <NavBar />
   <SideBar />

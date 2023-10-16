@@ -1,33 +1,98 @@
 <template>
   <div id="mySidebar" class="sidebar">
-    <img src="../assets/logoo.png" />
+    <img class="logoo" src="../assets/logoo.png" />
     <h5>صالون ذقن &amp; شعر</h5>
     <div class="active link">
-      <fa icon="earth" />
-      <a href="#">لوحة التحكم</a>
+      <img src="../assets/3.png" />
+      <router-link to="/ControlBoard">لوحة التحكم</router-link>
     </div>
     <div class="link">
-      <fa icon="earth" />
-      <a href="#">نقطة البيع</a>
+      <img src="../assets/1.png" />
+      <router-link to="/PointOfSales">نقطة البيع</router-link>
     </div>
     <div class="link">
-      <fa icon="earth" />
-      <a href="#">العملاء</a>
+      <img src="../assets/2.png" />
+      <router-link to="/ClientPage">العملاء</router-link>
     </div>
-    <div class="">
-      <fa icon="earth" />
-      <button
-        class="btn btn-secondary dropdown-toggle"
-        type="button"
-        id="dropdownMenuButton2"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-      >
-        الحجوزات
-      </button>
-      <div class="dropdown">
+
+    <div class="dropdown">
+      <div class="menu" data-bs-toggle="dropdown">
+        <img src="../assets/2.png" />
+        <button
+          class="btn btn-secondary dropdown-toggle"
+          type="button"
+          id="dropdownMenuButton2"
+          aria-expanded="false"
+        >
+          الموظفون
+        </button>
+      </div>
+      <div class="ul">
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-          <li><a class="dropdown-item" href="#">مواعيد الصالون</a></li>
+          <li>
+            <router-link to="/EmployeeCommissions"
+              >عمولات الموظفين
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/EmployeeReport2">تقرير الموظف (مفصل)</router-link>
+          </li>
+          <li>
+            <router-link to="/SalafiyatDiscounts"
+              >تقرير الخصومات والسلفيات</router-link
+            >
+          </li>
+          <li>
+            <router-link to="/EmployeeSalary">تقرير مسير الرواتب</router-link>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="dropdown">
+      <div class="menu" data-bs-toggle="dropdown">
+        <img src="../assets/2.png" />
+        <button
+          class="btn btn-secondary dropdown-toggle"
+          type="button"
+          id="dropdownMenuButton3"
+          aria-expanded="false"
+        >
+          الحجوزات
+        </button>
+      </div>
+      <div class="ul">
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
+          <li>
+            <router-link to="/">الحجوزات</router-link>
+          </li>
+          <li>
+            <router-link to="/SalonAppointments">مواعيد الصالون</router-link>
+          </li>
+          <li>
+            <router-link to="/DisabledAppoinments"
+              >المواعيد المعطلة</router-link
+            >
+          </li>
+          <li>
+            <router-link to="/NewReservation1">انشاء حجز جديد</router-link>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="dropdown">
+      <div class="menu" data-bs-toggle="dropdown">
+        <img src="../assets/4.png" />
+        <button
+          class="btn btn-secondary dropdown-toggle"
+          type="button"
+          id="dropdownMenuButton3"
+          aria-expanded="false"
+        >
+          المعاملات المالية
+        </button>
+      </div>
+      <div class="ul">
+        <ul class="dropdown-menu ll" aria-labelledby="dropdownMenuButton3">
           <li>
             <a class="dropdown-item" href="#"> المواعيد المعطلة</a>
           </li>
@@ -35,48 +100,29 @@
         </ul>
       </div>
     </div>
-    <div class="">
-      <span class="dropdown">
-        <fa icon="earth" />
+    <div class="dropdown">
+      <div class="menu" data-bs-toggle="dropdown">
+        <img src="../assets/4.png" />
         <button
           class="btn btn-secondary dropdown-toggle"
           type="button"
           id="dropdownMenuButton2"
-          data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-          الحجوزات
+          المنتجات النثرية
         </button>
+      </div>
+      <div class="ul">
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-          <li><a class="dropdown-item" href="#">مواعيد الصالون</a></li>
           <li>
-            <a class="dropdown-item" href="#"> المواعيد المعطلة</a>
+            <router-link to="/SundryProducts">المنتجات النثرية</router-link>
           </li>
-          <li><a class="dropdown-item" href="#">إنشاء حجز جديد</a></li>
+          <li>
+            <router-link to="/GeneralExpenses"
+              >بنود المصاريف العمومية</router-link
+            >
+          </li>
         </ul>
-      </span>
-    </div>
-    <div href="#">
-      <div class="">
-        <span class="dropdown">
-          <fa icon="earth" />
-          <button
-            class="btn btn-secondary dropdown-toggle"
-            type="button"
-            id="dropdownMenuButton2"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            الحجوزات
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-            <li><a class="dropdown-item" href="#">مواعيد الصالون</a></li>
-            <li>
-              <a class="dropdown-item" href="#"> المواعيد المعطلة</a>
-            </li>
-            <li><a class="dropdown-item" href="#">إنشاء حجز جديد</a></li>
-          </ul>
-        </span>
       </div>
     </div>
   </div>
@@ -104,7 +150,7 @@ export default {
   position: fixed;
   border-radius: 7px;
 }
-.sidebar img {
+.sidebar .logoo {
   width: 80%;
 }
 .sidebar h5 {
@@ -112,50 +158,15 @@ export default {
   font-size: 2vh;
   margin-right: 4vh;
 }
-.sidebar div {
+.sidebar .link,
+.sidebar .dropdown {
   margin: 2vh 0;
+  font-weight: 500;
+  position: relative;
 }
-/* .sidebar div:hover,
-.sidebar .active {
-  background: #757de84f;
-  border-radius: 7px 0px 0px 7px;
-  padding: 1vh;
-  color: #3f51b5;
-  border-right: 3px solid #3f51b5;
-}
-.sidebar .dropdown-toggle,
-.sidebar .dropdown-toggle:focus {
-  background: no-repeat;
-  border: 0;
-  color: #1a2669;
-  outline: none;
-}
-.dropdown-toggle::after {
-  margin-right: 10vh;
-}
-.dropdown-menu {
-  background: no-repeat;
-  border: 0;
-  width: 100%;
-  margin: auto;
-  position: absolute;
-  inset: 0;
-  margin: 0px;
-  transform: translate3d(0px, 33.6px, 0px);
-}
-.dropdown-menu.show {
-  display: contents;
-  text-align: inherit;
-}
-.dropdown-toggle:active {
-  background: no-repeat;
-  border: 0;
-} */
-
-/* The sidebar links */
 .sidebar .link:hover,
 .sidebar .link.active,
-.dropdown {
+.sidebar .menu:hover {
   background: #757de84f;
   border-radius: 7px 0px 0px 7px;
   padding: 1vh;
@@ -163,6 +174,11 @@ export default {
   border-right: 3px solid #3f51b5;
   width: 100%;
 }
+
+.sidebar .dropdown a:hover {
+  border-right: 0;
+}
+
 .sidebar .dropdown-toggle,
 .sidebar .dropdown-toggle:focus {
   background: no-repeat;
@@ -170,11 +186,11 @@ export default {
   color: #1a2669;
   outline: none;
 }
-.dropdown-toggle {
+/* .dropdown-toggle {
   background: transparent;
   border: 0;
   color: #2a3676;
-}
+} */
 .dropdown-menu.show {
   display: contents;
   text-align: inherit;
@@ -188,12 +204,40 @@ export default {
   color: #1a2669;
   font-weight: 400;
 }
+.sidebar .dropdown a {
+  color: #747474;
+  font-size: 2vmin;
+  display: block;
+  width: 90%;
+  padding: 1vh;
+  margin: 5px 0;
+  margin-right: 10%;
+}
+
+.sidebar .dropdown .ul {
+  margin-right: 15%;
+  border-right: 2px solid #757de8;
+}
+.sidebar .dropdown a:hover {
+  background: #757de84f;
+  border-radius: 8px;
+  padding: 1vh;
+  color: #3f51b5;
+}
 .sidebar svg {
   color: #1a2669;
   background: #fff;
   font-size: 15px;
   padding: 5px;
   border-radius: 8px;
+  box-shadow: 0px 2px 4px -1px #14141412;
+
+  box-shadow: 0px 4px 6px -1px #1414141f;
+}
+.dropdown-toggle::after {
+  position: absolute;
+  left: 0;
+  top: 20px;
 }
 @media (max-width: 991px) {
   .sidebar {

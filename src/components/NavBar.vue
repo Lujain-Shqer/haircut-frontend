@@ -21,15 +21,144 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
           <ul class="navbar-nav">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">لوحة التحكم</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">الموظفين</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">العملاء</a>
-            </li>
+            <div class="active link">
+              <img src="../assets/3.png" />
+              <router-link to="/ControlBoard">لوحة التحكم</router-link>
+            </div>
+            <div class="link">
+              <img src="../assets/1.png" />
+              <router-link to="/PointOfSales">نقطة البيع</router-link>
+            </div>
+            <div class="link">
+              <img src="../assets/2.png" />
+              <router-link to="/ClientPage">العملاء</router-link>
+            </div>
+
+            <div class="dropdown">
+              <div class="menu" data-bs-toggle="dropdown">
+                <img src="../assets/2.png" />
+                <button
+                  class="btn btn-secondary dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton2"
+                  aria-expanded="false"
+                >
+                  الموظفون
+                </button>
+              </div>
+              <div class="ul">
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                  <li>
+                    <router-link to="/EmployeeCommissions"
+                      >عمولات الموظفين
+                    </router-link>
+                  </li>
+                  <li>
+                    <router-link to="/EmployeeReport2"
+                      >تقرير الموظف (مفصل)</router-link
+                    >
+                  </li>
+                  <li>
+                    <router-link to="/SalafiyatDiscounts"
+                      >تقرير الخصومات والسلفيات</router-link
+                    >
+                  </li>
+                  <li>
+                    <router-link to="/EmployeeSalary"
+                      >تقرير مسير الرواتب</router-link
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="dropdown">
+              <div class="menu" data-bs-toggle="dropdown">
+                <img src="../assets/2.png" />
+                <button
+                  class="btn btn-secondary dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton3"
+                  aria-expanded="false"
+                >
+                  الحجوزات
+                </button>
+              </div>
+              <div class="ul">
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
+                  <li>
+                    <router-link to="/">الحجوزات</router-link>
+                  </li>
+                  <li>
+                    <router-link to="/SalonAppointments"
+                      >مواعيد الصالون</router-link
+                    >
+                  </li>
+                  <li>
+                    <router-link to="/DisabledAppoinments"
+                      >المواعيد المعطلة</router-link
+                    >
+                  </li>
+                  <li>
+                    <router-link to="/NewReservation1"
+                      >انشاء حجز جديد</router-link
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="dropdown">
+              <div class="menu" data-bs-toggle="dropdown">
+                <img src="../assets/4.png" />
+                <button
+                  class="btn btn-secondary dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton2"
+                  aria-expanded="false"
+                >
+                  المعاملات المالية
+                </button>
+              </div>
+              <div class="ul">
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                  <select>
+                    <option>njkgb</option>
+                    <option>njkgb</option>
+                    <option>njkgb</option>
+                  </select>
+                  <li>
+                    <a class="dropdown-item" href="#"> المواعيد المعطلة</a>
+                  </li>
+                  <li><a class="dropdown-item" href="#">إنشاء حجز جديد</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="dropdown">
+              <div class="menu" data-bs-toggle="dropdown">
+                <img src="../assets/4.png" />
+                <button
+                  class="btn btn-secondary dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton2"
+                  aria-expanded="false"
+                >
+                  المنتجات النثرية
+                </button>
+              </div>
+              <div class="ul">
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                  <li>
+                    <router-link to="/SundryProducts"
+                      >المنتجات النثرية</router-link
+                    >
+                  </li>
+                  <li>
+                    <router-link to="/GeneralExpenses"
+                      >بنود المصاريف العمومية</router-link
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
             <li class="nav-item">
               <fa icon="message" />
               <fa icon="bell" />
@@ -97,13 +226,13 @@ nav span:first-child {
 ul {
   padding: 0;
 }
-li.active {
+/* li.active {
   background: #757de84f;
   border-radius: 7px 0px 0px 7px;
   padding: 1vh;
   color: #3f51b5;
   border-right: 3px solid #3f51b5;
-}
+} */
 .navbar-toggler:focus {
   outline: none;
   border: 1px solid transparent;

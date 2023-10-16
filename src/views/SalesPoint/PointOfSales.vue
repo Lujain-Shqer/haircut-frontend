@@ -71,8 +71,22 @@
       <span
         >إضغط على المنتجات أو الخدمات لإضافتها إلى الطلب لتكون ضمن الفاتورة .
       </span>
-      <!-- <servicesPage v-if="awesome" /> -->
-      <!-- <ProductsPage /> -->
+
+      <div class="services text-center">
+        <div class="header">
+          <div class="chosse-serv">
+            <button class="btn" v-on:click="component = 'ProductsPage'">
+              منتجات
+            </button>
+            <button class="btn" v-on:click="component = 'ServicesPage'">
+              خدمات
+            </button>
+          </div>
+          <button class="btn blue-button">إنهاء فترة العمل</button>
+          <button class="btn white-button">أضف خدمة جديدة</button>
+        </div>
+        <component v-bind:is="component"></component>
+      </div>
       <br />
       <h3 class="first-step">الخطوة الثاني:</h3>
       <span>ادخل البيانات المطلوبة بالجدول ادناه لاصدار الفاتورة </span>
@@ -107,20 +121,25 @@
             <button class="btn">شبكة</button>
           </div>
         </div>
-        <button class="btn bill" @click="showDetails">إصدار فاتورة</button>
+        <button class="btn bill">إصدار فاتورة</button>
       </form>
     </div>
   </div>
   <router-view />
 </template>
 <script>
-// import ServicesPage from "@/components/ServicesPage.vue";
-//
+import ServicesPage from "@/components/ServicesPage.vue";
+import ProductsPage from "@/components/ProductsPage.vue";
 export default {
   name: "PointOfSales",
   components: {
-    // ServicesPage,
-    // ProductsPage,
+    ServicesPage,
+    ProductsPage,
+  },
+  data() {
+    return {
+      component: "ServicesPage",
+    };
   },
 };
 </script>
@@ -276,9 +295,50 @@ tr {
   }
 }
 
-/* @media (max-width: 540px) {
-  .services .card {
-    width: 32%;
-  }
-} */
+.services {
+  box-shadow: 0px 0px 15px 0px #00000040;
+  border: 1.5px solid #3f51b5;
+  border-radius: 8px;
+  padding: 6vh 2vh;
+  text-align: center;
+  margin-top: 5vh;
+}
+.services .header {
+  display: flow-root;
+  margin-bottom: 4vh;
+}
+.services .header button,
+.services .header .chosse-serv {
+  display: inline-block;
+}
+.services .header .chosse-serv {
+  float: right;
+  border: 1px solid #3f51b5;
+  color: #1a2669;
+  border-radius: 8px;
+  /* padding: 1vh; */
+  width: 30%;
+  outline: none;
+}
+.services .header .chosse-serv button {
+  width: 50%;
+}
+.services .chosse-serv button:hover {
+  background: #3f51b5;
+  color: #fff;
+}
+.services .header button {
+  float: left;
+}
+.pointOfSales .white-button {
+  background: #fff;
+  border: 1px solid #3f51b5;
+  color: #3f51b5;
+}
+.pointOfSales .blue-button {
+  background: #3f51b5;
+  border: 1px solid #fff;
+  color: #fff;
+  margin-right: 2vh;
+}
 </style>
