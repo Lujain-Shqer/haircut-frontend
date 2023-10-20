@@ -4,12 +4,12 @@
       <div class="col-xl-4 col-lg-8 logo text-center">
         <img src="../../assets/logoo.png" />
         <h6>صالون ذقن &amp; شعر</h6>
-        <h4 class="">إنشاء حساب جديد</h4>
+        <h5 class="">إنشاء حساب جديد</h5>
         <form class="input-icons">
           <label>اسم المستخدم</label>
           <div class="input-container">
             <input class="input-field" type="text" placeholder="اسم المستخدم" />
-            <fa icon="user" />
+            <span class="input-icon"><fa icon="user" /></span>
           </div>
           <label>رقم الجوال</label>
           <div class="input-container">
@@ -18,33 +18,30 @@
               type="text"
               placeholder="+970 -596 58000"
             />
-            <fa icon="phone" />
+            <span class="input-icon"><fa icon="phone" /></span>
           </div>
           <label>كلمة المرور</label>
           <div class="input-container">
-            <input
-              class="input-field"
-              type="text"
-              placeholder="***************"
-            />
-            <fa icon="lock" />
+            <input class="input-field" type="text" placeholder="xxxxxxxxxx" />
+            <span class="input-icon"> <fa icon="lock" /> </span>
           </div>
           <label>تأكيد كلمة المرور</label>
           <div class="input-container">
-            <input
-              class="input-field"
-              type="text"
-              placeholder="***************"
-            />
-            <fa icon="lock" />
+            <input class="input-field" type="text" placeholder="xxxxxxxxxx" />
+            <span class="input-icon"><fa icon="lock" /></span>
           </div>
-          <button class="btn btn-block signin">
-            <router-link to="/control">تسجيل الدخول</router-link>
-          </button>
+
+          <router-link to="/branch"
+            ><button class="btn btn-block signin">
+              تسجيل الدخول
+            </button></router-link
+          >
         </form>
-        <span></span>
-        <span>او</span>
-        <span></span>
+        <div class="choose">
+          <span></span>
+          <span>او</span>
+          <span></span>
+        </div>
         <p>
           لديك حساب بالفعل ؟
           <router-link to="/login">تسجيل الدخول</router-link>
@@ -81,64 +78,72 @@ export default {
   box-shadow: 0px 0px 50px 0px #00000040;
   border-radius: 0 8px 8px 0px;
 }
-.sigin h4 {
+.sigin h5 {
   color: #3f51b5;
   margin: 4vh 0;
+}
+.sigin h6 {
+  color: #1a2669;
 }
 .sigin label {
   display: block;
   text-align: start;
   color: #1a2669;
-  font-weight: 700;
+  font-weight: 600;
   margin: 3vh 0 1vh;
 }
 .input-container {
   border: 1px solid #c8c9cc;
   border-radius: 8px;
-  padding: 1vh;
+  width: 100%;
 }
 .sigin input {
   width: 90%;
   border-radius: 8px;
-  padding: 1vh 2vh;
+  padding: 1vh;
   border: 0;
+}
+.sigin .input-icon {
+  display: inline-block;
+  width: 10%;
+  background: #3f51b5;
+  color: #fff;
+  padding: 1vh;
+  border-radius: 8px 0 0 8px;
+  border: 1px solid #3f51b5;
 }
 .sigin button.signin {
   background: #3f51b5;
   padding: 1vh;
   width: 100%;
   margin: 2vh 0;
+  color: #fff;
 }
 .sigin button.signin a {
-  color: #fff;
   text-decoration: none;
 }
-.sigin svg {
-  color: #3f51b5;
-}
-.sigin .logo span {
+.sigin .logo .choose span {
   color: #c2c2c2;
 }
-.sigin .logo span:first-of-type,
-.sigin .logo span:last-of-type {
+.sigin .logo .choose span:first-of-type,
+.sigin .logo .choose span:last-of-type {
   display: inline-block;
   width: 42%;
   height: 0.1px;
   background: #c2c2c2;
 }
-.sigin .logo span:first-of-type {
+.sigin .logo .choose span:first-of-type {
   margin-left: 2%;
 }
-.sigin .logo span:last-of-type {
+.sigin .logo .choose span:last-of-type {
   margin-right: 2%;
 }
 p {
-  font-weight: 500;
+  font-weight: 400;
   color: #1a2669;
   margin-top: 2vh;
 }
 p a {
-  text-decoration: none;
   color: #1a2669;
 }
 

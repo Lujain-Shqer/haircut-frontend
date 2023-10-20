@@ -1,7 +1,7 @@
 <template>
   <div class="client">
     <div class="container">
-      <h3>العملاء</h3>
+      <h4>العملاء</h4>
       <p>
         يعتمدون على خبرة الحلاق في تلبية توقعاتهم وجعلهم يشعرون بالارتياح
         بمظهرهم الجديد. تلعب العلاقة الجيدة بين الحلاق والعميل دورًا مهمًا في
@@ -13,7 +13,9 @@
             <fa icon="search" />
             <input class="input-field" type="text" placeholder="البحث عن..." />
           </div>
-          <button class="btn">إضافة عميل جديد</button>
+          <router-link to="/addClient">
+            <button class="btn">إضافة عميل جديد</button></router-link
+          >
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
@@ -26,47 +28,15 @@
           </thead>
           <tbody>
             <tr>
-              <th scope="row">1</th>
+              <td>3451</td>
               <td>علي الأحد</td>
-              <td class="td">096367364</td>
+              <td>096367364</td>
               <td class="text-center">
-                <button class="btn update"><fa icon="pencil" /> تعديل</button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>سعيد طراب</td>
-              <td class="td">0937467</td>
-              <td class="text-center">
-                <button class="btn update"><fa icon="pencil" /> تعديل</button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>محمد الخطاب</td>
-              <td class="td">096367364</td>
-              <td class="text-center">
-                <button class="btn update"><fa icon="pencil" /> تعديل</button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>محمد الخطاب</td>
-              <td class="td">096367364</td>
-              <td class="text-center">
-                <button class="btn update"><fa icon="pencil" /> تعديل</button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>محمد الخطاب</td>
-              <td class="td">096367364</td>
-              <td class="text-center">
-                <button class="btn update"><fa icon="pencil" /> تعديل</button>
+                <router-link to="/updateClient">
+                  <button class="btn update">
+                    <fa icon="pencil" /> تعديل
+                  </button></router-link
+                >
                 <button class="btn delete"><fa icon="trash" /> حذف</button>
               </td>
             </tr>
@@ -75,7 +45,10 @@
             <td>صفوف لكل الصفحة</td>
             <td></td>
             <td></td>
-            <td>1-10 من 100 عنصر</td>
+            <td>
+              <fa icon="	fas fa-angle-right" />
+              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
+            </td>
           </tfoot>
         </table>
       </div>
@@ -95,7 +68,7 @@ export default {
   direction: rtl;
   width: 80%;
 }
-.client h3 {
+.client h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
@@ -104,7 +77,7 @@ export default {
   font-weight: 400;
 }
 .client .control-table {
-  margin-top: 8vh;
+  margin-top: 5vh;
   border: 1.5px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
@@ -121,7 +94,7 @@ export default {
   border: 1px solid #c8c9cc;
   box-shadow: 0px 0px 4px 0px #6e49cb33;
   border-radius: 8px;
-  width: 32%;
+  width: 35%;
   float: right;
   display: inline;
   float: right;
@@ -130,6 +103,7 @@ export default {
 }
 .client input {
   border: 0;
+  outline: none;
 }
 .client input::placeholder {
   color: #3f51b5;
@@ -149,31 +123,29 @@ export default {
   border: 1.5px solid #3f51b5;
   border-collapse: collapse;
   border-spacing: 0;
+  text-align: center;
 }
-.client table tr td,
-.client table tr th {
+.client table tr td {
   color: #1a2669;
-}
-.client table .td {
-  font-weight: 700;
 }
 .client table .delete {
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
-  margin-right: 2px;
+  margin-right: 10px;
 }
 .client table .update {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
-  margin-left: 2px;
+  margin-left: 10px;
 }
 .client table tfoot {
   border-radius: 8px;
   background: #3f51b5;
   width: 100%;
   color: #fff;
+  font-weight: 300;
 }
 .client table tfoot td:last-of-type {
   text-align: end;
@@ -182,8 +154,15 @@ export default {
 .client table thead tr th,
 .client table tfoot tr th {
   background: #3f51b5;
-  color: #e3e3e3;
+  color: #fff;
   height: 5vh;
+  font-weight: 400;
+}
+tfoot svg {
+  background: transparent;
+  padding: 0 10px;
+  color: #fff;
+  cursor: pointer;
 }
 
 @media (max-width: 991px) {

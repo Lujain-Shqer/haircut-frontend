@@ -1,7 +1,7 @@
 <template>
   <div class="employeesalary">
     <div class="container">
-      <h3>مسير الرواتب</h3>
+      <h4>مسير الرواتب</h4>
       <p>
         تعتبر وثائق مالية تُستخدم لتوثيق عمليات البيع بصالون حلاقة خاص بك. تحتوي
         فاتورة المبيعات عادةً على معلومات مهمة تتعلق بالخدمات التي تم بيعها
@@ -34,55 +34,7 @@
           <tbody>
             <tr>
               <td>561</td>
-              <th scope="row">علي أحدم</th>
-              <td>حلاق</td>
-              <td>راتب</td>
-              <td>2000</td>
-              <td>67</td>
-              <td>234</td>
-              <td>678</td>
-              <td>09</td>
-              <td>234</td>
-            </tr>
-            <tr>
-              <td>561</td>
-              <th scope="row">علي أحدم</th>
-              <td>حلاق</td>
-              <td>راتب</td>
-              <td>2000</td>
-              <td>67</td>
-              <td>234</td>
-              <td>678</td>
-              <td>09</td>
-              <td>234</td>
-            </tr>
-            <tr>
-              <td>561</td>
-              <th scope="row">علي أحدم</th>
-              <td>حلاق</td>
-              <td>راتب</td>
-              <td>2000</td>
-              <td>67</td>
-              <td>234</td>
-              <td>678</td>
-              <td>09</td>
-              <td>234</td>
-            </tr>
-            <tr>
-              <td>561</td>
-              <th scope="row">علي أحدم</th>
-              <td>حلاق</td>
-              <td>راتب</td>
-              <td>2000</td>
-              <td>67</td>
-              <td>234</td>
-              <td>678</td>
-              <td>09</td>
-              <td>234</td>
-            </tr>
-            <tr>
-              <td>561</td>
-              <th scope="row">علي أحدم</th>
+              <td>علي أحدم</td>
               <td>حلاق</td>
               <td>راتب</td>
               <td>2000</td>
@@ -103,7 +55,10 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>1-10 من 100 عنصر</td>
+            <td>
+              <fa icon="	fas fa-angle-right" />
+              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
+            </td>
           </tfoot>
         </table>
       </div>
@@ -123,7 +78,7 @@ export default {
   direction: rtl;
   width: 80%;
 }
-.employeesalary h3 {
+.employeesalary h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
@@ -147,7 +102,7 @@ export default {
   padding-left: 1vh;
 }
 .employeesalary .extra-table button {
-  width: 20%;
+  width: 12%;
   margin-right: 10px;
   float: left;
   background: #3f51b5;
@@ -166,16 +121,16 @@ export default {
   width: 10%;
 }
 .employeesalary .all-table {
-  margin-top: 8vh;
+  margin-top: 5vh;
   border: 1.5px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
-  font-weight: 700;
 }
 .employeesalary table {
   margin-bottom: 0;
   border: 1.5px solid #3f51b5;
+  text-align: center;
 }
 .employeesalary table tfoot {
   border-radius: 8px;
@@ -194,23 +149,18 @@ tr {
   background: #3f51b5;
   color: #e3e3e3;
   height: 5vh;
+  font-weight: 400;
 }
 .employeesalary table tr td,
 .employeesalary table tr th {
   color: #1a2669;
-}
-.employeesalary table .td {
-  font-weight: 700;
 }
 .employeesalary table tfoot {
   border-radius: 8px;
   background: #3f51b5;
   width: 100%;
   color: #fff;
-}
-.employeesalary table tfoot td:last-of-type {
-  text-align: end;
-  padding-left: 5vh;
+  font-weight: 300;
 }
 .employeesalary table .delete {
   background: #fff;
@@ -224,15 +174,21 @@ tr {
   border: 1px solid #3f51b5;
   margin-right: 2px;
 }
+tfoot svg {
+  background: transparent;
+  padding: 0 10px;
+  color: #fff;
+  cursor: pointer;
+}
 @media (max-width: 991px) {
   .employeesalary {
     width: 70%;
   }
   .extra-table {
-    width: 180%;
+    width: 185%;
   }
   .table {
-    width: 192%;
+    width: 205%;
   }
 }
 @media (max-width: 765px) {
@@ -251,10 +207,10 @@ tr {
 }
 @media (max-width: 540px) {
   .extra-table {
-    width: 210%;
+    width: 255%;
   }
   .table {
-    width: 230%;
+    width: 276%;
   }
 }
 </style>

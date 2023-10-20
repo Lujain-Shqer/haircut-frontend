@@ -1,14 +1,14 @@
 <template>
   <div class="updateExpenses">
     <div class="container">
-      <h3>بنود المصاريف العمومية</h3>
+      <h4>بنود المصاريف العمومية</h4>
       <p>
         هتشمل العديد من النفقات التي لا تندرج تحت تصنيف معين ولا تتعلق بالإنتاج
         المباشر أو تقديم الخدمات. بنود المصاريف العمومية تشمل عادة مجموعة متنوعة
         من التكاليف .
       </p>
       <div class="update-info-client">
-        <h5>تحديث مصروف عمومي</h5>
+        <h6>تحديث مصروف عمومي</h6>
         <form class="row">
           <div class="col-md-12">
             <label>الاسم</label>
@@ -42,7 +42,7 @@ export default {
   direction: rtl;
   width: 80%;
 }
-.updateExpenses h3 {
+.updateExpenses h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
@@ -51,13 +51,13 @@ export default {
   font-weight: 400;
 }
 .updateExpenses .update-info-client {
-  margin-top: 8vh;
+  margin-top: 5vh;
   border: 1.5px solid #3f51b5;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
   padding: 5vh;
 }
-.updateExpenses h5 {
+.updateExpenses h6 {
   color: #3f51b5;
   font-weight: 700px;
   margin-bottom: 3vh;
@@ -66,7 +66,7 @@ export default {
   display: block;
   margin-bottom: 2vh;
   margin-top: 2vh;
-  font-weight: 700;
+  font-weight: 400;
 }
 .updateExpenses input[type="text"] {
   color: #1a2669;
@@ -83,8 +83,11 @@ export default {
   width: 3vh;
   height: 3vh;
 }
+.updateExpenses input[type="text"]:focus {
+  border: 1px solid #1a2669;
+}
 .updateExpenses form span {
-  font-weight: 700;
+  font-weight: 600;
   color: #1a2669;
 }
 
@@ -98,7 +101,7 @@ export default {
 }
 
 @media (max-width: 991px) {
-  .updateExpenses input {
+  .updateExpenses input[type="text"] {
     width: 100%;
   }
   .updateExpenses button {

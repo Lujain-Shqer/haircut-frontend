@@ -37,6 +37,11 @@ import NewReservation1 from "../views/Reservations/NewReservation1.vue";
 import NewReservation2 from "../views/Reservations/NewReservation2.vue";
 import NewReservation3 from "../views/Reservations/NewReservation3.vue";
 import NewReservation4 from "../views/Reservations/NewReservation4.vue";
+import FundMovement from "../views/AdministrativeDepartment/FundMovement.vue";
+import CashierWithdrawals from "../views/AdministrativeDepartment/CashierWithdrawals.vue";
+import CashierFeed from "../views/AdministrativeDepartment/CashierFeed.vue";
+import AddNewEmployee from "../views/EmployeeAdmin/AddNewEmployee.vue";
+
 const routes = [
   {
     path: "/",
@@ -242,6 +247,26 @@ const routes = [
     path: "/NewReservation4",
     name: "NewReservation4",
     component: NewReservation4,
+  },
+  {
+    path: "/FundMovement",
+    name: "FundMovement",
+    component: FundMovement,
+  },
+  {
+    path: "/CashierWithdrawals",
+    name: "CashierWithdrawals",
+    component: CashierWithdrawals,
+  },
+  {
+    path: "/CashierFeed",
+    name: "CashierFeed",
+    component: CashierFeed,
+  },
+  {
+    path: "/AddNewEmployee",
+    name: "AddNewEmployee",
+    component: AddNewEmployee,
   },
 ];
 

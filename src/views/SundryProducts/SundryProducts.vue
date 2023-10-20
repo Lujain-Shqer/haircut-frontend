@@ -1,7 +1,7 @@
 <template>
   <div class="sundry">
     <div class="container">
-      <h3>المنتجات النثرية</h3>
+      <h4>المنتجات النثرية</h4>
       <p>
         هي المنتجات التي يحتاجها الموظف أثناء العمل و تكون تحت حسابات المالية
         لبند المنتجات النثرية
@@ -12,7 +12,9 @@
             <fa icon="search" />
             <input class="input-field" type="text" placeholder="البحث عن..." />
           </div>
-          <button class="btn">إنشاء جديد</button>
+          <router-link to="/AddSundry">
+            <button class="btn">إنشاء جديد</button></router-link
+          >
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
@@ -25,47 +27,13 @@
           </thead>
           <tbody>
             <tr>
-              <th scope="row">1</th>
+              <td>1</td>
               <td>علي الأحد</td>
-              <td class="td">096367364</td>
+              <td>096367364</td>
               <td class="text-center">
-                <button class="btn update"><fa icon="pencil" /> تعديل</button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>سعيد طراب</td>
-              <td class="td">0937467</td>
-              <td class="text-center">
-                <button class="btn update"><fa icon="pencil" /> تعديل</button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>محمد الخطاب</td>
-              <td class="td">096367364</td>
-              <td class="text-center">
-                <button class="btn update"><fa icon="pencil" /> تعديل</button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>محمد الخطاب</td>
-              <td class="td">096367364</td>
-              <td class="text-center">
-                <button class="btn update"><fa icon="pencil" /> تعديل</button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>محمد الخطاب</td>
-              <td class="td">096367364</td>
-              <td class="text-center">
-                <button class="btn update"><fa icon="pencil" /> تعديل</button>
+                <router-link to="/UpdateSundry">
+                  <button class="btn update"><fa icon="pencil" /> تعديل</button>
+                </router-link>
                 <button class="btn delete"><fa icon="trash" /> حذف</button>
               </td>
             </tr>
@@ -74,7 +42,10 @@
             <td>صفوف لكل الصفحة</td>
             <td></td>
             <td></td>
-            <td>1-10 من 100 عنصر</td>
+            <td>
+              <fa icon="	fas fa-angle-right" />
+              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
+            </td>
           </tfoot>
         </table>
       </div>
@@ -94,7 +65,7 @@ export default {
   direction: rtl;
   width: 80%;
 }
-.sundry h3 {
+.sundry h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
@@ -103,7 +74,7 @@ export default {
   font-weight: 400;
 }
 .sundry .control-table {
-  margin-top: 8vh;
+  margin-top: 5vh;
   border: 1.5px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
@@ -120,7 +91,7 @@ export default {
   border: 1px solid #c8c9cc;
   box-shadow: 0px 0px 4px 0px #6e49cb33;
   border-radius: 8px;
-  width: 32%;
+  width: 35%;
   float: right;
   display: inline;
   float: right;
@@ -129,6 +100,7 @@ export default {
 }
 .sundry input {
   border: 0;
+  outline: none;
 }
 .sundry input::placeholder {
   color: #3f51b5;
@@ -148,31 +120,30 @@ export default {
   border: 1.5px solid #3f51b5;
   border-collapse: collapse;
   border-spacing: 0;
+  text-align: center;
 }
 .sundry table tr td,
 .sundry table tr th {
   color: #1a2669;
 }
-.sundry table .td {
-  font-weight: 700;
-}
 .sundry table .delete {
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
-  margin-right: 2px;
+  margin-right: 1px;
 }
 .sundry table .update {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
-  margin-left: 2px;
+  margin-left: 10px;
 }
 .sundry table tfoot {
   border-radius: 8px;
   background: #3f51b5;
   width: 100%;
   color: #fff;
+  font-weight: 300;
 }
 .sundry table tfoot td:last-of-type {
   text-align: end;
@@ -181,8 +152,15 @@ export default {
 .sundry table thead tr th,
 .sundry table tfoot tr th {
   background: #3f51b5;
-  color: #e3e3e3;
+  color: #fff;
   height: 5vh;
+  font-weight: 400;
+}
+tfoot svg {
+  background: transparent;
+  padding: 0 10px;
+  color: #fff;
+  cursor: pointer;
 }
 
 @media (max-width: 991px) {

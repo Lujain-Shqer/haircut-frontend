@@ -1,7 +1,7 @@
 <template>
   <div class="salafiyatDiscounts">
     <div class="container">
-      <h3>الخصومات والسلفيات</h3>
+      <h4>الخصومات والسلفيات</h4>
       <p>
         تعتبر وثائق مالية تُستخدم لتوثيق عمليات البيع بصالون حلاقة خاص بك. تحتوي
         فاتورة المبيعات عادةً على معلومات مهمة تتعلق بالخدمات التي تم بيعها
@@ -39,37 +39,22 @@
               <td>2000</td>
               <td>67</td>
             </tr>
-            <tr>
-              <td>20-4-2019</td>
-              <td>INGDU</td>
-              <td>2000</td>
-              <td>67</td>
-            </tr>
-            <tr>
-              <td>20-4-2019</td>
-              <td>INGDU</td>
-              <td>2000</td>
-              <td>67</td>
-            </tr>
-            <tr>
-              <td>20-4-2019</td>
-              <td>INGDU</td>
-              <td>2000</td>
-              <td>67</td>
-            </tr>
-            <tr>
-              <td>20-4-2019</td>
-              <td>INGDU</td>
-              <td>2000</td>
-              <td>67</td>
-            </tr>
           </tbody>
           <tfoot>
             <td>صفوف لكل الصفحة</td>
             <td></td>
             <td></td>
-            <td>1-10 من 100 عنصر</td>
+            <td>
+              <fa icon="	fas fa-angle-right" />
+              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
+            </td>
           </tfoot>
+          <tr>
+            <td>الأحصائيات</td>
+            <td></td>
+            <td>70002</td>
+            <td>0.00</td>
+          </tr>
         </table>
       </div>
     </div>
@@ -88,7 +73,7 @@ export default {
   direction: rtl;
   width: 80%;
 }
-.salafiyatDiscounts h3 {
+.salafiyatDiscounts h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
@@ -110,7 +95,7 @@ export default {
   display: flow-root;
 }
 .salafiyatDiscounts .input-container {
-  width: 25%;
+  width: 33%;
   float: right;
   display: inline;
   float: right;
@@ -123,7 +108,7 @@ export default {
 }
 
 .salafiyatDiscounts .extra-table button {
-  width: 15%;
+  width: 16%;
   margin-right: 10px;
   float: left;
   background: #3f51b5;
@@ -142,16 +127,16 @@ export default {
   width: 10%;
 }
 .salafiyatDiscounts .all-table {
-  margin-top: 8vh;
+  margin-top: 5vh;
   border: 1.5px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
-  font-weight: 700;
 }
 .salafiyatDiscounts table {
   margin-bottom: 0;
   border: 1.5px solid #3f51b5;
+  text-align: center;
 }
 .salafiyatDiscounts table tfoot {
   border-radius: 8px;
@@ -170,19 +155,17 @@ tr {
   background: #3f51b5;
   color: #e3e3e3;
   height: 5vh;
+  font-weight: 400;
 }
 .salafiyatDiscounts table tr td,
 .salafiyatDiscounts table tr th {
   color: #1a2669;
 }
-.salafiyatDiscounts table .td {
-  font-weight: 700;
-}
 .salafiyatDiscounts table tfoot {
   border-radius: 8px;
   background: #3f51b5;
-  width: 100%;
   color: #fff;
+  font-weight: 300;
 }
 .salafiyatDiscounts table tfoot td:last-of-type {
   text-align: end;
@@ -199,6 +182,12 @@ tr {
   color: #fff;
   border: 1px solid #3f51b5;
   margin-right: 2px;
+}
+tfoot svg {
+  background: transparent;
+  padding: 0 10px;
+  color: #fff;
+  cursor: pointer;
 }
 @media (max-width: 991px) {
   .salafiyatDiscounts {

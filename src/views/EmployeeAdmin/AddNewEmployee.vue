@@ -1,23 +1,24 @@
 <template>
-  <div class="addSundry">
+  <div class="AddNewEmployee">
     <div class="container">
-      <h4>المنتجات النثرية</h4>
+      <h3>العملاء</h3>
       <p>
-        هي المنتجات التي يحتاجها الموظف أثناء العمل و تكون تحت حسابات المالية
-        لبند المنتجات النثرية
+        يعتمدون على خبرة الحلاق في تلبية توقعاتهم وجعلهم يشعرون بالارتياح
+        بمظهرهم الجديد. تلعب العلاقة الجيدة بين الحلاق والعميل دورًا مهمًا في
+        تحقيق رضا الزبون وإعادته لزيارات متكررة.
       </p>
       <div class="update-info-client">
-        <h6>منتج جديد</h6>
+        <h5>إضافة بيانات العميل الجديد</h5>
         <form class="row">
           <div class="col-lg-6 col-md-12">
             <label>الاسم</label>
-            <input type="text" placeholder="اضف اسم المنتج " />
+            <input type="text" placeholder="إضافة اسم العميل" />
           </div>
           <div class="col-lg-6 col-md-12">
-            <label>سعر الشراء</label>
-            <input type="text" placeholder="اضف سعر الشراء" />
+            <label>هاتف العميل</label>
+            <input type="text" placeholder="إضافة هاتف العميل" />
           </div>
-          <button class="btn">إضافة</button>
+          <button class="btn">إضافة عميل</button>
         </form>
       </div>
     </div>
@@ -25,56 +26,54 @@
 </template>
 <script>
 export default {
-  name: "AddSundry",
+  name: "AddNewEmployee",
 };
 </script>
 <style scoped>
 .row {
   margin: 0;
 }
-.addSundry {
+.AddNewEmployee {
   direction: rtl;
   width: 80%;
 }
-.addSundry h4 {
+.AddNewEmployee h3 {
   color: #3f51b5;
   font-weight: 700px;
 }
-.addSundry p {
+.AddNewEmployee p {
   color: #1a2669;
   font-weight: 400;
 }
-.addSundry .update-info-client {
-  margin-top: 5vh;
+.AddNewEmployee .update-info-client {
+  margin-top: 8vh;
   border: 1.5px solid #3f51b5;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
   padding: 5vh;
 }
-.addSundry h6 {
+.AddNewEmployee h5 {
   color: #3f51b5;
   font-weight: 700px;
   margin-bottom: 3vh;
 }
-.addSundry label {
+.AddNewEmployee label {
   display: block;
   margin-bottom: 2vh;
   margin-top: 2vh;
-  font-weight: 400;
+  font-weight: 700;
 }
-.addSundry input {
+.AddNewEmployee input {
   border: 1px solid #c8c9cc;
   color: #1a2669;
   border-radius: 8px;
   padding: 1vh;
   width: 70%;
-  outline: none;
 }
-.addSundry input:focus {
-  border: 1px solid #1a2669;
+.AddNewEmployee input::placeholder {
+  color: #c8c9cc;
 }
-
-.addSundry button {
+.AddNewEmployee button {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
@@ -82,22 +81,21 @@ export default {
   margin: auto;
   margin-top: 5vh;
 }
-
 @media (max-width: 991px) {
-  .addSundry input {
+  .AddNewEmployee input {
     width: 100%;
   }
-  .addSundry button {
+  .AddNewEmployee button {
     width: 95%;
     margin-right: 2vh;
     margin-top: 2vh;
   }
-  .addSundry {
+  .AddNewEmployee {
     width: 70%;
   }
 }
 @media (max-width: 765px) {
-  .addSundry {
+  .AddNewEmployee {
     width: 100%;
   }
 }

@@ -3,13 +3,6 @@
     <router-link to="/login">login</router-link> |
     <router-link to="/signin">regester</router-link> |
     <router-link to="/branch">branch</router-link> |
-    <router-link to="/updateClient">updat client</router-link> |
-    <router-link to="/addClient">add client</router-link> |
-
-    <router-link to="/UpdateSundry">UpdateSundry</router-link> |
-    <router-link to="/UpdateExpenses">UpdateExpenses</router-link> |
-    <router-link to="/AddSundry">AddSundry</router-link> |
-    <router-link to="/AddExpenses">AddExpenses</router-link> |
     <router-link to="/AddTaxable">AddTaxable</router-link> |
     <router-link to="/AddNotTaxable">AddNotTaxable</router-link> |
     <router-link to="/SallesBills">SallesBills</router-link> |
@@ -27,6 +20,10 @@
     <router-link to="/NewReservation2">NewReservation2</router-link> |
     <router-link to="/NewReservation3">NewReservation3</router-link> |
     <router-link to="/NewReservation4">NewReservation4</router-link> |
+    <router-link to="/FundMovement">FundMovement</router-link> |
+    <router-link to="/CashierWithdrawals">CashierWithdrawals</router-link> |
+    <router-link to="/CashierFeed">CashierFeed</router-link> |
+    <router-link to="/AddNewEmployee">AddNewEmployee</router-link> |
   </nav>
   <NavBar />
   <SideBar />
@@ -47,4 +44,10 @@ export default {
     // ServicesPage,
   },
 };
+// margin-left: 1vh;
+//     background: #F7F7F7;
+//     padding: 4px;
+//     border-radius: 5px;
+//     /* box-shadow: 0px 0px 4px -1px #14141412; */
+//     box-shadow: 0px 0px 6px -1px #141414
 </script>

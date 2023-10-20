@@ -4,10 +4,14 @@
       <div class="col-xl-4 col-lg-8 logo text-center">
         <img src="../../assets/logoo.png" />
         <h6>صالون ذقن &amp; شعر</h6>
-        <h4 class="h4">اختر الفرع لدخول عالمك</h4>
+        <h5>اختر الفرع لدخول عالمك</h5>
         <div class="card">
-          <h4>صالون شعر & ذقن</h4>
-          <h4>صالون شعر & ذقن - الرياض-</h4>
+          <router-link to="/ControlBoard"><h4>صالون شعر & ذقن</h4></router-link>
+          <h4>
+            <router-link to="/ControlBoard"
+              ><h4>صالون شعر & ذقن - الرياض-</h4></router-link
+            >
+          </h4>
         </div>
         <p>اكتشف مزايا حسابك الشخصي <br />وقم بإدارة مواعيدك بكل سهولة</p>
       </div>
@@ -39,10 +43,14 @@ export default {
 .logo {
   border-radius: 0 8px 8px 0px;
   box-shadow: 0px 0px 50px 0px #00000040;
+  height: 100vh;
 }
-.branch .h4 {
+.branch h6 {
+  color: #1a2669;
+}
+.branch h5 {
   color: #3f51b5;
-  margin: 5vh 0;
+  margin: 5vh 0 10vh;
 }
 
 .branch .card {
@@ -51,13 +59,17 @@ export default {
   color: #1a2669;
   margin-bottom: 5vh;
 }
-.branch .card h4 {
+.branch .card a h4 {
+  display: inline-block;
   margin-bottom: 3vh;
   padding: 1vh;
+  color: #1a2669;
+  text-decoration: none;
 }
-.branch .card h4:hover {
+.branch .card a:hover {
   border-radius: 8px;
   background: #ebedf7;
+  cursor: pointer;
 }
 .branch p {
   color: #3f51b5;

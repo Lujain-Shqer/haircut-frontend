@@ -1,14 +1,14 @@
 <template>
   <div class="AddClient">
     <div class="container">
-      <h3>العملاء</h3>
+      <h4>العملاء</h4>
       <p>
         يعتمدون على خبرة الحلاق في تلبية توقعاتهم وجعلهم يشعرون بالارتياح
         بمظهرهم الجديد. تلعب العلاقة الجيدة بين الحلاق والعميل دورًا مهمًا في
         تحقيق رضا الزبون وإعادته لزيارات متكررة.
       </p>
       <div class="update-info-client">
-        <h5>إضافة بيانات العميل الجديد</h5>
+        <h6>إضافة بيانات العميل الجديد</h6>
         <form class="row">
           <div class="col-lg-6 col-md-12">
             <label>الاسم</label>
@@ -37,7 +37,7 @@ export default {
   direction: rtl;
   width: 80%;
 }
-.AddClient h3 {
+.AddClient h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
@@ -46,13 +46,13 @@ export default {
   font-weight: 400;
 }
 .AddClient .update-info-client {
-  margin-top: 8vh;
+  margin-top: 5vh;
   border: 1.5px solid #3f51b5;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
   padding: 5vh;
 }
-.AddClient h5 {
+.AddClient h6 {
   color: #3f51b5;
   font-weight: 700px;
   margin-bottom: 3vh;
@@ -61,7 +61,7 @@ export default {
   display: block;
   margin-bottom: 2vh;
   margin-top: 2vh;
-  font-weight: 700;
+  font-weight: 400;
 }
 .AddClient input {
   border: 1px solid #c8c9cc;
@@ -69,6 +69,10 @@ export default {
   border-radius: 8px;
   padding: 1vh;
   width: 70%;
+  outline: none;
+}
+.AddClient input:focus {
+  border: 1px solid #1a2669;
 }
 .AddClient input::placeholder {
   color: #c8c9cc;

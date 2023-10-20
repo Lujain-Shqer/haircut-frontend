@@ -1,7 +1,7 @@
 <template>
   <div class="employeeCommissions">
     <div class="container">
-      <h3>عمولات الموظفين</h3>
+      <h4>عمولات الموظفين</h4>
       <p>
         تُمنح للموظفين بناءً على أداءهم في العمل وقدرتهم على تحقيق أهداف محددة
         تم تحديدها مسبقًا. هذه العمولات تكون عادة مبالغ مالية إضافية للراتب
@@ -27,7 +27,7 @@
         <div class="row extra-table">
           <div class="search">
             <fa icon="coins" /> <span>رصيد الصندوق :</span>
-            <span> 7000</span>
+            <span>SAR 7000</span>
             <div class="input-container">
               <fa icon="search" />
               <input
@@ -54,57 +54,18 @@
           </thead>
           <tbody>
             <tr>
-              <th scope="row">علي أحدم</th>
+              <td>علي أحدم</td>
               <td>561</td>
               <td>6</td>
               <td>97</td>
               <td>6-11-2020</td>
               <td class="text-center">
-                <input class="btn delete" placeholder="المبلغ" type="text" />
-                <button class="btn update">أضف المبلغ</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">علي أحدم</th>
-              <td>561</td>
-              <td>6</td>
-              <td>97</td>
-              <td>6-11-2020</td>
-              <td class="text-center">
-                <input class="btn delete" placeholder="المبلغ" type="text" />
-                <button class="btn update">أضف المبلغ</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">علي أحدم</th>
-              <td>561</td>
-              <td>6</td>
-              <td>97</td>
-              <td>6-11-2020</td>
-              <td class="text-center">
-                <input class="btn delete" placeholder="المبلغ" type="text" />
-                <button class="btn update">أضف المبلغ</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">علي أحدم</th>
-              <td>561</td>
-              <td>6</td>
-              <td>97</td>
-              <td>6-11-2020</td>
-              <td class="text-center">
-                <input class="btn delete" placeholder="المبلغ" type="text" />
-                <button class="btn update">أضف المبلغ</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">علي أحدم</th>
-              <td>561</td>
-              <td>6</td>
-              <td>97</td>
-              <td>6-11-2020</td>
-              <td class="text-center">
-                <input class="btn delete" placeholder="المبلغ" type="text" />
+                <input
+                  class="btn delete"
+                  placeholder="المبلغ -SAR
+"
+                  type="text"
+                />
                 <button class="btn update">أضف المبلغ</button>
               </td>
             </tr>
@@ -115,7 +76,10 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>1-10 من 100 عنصر</td>
+            <td>
+              <fa icon="	fas fa-angle-right" />
+              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
+            </td>
           </tfoot>
         </table>
       </div>
@@ -135,7 +99,7 @@ export default {
   direction: rtl;
   width: 80%;
 }
-.employeeCommissions h3 {
+.employeeCommissions h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
@@ -146,9 +110,12 @@ export default {
 }
 .employeeCommissions p:nth-of-type(2) {
   background: #e5fbff;
+  border: 1px solid #11caef;
 }
 .employeeCommissions p:nth-of-type(3) {
   background: #ffe5e5;
+  border: 1px solid #eb3e3e;
+  display: inline-block;
 }
 .employeeCommissions p:nth-of-type(2) svg {
   color: #1298b2;
@@ -198,6 +165,7 @@ export default {
 }
 .employeeCommissions input {
   border: 0;
+  outline: none;
 }
 .employeeCommissions input::placeholder {
   color: #757575;
@@ -211,16 +179,16 @@ export default {
   color: #fff;
 }
 .employeeCommissions .all-table {
-  margin-top: 8vh;
+  margin-top: 5vh;
   border: 1.5px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
-  font-weight: 700;
 }
 .employeeCommissions table {
   margin-bottom: 0;
   border: 1.5px solid #3f51b5;
+  text-align: center;
 }
 .employeeCommissions table tfoot {
   border-radius: 8px;
@@ -233,21 +201,16 @@ thead,
 tr {
   border-bottom: 1px solid #d9d5ec;
 }
-tbody tr th {
-  font-weight: 400;
-}
 .employeeCommissions table thead tr th,
 .employeeCommissions table tfoot tr th {
   background: #3f51b5;
   color: #e3e3e3;
   height: 5vh;
+  font-weight: 400;
 }
 .employeeCommissions table tr td,
 .employeeCommissions table tr th {
   color: #1a2669;
-}
-.employeeCommissions table .td {
-  font-weight: 700;
 }
 .employeeCommissions table .delete {
   background: #fff;
@@ -266,18 +229,25 @@ tbody tr th {
   background: #3f51b5;
   width: 100%;
   color: #fff;
+  font-weight: 300;
 }
 .employeeCommissions table tfoot td:last-of-type {
   text-align: end;
   padding-left: 5vh;
 }
+tfoot svg {
+  background: transparent;
+  padding: 0 10px;
+  color: #fff;
+  cursor: pointer;
+}
 
 @media (max-width: 991px) {
   .extra-table {
-    width: 130%;
+    width: 140% !important;
   }
   .table {
-    width: 140%;
+    width: 165% !important;
   }
   .employeeCommissions {
     width: 70%;
@@ -295,11 +265,22 @@ tbody tr th {
   }
 }
 @media (max-width: 540px) {
+  .search{
+    width: 100% !important;
+  }
+  .employeeCommissions .extra-table button{
+    width: 50%;
+    margin-top: 2vh;
+    float: none;
+  }
   .extra-table {
     width: 210%;
   }
   .table {
     width: 230%;
+  }
+  .employeeCommissions table .update{
+    margin-top: 1vh;
   }
 }
 </style>
