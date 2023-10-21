@@ -1,7 +1,7 @@
 <template>
   <div class="employeeReport">
     <div class="container">
-      <h3>تقرير الموظف (مفصل)</h3>
+      <h4>تقرير الموظف (مفصل)</h4>
       <p>
         تعتبر وثائق مالية تُستخدم لتوثيق عمليات البيع بصالون حلاقة خاص بك. تحتوي
         فاتورة المبيعات عادةً على معلومات مهمة تتعلق بالخدمات التي تم بيعها
@@ -11,10 +11,12 @@
         <div class="col-xl-6 col-lg-8 col-md-12">
           <div class="row">
             <img src="../../assets/three.png" class="col-4" />
-            <div class="col-8 information">
+            <div class="col-6 information">
               <div class="row">
                 <h6 class="col-6"><fa icon="user" /> الاسم:</h6>
                 <span class="col-6">أشرف عبد العزيز</span>
+              </div>
+              <div class="row">
                 <h6 class="col-6"><fa icon="coins" /> نوع الأجر:</h6>
                 <span class="col-6">راتب و عمولة</span>
               </div>
@@ -22,7 +24,7 @@
           </div>
         </div>
         <div class="col-xl-3 col-lg-4 col-md-12 stay-info">
-          <h6><fa icon="user" />معلومات الإقامة:</h6>
+          <h6><fa icon="id-card" />معلومات الإقامة:</h6>
           <div class="row">
             <span class="col-6">الرقم:</span>
             <span class="col-6">أشرف عبد العزيز</span>
@@ -31,7 +33,7 @@
           </div>
         </div>
         <div class="col-xl-3 col-lg-4 col-md-12 healthy-info">
-          <h6><fa icon="user" /> معلومات الرقم الصحي:</h6>
+          <h6><fa icon="heartbeat" /> معلومات الرقم الصحي:</h6>
           <div class="row">
             <span class="col-6">الرقم:</span>
             <span class="col-6">أشرف عبد العزيز</span>
@@ -66,39 +68,7 @@
           <tbody>
             <tr>
               <td>561</td>
-              <th scope="row">علي أحدم</th>
-              <td>حلاق</td>
-              <td>راتب</td>
-              <td>2000</td>
-              <td>67</td>
-            </tr>
-            <tr>
-              <td>561</td>
-              <th scope="row">علي أحدم</th>
-              <td>حلاق</td>
-              <td>راتب</td>
-              <td>2000</td>
-              <td>67</td>
-            </tr>
-            <tr>
-              <td>561</td>
-              <th scope="row">علي أحدم</th>
-              <td>حلاق</td>
-              <td>راتب</td>
-              <td>2000</td>
-              <td>67</td>
-            </tr>
-            <tr>
-              <td>561</td>
-              <th scope="row">علي أحدم</th>
-              <td>حلاق</td>
-              <td>راتب</td>
-              <td>2000</td>
-              <td>67</td>
-            </tr>
-            <tr>
-              <td>561</td>
-              <th scope="row">علي أحدم</th>
+              <td>علي أحدم</td>
               <td>حلاق</td>
               <td>راتب</td>
               <td>2000</td>
@@ -111,7 +81,10 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>1-10 من 100 عنصر</td>
+            <td>
+              <fa icon="	fas fa-angle-right" />
+              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
+            </td>
           </tfoot>
         </table>
       </div>
@@ -120,22 +93,22 @@
           <div class="row">
             <img src="../../assets/six.png" class="col-6" />
             <div class="col-6">
-              <h6><fa icon="user" />متوسط الدخل الشهري:</h6>
+              <h6><fa icon="coins" />متوسط الدخل الشهري:</h6>
               <span>456.00</span>
             </div>
           </div>
         </div>
         <div class="col-xl-3 col-lg-6 col-md-12 healthy-info">
-          <h6><fa icon="user" />متوسط الفواتير الشهري:</h6>
+          <h6><fa icon="file-text" />متوسط الفواتير الشهري:</h6>
           <span>456.00</span>
         </div>
         <div class="col-xl-2 col-lg-6 col-md-12 stay-info">
-          <h6><fa icon="user" />متوسط الدخل اليومي:</h6>
+          <h6><fa icon="fas fa-divide" />متوسط الدخل اليومي:</h6>
           <span>456.00</span>
         </div>
 
         <div class="col-xl-3 col-lg-6 col-md-12 healthy-info">
-          <h6><fa icon="user" />متوسط عدد الفواتير اليومي:</h6>
+          <h6><fa icon="file-text" />متوسط عدد الفواتير اليومي:</h6>
           <span>456.00</span>
         </div>
       </div>
@@ -145,32 +118,32 @@
             <img src="../../assets/five.png" class="col-6" />
             <div class="col-6">
               <h6 style="color: #1cd123">
-                <fa icon="user" /> الخدمة الأكثر مبيعا :
+                <fa icon="coins" /> الخدمة الأكثر مبيعا :
               </h6>
-              <span>456.00</span>
+              <span>شعر &ذقن</span>
             </div>
           </div>
         </div>
         <div class="col-xl-3 col-lg-6 col-md-12 healthy-info">
           <h6 style="color: #ff2f22">
-            <fa icon="user" /> الخدمة الأقل مبيعا :
+            <fa icon="fas fa-divide " /> الخدمة الأقل مبيعا :
           </h6>
-          <span>456.00</span>
+          <span>صبغة ذقن شامبو</span>
         </div>
         <div class="col-xl-5 col-lg-6 col-md-12 stay-info">
-          <h6><fa icon="user" /> خدمات لم تبع أبدا:</h6>
+          <h6><fa icon="cut" /> خدمات لم تبع أبدا:</h6>
           <ul class="row">
-            <div class="col-4">
+            <div class="col-lg-4 col-sm-12">
               <li>بروتين كيرلي</li>
               <li>بروتين كيرلي</li>
               <li>بروتين كيرلي</li>
             </div>
-            <div class="col-4">
+            <div class="col-lg-4 col-sm-12">
               <li>بروتين كيرلي</li>
               <li>بروتين كيرلي</li>
               <li>بروتين كيرلي</li>
             </div>
-            <div class="col-4">
+            <div class="col-lg-4 col-sm-12">
               <li>بروتين كيرلي</li>
               <li>بروتين كيرلي</li>
               <li>بروتين كيرلي</li>
@@ -189,12 +162,13 @@ export default {
 <style scoped>
 .row {
   margin: 0;
+  justify-content: space-around;
 }
 .employeeReport {
   direction: rtl;
   width: 80%;
 }
-.employeeReport h3,
+.employeeReport h4,
 h5 {
   color: #3f51b5;
   font-weight: 700px;
@@ -212,12 +186,12 @@ h5 {
   margin: 4vh 0;
 }
 .employeeReport .personal-information h6 {
-  font-weight: 700;
+  font-weight: 600;
   color: #1a2669;
 }
 .employeeReport .personal-information span:nth-child(odd) {
   color: #1a2669;
-  font-weight: 700;
+  font-weight: 600;
 }
 .employeeReport .personal-information span:nth-child(even) {
   color: #3f51b5;
@@ -226,13 +200,26 @@ h5 {
 .employeeReport .personal-information .healthy-info,
 .employeeReport .personal-information .stay-info {
   padding-top: 2vh;
-  border-right: 1px solid #757de882;
+  border-right: 2px solid #757de882;
 }
 .employeeReport .personal-information img {
   width: 20%;
 }
 .employeeReport .personal-information .information {
   margin: auto;
+}
+.employeeReport .personal-information .information span {
+  line-height: 3;
+}
+.employeeReport .personal-information svg {
+  margin-left: 1vh;
+  background: #f7f7f7;
+  padding: 4px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 4px -1px #14141412;
+
+  box-shadow: 0px 0px 6px -1px #1414141f;
+  color: #1a2669;
 }
 .employeeReport select {
   margin-top: 3vh;
@@ -261,7 +248,7 @@ h5 {
 }
 
 .employeeReport .extra-table button {
-  width: 20%;
+  width: 12%;
   margin-right: 10px;
   float: left;
   background: #3f51b5;
@@ -280,12 +267,11 @@ h5 {
   width: 10%;
 }
 .employeeReport .all-table {
-  margin-top: 8vh;
+  margin-top: 5vh;
   border: 1.5px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
-  font-weight: 700;
 }
 .employeeReport table {
   margin-bottom: 0;
@@ -293,6 +279,7 @@ h5 {
 }
 .employeeReport table tfoot {
   border-radius: 8px;
+  font-weight: 300;
 }
 tbody,
 td,
@@ -308,6 +295,7 @@ tr {
   background: #3f51b5;
   color: #e3e3e3;
   height: 5vh;
+  font-weight: 400;
 }
 .employeeReport table tr td,
 .employeeReport table tr th {
@@ -326,17 +314,11 @@ tr {
   text-align: end;
   padding-left: 5vh;
 }
-.employeeReport table .delete {
-  background: #fff;
-  color: #3f51b5;
-  border: 1px solid #3f51b5;
-  margin-left: 2px;
-}
-.employeeReport table .update {
-  background: #3f51b5;
+tfoot svg {
+  background: transparent;
+  padding: 0 10px;
   color: #fff;
-  border: 1px solid #3f51b5;
-  margin-right: 2px;
+  cursor: pointer;
 }
 .employeeReport .per-info span {
   display: block;
@@ -349,8 +331,14 @@ tr {
 .employeeReport .per-info .img-info img {
   width: 40%;
 }
+.employeeReport .per-info h6 {
+  font-size: 2vmin;
+}
+.employeeReport .per-info span {
+  text-align: center;
+}
 .employeeReport .per-info ul {
-  padding-top: 2vh;
+  padding-top: 1.8vmin;
 }
 .employeeReport .per-info li {
   color: #3f51b5;
@@ -398,6 +386,29 @@ tr {
   }
   .table {
     width: 230%;
+  }
+  .employeeReport .personal-information img,
+  .employeeReport .per-info .img-info img {
+    width: 40%;
+  }
+  .employeeReport .per-info h6 {
+    font-size: medium;
+  }
+  .employeeReport .personal-information span:nth-child(even) {
+    font-size: small;
+  }
+  .employeeReport .personal-information span:nth-child(odd) {
+    font-size: medium;
+  }
+  .employeeReport .per-info li {
+    font-size: small;
+  }
+  /* .employeeReport .personal-information img {
+    width: 100%;
+  } */
+
+  .employeeReport .personal-information .information {
+    width: 100%;
   }
 }
 </style>

@@ -6,11 +6,11 @@
         تهدف الي اصدار فاتورة خاص بالزبون , حيث يساعد في تبسيط عمليات البيع
         وتسريعها، ويسهل على البائع إصدار الفواتير وتسجيل المعاملات بشكل دقيق .
       </p>
-      <h4 class="first-step">الخطوة الرابعة:</h4>
+      <h5 class="first-step">الخطوة الرابعة:</h5>
       <span>ادخل ساعة الحجز لتكون بالفاتورة من حيث المواعيد . </span>
       <div class="row">
         <div class="col-xl-6 col-sm-12">
-          <h4 class="first-step">من الساعة:</h4>
+          <h5 class="first-step">من الساعة:</h5>
           <ul>
             <li>ص</li>
             <li>م</li>
@@ -18,7 +18,7 @@
           <input type="text" /> <span>:</span> <input type="text" />
         </div>
         <div class="col-xl-6 col-sm-12">
-          <h4 class="first-step">الى الساعة:</h4>
+          <h5 class="first-step">الى الساعة:</h5>
           <ul>
             <li>ص</li>
             <li>م</li>
@@ -38,8 +38,9 @@
       </select>
       <h4 class="first-step">تفاصيل حجز الجديد</h4>
       <div class="control-table" style="overflow-x: auto">
-        <div class="row extra-table">
-          <h5 class="text-center">صالون شعر ذقن للحلاقة</h5>
+        <div class="row extra-table text-center">
+          <img src="../../assets/salePoints/salon.png" />
+          <span class="">صالون شعر ذقن للحلاقة</span>
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
@@ -85,7 +86,9 @@
         </table>
       </div>
       <div class="button-container">
-        <button class="btn">رجوع</button>
+        <router-link to="/NewReservation3">
+          <button class="btn">رجوع</button>
+        </router-link>
         <button class="btn">إنهاء الطلب</button>
       </div>
     </div>
@@ -114,6 +117,7 @@ export default {
 }
 .newReservation4 .first-step {
   display: inline-block;
+  color: #3f51b5;
   margin-top: 5vh;
 }
 .newReservation4 span {
@@ -132,20 +136,22 @@ export default {
   text-align: center;
   font-weight: 500;
 }
+.newReservation4 input ~ span {
+  font-size: 5vmin;
+}
 .newReservation4 ul {
   display: inline-block;
   color: #1a2669;
   list-style: none;
   border: 1px solid #ebedf7;
   border-radius: 8px;
-  height: 100%;
-  padding: 6px;
+  padding: 0;
   text-align: center;
   margin: 0px 3vh;
 }
-/* .newReservation4 ul li {
-  padding: 6px;
-} */
+.newReservation4 ul li {
+  padding: 10px;
+}
 .newReservation4 ul li:hover {
   background: #ebedf7;
 }
@@ -167,8 +173,8 @@ export default {
   display: block;
 }
 .newReservation4 .control-table {
-  margin-top: 8vh;
-  border: 1.5px solid #3f51b5;
+  margin-top: 5vh;
+  border: 1px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
@@ -181,19 +187,30 @@ export default {
   border-collapse: collapse;
   border-spacing: 0;
 }
-.newReservation4 .extra-table h5 {
+.newReservation4 .extra-table span {
   color: #3f51b5;
+}
+.newReservation4 .extra-table img {
+  margin-left: 2vh;
+  background: #fefefe;
+  padding: 4px;
+  border-radius: 9px;
+  box-shadow: 0px 0px 4px -1px #14141412;
+
+  box-shadow: 0px 0px 6px -1px #1414141f;
+  width: 5%;
 }
 
 .newReservation4 table {
   margin-bottom: 0;
-  border: 1.5px solid #3f51b5;
   border-collapse: collapse;
   border-spacing: 0;
+  text-align: center;
 }
 .newReservation4 table tr td,
 .newReservation4 table tr th {
   color: #1a2669;
+  font-weight: 400;
 }
 .newReservation4 table .td {
   font-weight: 700;

@@ -1,7 +1,7 @@
 <template>
   <div class="salesTax">
     <div class="container">
-      <h3>الضريبة (مبيعات)</h3>
+      <h4>الضريبة (مبيعات)</h4>
       <p>
         تعتبر وثائق مالية تُستخدم لتوثيق عمليات البيع بصالون حلاقة خاص بك. تحتوي
         فاتورة المبيعات عادةً على معلومات مهمة تتعلق بالخدمات التي تم بيعها
@@ -30,38 +30,10 @@
           </thead>
           <tbody>
             <tr>
-              <td>9:30|12-2</td>
-              <th>4567</th>
+              <td>ص11:54 | 2023-09-05</td>
+              <td>INV273877</td>
               <td>أحمد محسن</td>
-              <td>3467</td>
-              <td>0.00</td>
-            </tr>
-            <tr>
-              <td>9:30|12-2</td>
-              <th>4567</th>
-              <td>أحمد محسن</td>
-              <td>3467</td>
-              <td>0.00</td>
-            </tr>
-            <tr>
-              <td>9:30|12-2</td>
-              <th>4567</th>
-              <td>أحمد محسن</td>
-              <td>3467</td>
-              <td>0.00</td>
-            </tr>
-            <tr>
-              <td>9:30|12-2</td>
-              <th>4567</th>
-              <td>أحمد محسن</td>
-              <td>3467</td>
-              <td>0.00</td>
-            </tr>
-            <tr>
-              <td>9:30|12-2</td>
-              <th>4567</th>
-              <td>أحمد محسن</td>
-              <td>3467</td>
+              <td>3298.45</td>
               <td>0.00</td>
             </tr>
           </tbody>
@@ -70,7 +42,10 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>1-10 من 100 عنصر</td>
+            <td>
+              <fa icon="	fas fa-angle-right" />
+              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
+            </td>
           </tfoot>
         </table>
       </div>
@@ -90,7 +65,7 @@ export default {
   direction: rtl;
   width: 80%;
 }
-.salesTax h3,
+.salesTax h4,
 h5 {
   color: #3f51b5;
   font-weight: 700px;
@@ -121,7 +96,7 @@ h5 {
 }
 
 .salesTax .extra-table button {
-  width: 20%;
+  width: 16%;
   margin-right: 10px;
   float: left;
   background: #3f51b5;
@@ -140,19 +115,15 @@ h5 {
   width: 10%;
 }
 .salesTax .all-table {
-  margin-top: 8vh;
-  border: 1.5px solid #3f51b5;
+  margin-top: 5vh;
+  border: 1px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
-  font-weight: 700;
 }
 .salesTax table {
   margin-bottom: 0;
-  border: 1.5px solid #3f51b5;
-}
-.salesTax table tfoot {
-  border-radius: 8px;
+  text-align: center;
 }
 tbody,
 td,
@@ -168,35 +139,29 @@ tr {
   background: #3f51b5;
   color: #e3e3e3;
   height: 5vh;
+  font-weight: 400;
 }
 .salesTax table tr td,
 .salesTax table tr th {
   color: #1a2669;
-}
-.salesTax table .td {
-  font-weight: 700;
 }
 .salesTax table tfoot {
   border-radius: 8px;
   background: #3f51b5;
   width: 100%;
   color: #fff;
+  font-weight: 300;
 }
 .salesTax table tfoot td:last-of-type {
   text-align: end;
   padding-left: 5vh;
 }
-.salesTax table .delete {
-  background: #fff;
-  color: #3f51b5;
-  border: 1px solid #3f51b5;
-  margin-left: 2px;
-}
-.salesTax table .update {
-  background: #3f51b5;
+
+tfoot svg {
+  background: transparent;
+  padding: 0 10px;
   color: #fff;
-  border: 1px solid #3f51b5;
-  margin-right: 2px;
+  cursor: pointer;
 }
 
 @media (max-width: 991px) {

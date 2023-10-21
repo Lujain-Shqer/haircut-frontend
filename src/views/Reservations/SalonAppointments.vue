@@ -1,14 +1,14 @@
 <template>
   <div class="salonAppointment">
     <div class="container">
-      <h3>مواعيد الصالون</h3>
+      <h4>مواعيد الصالون</h4>
       <p>
         التي تشمل الخدمات والمنتجات التي تعزز تجربة العميل وتجعلها فاخرة ومريحة
       </p>
       <div class="all-table" style="overflow-x: auto">
         <div class="row extra-table">
           <div class="input-container">
-            <h4>مواعيد دوام الصالون</h4>
+            <h6>مواعيد دوام الصالون</h6>
           </div>
           <button class="btn">تحديث</button>
         </div>
@@ -28,7 +28,7 @@
               <td><span>الاحد</span></td>
               <td class="text-center">
                 <button class="btn update">
-                  <fa icon="book" /> عرض فاتورة
+                  <fa icon="fa-file-pdf" /> عرض الفاتورة
                 </button>
                 <button class="btn delete"><fa icon="trash" /> حذف</button>
               </td>
@@ -39,7 +39,7 @@
               <td><span>الاثنين</span></td>
               <td class="text-center">
                 <button class="btn update">
-                  <fa icon="book" /> عرض فاتورة
+                  <fa icon="fa-file-pdf" /> عرض الفاتورة
                 </button>
                 <button class="btn delete"><fa icon="trash" /> حذف</button>
               </td>
@@ -50,7 +50,7 @@
               <td><span>الثلاثاء</span></td>
               <td class="text-center">
                 <button class="btn update">
-                  <fa icon="book" /> عرض فاتورة
+                  <fa icon="fa-file-pdf" /> عرض الفاتورة
                 </button>
                 <button class="btn delete"><fa icon="trash" /> حذف</button>
               </td>
@@ -61,7 +61,7 @@
               <td><span>الاربعاء</span></td>
               <td class="text-center">
                 <button class="btn update">
-                  <fa icon="book" /> عرض فاتورة
+                  <fa icon="fa-file-pdf" /> عرض الفاتورة
                 </button>
                 <button class="btn delete"><fa icon="trash" /> حذف</button>
               </td>
@@ -72,7 +72,7 @@
               <td><span>الخميس</span></td>
               <td class="text-center">
                 <button class="btn update">
-                  <fa icon="book" /> عرض فاتورة
+                  <fa icon="fa-file-pdf" /> عرض الفاتورة
                 </button>
                 <button class="btn delete"><fa icon="trash" /> حذف</button>
               </td>
@@ -83,7 +83,7 @@
               <td><span>السبت</span></td>
               <td class="text-center">
                 <button class="btn update">
-                  <fa icon="book" /> عرض فاتورة
+                  <fa icon="fa-file-pdf" /> عرض الفاتورة
                 </button>
                 <button class="btn delete"><fa icon="trash" /> حذف</button>
               </td>
@@ -107,7 +107,7 @@ export default {
   direction: rtl;
   width: 80%;
 }
-.salonAppointment h3 {
+.salonAppointment h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
@@ -129,7 +129,6 @@ export default {
   float: right;
   color: #3f51b5;
   padding: 1vh;
-  font-weight: 700;
 }
 
 .salonAppointment .extra-table button {
@@ -141,16 +140,15 @@ export default {
 }
 
 .salonAppointment .all-table {
-  margin-top: 8vh;
-  border: 1.5px solid #3f51b5;
+  margin-top: 5vh;
+  border: 1px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
-  font-weight: 700;
 }
 .salonAppointment table {
   margin-bottom: 0;
-  border: 1.5px solid #3f51b5;
+  text-align: center;
 }
 tbody,
 td,
@@ -169,18 +167,19 @@ tr {
 .salonAppointment table tr td,
 .salonAppointment table tr th {
   color: #1a2669;
+  font-weight: 400;
 }
 .salonAppointment table .delete {
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
-  margin-right: 2px;
+  margin-right: 5px;
 }
 .salonAppointment table .update {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
-  margin-left: 2px;
+  margin-left: 5px;
 }
 .salonAppointment table td span {
   border: 1px solid #1a2669;

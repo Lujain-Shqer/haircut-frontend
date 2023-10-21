@@ -1,22 +1,23 @@
 <template>
   <div class="newReservation1">
     <div class="container">
-      <h3>انشاء حجز جديد</h3>
+      <h4>انشاء حجز جديد</h4>
       <p>
         تهدف الي اصدار فاتورة خاص بالزبون , حيث يساعد في تبسيط عمليات البيع
         وتسريعها، ويسهل على البائع إصدار الفواتير وتسجيل المعاملات بشكل دقيق .
       </p>
-      <h3 class="first-step">الخطوة الأولى:</h3>
+      <h6 class="first-step">الخطوة الأولى:</h6>
       <span
         >إضغط على المنتجات أو الخدمات لإضافتها إلى الطلب لتكون ضمن الفاتورة .
       </span>
       <div class="services text-center">
         <ServicesPage />
       </div>
-      <h3 class="first-step">تفاصيل حجز الجديد</h3>
+      <h6 class="first-step">تفاصيل حجز الجديد</h6>
       <div class="control-table" style="overflow-x: auto">
-        <div class="row extra-table">
-          <h5 class="text-center">صالون شعر ذقن للحلاقة</h5>
+        <div class="row extra-table text-center">
+          <img src="../../assets/salePoints/salon.png" />
+          <span class="">صالون شعر ذقن للحلاقة</span>
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
@@ -28,29 +29,26 @@
           </thead>
           <tbody>
             <tr>
-              <th scope="row">صبغة ذقن اسود</th>
+              <td>صبغة ذقن اسود</td>
               <td>15 دقائق</td>
               <td>130</td>
             </tr>
             <tr>
-              <th scope="row">صبغة ذقن اسود</th>
+              <td>صبغة ذقن اسود</td>
               <td>15 دقائق</td>
               <td>130</td>
             </tr>
             <tr>
-              <th scope="row">صبغة ذقن اسود</th>
-              <td>15 دقائق</td>
-              <td>130</td>
-            </tr>
-            <tr>
-              <th scope="row">صبغة ذقن اسود</th>
+              <td>صبغة ذقن اسود</td>
               <td>15 دقائق</td>
               <td>130</td>
             </tr>
           </tbody>
         </table>
       </div>
-      <button class="btn">التالي</button>
+      <router-link to="/NewReservation2">
+        <button class="btn">التالي</button>
+      </router-link>
     </div>
   </div>
 </template>
@@ -72,7 +70,7 @@ export default {
   direction: rtl;
   width: 80%;
 }
-.newReservation1 h3 {
+.newReservation1 h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
@@ -83,13 +81,14 @@ export default {
 .newReservation1 .first-step {
   display: inline-block;
   margin-top: 5vh;
+  color: #3f51b5;
 }
 .newReservation1 span {
   color: #1a2669;
 }
 .newReservation1 .control-table {
-  margin-top: 8vh;
-  border: 1.5px solid #3f51b5;
+  margin-top: 3vh;
+  border: 1px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
@@ -102,28 +101,37 @@ export default {
   border-collapse: collapse;
   border-spacing: 0;
 }
-.newReservation1 .extra-table h5 {
+.newReservation1 img {
+  margin-left: 4vh;
+  background: #fefefe;
+  padding: 4px;
+  border-radius: 9px;
+  box-shadow: 0px 0px 4px -1px #14141412;
+
+  box-shadow: 0px 0px 6px -1px #1414141f;
+  width: 10%;
+}
+.newReservation1 .extra-table span {
   color: #3f51b5;
 }
 
 .newReservation1 table {
   margin-bottom: 0;
-  border: 1.5px solid #3f51b5;
   border-collapse: collapse;
   border-spacing: 0;
+  text-align: center;
 }
 .newReservation1 table tr td,
 .newReservation1 table tr th {
   color: #1a2669;
 }
-.newReservation1 table .td {
-  font-weight: 700;
-}
+
 .newReservation1 table thead tr th,
 .newReservation1 table tfoot tr th {
   background: #3f51b5;
   color: #e3e3e3;
   height: 5vh;
+  font-weight: 400;
 }
 .newReservation1 button {
   background: #3f51b5;

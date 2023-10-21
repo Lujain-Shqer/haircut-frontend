@@ -1,7 +1,7 @@
 <template>
   <div class="showReservations">
     <div class="container">
-      <h3>حجوزات اليوم</h3>
+      <h4>حجوزات اليوم</h4>
       <p>
         تعتبر وثائق مالية تُستخدم لتوثيق عمليات البيع بصالون حلاقة خاص بك. تحتوي
         فاتورة المبيعات عادةً على معلومات مهمة تتعلق بالخدمات التي تم بيعها
@@ -33,7 +33,7 @@
           <tbody>
             <tr>
               <td>9-4-2010</td>
-              <th>فارس الحربي</th>
+              <td>فارس الحربي</td>
               <td>(0559090488)</td>
               <td>03:05 م - 04:38 م</td>
               <td>محمد عصام</td>
@@ -45,83 +45,7 @@
               </td>
               <td class="text-center">
                 <button class="btn show">
-                  <fa icon="book" /> عرض الفاتورة
-                </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <td>9-4-2010</td>
-              <th>فارس الحربي</th>
-              <td>(0559090488)</td>
-              <td>03:05 م - 04:38 م</td>
-              <td>محمد عصام</td>
-              <td>
-                <li>صبغة دقن</li>
-                <li>صبغة دقن</li>
-                <li>صبغة دقن</li>
-                <li>صبغة دقن</li>
-              </td>
-              <td class="text-center">
-                <button class="btn show">
-                  <fa icon="book" /> عرض الفاتورة
-                </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <td>9-4-2010</td>
-              <th>فارس الحربي</th>
-              <td>(0559090488)</td>
-              <td>03:05 م - 04:38 م</td>
-              <td>محمد عصام</td>
-              <td>
-                <li>صبغة دقن</li>
-                <li>صبغة دقن</li>
-                <li>صبغة دقن</li>
-                <li>صبغة دقن</li>
-              </td>
-              <td class="text-center">
-                <button class="btn show">
-                  <fa icon="book" /> عرض الفاتورة
-                </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <td>9-4-2010</td>
-              <th>فارس الحربي</th>
-              <td>(0559090488)</td>
-              <td>03:05 م - 04:38 م</td>
-              <td>محمد عصام</td>
-              <td>
-                <li>صبغة دقن</li>
-                <li>صبغة دقن</li>
-                <li>صبغة دقن</li>
-                <li>صبغة دقن</li>
-              </td>
-              <td class="text-center">
-                <button class="btn show">
-                  <fa icon="book" /> عرض الفاتورة
-                </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <td>9-4-2010</td>
-              <th>فارس الحربي</th>
-              <td>(0559090488)</td>
-              <td>03:05 م - 04:38 م</td>
-              <td>محمد عصام</td>
-              <td>
-                <li>صبغة دقن</li>
-                <li>صبغة دقن</li>
-                <li>صبغة دقن</li>
-                <li>صبغة دقن</li>
-              </td>
-              <td class="text-center">
-                <button class="btn show">
-                  <fa icon="book" /> عرض الفاتورة
+                  <fa icon="fa-file-pdf" /> عرض الفاتورة
                 </button>
                 <button class="btn delete"><fa icon="trash" /> حذف</button>
               </td>
@@ -145,7 +69,7 @@ export default {
   direction: rtl;
   width: 80%;
 }
-.showReservations h3,
+.showReservations h4,
 h5 {
   color: #3f51b5;
   font-weight: 700px;
@@ -182,7 +106,7 @@ h5 {
   background: #3f51b5;
   color: #fff;
 }
-.showReservations .extra-table button:first-of-type,
+/* .showReservations .extra-table button:first-of-type, */
 .showReservations .extra-table button:last-of-type {
   background: #fff;
   color: #3f51b5;
@@ -192,19 +116,18 @@ h5 {
   width: 25%;
 }
 .showReservations .extra-table button:first-of-type {
-  width: 10%;
+  width: 15%;
 }
 .showReservations .all-table {
-  margin-top: 8vh;
-  border: 1.5px solid #3f51b5;
+  margin-top: 5vh;
+  border: 1px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
-  font-weight: 700;
 }
 .showReservations table {
   margin-bottom: 0;
-  border: 1.5px solid #3f51b5;
+  text-align: center;
 }
 tbody,
 td,
@@ -215,12 +138,6 @@ tr {
   border-bottom: 1px solid #d9d5ec;
 }
 
-.showReservations table thead tr th,
-.showReservations table tfoot tr th {
-  background: #3f51b5;
-  color: #e3e3e3;
-  height: 5vh;
-}
 .showReservations table tr td,
 .showReservations table tr th {
   color: #1a2669;
@@ -237,7 +154,13 @@ tr {
   border: 1px solid #3f51b5;
   margin-left: 2px;
 }
-
+.showReservations table thead tr th,
+.showReservations table tfoot tr th {
+  background: #3f51b5;
+  color: #e3e3e3;
+  height: 5vh;
+  font-weight: 400;
+}
 @media (max-width: 991px) {
   .showReservations {
     width: 70%;

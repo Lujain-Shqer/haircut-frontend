@@ -1,33 +1,123 @@
 <template>
   <div class="row">
     <div class="card">
-      <img src="../assets/u.png" />
-      <h6>صبغة ذقن اسود</h6>
+      <img src="../assets/salePoints/Prod/1.png" />
+      <h6>جل شعر سك5 (1000g)</h6>
       <span>30.00 SAR</span>
     </div>
     <div class="card">
-      <img src="../assets/u.png" />
-      <h6>صبغة ذقن اسود</h6>
+      <img src="../assets/salePoints/Prod/2.png" />
+      <h6>125gواكس عنكبوت</h6>
       <span>30.00 SAR</span>
     </div>
     <div class="card">
-      <img src="../assets/u.png" />
-      <h6>صبغة ذقن اسود</h6>
+      <img src="../assets/salePoints/Prod/3.png" />
+      <h6>مكينة زيرو كيمي</h6>
       <span>30.00 SAR</span>
     </div>
     <div class="card">
-      <img src="../assets/u.png" />
-      <h6>صبغة ذقن اسود</h6>
+      <img src="../assets/salePoints/Prod/4.png" />
+      <h6>شامبو قشره</h6>
       <span>30.00 SAR</span>
     </div>
     <div class="card">
-      <img src="../assets/u.png" />
-      <h6>صبغة ذقن اسود</h6>
+      <img src="../assets/salePoints/Prod/5.png" />
+      <h6>كيرلي دائم وسط</h6>
       <span>30.00 SAR</span>
     </div>
     <div class="card">
-      <img src="../assets/u.png" />
-      <h6>صبغة ذقن اسود</h6>
+      <img src="../assets/salePoints/Prod/6.png" />
+      <h6>مثبت شعر تركى</h6>
+      <span>30.00 SAR</span>
+    </div>
+    <div class="card">
+      <img src="../assets/salePoints/Prod/7.png" />
+      <h6>زيت نيو هير تايلندي</h6>
+      <span>30.00 SAR</span>
+    </div>
+    <div class="card">
+      <img src="../assets/salePoints/Prod/8.png" />
+      <h6>واكس بلمبرز اصفر</h6>
+      <span>30.00 SAR</span>
+    </div>
+    <div class="card">
+      <img src="../assets/salePoints/Prod/9.png" />
+      <h6>اكس كريم شعر جومامي</h6>
+      <span>30.00 SAR</span>
+    </div>
+    <div class="card">
+      <img src="../assets/salePoints/Prod/10.png" />
+      <h6>مكينة تنعيم</h6>
+      <span>30.00 SAR</span>
+    </div>
+    <div class="card">
+      <img src="../assets/salePoints/Prod/11.png" />
+      <h6>كريم شعر هوبي</h6>
+      <span>30.00 SAR</span>
+    </div>
+    <div class="card">
+      <img src="../assets/salePoints/Prod/12.png" />
+      <h6>فرشة تنظيف</h6>
+      <span>30.00 SAR</span>
+    </div>
+    <div class="card">
+      <img src="../assets/salePoints/Prod/13.png" />
+      <h6>علبة بخاخ الوان</h6>
+      <span>30.00 SAR</span>
+    </div>
+    <div class="card">
+      <img src="../assets/salePoints/Prod/14.png" />
+      <h6>شنطة ادوات حلاقة</h6>
+      <span>30.00 SAR</span>
+    </div>
+    <div class="card">
+      <img src="../assets/salePoints/Prod/15.png" />
+      <h6>موس مره واحده</h6>
+      <span>30.00 SAR</span>
+    </div>
+    <div class="card">
+      <img src="../assets/salePoints/Prod/16.png" />
+      <h6>فيتامين سي و واقي شمس قارنار</h6>
+      <span>30.00 SAR</span>
+    </div>
+    <div class="card">
+      <img src="../assets/salePoints/Prod/17.png" />
+      <h6>مكثف شعر سوناتا</h6>
+      <span>30.00 SAR</span>
+    </div>
+    <div class="card">
+      <img src="../assets/salePoints/Prod/18.png" />
+      <h6>مشط شنب</h6>
+      <span>30.00 SAR</span>
+    </div>
+    <div class="card">
+      <img src="../assets/salePoints/Prod/19.png" />
+      <h6>شعر مكينة</h6>
+      <span>30.00 SAR</span>
+    </div>
+    <div class="card">
+      <img src="../assets/salePoints/Prod/20.png" />
+      <h6>موسي تركي</h6>
+      <span>30.00 SAR</span>
+    </div>
+    <div class="card">
+      <img src="../assets/salePoints/Prod/21.png" />
+      <h6>مكينة راس كيمي</h6>
+      <span>30.00 SAR</span>
+    </div>
+    <div class="card">
+      <img src="../assets/salePoints/Prod/22.png" />
+      <h6>صبغة شامبو اسود ورجيناس</h6>
+      <span>30.00 SAR</span>
+    </div>
+    <div class="card">
+      <img src="../assets/salePoints/Prod/23.png" />
+      <h6>كريم الكولاجين ماسون</h6>
+      <span>30.00 SAR</span>
+    </div>
+    <div class="card">
+      <img src="../assets/salePoints/Prod/24.png" />
+      <h6>مقص ايطالي</h6>
       <span>30.00 SAR</span>
     </div>
   </div>
@@ -46,6 +136,7 @@ export default {
   width: 10%;
   margin: 0 2px;
   margin-bottom: 2vh;
+  transition: all 0.5s;
 }
 .card h6 {
   color: #1a2669;
@@ -54,7 +145,14 @@ export default {
 .card span {
   color: #3f51b5;
 }
-
+.card img {
+  margin-top: 1vh;
+}
+.card:hover {
+  border: 1px solid #1a2669;
+  background: #ebedf7;
+  cursor: pointer;
+}
 @media (max-width: 991px) {
   .products .card {
     width: 16%;

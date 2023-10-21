@@ -1,7 +1,7 @@
 <template>
   <div class="clearingCommissions">
     <div class="container">
-      <h3>تصفية العمولات</h3>
+      <h4>تصفية العمولات</h4>
       <p>عملية حساب وسداد العمولات للموظفين من الخدمات أو المنتجات</p>
       <div class="all-table text-center" style="overflow-x: auto">
         <div class="row extra-table">
@@ -9,8 +9,8 @@
             <fa icon="coins" />
             <span>تصفية العمولات</span>
           </div>
-          <button class="btn">بحث بالتاريخ</button>
           <button class="btn">من الفترة -> إلى الفترة</button>
+          <button class="btn">بحث بالتاريخ</button>
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
@@ -32,55 +32,7 @@
 المبلغ "
                 />
               </td>
-              <td>67</td>
-            </tr>
-            <tr>
-              <td>علي إسماعيل</td>
-              <td>4567</td>
-              <td>
-                <input
-                  type="text"
-                  placeholder="SAR-
-المبلغ "
-                />
-              </td>
-              <td>67</td>
-            </tr>
-            <tr>
-              <td>علي إسماعيل</td>
-              <td>4567</td>
-              <td>
-                <input
-                  type="text"
-                  placeholder="SAR-
-المبلغ "
-                />
-              </td>
-              <td>67</td>
-            </tr>
-            <tr>
-              <td>علي إسماعيل</td>
-              <td>4567</td>
-              <td>
-                <input
-                  type="text"
-                  placeholder="SAR-
-المبلغ "
-                />
-              </td>
-              <td>67</td>
-            </tr>
-            <tr>
-              <td>علي إسماعيل</td>
-              <td>4567</td>
-              <td>
-                <input
-                  type="text"
-                  placeholder="SAR-
-المبلغ "
-                />
-              </td>
-              <td>67</td>
+              <td>6002.60</td>
             </tr>
           </tbody>
         </table>
@@ -102,9 +54,9 @@ export default {
   direction: rtl;
   width: 80%;
 }
-.clearingCommissions h3 {
+.clearingCommissions h4 {
   color: #3f51b5;
-  font-weight: 700px;
+  font-weight: 600px;
 }
 .clearingCommissions p {
   color: #1a2669;
@@ -137,35 +89,34 @@ export default {
   background: #3f51b5;
   color: #fff;
 }
-.clearingCommissions .extra-table button:first-of-type,
-.clearingCommissions .extra-table button:last-of-type {
+.clearingCommissions .extra-table button:first-of-type {
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
+  width: 25%;
+  float: right;
 }
 .clearingCommissions .extra-table button:last-of-type {
-  width: 25%;
-}
-.clearingCommissions .extra-table button:first-of-type {
   width: 15%;
+  float: right;
 }
 .clearingCommissions .all-table {
-  margin-top: 8vh;
+  margin-top: 5vh;
   border: 1.5px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
-  font-weight: 700;
+  text-align: center;
 }
 .clearingCommissions table {
   margin-bottom: 0;
-  border: 1.5px solid #3f51b5;
 }
 .clearingCommissions table td:last-child {
   color: #3bd34a;
 }
 .clearingCommissions table tfoot {
   border-radius: 8px;
+  font-weight: 300;
 }
 tbody,
 td,
@@ -181,6 +132,7 @@ tr {
   background: #3f51b5;
   color: #e3e3e3;
   height: 5vh;
+  font-weight: 400;
 }
 .clearingCommissions table tr td,
 .clearingCommissions table tr th {
@@ -193,6 +145,13 @@ tr {
   border: 1px solid #c8c9cc;
   padding: 1vh;
   border-radius: 8px;
+  width: 80%;
+}
+.clearingCommissions table ~ button {
+  background: #3f51b5;
+  color: #fff;
+  margin-top: 5vh;
+  margin-bottom: 2vh;
 }
 @media (max-width: 991px) {
   .clearingCommissions {

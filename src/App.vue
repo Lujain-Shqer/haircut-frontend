@@ -3,8 +3,6 @@
     <router-link to="/login">login</router-link> |
     <router-link to="/signin">regester</router-link> |
     <router-link to="/branch">branch</router-link> |
-    <router-link to="/AddTaxable">AddTaxable</router-link> |
-    <router-link to="/AddNotTaxable">AddNotTaxable</router-link> |
     <router-link to="/SallesBills">SallesBills</router-link> |
     <router-link to="/SalesTax">SalesTax</router-link> |
     <router-link to="/ProductsPurchases">ProductsPurchases</router-link> |
@@ -24,6 +22,7 @@
     <router-link to="/CashierWithdrawals">CashierWithdrawals</router-link> |
     <router-link to="/CashierFeed">CashierFeed</router-link> |
     <router-link to="/AddNewEmployee">AddNewEmployee</router-link> |
+    <router-link to="/CashierBox">CashierBox</router-link> |
   </nav>
   <NavBar />
   <SideBar />

@@ -1,7 +1,7 @@
 <template>
   <div class="sundryPurchases">
     <div class="container">
-      <h3>المشتريات النثرية</h3>
+      <h4>المشتريات النثرية</h4>
       <p>
         التي تشمل الخدمات والمنتجات التي تعزز تجربة العميل وتجعلها فاخرة ومريحة
       </p>
@@ -26,66 +26,14 @@
           </thead>
           <tbody>
             <tr>
-              <th scope="row">991</th>
-              <td>567</td>
-              <td class="td">678</td>
-              <td class="td">678</td>
-              <td class="td">9-12|8:30</td>
+              <td>60813</td>
+              <td>25.15</td>
+              <td>4.00</td>
+              <td class="td">10.00</td>
+              <td class="td">09-12 | 03:09 ص</td>
               <td class="text-center">
                 <button class="btn show">
-                  <fa icon="book" /> عرض الفاتورة
-                </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">991</th>
-              <td>567</td>
-              <td class="td">678</td>
-              <td class="td">678</td>
-              <td class="td">9-12|8:30</td>
-              <td class="text-center">
-                <button class="btn show">
-                  <fa icon="book" /> عرض الفاتورة
-                </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">991</th>
-              <td>567</td>
-              <td class="td">678</td>
-              <td class="td">678</td>
-              <td class="td">9-12|8:30</td>
-              <td class="text-center">
-                <button class="btn show">
-                  <fa icon="book" /> عرض الفاتورة
-                </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">991</th>
-              <td>567</td>
-              <td class="td">678</td>
-              <td class="td">678</td>
-              <td class="td">9-12|8:30</td>
-              <td class="text-center">
-                <button class="btn show">
-                  <fa icon="book" /> عرض الفاتورة
-                </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">991</th>
-              <td class="td">678</td>
-              <td>567</td>
-              <td class="td">678</td>
-              <td class="td">9-12|8:30</td>
-              <td class="text-center">
-                <button class="btn show">
-                  <fa icon="book" /> عرض الفاتورة
+                  <fa icon="fa-file-pdf" /> عرض الفاتورة
                 </button>
                 <button class="btn delete"><fa icon="trash" /> حذف</button>
               </td>
@@ -97,7 +45,10 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>1-10 من 100 عنصر</td>
+            <td>
+              <fa icon="	fas fa-angle-right" />
+              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
+            </td>
           </tfoot>
         </table>
       </div>
@@ -117,7 +68,7 @@ export default {
   direction: rtl;
   width: 80%;
 }
-.sundryPurchases h3 {
+.sundryPurchases h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
@@ -126,8 +77,8 @@ export default {
   font-weight: 400;
 }
 .sundryPurchases .control-table {
-  margin-top: 8vh;
-  border: 1.5px solid #3f51b5;
+  margin-top: 5vh;
+  border: 1px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
@@ -168,45 +119,50 @@ export default {
 }
 .sundryPurchases table {
   margin-bottom: 0;
-  border: 1.5px solid #3f51b5;
   border-collapse: collapse;
   border-spacing: 0;
+  text-align: center;
 }
 .sundryPurchases table tr td,
 .sundryPurchases table tr th {
   color: #1a2669;
 }
-.sundryPurchases table .td {
-  font-weight: 700;
-}
 .sundryPurchases table .delete {
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
-  margin-right: 2px;
+  margin-right: 5px;
 }
 .sundryPurchases table .show {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
-  margin-left: 2px;
+  margin-left: 5px;
   margin-bottom: 1vh;
-}
-.sundryPurchases table tfoot {
-  border-radius: 8px;
-  background: #3f51b5;
-  width: 100%;
-  color: #fff;
-}
-.sundryPurchases table tfoot td:last-of-type {
-  text-align: end;
-  padding-left: 5vh;
 }
 .sundryPurchases table thead tr th,
 .sundryPurchases table tfoot tr th {
   background: #3f51b5;
   color: #e3e3e3;
   height: 5vh;
+  font-weight: 400;
+}
+.sundryPurchases table tfoot {
+  border-radius: 8px;
+  background: #3f51b5;
+  width: 100%;
+  color: #fff;
+  font-weight: 300;
+}
+.sundryPurchases table tfoot td:last-of-type {
+  text-align: end;
+  padding-left: 5vh;
+}
+tfoot svg {
+  background: transparent;
+  padding: 0 10px;
+  color: #fff;
+  cursor: pointer;
 }
 
 @media (max-width: 991px) {

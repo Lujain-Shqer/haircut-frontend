@@ -41,6 +41,7 @@ import FundMovement from "../views/AdministrativeDepartment/FundMovement.vue";
 import CashierWithdrawals from "../views/AdministrativeDepartment/CashierWithdrawals.vue";
 import CashierFeed from "../views/AdministrativeDepartment/CashierFeed.vue";
 import AddNewEmployee from "../views/EmployeeAdmin/AddNewEmployee.vue";
+import CashierBox from "../views/FinancialTransactions/CashierBox.vue";
 
 const routes = [
   {
@@ -267,6 +268,11 @@ const routes = [
     path: "/AddNewEmployee",
     name: "AddNewEmployee",
     component: AddNewEmployee,
+  },
+  {
+    path: "/CashierBox",
+    name: "CashierBox",
+    component: CashierBox,
   },
 ];
 

@@ -1,7 +1,7 @@
 <template>
   <div class="pointOfSales">
     <div class="container">
-      <h3>نقطة البيع</h3>
+      <h4>نقطة البيع</h4>
       <p>
         هي نظام يُستخدم لإتمام معاملات البيع ومعالجة المدفوعات في صالونات
         الحلاقة. تُعد نقطة البيع واحدة من أهم الأدوات في إدارة الأعمال التجارية
@@ -11,7 +11,7 @@
       <div class="all-table text-center" style="overflow-x: auto">
         <div class="row extra-table">
           <div class="input-container">
-            <fa icon="barbbar" />
+            <img src="../../assets/salePoints/salon.png" />
             <span>صالون شعر ذقن للحلاقة</span>
           </div>
         </div>
@@ -34,40 +34,15 @@
               <td>67</td>
               <td>234</td>
               <td>صبغة ذقن اسود</td>
-              <td>1</td>
-              <td>15.00</td>
-            </tr>
-            <tr>
-              <td>علي إسماعيل</td>
-              <td>عامر يوسف</td>
-              <td>67</td>
-              <td>234</td>
-              <td>صبغة ذقن اسود</td>
-              <td>1</td>
-              <td>15.00</td>
-            </tr>
-            <tr>
-              <td>علي إسماعيل</td>
-              <td>عامر يوسف</td>
-              <td>67</td>
-              <td>234</td>
-              <td>صبغة ذقن اسود</td>
-              <td>1</td>
-              <td>15.00</td>
-            </tr>
-            <tr>
-              <td>علي إسماعيل</td>
-              <td>عامر يوسف</td>
-              <td>67</td>
-              <td>234</td>
-              <td>صبغة ذقن اسود</td>
-              <td>1</td>
-              <td>15.00</td>
+              <td>
+                <span>1</span>
+              </td>
+              <td><span>15.00</span>SAR</td>
             </tr>
           </tbody>
         </table>
       </div>
-      <h3 class="first-step">الخطوة الأولى:</h3>
+      <h4 class="first-step">الخطوة الأولى:</h4>
       <span
         >إضغط على المنتجات أو الخدمات لإضافتها إلى الطلب لتكون ضمن الفاتورة .
       </span>
@@ -75,29 +50,34 @@
       <div class="services text-center">
         <div class="header">
           <div class="chosse-serv">
-            <button class="btn" v-on:click="component = 'ProductsPage'">
+            <button v-on:click="makeRed('ProductsPage', $event)" class="btn">
               منتجات
             </button>
-            <button class="btn" v-on:click="component = 'ServicesPage'">
+            <button
+              class="btn red"
+              v-on:click="makeRed('ServicesPage', $event)"
+            >
               خدمات
             </button>
           </div>
           <button class="btn blue-button">إنهاء فترة العمل</button>
-          <button class="btn white-button">أضف خدمة جديدة</button>
+          <button class="btn white-button">
+            <fa icon="plus" /> أضف خدمة جديدة
+          </button>
         </div>
         <component v-bind:is="component"></component>
       </div>
       <br />
-      <h3 class="first-step">الخطوة الثاني:</h3>
+      <h4 class="first-step">الخطوة الثاني:</h4>
       <span>ادخل البيانات المطلوبة بالجدول ادناه لاصدار الفاتورة </span>
       <form class="row">
         <div class="col-lg-4 col-md-12">
           <label>الاسم العميل</label>
-          <input type="text" placeholder="إضافة اسم العميل" />
+          <input type="text" placeholder="عميل افتراضي" />
         </div>
         <div class="col-lg-4 col-md-12">
           <label>اسم الموظف</label>
-          <input type="text" placeholder="إضافة هاتف العميل" />
+          <input type="text" placeholder="اختر الموظف" />
         </div>
         <div class="col-lg-4 col-md-12">
           <label>اختر طريقة الدفع</label>
@@ -108,11 +88,11 @@
         </div>
         <div class="col-lg-4 col-md-12">
           <label>مبلغ الخصم (إن وجد)</label>
-          <input type="text" placeholder="إضافة اسم العميل" />
+          <input type="text" placeholder="مبلغ الخصم" />
         </div>
         <div class="col-lg-4 col-md-12">
           <label>اسم الموظف</label>
-          <input type="text" placeholder="إضافة هاتف العميل" />
+          <input type="text" placeholder="ادخل قيمة مكافأة من العميل" />
         </div>
         <div class="col-lg-4 col-md-12">
           <label>طريقة دفع المكافأة</label>
@@ -141,10 +121,24 @@ export default {
       component: "ServicesPage",
     };
   },
+  methods: {
+    makeRed: function (component, event) {
+      this.component = component;
+      event.target.classList.add("red");
+      if (event.target.nextElementSibling != null)
+        event.target.nextElementSibling.classList.remove("red");
+      if (event.target.previousElementSibling != null)
+        event.target.previousElementSibling.classList.remove("red");
+    },
+  },
 };
 </script>
 
 <style scoped>
+.red {
+  background: #3f51b5;
+  color: #fff;
+}
 .row {
   margin: 0;
 }
@@ -152,7 +146,7 @@ export default {
   direction: rtl;
   width: 80%;
 }
-.pointOfSales h3 {
+.pointOfSales h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
@@ -162,35 +156,35 @@ export default {
   padding: 2vh;
 }
 .pointOfSales .extra-table {
-  margin: 0 4vh;
-  margin-bottom: 3vh;
   display: flow-root;
 }
 .pointOfSales .input-container {
-  width: 25%;
   float: right;
   display: inline;
   float: right;
   color: #3f51b5;
-  padding: 1vh;
+  padding: 2vh;
   font-weight: 500;
   text-align: start;
 }
-.pointOfSales .input-container svg {
-  padding-left: 2vh;
+.pointOfSales .input-container img {
+  margin-left: 4vh;
+  background: #fefefe;
+  padding: 4px;
+  border-radius: 9px;
+  box-shadow: 0px 0px 15px 0px #00000040;
+  width: 5%;
 }
 
 .pointOfSales .all-table {
-  margin: 2vh 0;
   border: 1.5px solid #3f51b5;
-  padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
-  font-weight: 700;
+  margin-bottom: 5vh;
 }
 .pointOfSales table {
   margin-bottom: 0;
-  border: 1.5px solid #3f51b5;
+  border: 1px solid #3f51b5;
 }
 
 tbody,
@@ -206,14 +200,22 @@ tr {
   background: #3f51b5;
   color: #e3e3e3;
   height: 5vh;
+  font-weight: 400;
 }
 .pointOfSales table tr td,
 .pointOfSales table tr th {
   color: #1a2669;
 }
+.pointOfSales table tr td span {
+  border: 1px solid #3f51b5;
+  padding: 0.5vh 2vh;
+  border-radius: 5px;
+  color: #757de8;
+}
 .pointOfSales .first-step {
   display: inline;
 }
+
 .pointOfSales span {
   color: #1a2669;
 }
@@ -231,15 +233,15 @@ tr {
   font-weight: 400;
 }
 .pointOfSales input {
-  border: 1px solid #3f51b5;
+  border: 1px solid #c8c9cc;
   color: #1a2669;
   border-radius: 8px;
   padding: 1vh;
-  width: 70%;
+  width: 100%;
   outline: none;
 }
 .pointOfSales input::placeholder {
-  color: #3f51b5;
+  color: #c8c9cc;
 }
 .pointOfSales button.bill {
   background: #3f51b5;
@@ -297,9 +299,9 @@ tr {
 
 .services {
   box-shadow: 0px 0px 15px 0px #00000040;
-  border: 1.5px solid #3f51b5;
+  border: 1px solid #3f51b5;
   border-radius: 8px;
-  padding: 6vh 2vh;
+  padding: 4vh 2vh;
   text-align: center;
   margin-top: 5vh;
 }
@@ -316,7 +318,7 @@ tr {
   border: 1px solid #3f51b5;
   color: #1a2669;
   border-radius: 8px;
-  /* padding: 1vh; */
+  background: #ebedf7;
   width: 30%;
   outline: none;
 }

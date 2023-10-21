@@ -48,7 +48,7 @@
         </p>
       </div>
       <div class="col-xl-8 logo-img">
-        <img src="../../assets/four.png" />
+        <img src="../../assets/Login/regester.png" />
         <div class="loading">
           <span></span>
           <span></span>

@@ -14,7 +14,6 @@
       <img src="../assets/2.png" />
       <router-link to="/ClientPage">العملاء</router-link>
     </div>
-
     <div class="dropdown">
       <div class="menu" data-bs-toggle="dropdown">
         <img src="../assets/2.png" />
@@ -92,11 +91,21 @@
         </button>
       </div>
       <div class="ul">
-        <ul class="dropdown-menu ll" aria-labelledby="dropdownMenuButton3">
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
           <li>
             <a class="dropdown-item" href="#"> المواعيد المعطلة</a>
+            <ul class="dropdown-submenu">
+              <li>
+                <a class="dropdown-item" href="#"> المواعيد المعطلة</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#">إنشاء حجز جديد</a>
+              </li>
+            </ul>
           </li>
-          <li><a class="dropdown-item" href="#">إنشاء حجز جديد</a></li>
+          <li>
+            <a class="dropdown-item" href="#">إنشاء حجز جديد</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -135,6 +144,23 @@ export default {
 };
 </script>
 <style scoped>
+.dropdown-menu li {
+  position: relative;
+}
+.dropdown-menu .dropdown-submenu.show {
+  display: contents;
+  /* position: absolute;
+  left: 100%;
+  top: -7px; */
+}
+.dropdown-menu .dropdown-submenu-left {
+  right: 100%;
+  left: auto;
+}
+.dropdown-menu > li:hover > .dropdown-submenu {
+  display: block;
+}
+
 .sidebar {
   padding: 2vh;
   direction: rtl;

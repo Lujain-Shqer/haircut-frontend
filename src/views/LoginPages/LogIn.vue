@@ -44,7 +44,7 @@
         >
       </div>
       <div class="col-xl-8 logo-img">
-        <img src="../../assets/two.png" />
+        <img src="../../assets/Login/branch.png" />
         <div class="loading">
           <span></span>
           <span></span>

@@ -1,7 +1,7 @@
 <template>
   <div class="taxReport">
     <div class="container">
-      <h3>تقرير الضريبة (مشتريات)</h3>
+      <h4>تقرير الضريبة (مشتريات)</h4>
       <p>
         غرض تسجيل وتوثيق المعاملات المتعلقة بالمشتريات التي تؤثر على الضرائب
       </p>
@@ -28,89 +28,15 @@
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
             <tr>
-              <th scope="col">المورد</th>
-              <th scope="col">القيمة المضافة</th>
-              <th scope="col">مبلغ الخصم (إن وجد)</th>
-              <th scope="col">المجموع</th>
-              <th scope="col">تاريخ الإنشاء</th>
-              <th scope="col" class="text-center">الإجراءات</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col" class="text-center"></th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <th scope="row">991</th>
-              <td>567</td>
-              <td class="td">678</td>
-              <td class="td">678</td>
-              <td class="td">9-12|8:30</td>
-              <td class="text-center">
-                <button class="btn show">
-                  <fa icon="book" /> عرض الفاتورة
-                </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">991</th>
-              <td>567</td>
-              <td class="td">678</td>
-              <td class="td">678</td>
-              <td class="td">9-12|8:30</td>
-              <td class="text-center">
-                <button class="btn show">
-                  <fa icon="book" /> عرض الفاتورة
-                </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">991</th>
-              <td>567</td>
-              <td class="td">678</td>
-              <td class="td">678</td>
-              <td class="td">9-12|8:30</td>
-              <td class="text-center">
-                <button class="btn show">
-                  <fa icon="book" /> عرض الفاتورة
-                </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">991</th>
-              <td>567</td>
-              <td class="td">678</td>
-              <td class="td">678</td>
-              <td class="td">9-12|8:30</td>
-              <td class="text-center">
-                <button class="btn show">
-                  <fa icon="book" /> عرض الفاتورة
-                </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">991</th>
-              <td class="td">678</td>
-              <td>567</td>
-              <td class="td">678</td>
-              <td class="td">9-12|8:30</td>
-              <td class="text-center">
-                <button class="btn show">
-                  <fa icon="book" /> عرض الفاتورة
-                </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <td>صفوف لكل الصفحة</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>1-10 من 100 عنصر</td>
-          </tfoot>
+          <tbody style="height: 10vh"></tbody>
         </table>
       </div>
     </div>
@@ -129,7 +55,7 @@ export default {
   direction: rtl;
   width: 80%;
 }
-.taxReport h3 {
+.taxReport h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
@@ -138,8 +64,8 @@ export default {
   font-weight: 400;
 }
 .taxReport .control-table {
-  margin-top: 8vh;
-  border: 1.5px solid #3f51b5;
+  margin-top: 5vh;
+  border: 1px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
@@ -153,17 +79,25 @@ export default {
 }
 .taxReport .input-container {
   border-radius: 8px;
-  width: 25%;
+  width: 30%;
   float: right;
   display: inline;
   color: #3f51b5;
   padding: 1vh;
   font-weight: 500;
 }
+.taxReport .input-container svg {
+  margin-left: 2vh;
+  background: #f7f7f7;
+  border-radius: 5px;
+  box-shadow: 0px 0px 4px -1px #14141412;
+  padding: 0 1vh;
+  box-shadow: 0px 0px 6px -1px #1414141f;
+}
 .taxReport label {
   display: inline;
   color: #3f51b5;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .taxReport select {
@@ -174,7 +108,8 @@ export default {
   border-radius: 8px;
   padding: 1vh;
   outline: none;
-  font-weight: 700;
+  font-weight: 600;
+  margin-left: 2vh;
 }
 .taxReport .extra-table button {
   background: #3f51b5;
@@ -184,45 +119,21 @@ export default {
 }
 .taxReport table {
   margin-bottom: 0;
-  border: 1.5px solid #3f51b5;
   border-collapse: collapse;
   border-spacing: 0;
+  text-align: center;
 }
 .taxReport table tr td,
 .taxReport table tr th {
   color: #1a2669;
 }
-.taxReport table .td {
-  font-weight: 700;
-}
-.taxReport table .delete {
-  background: #fff;
-  color: #3f51b5;
-  border: 1px solid #3f51b5;
-  margin-right: 2px;
-}
-.taxReport table .show {
-  background: #3f51b5;
-  color: #fff;
-  border: 1px solid #3f51b5;
-  margin-left: 2px;
-  margin-bottom: 1vh;
-}
-.taxReport table tfoot {
-  border-radius: 8px;
-  background: #3f51b5;
-  width: 100%;
-  color: #fff;
-}
-.taxReport table tfoot td:last-of-type {
-  text-align: end;
-  padding-left: 5vh;
-}
+
 .taxReport table thead tr th,
 .taxReport table tfoot tr th {
   background: #3f51b5;
   color: #e3e3e3;
   height: 5vh;
+  font-weight: 400;
 }
 
 @media (max-width: 991px) {

@@ -1,7 +1,7 @@
 <template>
   <div class="sallesBills">
     <div class="container">
-      <h3>فواتير المبيعات</h3>
+      <h4>فواتير المبيعات</h4>
       <p>
         تعتبر وثائق مالية تُستخدم لتوثيق عمليات البيع بصالون حلاقة خاص بك. تحتوي
         فاتورة المبيعات عادةً على معلومات مهمة تتعلق بالخدمات التي تم بيعها
@@ -36,7 +36,7 @@
           </thead>
           <tbody>
             <tr>
-              <th scope="row">1</th>
+              <td>INV273877</td>
               <td>567</td>
               <td>678</td>
               <td>088</td>
@@ -49,80 +49,8 @@
               <td>-</td>
               <td>-</td>
               <td>
-                <span>9-12|</span>
-                <span>10:30ص</span>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">1</th>
-              <td>567</td>
-              <td>678</td>
-              <td>088</td>
-              <td>1-10</td>
-              <td>0</td>
-              <td>-</td>
-              <td>34567</td>
-              <td>1-10</td>
-              <td>45</td>
-              <td>-</td>
-              <td>-</td>
-              <td>
-                <span>9-12|</span>
-                <span>10:30ص</span>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">1</th>
-              <td>567</td>
-              <td>678</td>
-              <td>088</td>
-              <td>1-10</td>
-              <td>0</td>
-              <td>-</td>
-              <td>34567</td>
-              <td>1-10</td>
-              <td>45</td>
-              <td>-</td>
-              <td>-</td>
-              <td>
-                <span>9-12|</span>
-                <span>10:30ص</span>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">1</th>
-              <td>567</td>
-              <td>678</td>
-              <td>088</td>
-              <td>1-10</td>
-              <td>0</td>
-              <td>-</td>
-              <td>34567</td>
-              <td>1-10</td>
-              <td>45</td>
-              <td>-</td>
-              <td>-</td>
-              <td>
-                <span>9-12|</span>
-                <span>10:30ص</span>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">1</th>
-              <td>567</td>
-              <td>678</td>
-              <td>088</td>
-              <td>1-10</td>
-              <td>0</td>
-              <td>-</td>
-              <td>34567</td>
-              <td>1-10</td>
-              <td>45</td>
-              <td>-</td>
-              <td>-</td>
-              <td>
-                <span>9-12|</span>
-                <span>10:30ص</span>
+                <p>9-12|</p>
+                <p>10:30ص</p>
               </td>
             </tr>
           </tbody>
@@ -139,7 +67,10 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>1-10 من 100 عنصر</td>
+            <td>
+              <fa icon="	fas fa-angle-right" />
+              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
+            </td>
           </tfoot>
         </table>
       </div>
@@ -159,7 +90,7 @@ export default {
   direction: rtl;
   width: 80%;
 }
-.sallesBills h3 {
+.sallesBills h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
@@ -168,8 +99,8 @@ export default {
   font-weight: 400;
 }
 .sallesBills .control-table {
-  margin-top: 8vh;
-  border: 1.5px solid #3f51b5;
+  margin-top: 5vh;
+  border: 1px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
@@ -216,46 +147,42 @@ export default {
 }
 .sallesBills table {
   margin-bottom: 0;
-  border: 1.5px solid #3f51b5;
   border-collapse: collapse;
   border-spacing: 0;
   width: 100%;
-  font-weight: 700;
+  text-align: center;
 }
 .sallesBills table tr td,
 .sallesBills table tr th {
   color: #1a2669;
 }
-.sallesBills table .td {
-  font-weight: 700;
+.sallesBills table tr td p {
+  margin: 0;
 }
-.sallesBills table .delete {
-  background: #fff;
-  color: #3f51b5;
-  border: 1px solid #3f51b5;
-  margin-right: 2px;
-}
-.sallesBills table .update {
+
+.sallesBills table thead tr th,
+.sallesBills table tfoot tr th {
   background: #3f51b5;
-  color: #fff;
-  border: 1px solid #3f51b5;
-  margin-left: 2px;
+  color: #e3e3e3;
+  height: 5vh;
+  font-weight: 400;
 }
 .sallesBills table tfoot {
   border-radius: 8px;
   background: #3f51b5;
   width: 100%;
   color: #fff;
+  font-weight: 300;
 }
 .sallesBills table tfoot td:last-of-type {
   text-align: end;
   padding-left: 5vh;
 }
-.sallesBills table thead tr th,
-.sallesBills table tfoot tr th {
-  background: #3f51b5;
-  color: #e3e3e3;
-  height: 5vh;
+tfoot svg {
+  background: transparent;
+  padding: 0 10px;
+  color: #fff;
+  cursor: pointer;
 }
 
 @media (max-width: 991px) {

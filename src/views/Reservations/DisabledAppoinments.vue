@@ -1,13 +1,13 @@
 <template>
   <div class="disabledAppoinments">
     <div class="container">
-      <h3>المواعيد المعطلة</h3>
+      <h4>المواعيد المعطلة</h4>
       <p>
         التي تشمل الخدمات والمنتجات التي تعزز تجربة العميل وتجعلها فاخرة ومريحة
       </p>
       <div class="update-info-client">
         <div class="input-container">
-          <h4>حجز المواعيد المعطلة</h4>
+          <h6>حجز المواعيد المعطلة</h6>
           <button class="btn">قائمة المواعيد المعطلة</button>
         </div>
         <form class="row">
@@ -49,7 +49,7 @@ export default {
   width: 80%;
 }
 
-.disabledAppoinments h3 {
+.disabledAppoinments h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
@@ -58,8 +58,8 @@ export default {
   font-weight: 400;
 }
 .disabledAppoinments .update-info-client {
-  margin-top: 8vh;
-  border: 1.5px solid #3f51b5;
+  margin-top: 5vh;
+  border: 1px solid #3f51b5;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
   padding: 5vh;
@@ -67,7 +67,7 @@ export default {
 .disabledAppoinments .input-container {
   display: flow-root;
 }
-.disabledAppoinments h4 {
+.disabledAppoinments h6 {
   color: #3f51b5;
   font-weight: 700px;
   margin-bottom: 3vh;
@@ -80,7 +80,6 @@ export default {
   display: block;
   margin-bottom: 2vh;
   margin-top: 2vh;
-  font-weight: 700;
   color: #1a2669;
 }
 .disabledAppoinments input,
@@ -91,6 +90,7 @@ export default {
   padding: 1vh;
   width: 50%;
   outline: none;
+  margin-bottom: 2vh;
 }
 .disabledAppoinments input::placeholder,
 .disabledAppoinments .form-select::placeholder {
@@ -109,10 +109,7 @@ export default {
   width: 25%;
   margin-top: 5vh;
 }
-/* .AddTaxable button:first-of-type {
-      margin: auto;
-      margin-bottom: 1vh;
-    } */
+
 @media (max-width: 991px) {
   .disabledAppoinments input,
   .disabledAppoinments .form-selec {

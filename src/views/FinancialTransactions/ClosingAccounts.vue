@@ -1,7 +1,7 @@
 <template>
   <div class="closingAccounts">
     <div class="container">
-      <h3>تقرير إقفال الحسابات</h3>
+      <h4>تقرير إقفال الحسابات</h4>
       <p>
         تقرير مالي يُعد عادة في نهاية الفترة المحاسبية (مثل السنة المالية أو
         الربع السنوي)، وهو يهدف إلى تلخيص حالة الحسابات المالية
@@ -12,70 +12,21 @@
             <fa icon="coins" />
             <span>تقرير إقفال الحسابات</span>
           </div>
-          <button class="btn">بحث بالتاريخ</button>
           <button class="btn">من الفترة -> إلى الفترة</button>
+          <button class="btn">بحث بالتاريخ</button>
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
             <tr>
-              <th scope="col">الاسم</th>
-              <th scope="col">إجمالي الفواتير</th>
-              <th scope="col">إجمالي الإيراد</th>
-              <th scope="col">العمولات</th>
-              <th scope="col">المدفوع</th>
-              <th scope="col">المتبقي</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>20-4-2019</td>
-              <td>INGDU</td>
-              <td>2000</td>
-              <td>67</td>
-              <td>2000</td>
-              <td>67</td>
-            </tr>
-            <tr>
-              <td>20-4-2019</td>
-              <td>INGDU</td>
-              <td>2000</td>
-              <td>67</td>
-              <td>2000</td>
-              <td>67</td>
-            </tr>
-            <tr>
-              <td>20-4-2019</td>
-              <td>INGDU</td>
-              <td>2000</td>
-              <td>2000</td>
-              <td>67</td>
-              <td>67</td>
-            </tr>
-            <tr>
-              <td>20-4-2019</td>
-              <td>INGDU</td>
-              <td>2000</td>
-              <td>67</td>
-              <td>2000</td>
-              <td>67</td>
-            </tr>
-            <tr>
-              <td>20-4-2019</td>
-              <td>INGDU</td>
-              <td>2000</td>
-              <td>67</td>
-              <td>2000</td>
-              <td>67</td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <td>صفوف لكل الصفحة</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>1-10 من 100 عنصر</td>
-          </tfoot>
+          <tbody style="height: 10vh"></tbody>
         </table>
       </div>
     </div>
@@ -94,7 +45,7 @@ export default {
   direction: rtl;
   width: 80%;
 }
-.closingAccounts h3 {
+.closingAccounts h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
@@ -128,20 +79,17 @@ export default {
   background: #3f51b5;
   color: #fff;
 }
-.closingAccounts .extra-table button:first-of-type,
 .closingAccounts .extra-table button:last-of-type {
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
-}
-.closingAccounts .extra-table button:last-of-type {
-  width: 25%;
-}
-.closingAccounts .extra-table button:first-of-type {
   width: 15%;
 }
+.closingAccounts .extra-table button:first-of-type {
+  width: 25%;
+}
 .closingAccounts .all-table {
-  margin-top: 8vh;
+  margin-top: 5vh;
   border: 1.5px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
@@ -150,11 +98,8 @@ export default {
 }
 .closingAccounts table {
   margin-bottom: 0;
-  border: 1.5px solid #3f51b5;
 }
-.closingAccounts table tfoot {
-  border-radius: 8px;
-}
+
 tbody,
 td,
 tfoot,
@@ -164,41 +109,17 @@ tr {
   border-bottom: 1px solid #d9d5ec;
 }
 
-.closingAccounts table thead tr th,
-.closingAccounts table tfoot tr th {
+.closingAccounts table thead tr th {
   background: #3f51b5;
   color: #e3e3e3;
   height: 5vh;
+  font-weight: 400;
 }
 .closingAccounts table tr td,
 .closingAccounts table tr th {
   color: #1a2669;
 }
-.closingAccounts table .td {
-  font-weight: 700;
-}
-.closingAccounts table tfoot {
-  border-radius: 8px;
-  background: #3f51b5;
-  width: 100%;
-  color: #fff;
-}
-.closingAccounts table tfoot td:last-of-type {
-  text-align: end;
-  padding-left: 5vh;
-}
-.closingAccounts table .delete {
-  background: #fff;
-  color: #3f51b5;
-  border: 1px solid #3f51b5;
-  margin-left: 2px;
-}
-.closingAccounts table .update {
-  background: #3f51b5;
-  color: #fff;
-  border: 1px solid #3f51b5;
-  margin-right: 2px;
-}
+
 @media (max-width: 991px) {
   .closingAccounts {
     width: 70%;

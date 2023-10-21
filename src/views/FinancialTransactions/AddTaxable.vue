@@ -1,13 +1,13 @@
 <template>
   <div class="AddTaxable">
     <div class="container">
-      <h3>المصاريف العمومية خاضعة للضرببة</h3>
+      <h4>المصاريف العمومية خاضعة للضرببة</h4>
       <p>
         يتم تضمينها في حساب الإيرادات الإجمالية للفرد أو الشركة لغرض حساب
         الضرائب عليها.
       </p>
       <div class="update-info-client">
-        <h5>فاتورة مصاريف عمومية خاضعة للضريبة</h5>
+        <h6>فاتورة مصاريف عمومية خاضعة للضريبة</h6>
         <form class="row">
           <div class="col-lg-12">
             <label>البند</label>
@@ -54,7 +54,7 @@ export default {
   direction: rtl;
   width: 80%;
 }
-.AddTaxable h3 {
+.AddTaxable h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
@@ -63,13 +63,13 @@ export default {
   font-weight: 400;
 }
 .AddTaxable .update-info-client {
-  margin-top: 8vh;
-  border: 1.5px solid #3f51b5;
+  margin-top: 5vh 0;
+  border: 1px solid #3f51b5;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
   padding: 5vh;
 }
-.AddTaxable h5 {
+.AddTaxable h6 {
   color: #3f51b5;
   font-weight: 700px;
   margin-bottom: 3vh;
@@ -78,7 +78,6 @@ export default {
   display: block;
   margin-bottom: 2vh;
   margin-top: 2vh;
-  font-weight: 700;
   color: #1a2669;
 }
 .AddTaxable input,

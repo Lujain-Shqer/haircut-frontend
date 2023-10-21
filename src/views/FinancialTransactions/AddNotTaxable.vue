@@ -1,13 +1,13 @@
 <template>
   <div class="AddNotTaxable">
     <div class="container">
-      <h3>المصاريف العمومية الغير خاضعة للضرببة</h3>
+      <h4>المصاريف العمومية الغير خاضعة للضرببة</h4>
       <p>
         المصاريف التي يمكن خصمها من الإيرادات الخاضعة للضرائب لغرض حساب الضرائب
         الصافية.
       </p>
       <div class="update-info-client">
-        <h5>فاتورة المصاريف العمومية الغير خاضعة للضرببة</h5>
+        <h6>فاتورة المصاريف العمومية الغير خاضعة للضرببة</h6>
         <form class="row">
           <div class="col-lg-12">
             <label>البند</label>
@@ -55,7 +55,7 @@ export default {
   direction: rtl;
   width: 80%;
 }
-.AddNotTaxable h3 {
+.AddNotTaxable h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
@@ -64,13 +64,13 @@ export default {
   font-weight: 400;
 }
 .AddNotTaxable .update-info-client {
-  margin-top: 8vh;
-  border: 1.5px solid #3f51b5;
+  margin-top: 5vh 0;
+  border: 1px solid #3f51b5;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
   padding: 5vh;
 }
-.AddNotTaxable h5 {
+.AddNotTaxable h6 {
   color: #3f51b5;
   font-weight: 700px;
   margin-bottom: 3vh;
@@ -79,7 +79,6 @@ export default {
   display: block;
   margin-bottom: 2vh;
   margin-top: 2vh;
-  font-weight: 700;
   color: #1a2669;
 }
 .AddNotTaxable input,
@@ -107,10 +106,7 @@ export default {
   width: 25%;
   margin-top: 5vh;
 }
-/* .AddTaxable button:first-of-type {
-    margin: auto;
-    margin-bottom: 1vh;
-  } */
+
 @media (max-width: 991px) {
   .AddNotTaxable input,
   .AddNotTaxable .form-selec {

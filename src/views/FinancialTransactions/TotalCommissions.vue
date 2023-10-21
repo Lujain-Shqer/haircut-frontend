@@ -1,7 +1,7 @@
 <template>
   <div class="totalCommissions">
     <div class="container">
-      <h3>إجمالي العمولات</h3>
+      <h4>إجمالي العمولات</h4>
       <p>
         تعتبر وثائق مالية تُستخدم لتوثيق عمليات البيع بصالون حلاقة خاص بك. تحتوي
         فاتورة المبيعات عادةً على معلومات مهمة تتعلق بالخدمات التي تم بيعها
@@ -10,7 +10,7 @@
       <div class="all-table" style="overflow-x: auto">
         <div class="row extra-table">
           <div class="input-container">
-            <fa icon="gift" />
+            <fa icon="coins" />
             <span>تقرير إجمالي العمولات</span>
           </div>
           <button class="btn">EXCEL</button>
@@ -37,38 +37,6 @@
               <td>2000</td>
               <td>67</td>
             </tr>
-            <tr>
-              <td>20-4-2019</td>
-              <td>INGDU</td>
-              <td>2000</td>
-              <td>67</td>
-              <td>2000</td>
-              <td>67</td>
-            </tr>
-            <tr>
-              <td>20-4-2019</td>
-              <td>INGDU</td>
-              <td>2000</td>
-              <td>2000</td>
-              <td>67</td>
-              <td>67</td>
-            </tr>
-            <tr>
-              <td>20-4-2019</td>
-              <td>INGDU</td>
-              <td>2000</td>
-              <td>67</td>
-              <td>2000</td>
-              <td>67</td>
-            </tr>
-            <tr>
-              <td>20-4-2019</td>
-              <td>INGDU</td>
-              <td>2000</td>
-              <td>67</td>
-              <td>2000</td>
-              <td>67</td>
-            </tr>
           </tbody>
           <tfoot>
             <td>صفوف لكل الصفحة</td>
@@ -76,7 +44,10 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>1-10 من 100 عنصر</td>
+            <td>
+              <fa icon="	fas fa-angle-right" />
+              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
+            </td>
           </tfoot>
         </table>
       </div>
@@ -96,7 +67,7 @@ export default {
   direction: rtl;
   width: 80%;
 }
-.totalCommissions h3 {
+.totalCommissions h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
@@ -121,7 +92,12 @@ export default {
   font-weight: 500;
 }
 .totalCommissions .input-container svg {
-  padding-left: 2vh;
+  margin-left: 2vh;
+  background: #f7f7f7;
+  border-radius: 5px;
+  box-shadow: 0px 0px 4px -1px #14141412;
+  padding: 0 1vh;
+  box-shadow: 0px 0px 6px -1px #1414141f;
 }
 
 .totalCommissions .extra-table button {
@@ -141,15 +117,15 @@ export default {
   width: 25%;
 }
 .totalCommissions .extra-table button:first-of-type {
-  width: 10%;
+  width: 12%;
 }
 .totalCommissions .all-table {
-  margin-top: 8vh;
-  border: 1.5px solid #3f51b5;
+  margin-top: 5vh;
+  border: 1px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
-  font-weight: 700;
+  text-align: center;
 }
 .totalCommissions table {
   margin-bottom: 0;
@@ -157,6 +133,7 @@ export default {
 }
 .totalCommissions table tfoot {
   border-radius: 8px;
+  font-weight: 300;
 }
 tbody,
 td,
@@ -172,13 +149,11 @@ tr {
   background: #3f51b5;
   color: #e3e3e3;
   height: 5vh;
+  font-weight: 400;
 }
 .totalCommissions table tr td,
 .totalCommissions table tr th {
   color: #1a2669;
-}
-.totalCommissions table .td {
-  font-weight: 700;
 }
 .totalCommissions table tfoot {
   border-radius: 8px;
@@ -190,18 +165,13 @@ tr {
   text-align: end;
   padding-left: 5vh;
 }
-.totalCommissions table .delete {
-  background: #fff;
-  color: #3f51b5;
-  border: 1px solid #3f51b5;
-  margin-left: 2px;
-}
-.totalCommissions table .update {
-  background: #3f51b5;
+tfoot svg {
+  background: transparent;
+  padding: 0 10px;
   color: #fff;
-  border: 1px solid #3f51b5;
-  margin-right: 2px;
+  cursor: pointer;
 }
+
 @media (max-width: 991px) {
   .totalCommissions {
     width: 70%;

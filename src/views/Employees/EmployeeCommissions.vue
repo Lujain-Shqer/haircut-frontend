@@ -265,10 +265,10 @@ tfoot svg {
   }
 }
 @media (max-width: 540px) {
-  .search{
+  .search {
     width: 100% !important;
   }
-  .employeeCommissions .extra-table button{
+  .employeeCommissions .extra-table button {
     width: 50%;
     margin-top: 2vh;
     float: none;
@@ -279,7 +279,7 @@ tfoot svg {
   .table {
     width: 230%;
   }
-  .employeeCommissions table .update{
+  .employeeCommissions table .update {
     margin-top: 1vh;
   }
 }

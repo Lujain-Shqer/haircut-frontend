@@ -1,18 +1,21 @@
 <template>
   <div class="newReservation3">
     <div class="container">
-      <h3>نقطة البيع</h3>
+      <h4>نقطة البيع</h4>
       <p>
         تهدف الي اصدار فاتورة خاص بالزبون , حيث يساعد في تبسيط عمليات البيع
         وتسريعها، ويسهل على البائع إصدار الفواتير وتسجيل المعاملات بشكل دقيق .
       </p>
-      <h3 class="first-step">الخطوة الثالثة:</h3>
+      <h6 class="first-step">الخطوة الثالثة:</h6>
       <span>اضغط على تاريخ الحجز لتكون بالفاتورة من حيث المواعيد . </span>
-
-      <h3 class="first-step">تفاصيل حجز الجديد</h3>
+      <div class="control_wrapper">
+        <ejs-calendar :isMultiSelection="isMultiSelection"></ejs-calendar>
+      </div>
+      <h6 class="first-step">تفاصيل حجز الجديد</h6>
       <div class="control-table" style="overflow-x: auto">
-        <div class="row extra-table">
-          <h5 class="text-center">صالون شعر ذقن للحلاقة</h5>
+        <div class="row extra-table text-center">
+          <img src="../../assets/salePoints/salon.png" />
+          <span class="">صالون شعر ذقن للحلاقة</span>
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
@@ -60,18 +63,44 @@
         </table>
       </div>
       <div class="button-container">
-        <button class="btn">رجوع</button>
-        <button class="btn">التالي</button>
+        <router-link to="/NewReservation2">
+          <button class="btn">رجوع</button>
+        </router-link>
+        <router-link to="/NewReservation4">
+          <button class="btn">التالي</button>
+        </router-link>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
+
 export default {
   name: "NewReservation3",
+  components: {
+    "ejs-calendar": CalendarComponent,
+  },
+  data() {
+    return {
+      isMultiSelection: true,
+    };
+  },
 };
 </script>
 <style scoped>
+.control_wrapper {
+  max-width: 250px;
+  margin: 2vh auto;
+  border-radius: 10px;
+}
+.e-calendar {
+  border-radius: 10px;
+}
+
+.e-calendar .e-content td.e-focused-date.e-today span.e-day {
+  color: #3f51b5 !important;
+}
 .row {
   margin: 0;
 }
@@ -79,7 +108,7 @@ export default {
   direction: rtl;
   width: 80%;
 }
-.newReservation3 h3 {
+.newReservation3 h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
@@ -87,17 +116,21 @@ export default {
   color: #1a2669;
   font-weight: 400;
 }
+.e-calendar .e-content span.e-day {
+  color: #757de8;
+}
 .newReservation3 .first-step {
   display: inline-block;
   margin-top: 5vh;
+  color: #3f51b5;
 }
 .newReservation3 span {
   color: #1a2669;
 }
 
 .newReservation3 .control-table {
-  margin-top: 8vh;
-  border: 1.5px solid #3f51b5;
+  margin-top: 5vh;
+  border: 1px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
@@ -110,15 +143,25 @@ export default {
   border-collapse: collapse;
   border-spacing: 0;
 }
-.newReservation3 .extra-table h5 {
+.newReservation3 .extra-table img {
+  margin-left: 2vh;
+  background: #fefefe;
+  padding: 4px;
+  border-radius: 9px;
+  box-shadow: 0px 0px 4px -1px #14141412;
+
+  box-shadow: 0px 0px 6px -1px #1414141f;
+  width: 5%;
+}
+.newReservation3 .extra-table span {
   color: #3f51b5;
 }
 
 .newReservation3 table {
   margin-bottom: 0;
-  border: 1.5px solid #3f51b5;
   border-collapse: collapse;
   border-spacing: 0;
+  text-align: center;
 }
 .newReservation3 table tr td,
 .newReservation3 table tr th {
@@ -132,6 +175,7 @@ export default {
   background: #3f51b5;
   color: #e3e3e3;
   height: 5vh;
+  font-weight: 400;
 }
 .newReservation3 .button-container {
   width: 100%;
@@ -154,5 +198,15 @@ export default {
   .newReservation3 {
     width: 100%;
   }
+}
+.e-calendar .e-header .e-title {
+  color: #757de8 !important;
+}
+@import "../../../node_modules/@syncfusion/ej2-base/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-buttons/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-vue-calendars/styles/material.css";
+.control_wrapper .e-calendar .e-header .e-title,
+.e-bigger.e-small .e-calendar .e-header .e-title {
+  color: #757de8 !important;
 }
 </style>

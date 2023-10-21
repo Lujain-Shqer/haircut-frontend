@@ -3,134 +3,147 @@
   <div class="ControlBoard">
     <!-- <SideBar /> -->
     <div class="container writeBar">
-      <h1 class="h1">أهلا و سهلا بك بعالمك !</h1>
+      <h3 class="">أهلا و سهلا بك بعالمك !</h3>
       <div class="coiner">
         <div class="row info-statistics">
           <div class="col-xl-3 col-lg-6 col-md-12">
-            <h5>إيرادات اليوم</h5>
-            <h4>3,456</h4>
-            <img src="../../assets/Group.png" />
-            <span>إيرادات الأسبوع</span>
+            <h6>
+              الإيرادات اليومي
+              <span class="state"> 8.3% <fa icon="arrow-up" /></span>
+            </h6>
+            <h5>3,456</h5>
+            <img src="../../assets/sign.png" />
+            <span>34.28 ريال متوسط الطلب</span>
           </div>
           <div class="col-xl-3 col-lg-6 col-md-12">
-            <h5>إيرادات الإسبوع</h5>
-            <h4>5,2</h4>
-            <img src="../../assets/Group.png" />
-            <span>700 زبون </span>
+            <h6>
+              إيرادات الإسبوع
+              <span class="state"> 8.3% <fa icon="arrow-up" /></span>
+            </h6>
+            <h5>5,2</h5>
+            <img src="../../assets/sign.png" />
+            <span>700 زبون</span>
           </div>
           <div class="col-xl-3 col-lg-6 col-md-12">
-            <h5>جلسات اليوم</h5>
-            <h4>20</h4>
+            <h6>
+              جلسات اليوم
+              <span class="state"> 8.3% <fa icon="arrow-up" /></span>
+            </h6>
+
+            <h5>20</h5>
 
             <span>زبون</span>
           </div>
           <div class="col-xl-3 col-lg-6 col-md-12">
-            <h5>موظف يوم (الأربعاء)</h5>
-            <h4>السيد صابر</h4>
-            <span>قيمة المبيعات: 700</span>
+            <h6>موظف يوم (الأربعاء)</h6>
+            <h5>السيد صابر</h5>
+            <span>بقيمة مبيعات :7000 SAR </span>
           </div>
         </div>
         <div class="row info-works">
-          <div class="col-xl-7 col-lg-12">
+          <div class="col-md-8">
             <div class="row info-work">
-              <h5>حالة فترة العمل</h5>
+              <h6>حالة فترة العمل</h6>
               <div class="col-lg-4 col-md-6 col-sm-12">
                 <fa icon="calendar" /><span>11-2-4034</span>
               </div>
               <div class="col-lg-3 col-md-6 col-sm-12">
                 <fa icon="clock" /><span>3:30Am</span>
               </div>
-              <div class="col-lg-2 col-md-6 col-sm-12"><fa icon="home" /></div>
+              <div class="col-lg-2 col-md-6 col-sm-12">
+                <fa icon="fa-store-alt" />
+              </div>
               <div class="col-lg-3 col-md-6 col-sm-12 open">
                 مفتوح <span></span>
               </div>
             </div>
           </div>
-          <div class="col-xl-4">
-            <img src="../../assets/one.png" />
+          <div class="col-md-4">
+            <img src="../../assets/dashBourd/one.png" />
           </div>
         </div>
-        <h1 class="h1 header">تقرير الإجمالي ( الأربعاء )</h1>
+        <h3 class="">تقرير الإجمالي ( الأربعاء )</h3>
         <div class="row info-sales">
-          <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+          <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
             <div class="card">
-              <fa icon="home" />
+              <img src="../../assets/dashBourd/5.png" />
               <span>المبيعات</span>
-              <h4>345</h4>
+              <h6>345</h6>
             </div>
           </div>
-          <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+          <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
             <div class="card">
-              <fa icon="home" />
+              <img src="../../assets/dashBourd/1.png" />
               <span>المبيعات(شبكة)</span>
-              <h4>345</h4>
+              <h6>345</h6>
             </div>
           </div>
-          <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+          <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
             <div class="card">
-              <fa icon="home" />
+              <img src="../../assets/dashBourd/2.png" />
               <span>المبيعات (الكاش)</span>
-              <h4>345</h4>
+              <h6>345</h6>
             </div>
           </div>
-          <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+          <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
             <div class="card">
-              <fa icon="home" />
+              <img src="../../assets/dashBourd/3.png" />
               <span>عدد فواتير المبيعات</span>
-              <h4>345</h4>
+              <h6>345</h6>
             </div>
           </div>
-          <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+          <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
             <div class="card">
-              <fa icon="home" />
+              <img src="../../assets/dashBourd/4.png" />
               <span>المشتريات</span>
-              <h4>345</h4>
+              <h6>345</h6>
             </div>
           </div>
-          <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+          <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
             <div class="card">
-              <fa icon="home" />
+              <img src="../../assets/dashBourd/9.png" />
               <span>المشتريات النثرية</span>
-              <h4>345</h4>
+              <h6>345</h6>
             </div>
           </div>
 
-          <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+          <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
             <div class="card">
-              <fa icon="home" />
+              <img src="../../assets/dashBourd/6.png" />
               <span>المصاريف العمومية</span>
-              <h4>345</h4>
+              <h6>345</h6>
             </div>
           </div>
-          <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+          <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
             <div class="card">
-              <fa icon="home" />
+              <img src="../../assets/dashBourd/4.png" />
               <span>العمولات</span>
-              <h4>345</h4>
+              <h6>345</h6>
             </div>
           </div>
-          <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+          <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
             <div class="card">
-              <fa icon="home" />
+              <img src="../../assets/dashBourd/7.png" />
               <span>المدفوع من العمولات</span>
-              <h4>345</h4>
+              <h6>345</h6>
             </div>
           </div>
-          <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+          <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
             <div class="card">
-              <fa icon="home" />
+              <img src="../../assets/dashBourd/8.png" />
               <span>المتبقي من العمولات</span>
-              <h4>345</h4>
+              <h6>345</h6>
             </div>
           </div>
         </div>
-        <h1 class="h1">مبيعات حسب الموظف ( الأربعاء )</h1>
+        <h3 class="">مبيعات حسب الموظف ( الأربعاء )</h3>
         <div class="row info-employ">
           <div class="col-lg-4 col-md-6 col-sm-12">
             <div class="card mb-3">
               <div class="row no-gutters">
-                <div class="col-xl-3 col-lg-12">
-                  <img src="../../assets/three.png" />
+                <div class="col-xl-3 col-lg-12 text-center person">
+                  <img src="../../assets/dashBourd/person.png" />
+                  <span>السيد صابر</span>
                 </div>
                 <div class="col-xl-9 col-lg-12">
                   <div class="card-body">
@@ -152,8 +165,9 @@
           <div class="col-lg-4 col-md-6 col-sm-12">
             <div class="card mb-3">
               <div class="row no-gutters">
-                <div class="col-xl-3 col-lg-12">
-                  <img src="../../assets/three.png" />
+                <div class="col-xl-3 col-lg-12 text-center person">
+                  <img src="../../assets/dashBourd/person.png" />
+                  <span>أشرف عبدالعزيز</span>
                 </div>
                 <div class="col-xl-9 col-lg-12">
                   <div class="card-body">
@@ -175,8 +189,9 @@
           <div class="col-lg-4 col-md-6 col-sm-12">
             <div class="card mb-3">
               <div class="row no-gutters">
-                <div class="col-xl-3 col-lg-12">
-                  <img src="../../assets/three.png" />
+                <div class="col-xl-3 col-lg-12 text-center person">
+                  <img src="../../assets/dashBourd/person.png" />
+                  <span>عبدالله علي </span>
                 </div>
                 <div class="col-xl-9 col-lg-12">
                   <div class="card-body">
@@ -224,11 +239,10 @@ export default {
 .container {
   direction: rtl;
 }
-h1 {
+h3 {
   color: #1a2669;
-  margin-top: 5vh !important;
   font-weight: 500;
-  margin-bottom: 10vh !important;
+  margin: 5vh 0;
 }
 .info-statistics {
   border: 2px solid #eceef6;
@@ -241,18 +255,27 @@ h1 {
 .info-statistics div {
   padding: 2vh;
 }
-.info-statistics div h5,
+.info-statistics div h6,
 .info-statistics div span {
   color: #757de8;
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: 3vh;
   display: block;
+}
+.info-statistics div .state {
+  color: #3f51b5;
+  background: #f4f6f6;
+  border-radius: 8px;
+  font-weight: 500;
+  display: inline;
+  margin-right: 1vh;
+  padding: 5px;
 }
 .info-statistics div span {
   font-weight: 400;
   margin-top: 2vh;
 }
-.info-statistics div h4 {
+.info-statistics div h5 {
   color: #3f51b5;
   font-weight: 700;
   display: inline;
@@ -282,12 +305,15 @@ h1 {
   box-shadow: 0px 0px 8px 0px #1d1d1b33;
   margin-top: 5vh;
 }
+.info-work div {
+  margin-bottom: 1vh;
+}
 .info-work svg {
   color: #1a2669;
   padding-left: 3vh;
 }
-.info-work h5 {
-  font-weight: 700;
+.info-work h6 {
+  font-weight: 600;
   margin-bottom: 2vh;
   color: #757de8;
 }
@@ -325,31 +351,31 @@ h1 {
   border-radius: 8px;
   border: 2px solid #f5f5f5;
 }
-.info-sales svg {
-  margin-bottom: 10vh;
+
+.info-sales img {
+  width: 20%;
+  background: #757de8;
+  padding: 1vh;
+  color: #fff;
   position: absolute;
   top: -20px;
-  left: 38%;
-  width: 25px;
-  height: 25px;
-  background: #757de8;
-  color: #ffffe9;
-  display: inline-block;
-  padding: 2vh;
-  border-radius: 7px;
+  left: 43%;
+  border-radius: 8px;
 }
-.info-sales h4 {
-  font-weight: 700;
+.info-sales h6 {
+  font-weight: 600;
   color: #3f51b5;
 }
 .info-sales span {
-  margin-top: 7vh;
-  font-weight: 700;
-  font-size: 3vmin;
+  margin-top: 3vh;
+  font-weight: 500;
   color: #1a2669;
 }
 .info-employ {
   justify-content: center;
+}
+.info-employ .person {
+  padding: 4vh 2vh;
 }
 .info-employ span:nth-child(even) {
   color: #757de8;
@@ -364,6 +390,13 @@ h1 {
 .info-employ h6 {
   text-align: end;
 }
+.info-employ img ~ span {
+  width: 100%;
+  display: block;
+  font-size: 2vmin;
+  font-weight: 600;
+  margin-top: 2vh;
+}
 @media (max-width: 1200px) {
   .info-statistics {
     margin: 15px !important;
@@ -377,9 +410,6 @@ h1 {
   .info-statistics div:first-child,
   .info-statistics div:nth-child(2) {
     border-bottom: 1px dashed #d9def1;
-  }
-  .info-works img {
-    display: none;
   }
 }
 @media (max-width: 991px) {
@@ -398,6 +428,9 @@ h1 {
   .container {
     width: 100%;
     float: none;
+  }
+  .info-works img {
+    display: none;
   }
 }
 </style>

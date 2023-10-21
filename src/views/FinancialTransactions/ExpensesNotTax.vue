@@ -1,7 +1,7 @@
 <template>
   <div class="expensesNotTax">
     <div class="container">
-      <h3>المصاريف العمومية الغير خاضعة للضرببة</h3>
+      <h4>المصاريف العمومية الغير خاضعة للضرببة</h4>
       <p>
         المصاريف التي يمكن خصمها من الإيرادات الخاضعة للضرائب لغرض حساب الضرائب
         الصافية.
@@ -12,7 +12,9 @@
             <fa icon="search" />
             <input class="input-field" type="text" placeholder="البحث عن..." />
           </div>
-          <button class="btn">إنشاء جديد</button>
+          <router-link to="/AddNotTaxable">
+            <button class="btn">إنشاء جديد</button>
+          </router-link>
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
@@ -26,46 +28,10 @@
           </thead>
           <tbody>
             <tr>
-              <th scope="row">991</th>
-              <td>567</td>
-              <td>678</td>
-              <td>9-12|8:30</td>
-              <td class="text-center">
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">991</th>
-              <td>567</td>
-              <td>678</td>
-              <td>9-12|8:30</td>
-              <td class="text-center">
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">991</th>
-              <td>567</td>
-              <td>678</td>
-              <td>9-12|8:30</td>
-              <td class="text-center">
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">991</th>
-              <td>567</td>
-              <td>678</td>
-              <td>9-12|8:30</td>
-              <td class="text-center">
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">991</th>
-              <td>567</td>
-              <td>678</td>
-              <td>9-12|8:30</td>
+              <td>Gosi</td>
+              <td>التأمينات الاجتماعية</td>
+              <td>120.00</td>
+              <td>09-12 | 03:09 ص</td>
               <td class="text-center">
                 <button class="btn delete"><fa icon="trash" /> حذف</button>
               </td>
@@ -96,7 +62,7 @@ export default {
   direction: rtl;
   width: 80%;
 }
-.expensesNotTax h3 {
+.expensesNotTax h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
@@ -105,8 +71,8 @@ export default {
   font-weight: 400;
 }
 .expensesNotTax .control-table {
-  margin-top: 8vh;
-  border: 1.5px solid #3f51b5;
+  margin-top: 5vh;
+  border: 1px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
@@ -147,46 +113,39 @@ export default {
 }
 .expensesNotTax table {
   margin-bottom: 0;
-  border: 1.5px solid #3f51b5;
   border-collapse: collapse;
   border-spacing: 0;
-  font-weight: 700;
+  text-align: center;
 }
 .expensesNotTax table tr td,
 .expensesNotTax table tr th {
   color: #1a2669;
 }
-.expensesNotTax table .td {
-  font-weight: 700;
-}
+
 .expensesNotTax table .delete {
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
   margin-right: 2px;
 }
-.expensesNotTax table .show {
-  background: #3f51b5;
-  color: #fff;
-  border: 1px solid #3f51b5;
-  margin-left: 2px;
-  margin-bottom: 1vh;
-}
-.expensesNotTax table tfoot {
-  border-radius: 8px;
-  background: #3f51b5;
-  width: 100%;
-  color: #fff;
-}
-.expensesNotTax table tfoot td:last-of-type {
-  text-align: end;
-  padding-left: 5vh;
-}
 .expensesNotTax table thead tr th,
 .expensesNotTax table tfoot tr th {
   background: #3f51b5;
   color: #e3e3e3;
   height: 5vh;
+  font-weight: 400;
+}
+
+.expensesNotTax table tfoot {
+  border-radius: 8px;
+  background: #3f51b5;
+  width: 100%;
+  color: #fff;
+  font-weight: 300;
+}
+.expensesNotTax table tfoot td:last-of-type {
+  text-align: end;
+  padding-left: 5vh;
 }
 
 @media (max-width: 991px) {
