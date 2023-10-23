@@ -34,6 +34,7 @@ export default {
 </script>
 
 <style scoped>
+
 .row {
   margin: 0;
 }

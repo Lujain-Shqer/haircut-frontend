@@ -88,19 +88,7 @@ export default {
   },
 };
 </script>
-<style scoped>
-.control_wrapper {
-  max-width: 250px;
-  margin: 2vh auto;
-  border-radius: 10px;
-}
-.e-calendar {
-  border-radius: 10px;
-}
-
-.e-calendar .e-content td.e-focused-date.e-today span.e-day {
-  color: #3f51b5 !important;
-}
+<style>
 .row {
   margin: 0;
 }
@@ -163,8 +151,8 @@ export default {
   border-spacing: 0;
   text-align: center;
 }
-.newReservation3 table tr td,
-.newReservation3 table tr th {
+.newReservation3 .control-table table tr td,
+.newReservation3 .control-table table tr th {
   color: #1a2669;
 }
 .newReservation3 table .td {
@@ -173,7 +161,7 @@ export default {
 .newReservation3 table thead tr th,
 .newReservation3 table tfoot tr th {
   background: #3f51b5;
-  color: #e3e3e3;
+  color: #e3e3e3 !important;
   height: 5vh;
   font-weight: 400;
 }
@@ -199,14 +187,97 @@ export default {
     width: 100%;
   }
 }
-.e-calendar .e-header .e-title {
-  color: #757de8 !important;
-}
+
 @import "../../../node_modules/@syncfusion/ej2-base/styles/material.css";
 @import "../../../node_modules/@syncfusion/ej2-buttons/styles/material.css";
 @import "../../../node_modules/@syncfusion/ej2-vue-calendars/styles/material.css";
+.control_wrapper {
+  width: 400px;
+  margin: 2vh auto;
+}
+.e-calendar {
+  width: 350px;
+  max-width: none;
+  box-shadow: 0px 0px 8px 0px #00000040;
+  padding: 0 1vh;
+  border-radius: 10px;
+}
 .control_wrapper .e-calendar .e-header .e-title,
 .e-bigger.e-small .e-calendar .e-header .e-title {
+  color: #757de8;
+  text-align: center;
+  width: 100%;
+  text-transform: uppercase;
+  margin-bottom: -10vh;
+}
+
+.e-calendar .e-header .e-date-icon-next::before {
+  content: "\27F5";
+  position: absolute;
+  left: 0;
+  top: 20vh;
+  font-size: 2.4vmin;
+}
+.e-calendar .e-header .e-date-icon-prev::before {
+  content: "\2192";
+  position: absolute;
+  right: 0;
+  top: 20vh;
+  font-size: 3vmin;
+}
+.e-calendar .e-header span,
+.e-bigger.e-small .e-calendar .e-header span {
+  font-size: 5vh;
+  font-weight: 900;
+  color: #1a2669;
+}
+.e-calendar table thead tr th {
+  background: transparent;
   color: #757de8 !important;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.e-calendar table tbody tr td {
+  color: #3f51b5;
+}
+.e-calendar .e-content td.e-focused-date.e-today span.e-day,
+.e-bigger.e-small .e-calendar .e-content td.e-focused-date.e-today span.e-day {
+  background: #3f51b5;
+  border: 1px solid #3f51b5;
+  box-shadow: none;
+  color: #fff;
+  border-radius: 10px;
+}
+.e-calendar .e-content td.e-selected span.e-day,
+.e-calendar .e-content td.e-today.e-selected span.e-day,
+.e-bigger.e-small .e-calendar .e-content td.e-today.e-selected span.e-day {
+  background: #3f51b5;
+  border: 1px solid #3f51b5;
+  border-radius: 10px;
+  color: #fff;
+}
+.e-btn.e-flat.e-primary,
+.e-css.e-btn.e-flat.e-primary {
+  display: none;
+}
+.e-calendar .e-header .e-icon-container,
+.e-bigger.e-small .e-calendar .e-header .e-icon-container {
+  /* display: none; */
+}
+.e-calendar .e-content table {
+  margin-top: -2vh;
+  padding: 0 5vh;
+}
+.e-calendar .e-content td.e-selected span.e-day:hover,
+.e-bigger.e-small .e-calendar .e-content td.e-selected:hover,
+.e-calendar .e-content td.e-today span.e-day,
+.e-calendar .e-content td.e-today span.e-day:hover {
+  background: #3f51b5;
+  border: 1px solid #3f51b5;
+  border-radius: 10px;
+  color: #fff;
+}
+.app ~ div {
+  display: none !important;
 }
 </style>

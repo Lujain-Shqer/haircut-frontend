@@ -1,12 +1,98 @@
 <template>
   <nav class="row NavBar">
     <div class="icons col-md-6">
-      <fa icon="message" />
-      <fa icon="bell" />
+      <div class="dropdown">
+        <div data-bs-toggle="dropdown">
+          <fa
+            class="btn dropdown-toggle"
+            type="button"
+            id="dropdownMenuButton2"
+            aria-expanded="false"
+            icon="cog"
+          />
+        </div>
+        <div class="ul">
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+            <label>الصالون</label>
+            <div class="row">
+              <div class="col-10">حالة الحجز</div>
+              <div class="col-2">
+                <fa icon="fa-toggle-on" />
+              </div>
+            </div>
+            <label>موظفو الحجز</label>
+            <div class="row">
+              <div class="col-10">
+                السيد صابر <span class="rever"> حجز معلق (2) </span>
+              </div>
+              <div class="col-2">
+                <fa icon="fa-toggle-on" />
+              </div>
+              <div class="col-10">محمد عصام</div>
+              <div class="col-2">
+                <fa icon="fa-toggle-on" />
+              </div>
+              <div class="col-10">أشرف عبدالعزيز</div>
+              <div class="col-2">
+                <fa icon="fa-toggle-on" />
+              </div>
+            </div>
+            <label>رابط الفرع</label>
+            <p>
+              app.srbapp.com/branch/salwn-shar-and-thkn-llhlak-hy-alfysly-jd
+            </p>
+            <button class="btn">نسخ الرابط</button>
+          </ul>
+        </div>
+      </div>
+      <div class="dropdown">
+        <div data-bs-toggle="dropdown">
+          <fa
+            class="btn dropdown-toggle"
+            type="button"
+            id="dropdownMenuButton2"
+            aria-expanded="false"
+            icon="bell"
+          />
+        </div>
+        <div class="ul ul-bell">
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+            <div class="note row">
+              <img class="col-1" src="../assets/Avatar.png" />
+              <span class="col-11"
+                >يلزم عليك مراجعة الحجوزات اليوم (الاربعاء)
+                <span>March 1, 2023</span></span
+              >
+            </div>
+            <div class="note row">
+              <img class="col-1" src="../assets/Avatar.png" />
+              <span class="col-11"
+                >يلزم عليك مراجعة الحجوزات اليوم (الاربعاء)
+                <span>March 1, 2023</span></span
+              >
+            </div>
+            <div class="note row">
+              <img class="col-1" src="../assets/Avatar.png" />
+              <span class="col-11"
+                >يلزم عليك مراجعة الحجوزات اليوم (الاربعاء)
+                <span>March 1, 2023</span></span
+              >
+            </div>
+            <div class="note row">
+              <img class="col-1" src="../assets/Avatar.png" />
+              <span class="col-11"
+                >يلزم عليك مراجعة الحجوزات اليوم (الاربعاء)
+                <span>March 1, 2023</span></span
+              >
+            </div>
+          </ul>
+        </div>
+      </div>
       <span>ENG</span>
       <fa icon="earth" />
     </div>
-    <nav class="navbar navbar-expand-lg col-md-12">
+
+    <!-- <nav class="navbar navbar-expand-lg col-md-12">
       <div class="container-fluid">
         <button
           class="navbar-toggler"
@@ -168,7 +254,7 @@
           </ul>
         </div>
       </div>
-    </nav>
+    </nav> -->
     <div class="brand col-lg-4">
       <span>صالون ذقن &amp; شعر</span>
       <img src="../assets/logoo.png" />
@@ -194,6 +280,7 @@ export default {
 }
 .icons {
   padding: 1vh;
+  color: #1a2669;
 }
 .navbar {
   padding: 0;
@@ -204,28 +291,99 @@ nav .brand {
   text-align: end;
   font-weight: 400;
 }
+nav svg ~ ul {
+  margin-right: 2vh;
+  padding: 1vh;
+  border: none;
+  color: #1a2669;
+}
 nav svg {
   color: #1a2669;
-  padding-right: 4vh;
+}
+nav svg:hover {
+  box-shadow: 0px 4px 6px -1px #1414141f;
+  background: #f7f7f7;
 }
 nav span {
-  font-weight: 400;
+  font-weight: 600;
   padding: 1vh;
   color: #1a2669;
+}
+nav .dropdown ul:first-of-type{
+  position: relative;
+  margin-top: 5vh !important;
+  background: #ebedf7;
+  border: 1px solid #ebedf7;
+  border-radius: 3px;
+  width: 260px;
+  direction: rtl;
+  margin-bottom: 0 !important;
+  padding: 1vh;
+}
+nav .dropdown  .ul-bell ul{
+  padding: 0;
+}
+nav .dropdown ul div :nth-of-type(odd) {
+  text-align: right;
+}
+
+nav .dropdown ul label {
+  color: #1a2669;
+  font-weight: 500;
+  text-align: end;
+  text-align: start;
+  display: block;
+  margin: 1vh 0;
+}
+nav .dropdown ul div.row {
+  margin: 2vh 0 0;
+}
+nav .dropdown ul svg {
+  color: #1a2669;
+  font-size: 3vmin;
+}
+nav .dropdown ul span.rever {
+  font-size: 1.9vmin;
+  color: #ea0606;
+  font-weight: 500;
+  border: 0;
+}
+nav .dropdown ul p {
+  color: #000000;
+}
+nav .dropdown ul button {
+  background: #3f51b5;
+  color: #fff;
+  float: right;
+}
+
+nav .dropdown ul img {
+  width: 20%;
+  height: 20%;
+}
+nav .dropdown ul img ~ span {
+  width: 80%;
+  font-size: 1.4vmin;
+}
+nav .dropdown ul .note {
+  border-bottom: 1px solid #dddddd;
 }
 nav .brand img {
   width: 25%;
 }
-nav span:first-child {
+nav .brand span:first-child {
   border-right: 2px solid #1a2669;
 }
-.navbar-toggler {
+.dropdown {
+  display: inline-block;
+}
+/* .navbar-toggler {
   margin-bottom: 2vh;
   outline: none !important;
 }
 ul {
   padding: 0;
-}
+} */
 /* li.active {
   background: #757de84f;
   border-radius: 7px 0px 0px 7px;
@@ -233,10 +391,10 @@ ul {
   color: #3f51b5;
   border-right: 3px solid #3f51b5;
 } */
-.navbar-toggler:focus {
+/* .navbar-toggler:focus {
   outline: none;
   border: 1px solid transparent;
-}
+} */
 @media (max-width: 2000px) {
   .navbar {
     display: none;

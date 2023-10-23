@@ -25,6 +25,7 @@
     "vue-awesome-sidebar": "^1.2.3",
     "vue-class-component": "^8.0.0-rc.1",
     "vue-router": "^4.0.3",
+    "vue-sidebar-menu": "^5.2.11",
     "vuex": "^4.0.0"
   },
   "devDependencies": {

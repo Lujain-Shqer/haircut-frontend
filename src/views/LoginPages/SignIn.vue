@@ -66,6 +66,9 @@ export default {
 </script>
 
 <style scoped>
+.sidebar{
+  display: none !important;
+}
 .row {
   margin: 0;
   height: 100vh;
@@ -102,6 +105,7 @@ export default {
   border-radius: 8px;
   padding: 1vh;
   border: 0;
+  outline: none;
 }
 .sigin .input-icon {
   display: inline-block;
