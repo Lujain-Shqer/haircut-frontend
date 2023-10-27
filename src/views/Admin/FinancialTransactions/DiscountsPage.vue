@@ -1,9 +1,11 @@
 <template>
-  <div class="sundryPurchases">
+  <div class="discountsPage">
     <div class="container">
-      <h4>المشتريات النثرية</h4>
+      <h4>الخصومات</h4>
       <p>
-        التي تشمل الخدمات والمنتجات التي تعزز تجربة العميل وتجعلها فاخرة ومريحة
+        الخصومات تشير إلى تخفيضات أو تنزيلات يتم منحها للعملاء عند شراء منتجات
+        أو خدمات من الصالون. هذه الخصومات يمكن أن تكون لها طابع متنوع وتطبق
+        لأسباب مختلفة.
       </p>
       <div class="control-table" style="overflow-x: auto">
         <div class="row extra-table">
@@ -11,26 +13,24 @@
             <fa icon="search" />
             <input class="input-field" type="text" placeholder="البحث عن..." />
           </div>
-          <button class="btn">إنشاء فاتورة</button>
+          <button class="btn">إنشاء جديد</button>
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
             <tr>
-              <th scope="col">المورد</th>
-              <th scope="col">القيمة المضافة</th>
-              <th scope="col">مبلغ الخصم (إن وجد)</th>
-              <th scope="col">المجموع</th>
-              <th scope="col">تاريخ الإنشاء</th>
+              <th scope="col">التاريخ الحركة</th>
+              <th scope="col">الموظف</th>
+              <th scope="col">مبلغ الخصم</th>
+              <th scope="col">السبب</th>
               <th scope="col" class="text-center">الإجراءات</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>60813</td>
-              <td>25.15</td>
-              <td>4.00</td>
-              <td>10.00</td>
-              <td>09-12 | 03:09 ص</td>
+              <td>2023-09-07</td>
+              <td>أشرف عبدالعزيز</td>
+              <td>1807.60</td>
+              <td>مخالة</td>
               <td class="text-center">
                 <button class="btn show">
                   <fa icon="fa-file-pdf" /> عرض الفاتورة
@@ -41,7 +41,6 @@
           </tbody>
           <tfoot>
             <td>صفوف لكل الصفحة</td>
-            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -57,40 +56,40 @@
 </template>
 <script>
 export default {
-  name: "SundryPurchases",
+  name: "DiscountsPage",
 };
 </script>
 <style scoped>
 .row {
   margin: 0;
 }
-.sundryPurchases {
+.discountsPage {
   direction: rtl;
   width: 80%;
 }
-.sundryPurchases h4 {
+.discountsPage h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
-.sundryPurchases p {
+.discountsPage p {
   color: #1a2669;
   font-weight: 400;
 }
-.sundryPurchases .control-table {
+.discountsPage .control-table {
   margin-top: 5vh;
   border: 1px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
 }
-.sundryPurchases .extra-table {
+.discountsPage .extra-table {
   margin: 0 4vh;
   margin-bottom: 3vh;
   display: flow-root;
   border-collapse: collapse;
   border-spacing: 0;
 }
-.sundryPurchases .input-container {
+.discountsPage .input-container {
   border: 1px solid #c8c9cc;
   box-shadow: 0px 0px 4px 0px #6e49cb33;
   border-radius: 8px;
@@ -101,61 +100,61 @@ export default {
   color: #3f51b5;
   padding: 1vh;
 }
-.sundryPurchases input {
+.discountsPage input {
   border: 0;
   outline: none;
 }
-.sundryPurchases input::placeholder {
+.discountsPage input::placeholder {
   color: #3f51b5;
 }
-.sundryPurchases .input-container svg {
+.discountsPage .input-container svg {
   padding-left: 0.2vh;
 }
 
-.sundryPurchases .extra-table button {
+.discountsPage .extra-table button {
   width: 20%;
   float: left;
   background: #3f51b5;
   color: #fff;
 }
-.sundryPurchases table {
+.discountsPage table {
   margin-bottom: 0;
   border-collapse: collapse;
   border-spacing: 0;
   text-align: center;
 }
-.sundryPurchases table tr td,
-.sundryPurchases table tr th {
+.discountsPage table tr td,
+.discountsPage table tr th {
   color: #1a2669;
 }
-.sundryPurchases table .delete {
+.discountsPage table .delete {
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
   margin-right: 5px;
 }
-.sundryPurchases table .show {
+.discountsPage table .show {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
   margin-left: 5px;
   margin-bottom: 1vh;
 }
-.sundryPurchases table thead tr th,
-.sundryPurchases table tfoot tr th {
+.discountsPage table thead tr th,
+.discountsPage table tfoot tr th {
   background: #3f51b5;
   color: #e3e3e3;
   height: 5vh;
   font-weight: 400;
 }
-.sundryPurchases table tfoot {
+.discountsPage table tfoot {
   border-radius: 8px;
   background: #3f51b5;
   width: 100%;
   color: #fff;
   font-weight: 300;
 }
-.sundryPurchases table tfoot td:last-of-type {
+.discountsPage table tfoot td:last-of-type {
   text-align: end;
   padding-left: 5vh;
 }
@@ -167,7 +166,7 @@ tfoot svg {
 }
 
 @media (max-width: 991px) {
-  .sundryPurchases {
+  .discountsPage {
     width: 70%;
   }
   .extra-table {
@@ -178,7 +177,7 @@ tfoot svg {
   }
 }
 @media (max-width: 765px) {
-  .sundryPurchases {
+  .discountsPage {
     width: 100%;
   }
   .extra-table {

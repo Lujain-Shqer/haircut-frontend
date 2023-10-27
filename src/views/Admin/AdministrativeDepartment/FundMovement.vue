@@ -1,7 +1,7 @@
 <template>
   <div class="fundMovement">
     <div class="container">
-      <h3>حركة رصيد صندوق الفرع</h3>
+      <h4>حركة رصيد صندوق الفرع</h4>
       <p>
         تعتبر وثائق مالية تُستخدم لتوثيق عمليات البيع بصالون حلاقة خاص بك. تحتوي
         فاتورة المبيعات عادةً على معلومات مهمة تتعلق بالخدمات التي تم بيعها
@@ -49,91 +49,15 @@
                 <h6>11:35ص</h6>
                 <h6>2023-09-05</h6>
               </td>
-              <th scope="row">456</th>
+              <td>456</td>
               <td>561</td>
               <td>6</td>
               <td>97</td>
-              <th scope="row">456</th>
+              <td>456</td>
               <td>561</td>
               <td>6</td>
               <td>97</td>
-              <th scope="row">456</th>
-              <td>561</td>
-              <td>6</td>
-              <td>97</td>
-              <td>97</td>
-            </tr>
-            <tr>
-              <td>
-                <h6>11:35ص</h6>
-                <h6>2023-09-05</h6>
-              </td>
-              <th scope="row">456</th>
-              <td>561</td>
-              <td>6</td>
-              <td>97</td>
-              <th scope="row">456</th>
-              <td>561</td>
-              <td>6</td>
-              <td>97</td>
-              <th scope="row">456</th>
-              <td>561</td>
-              <td>6</td>
-              <td>97</td>
-              <td>97</td>
-            </tr>
-            <tr>
-              <td>
-                <h6>11:35ص</h6>
-                <h6>2023-09-05</h6>
-              </td>
-              <th scope="row">456</th>
-              <td>561</td>
-              <td>6</td>
-              <td>97</td>
-              <th scope="row">456</th>
-              <td>561</td>
-              <td>6</td>
-              <td>97</td>
-              <th scope="row">456</th>
-              <td>561</td>
-              <td>6</td>
-              <td>97</td>
-              <td>97</td>
-            </tr>
-            <tr>
-              <td>
-                <h6>11:35ص</h6>
-                <h6>2023-09-05</h6>
-              </td>
-              <th scope="row">456</th>
-              <td>561</td>
-              <td>6</td>
-              <td>97</td>
-              <th scope="row">456</th>
-              <td>561</td>
-              <td>6</td>
-              <td>97</td>
-              <th scope="row">456</th>
-              <td>561</td>
-              <td>6</td>
-              <td>97</td>
-              <td>97</td>
-            </tr>
-            <tr>
-              <td>
-                <h6>11:35ص</h6>
-                <h6>2023-09-05</h6>
-              </td>
-              <th scope="row">456</th>
-              <td>561</td>
-              <td>6</td>
-              <td>97</td>
-              <th scope="row">456</th>
-              <td>561</td>
-              <td>6</td>
-              <td>97</td>
-              <th scope="row">456</th>
+              <td>456</td>
               <td>561</td>
               <td>6</td>
               <td>97</td>
@@ -154,7 +78,10 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>1-10 من 100 عنصر</td>
+            <td>
+              <fa icon="	fas fa-angle-right" />
+              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
+            </td>
           </tfoot>
         </table>
       </div>
@@ -212,7 +139,7 @@ export default {
   direction: rtl;
   width: 80%;
 }
-.fundMovement h3 {
+.fundMovement h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
@@ -275,8 +202,8 @@ export default {
   margin-right: 5px;
 }
 .fundMovement .all-table {
-  margin-top: 8vh;
-  border: 1.5px solid #3f51b5;
+  margin-top: 5vh;
+  border: 1px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
@@ -286,6 +213,7 @@ export default {
   margin-bottom: 0;
   border: 1.5px solid #3f51b5;
   width: 115%;
+  text-align: center;
 }
 .fundMovement table tfoot {
   border-radius: 8px;
@@ -298,18 +226,17 @@ thead,
 tr {
   border-bottom: 1px solid #d9d5ec;
 }
-tbody tr th {
-  font-weight: 400;
-}
+
 .fundMovement table thead tr th,
 .fundMovement table tfoot tr th {
   background: #3f51b5;
   color: #e3e3e3;
-  height: 5vh;
+  font-weight: 400;
 }
 .fundMovement table tr td,
 .fundMovement table tr th {
   color: #1a2669;
+  font-weight: 400;
 }
 
 .fundMovement table tfoot {
@@ -317,22 +244,33 @@ tbody tr th {
   background: #3f51b5;
   width: 100%;
   color: #fff;
+  font-weight: 300;
 }
+tfoot svg {
+  background: transparent;
+  padding: 0 10px;
+  color: #fff;
+  cursor: pointer;
+}
+
 .fundMovement table tfoot td:last-of-type {
   text-align: end;
   padding-left: 5vh;
 }
 .fundMovement .feed-the-box {
   margin-top: 8vh;
-  border: 1.5px solid #3f51b5;
+  border: 1px solid #3f51b5;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
   padding: 5vh;
 }
+.fundMovement .feed-the-box svg {
+  color: #1a2669;
+}
 .fundMovement .feed-the-box h6 {
   color: #3f51b5;
   font-weight: 700px;
-  margin-bottom: 3vh;
+  margin-bottom: 1vh;
   display: inline-block;
   margin-right: 10px;
 }
@@ -342,16 +280,15 @@ tbody tr th {
 .fundMovement .feed-the-box label {
   display: block;
   margin-bottom: 2vh;
-  margin-top: 2vh;
-  font-weight: 700;
   color: #1a2669;
 }
 .fundMovement .feed-the-box input {
-  border: 1px solid #3f51b5;
+  border: 1px solid #c8c9cc;
   color: #1a2669;
   border-radius: 8px;
   padding: 1vh;
   width: 70%;
+  outline: none;
 }
 .fundMovement .feed-the-box input::placeholder {
   color: #c8c9cc;

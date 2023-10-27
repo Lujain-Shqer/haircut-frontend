@@ -22,12 +22,20 @@
           </div>
           <label>كلمة المرور</label>
           <div class="input-container">
-            <input class="input-field" type="text" placeholder="xxxxxxxxxx" />
+            <input
+              class="input-field"
+              type="password"
+              placeholder="xxxxxxxxxx"
+            />
             <span class="input-icon"> <fa icon="lock" /> </span>
           </div>
           <label>تأكيد كلمة المرور</label>
           <div class="input-container">
-            <input class="input-field" type="text" placeholder="xxxxxxxxxx" />
+            <input
+              class="input-field"
+              type="password"
+              placeholder="xxxxxxxxxx"
+            />
             <span class="input-icon"><fa icon="lock" /></span>
           </div>
 
@@ -66,7 +74,7 @@ export default {
 </script>
 
 <style scoped>
-.sidebar{
+.sidebar {
   display: none !important;
 }
 .row {

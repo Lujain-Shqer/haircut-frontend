@@ -309,7 +309,7 @@ nav span {
   padding: 1vh;
   color: #1a2669;
 }
-nav .dropdown ul:first-of-type{
+nav .dropdown ul:first-of-type {
   position: relative;
   margin-top: 5vh !important;
   background: #ebedf7;
@@ -320,7 +320,7 @@ nav .dropdown ul:first-of-type{
   margin-bottom: 0 !important;
   padding: 1vh;
 }
-nav .dropdown  .ul-bell ul{
+nav .dropdown .ul-bell ul {
   padding: 0;
 }
 nav .dropdown ul div :nth-of-type(odd) {

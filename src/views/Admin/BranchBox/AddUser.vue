@@ -1,0 +1,125 @@
+<template>
+  <div class="addUser">
+    <div class="container">
+      <h4>المستخدمين</h4>
+      <p>الأشخاص يكون ضمن عملاء الخاص في صالون الحلاقة</p>
+      <div class="update-info-client">
+        <h6>مستخدم جديد</h6>
+        <form class="row">
+          <div class="col-md-6 col-sm-12">
+            <label>الاسم الأول</label>
+            <input type="text" placeholder=" الاسم الأول " />
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <label>الاسم الأخير </label>
+            <input type="text" placeholder=" الاسم الأخير  " />
+          </div>
+          <div class="col-md-12">
+            <label>البريد الإلكتروني </label>
+            <input type="text" placeholder=" البريد الإلكتروني  " />
+          </div>
+          <div class="col-md-12">
+            <label> اسم المستخدم </label>
+            <input type="text" placeholder=" اسم المستخدم " />
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <label>كلمة المرور </label>
+            <input type="password" placeholder=" كلمة المرور  " />
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <label> تأكيد كلمة المرور </label>
+            <input type="password" placeholder=" تأكيد كلمة المرور  " />
+          </div>
+          <button class="btn">إضافة مستخدم جديد</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  name: "AddUser",
+};
+</script>
+<style scoped>
+.row {
+  margin: 0;
+}
+.addUser {
+  direction: rtl;
+  width: 80%;
+}
+.addUser h4 {
+  color: #3f51b5;
+  font-weight: 700px;
+}
+.addUser p {
+  color: #1a2669;
+  font-weight: 400;
+}
+.addUser .update-info-client {
+  margin-top: 5vh;
+  border: 1.5px solid #3f51b5;
+  box-shadow: 0px 0px 15px 0px #00000040;
+  border-radius: 8px;
+  padding: 5vh;
+}
+.addUser h6 {
+  color: #3f51b5;
+  font-weight: 700px;
+  margin-bottom: 3vh;
+}
+.addUser label {
+  display: block;
+  margin-bottom: 2vh;
+  margin-top: 2vh;
+  font-weight: 400;
+}
+.addUser input {
+  color: #1a2669;
+  border-radius: 8px;
+  padding: 1vh;
+  width: 70%;
+  outline: none;
+  margin-bottom: 3vh;
+  border: 1px solid #c8c9cc;
+}
+.col-md-12 input {
+  width: 35%;
+}
+.addUser input:focus {
+  border: 1px solid #1a2669;
+}
+.addUser form span {
+  font-weight: 600;
+  color: #1a2669;
+}
+
+.addUser button {
+  background: #3f51b5;
+  color: #fff;
+  border: 1px solid #3f51b5;
+  width: 25%;
+  margin: auto;
+  margin-top: 5vh;
+}
+
+@media (max-width: 991px) {
+  .addUser input {
+    width: 100%;
+  }
+  .addUser button {
+    width: 95%;
+    margin-right: 2vh;
+    margin-top: 2vh;
+  }
+  .addUser {
+    width: 70%;
+  }
+}
+@media (max-width: 765px) {
+  .addUser {
+    width: 100%;
+  }
+}
+</style>

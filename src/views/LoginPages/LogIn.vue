@@ -19,7 +19,7 @@
           <div class="input-container">
             <input
               class="input-field"
-              type="text"
+              type="password"
               placeholder="***************"
             />
             <span class="input-icon"> <fa icon="lock" /> </span>
@@ -62,7 +62,7 @@ export default {
 </script>
 
 <style scoped>
-.sidebar{
+.sidebar {
   display: none !important;
 }
 .row {

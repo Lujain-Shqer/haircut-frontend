@@ -125,6 +125,7 @@ export default {
 }
 .sallesBills input {
   border: 0;
+  outline: none;
 }
 .sallesBills input::placeholder {
   color: #3f51b5;

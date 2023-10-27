@@ -1,7 +1,7 @@
 <template>
-  <div class="cashierWithdraw">
+  <div class="cashierFeed">
     <div class="container">
-      <h3>سجل سحوبات الكاشير</h3>
+      <h4>سجل تغذية الكاشير</h4>
       <p>
         تعتبر وثائق مالية تُستخدم لتوثيق عمليات البيع بصالون حلاقة خاص بك. تحتوي
         فاتورة المبيعات عادةً على معلومات مهمة تتعلق بالخدمات التي تم بيعها
@@ -41,54 +41,14 @@
                 <h6>11:35ص</h6>
                 <h6>2023-09-05</h6>
               </td>
-              <th>456</th>
+              <td>456</td>
               <td>561</td>
               <td>6</td>
               <td>97</td>
               <td class="text-center">
-                <button class="btn show"><fa icon="book" /> طباعة</button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <h6>11:35ص</h6>
-                <h6>2023-09-05</h6>
-              </td>
-              <th>456</th>
-              <td>561</td>
-              <td>6</td>
-              <td>97</td>
-              <td class="text-center">
-                <button class="btn show"><fa icon="book" /> طباعة</button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <h6>11:35ص</h6>
-                <h6>2023-09-05</h6>
-              </td>
-              <th>456</th>
-              <td>561</td>
-              <td>6</td>
-              <td>97</td>
-              <td class="text-center">
-                <button class="btn show"><fa icon="book" /> طباعة</button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <h6>11:35ص</h6>
-                <h6>2023-09-05</h6>
-              </td>
-              <th>456</th>
-              <td>561</td>
-              <td>6</td>
-              <td>97</td>
-              <td class="text-center">
-                <button class="btn show"><fa icon="book" /> طباعة</button>
+                <button class="btn show">
+                  <fa icon="fa-file-pdf" /> طباعة
+                </button>
                 <button class="btn delete"><fa icon="trash" /> حذف</button>
               </td>
             </tr>
@@ -100,7 +60,10 @@
 
             <td></td>
             <td></td>
-            <td>1-10 من 100 عنصر</td>
+            <td>
+              <fa icon="	fas fa-angle-right" />
+              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
+            </td>
           </tfoot>
         </table>
       </div>
@@ -109,50 +72,50 @@
 </template>
 <script>
 export default {
-  name: "CashierWithdrawals",
+  name: "CashierFeed",
 };
 </script>
 <style scoped>
 .row {
   margin: 0;
 }
-.cashierWithdraw {
+.cashierFeed {
   direction: rtl;
   width: 80%;
 }
-.cashierWithdraw h3 {
+.cashierFeed h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
-.cashierWithdraw p {
+.cashierFeed p {
   color: #1a2669;
   font-weight: 400;
   padding: 2vh;
 }
-.cashierWithdraw .extra-table {
+.cashierFeed .extra-table {
   margin: 0 4vh;
   margin-bottom: 3vh;
   display: flow-root;
 }
-.cashierWithdraw .search {
+.cashierFeed .search {
   width: 65%;
   float: right;
 }
-.cashierWithdraw .search span {
+.cashierFeed .search span {
   padding-left: 2vh;
   color: #3f51b5;
 }
-.cashierWithdraw .search svg {
+.cashierFeed .search svg {
   color: #3f51b5;
   padding-left: 0.7vh;
 }
-.cashierWithdraw .search span:first-of-type {
+.cashierFeed .search span:first-of-type {
   font-weight: 500;
 }
-.cashierWithdraw .search span:last-of-type {
+.cashierFeed .search span:last-of-type {
   font-weight: 400;
 }
-.cashierWithdraw .input-container {
+.cashierFeed .input-container {
   border: 1px solid #c8c9cc;
   box-shadow: 0px 0px 4px 0px #6e49cb33;
   border-radius: 8px;
@@ -161,39 +124,40 @@ export default {
   color: #3f51b5;
   padding: 1vh;
 }
-.cashierWithdraw input {
+.cashierFeed input {
   border: 0;
+  outline: none;
 }
-.cashierWithdraw input::placeholder {
+.cashierFeed input::placeholder {
   color: #757575;
   text-align: start;
 }
-.cashierWithdraw .extra-table button:first-of-type {
+.cashierFeed .extra-table button:first-of-type {
   width: 20%;
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
 }
-.cashierWithdraw .extra-table button:last-of-type {
+.cashierFeed .extra-table button:last-of-type {
   width: 10%;
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
   margin-right: 5px;
 }
-.cashierWithdraw .all-table {
-  margin-top: 8vh;
-  border: 1.5px solid #3f51b5;
+.cashierFeed .all-table {
+  margin-top: 5vh;
+  border: 1px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
   font-weight: 700;
 }
-.cashierWithdraw table {
+.cashierFeed table {
   margin-bottom: 0;
-  border: 1.5px solid #3f51b5;
+  border: 1px solid #3f51b5;
 }
-.cashierWithdraw table tfoot {
+.cashierFeed table tfoot {
   border-radius: 8px;
 }
 tbody,
@@ -204,41 +168,46 @@ thead,
 tr {
   border-bottom: 1px solid #d9d5ec;
 }
-tbody tr th {
-  font-weight: 400;
-}
-.cashierWithdraw table thead tr th,
-.cashierWithdraw table tfoot tr th {
+.cashierFeed table thead tr th,
+.cashierFeed table tfoot tr th {
   background: #3f51b5;
   color: #e3e3e3;
   height: 5vh;
 }
-.cashierWithdraw table tr td,
-.cashierWithdraw table tr th {
+.cashierFeed table tr td,
+.cashierFeed table tr th {
   color: #1a2669;
+  font-weight: 400;
 }
 
-.cashierWithdraw table tfoot {
+.cashierFeed table tfoot {
   border-radius: 8px;
   background: #3f51b5;
   width: 100%;
+  font-weight: 300;
   color: #fff;
 }
-.cashierWithdraw table tfoot td:last-of-type {
+.cashierFeed table tfoot td:last-of-type {
   text-align: end;
   padding-left: 5vh;
 }
-.cashierWithdraw table .delete {
+.cashierFeed table .delete {
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
   margin-right: 2px;
 }
-.cashierWithdraw table .show {
+.cashierFeed table .show {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
   margin-left: 2px;
+}
+tfoot svg {
+  background: transparent;
+  padding: 0 10px;
+  color: #fff;
+  cursor: pointer;
 }
 
 @media (max-width: 991px) {
@@ -248,7 +217,7 @@ tbody tr th {
   .table {
     width: 170%;
   }
-  .cashierWithdraw {
+  .cashierFeed {
     width: 70%;
   }
 }
@@ -259,7 +228,7 @@ tbody tr th {
   .table {
     width: 192%;
   }
-  .cashierWithdraw {
+  .cashierFeed {
     width: 100%;
   }
 }

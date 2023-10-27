@@ -37,11 +37,28 @@ import NewReservation1 from "../views/Reservations/NewReservation1.vue";
 import NewReservation2 from "../views/Reservations/NewReservation2.vue";
 import NewReservation3 from "../views/Reservations/NewReservation3.vue";
 import NewReservation4 from "../views/Reservations/NewReservation4.vue";
-import FundMovement from "../views/AdministrativeDepartment/FundMovement.vue";
-import CashierWithdrawals from "../views/AdministrativeDepartment/CashierWithdrawals.vue";
-import CashierFeed from "../views/AdministrativeDepartment/CashierFeed.vue";
-import AddNewEmployee from "../views/EmployeeAdmin/AddNewEmployee.vue";
 import CashierBox from "../views/FinancialTransactions/CashierBox.vue";
+import FundMovement from "../views/Admin/AdministrativeDepartment/FundMovement.vue";
+import CashierWithdrawals from "../views/Admin/AdministrativeDepartment/CashierWithdrawals.vue";
+import CashierFeed from "../views/Admin/AdministrativeDepartment/CashierFeed.vue";
+import AddNewEmployee from "../views/Admin/EmployeePage/AddNewEmployee.vue";
+import ServicesReports from "../views/Admin/FinancialTransactions/ServicesReports.vue";
+import DiscountsPage from "../views/Admin/FinancialTransactions/DiscountsPage.vue";
+import AdvancesPage from "../views/Admin/FinancialTransactions/AdvancesPage.vue";
+import DiaryReport from "../views/Admin/FinancialTransactions/DiaryReport.vue";
+import AddDiscounts from "../views/Admin/FinancialTransactions/AddDiscounts.vue";
+import AddAdvances from "../views/Admin/FinancialTransactions/AddAdvances.vue";
+import ServicesProviders from "../views/Admin/BranchBox/ServicesProviders.vue";
+import ProductsPage from "../views/Admin/BranchBox/ProductsPage.vue";
+import SuppliersPage from "../views/Admin/BranchBox/SuppliersPage.vue";
+import ServicesPage from "../views/Admin/BranchBox/ServicesPage.vue";
+import UsersPage from "../views/Admin/BranchBox/UsersPage.vue";
+import PowersPage from "../views/Admin/BranchBox/PowersPage.vue";
+import AddProviders from "../views/Admin/BranchBox/AddProviders.vue";
+import AddProducts from "../views/Admin/BranchBox/AddProducts.vue";
+import AddSuppliers from "../views/Admin/BranchBox/AddSuppliers.vue";
+import AddUser from "../views/Admin/BranchBox/AddUser.vue";
+import AddServices from "../views/Admin/BranchBox/AddServices.vue";
 
 const routes = [
   {
@@ -273,6 +290,91 @@ const routes = [
     path: "/CashierBox",
     name: "CashierBox",
     component: CashierBox,
+  },
+  {
+    path: "/ServicesReports",
+    name: "ServicesReports",
+    component: ServicesReports,
+  },
+  {
+    path: "/DiscountsPage",
+    name: "DiscountsPage",
+    component: DiscountsPage,
+  },
+  {
+    path: "/AdvancesPage",
+    name: "AdvancesPage",
+    component: AdvancesPage,
+  },
+  {
+    path: "/DiaryReport",
+    name: "DiaryReport",
+    component: DiaryReport,
+  },
+  {
+    path: "/AddDiscounts",
+    name: "AddDiscounts",
+    component: AddDiscounts,
+  },
+  {
+    path: "/AddAdvances",
+    name: "AddAdvances",
+    component: AddAdvances,
+  },
+  {
+    path: "/ServicesProviders",
+    name: "ServicesProviders",
+    component: ServicesProviders,
+  },
+  {
+    path: "/ProductsPage",
+    name: "ProductsPage",
+    component: ProductsPage,
+  },
+  {
+    path: "/SuppliersPage",
+    name: "SuppliersPage",
+    component: SuppliersPage,
+  },
+  {
+    path: "/ServicesPage",
+    name: "ServicesPage",
+    component: ServicesPage,
+  },
+  {
+    path: "/UsersPage",
+    name: "UsersPage",
+    component: UsersPage,
+  },
+  {
+    path: "/PowersPage",
+    name: "PowersPage",
+    component: PowersPage,
+  },
+  {
+    path: "/AddProviders",
+    name: "AddProviders",
+    component: AddProviders,
+  },
+  {
+    path: "/AddProducts",
+    name: "AddProducts",
+    component: AddProducts,
+  },
+  {
+    path: "/AddSuppliers",
+    name: "AddSuppliers",
+    component: AddSuppliers,
+  },
+  {
+    path: "/AddUser",
+    name: "AddUser",
+    component: AddUser,
+  },
+  {
+    path: "/AddServices",
+    name: "AddServices",
+    component: AddServices,
   },
 ];
 

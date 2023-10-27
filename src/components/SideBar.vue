@@ -580,6 +580,9 @@ export default {
   background: #c6caf2;
   border-radius: 9px;
 }
+.v-sidebar-menu .vsm--link_hover {
+  background: #757de84f !important;
+}
 /* .dropdown-menu li {
   position: relative;
 }

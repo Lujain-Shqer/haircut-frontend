@@ -50,12 +50,12 @@
       <div class="services text-center">
         <div class="header">
           <div class="chosse-serv">
-            <button v-on:click="makeRed('ProductsPage', $event)" class="btn">
+            <button v-on:click="makeActive('ProductsPage', $event)" class="btn">
               منتجات
             </button>
             <button
-              class="btn red"
-              v-on:click="makeRed('ServicesPage', $event)"
+              class="btn blue"
+              v-on:click="makeActive('ServicesPage', $event)"
             >
               خدمات
             </button>
@@ -84,6 +84,17 @@
           <div class="chosse">
             <button class="btn">كاش</button>
             <button class="btn">شبكة</button>
+            <button class="btn">معا</button>
+          </div>
+          <div class="row type-pay">
+            <div class="col-6">
+              <label>أدخل قيمة الشبكة</label>
+              <input class="" type="text" placeholder="أدخل قيمة الكاش" />
+            </div>
+            <div class="col-6">
+              <label>أدخل قيمة الكاش</label>
+              <input class="" type="text" placeholder="أدخل قيمة الشبكة" />
+            </div>
           </div>
         </div>
         <div class="col-lg-4 col-md-12">
@@ -99,6 +110,17 @@
           <div class="chosse">
             <button class="btn">كاش</button>
             <button class="btn">شبكة</button>
+            <button class="btn">معا</button>
+          </div>
+          <div class="row type-pay">
+            <div class="col-6">
+              <label>أدخل قيمة الشبكة</label>
+              <input class="" type="text" placeholder="أدخل قيمة الكاش" />
+            </div>
+            <div class="col-6">
+              <label>أدخل قيمة الكاش</label>
+              <input class="" type="text" placeholder="أدخل قيمة الشبكة" />
+            </div>
           </div>
         </div>
         <button class="btn bill">إصدار فاتورة</button>
@@ -122,20 +144,20 @@ export default {
     };
   },
   methods: {
-    makeRed: function (component, event) {
+    makeActive: function (component, event) {
       this.component = component;
-      event.target.classList.add("red");
+      event.target.classList.add("blue");
       if (event.target.nextElementSibling != null)
-        event.target.nextElementSibling.classList.remove("red");
+        event.target.nextElementSibling.classList.remove("blue");
       if (event.target.previousElementSibling != null)
-        event.target.previousElementSibling.classList.remove("red");
+        event.target.previousElementSibling.classList.remove("blue");
     },
   },
 };
 </script>
 
 <style scoped>
-.red {
+.blue {
   background: #3f51b5;
   color: #fff;
 }
@@ -253,18 +275,27 @@ tr {
 }
 .pointOfSales .chosse {
   background: #ebedf7;
-  width: 70%;
   border-radius: 8px;
   color: #6a6b6f;
   font-weight: 600;
 }
 .pointOfSales .chosse button {
-  width: 50%;
+  width: 33%;
 }
 .pointOfSales .chosse button:hover {
   background: #3f51b5;
   color: #fff;
 }
+.pointOfSales .type-pay {
+  margin-top: 2vh;
+}
+.type-pay label {
+  color: #1a2669;
+}
+.pointOfSales .type-pay input {
+  font-size: 1.5vmin;
+}
+
 @media (max-width: 991px) {
   .pointOfSales {
     width: 70%;
