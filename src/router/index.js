@@ -41,7 +41,6 @@ import CashierBox from "../views/FinancialTransactions/CashierBox.vue";
 import FundMovement from "../views/Admin/AdministrativeDepartment/FundMovement.vue";
 import CashierWithdrawals from "../views/Admin/AdministrativeDepartment/CashierWithdrawals.vue";
 import CashierFeed from "../views/Admin/AdministrativeDepartment/CashierFeed.vue";
-import AddNewEmployee from "../views/Admin/EmployeePage/AddNewEmployee.vue";
 import ServicesReports from "../views/Admin/FinancialTransactions/ServicesReports.vue";
 import DiscountsPage from "../views/Admin/FinancialTransactions/DiscountsPage.vue";
 import AdvancesPage from "../views/Admin/FinancialTransactions/AdvancesPage.vue";
@@ -59,7 +58,12 @@ import AddProducts from "../views/Admin/BranchBox/AddProducts.vue";
 import AddSuppliers from "../views/Admin/BranchBox/AddSuppliers.vue";
 import AddUser from "../views/Admin/BranchBox/AddUser.vue";
 import AddServices from "../views/Admin/BranchBox/AddServices.vue";
-
+import AddNewEmployee from "../views/Admin/EmployeePage/AddNewEmployee.vue";
+import ListOfEmployees from "../views/Admin/EmployeePage/ListOfEmployees.vue";
+import EmployeesSalary from "../views/Admin/EmployeePage/EmployeesSalary.vue";
+import SalaryPage from "../views/Admin/EmployeePage/SalaryPage.vue";
+import LiquidationEmployee from "../views/Admin/EmployeePage/LiquidationEmployee.vue";
+import TotalEmployee from "../views/Admin/EmployeePage/TotalEmployee.vue";
 const routes = [
   {
     path: "/",
@@ -375,6 +379,31 @@ const routes = [
     path: "/AddServices",
     name: "AddServices",
     component: AddServices,
+  },
+  {
+    path: "/ListOfEmployees",
+    name: "ListOfEmployees",
+    component: ListOfEmployees,
+  },
+  {
+    path: "/EmployeesSalary",
+    name: "EmployeesSalary",
+    component: EmployeesSalary,
+  },
+  {
+    path: "/SalaryPage",
+    name: "SalaryPage",
+    component: SalaryPage,
+  },
+  {
+    path: "/LiquidationEmployee",
+    name: "LiquidationEmployee",
+    component: LiquidationEmployee,
+  },
+  {
+    path: "/TotalEmployee",
+    name: "TotalEmployee",
+    component: TotalEmployee,
   },
 ];
 

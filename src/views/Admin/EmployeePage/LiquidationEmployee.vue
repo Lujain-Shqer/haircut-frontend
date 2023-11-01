@@ -1,0 +1,220 @@
+<template>
+  <div class="LiquidationEmployee">
+    <div class="container">
+      <h4>سجل تصفية الموظفين</h4>
+      <p>
+        سجل تصفية الموظفين هو وثيقة تُستخدم لتوثيق وتسجيل جميع التفاصيل
+        والإجراءات المتعلقة بتصفية موظف بعد انتهاء علاقته الوظيفية مع منشأة
+        معينة. يتم استخدام هذا السجل لأغراض إدارة الموارد البشرية والشفافية في
+        الإجراءات
+      </p>
+      <div class="all-table" style="overflow-x: auto">
+        <div class="row extra-table">
+          <div class="input-container">
+            <fa icon="coins" />
+            <span>سجل تصفية الموظفين</span>
+          </div>
+          <button class="btn">بحث بالتاريخ</button>
+          <button class="btn">من الفترة -> إلى الفترة</button>
+        </div>
+        <table class="table" cellpadding="5" border="1" cellspacing="0">
+          <thead>
+            <tr>
+              <th scope="col">كود الموظف</th>
+              <th scope="col">الموظف</th>
+              <th scope="col">الأجر</th>
+              <th scope="col">الاستقطاع</th>
+              <th scope="col">البيان</th>
+
+              <th scope="col">المتبقي</th>
+              <th scope="col">الإجراءات</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>55900</td>
+              <td>أشرف عبدالعزيز</td>
+              <td class="row">
+                <div class="col-5">الراتب :</div>
+                <div class="col-5">2000</div>
+                <div class="col-5">العمولة :</div>
+                <div class="col-5">9%</div>
+              </td>
+              <td>150</td>
+              <td>خصومات</td>
+              <td>1850</td>
+              <td>
+                <button class="btn update">سدد</button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <td>صفوف لكل الصفحة</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+              <fa icon="	fas fa-angle-right" />
+              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
+            </td>
+          </tfoot>
+          <tr>
+            <td>الأحصائيات</td>
+            <td></td>
+            <td>70002</td>
+            <td>0.00</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  name: "LiquidationEmployee",
+};
+</script>
+<style scoped>
+.row {
+  margin: 0;
+}
+.LiquidationEmployee {
+  direction: rtl;
+  width: 80%;
+}
+.LiquidationEmployee h4 {
+  color: #3f51b5;
+  font-weight: 700px;
+}
+.LiquidationEmployee p {
+  color: #1a2669;
+  font-weight: 400;
+  padding: 2vh;
+}
+.LiquidationEmployee .extra-table {
+  margin: 0 4vh;
+  margin-bottom: 3vh;
+  display: flow-root;
+}
+.LiquidationEmployee .input-container {
+  float: right;
+  display: contents;
+  float: right;
+  color: #3f51b5;
+  padding: 1vh;
+  font-weight: 500;
+}
+.LiquidationEmployee .input-container svg {
+  padding-left: 2vh;
+}
+
+.LiquidationEmployee .extra-table button {
+  width: 16%;
+  margin-right: 10px;
+  background: #3f51b5;
+  color: #fff;
+  float: left;
+}
+
+.LiquidationEmployee .extra-table button:first-of-type {
+  float: left;
+  background: #3f51b5;
+  color: #fff;
+  border: 1px solid #3f51b5;
+}
+.LiquidationEmployee .extra-table button:last-of-type {
+  width: 25%;
+  background: #fff;
+  color: #3f51b5;
+  border: 1px solid #3f51b5;
+}
+.LiquidationEmployee .all-table {
+  margin-top: 5vh;
+  border: 1px solid #3f51b5;
+  padding: 3vh 0 0;
+  box-shadow: 0px 0px 15px 0px #00000040;
+  border-radius: 8px;
+}
+.LiquidationEmployee table {
+  margin-bottom: 0;
+  text-align: center;
+}
+.LiquidationEmployee table tfoot {
+  border-radius: 8px;
+}
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
+  border-bottom: 1px solid #d9d5ec;
+}
+
+.LiquidationEmployee table thead tr th,
+.LiquidationEmployee table tfoot tr th {
+  background: #3f51b5;
+  color: #e3e3e3;
+  height: 5vh;
+  font-weight: 400;
+}
+.LiquidationEmployee table tr td,
+.LiquidationEmployee table tr th {
+  color: #1a2669;
+}
+.LiquidationEmployee table tfoot {
+  border-radius: 8px;
+  background: #3f51b5;
+  color: #fff;
+  font-weight: 300;
+}
+.LiquidationEmployee table tfoot td:last-of-type {
+  text-align: end;
+  padding-left: 5vh;
+}
+tfoot svg {
+  background: transparent;
+  padding: 0 10px;
+  color: #fff;
+  cursor: pointer;
+}
+@media (max-width: 991px) {
+  .LiquidationEmployee {
+    width: 70%;
+  }
+  .LiquidationEmployee select {
+    width: 50%;
+  }
+  .extra-table {
+    width: 180%;
+  }
+  .table {
+    width: 192%;
+  }
+}
+@media (max-width: 765px) {
+  .LiquidationEmployee {
+    width: 100%;
+  }
+  .extra-table {
+    width: 175%;
+  }
+  .table {
+    width: 192%;
+  }
+}
+
+@media (max-width: 540px) {
+  .LiquidationEmployee select {
+    width: 80%;
+  }
+  .extra-table {
+    width: 210%;
+  }
+  .table {
+    width: 230%;
+  }
+}
+</style>
