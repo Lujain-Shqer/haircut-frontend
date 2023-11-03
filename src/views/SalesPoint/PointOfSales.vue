@@ -84,9 +84,10 @@
           <div class="chosse">
             <button class="btn">كاش</button>
             <button class="btn">شبكة</button>
-            <button class="btn">معا</button>
+            <button class="btn" @click="first">معا</button>
           </div>
-          <div class="row type-pay">
+
+          <div class="row type-pay" v-show="showDiv">
             <div class="col-6">
               <label>أدخل قيمة الشبكة</label>
               <input class="" type="text" placeholder="أدخل قيمة الكاش" />
@@ -110,9 +111,9 @@
           <div class="chosse">
             <button class="btn">كاش</button>
             <button class="btn">شبكة</button>
-            <button class="btn">معا</button>
+            <button class="btn" @click="firstt">معا</button>
           </div>
-          <div class="row type-pay">
+          <div class="row type-pay" v-show="showDivv">
             <div class="col-6">
               <label>أدخل قيمة الشبكة</label>
               <input class="" type="text" placeholder="أدخل قيمة الكاش" />
@@ -138,11 +139,6 @@ export default {
     ServicesPage,
     ProductsPage,
   },
-  data() {
-    return {
-      component: "ServicesPage",
-    };
-  },
   methods: {
     makeActive: function (component, event) {
       this.component = component;
@@ -152,6 +148,19 @@ export default {
       if (event.target.previousElementSibling != null)
         event.target.previousElementSibling.classList.remove("blue");
     },
+    first: function () {
+      this.showDiv = true;
+    },
+    firstt: function () {
+      this.showDivv = true;
+    },
+  },
+  data() {
+    return {
+      component: "ServicesPage",
+      option1: false,
+      showDiv: false,
+    };
   },
 };
 </script>

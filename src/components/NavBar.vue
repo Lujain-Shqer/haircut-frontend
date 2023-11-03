@@ -41,7 +41,6 @@
             <p>
               app.srbapp.com/branch/salwn-shar-and-thkn-llhlak-hy-alfysly-jd
             </p>
-            <button class="btn">نسخ الرابط</button>
           </ul>
         </div>
       </div>

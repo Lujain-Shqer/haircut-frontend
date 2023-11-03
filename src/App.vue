@@ -26,4 +26,9 @@ export default {
 //     /* box-shadow: 0px 0px 4px -1px #14141412; */
 //     box-shadow: 0px 0px 6px -1px #141414
 </script>
-<style></style>
+<style>
+#app {
+  z-index: 10000000000000;
+  position: relative;
+}
+</style>
