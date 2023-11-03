@@ -21,7 +21,7 @@
     "jquery": "^3.7.1",
     "normalize.css": "^8.0.1",
     "popper.js": "^1.16.1",
-    "vue": "^3.2.13",
+    "vue": "^3.2.26",
     "vue-awesome-sidebar": "^1.2.3",
     "vue-class-component": "^8.0.0-rc.1",
     "vue-router": "^4.0.3",
