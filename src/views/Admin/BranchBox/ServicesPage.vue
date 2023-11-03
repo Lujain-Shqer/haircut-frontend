@@ -9,7 +9,9 @@
             <fa icon="search" />
             <input class="input-field" type="text" placeholder="البحث عن..." />
           </div>
-          <button class="btn">إنشاء جديد</button>
+          <router-link to="/AddServices">
+            <button class="btn">إنشاء جديد</button>
+          </router-link>
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>

@@ -1,34 +1,5 @@
 <template>
-  <nav>
-    <router-link to="/FundMovement">FundMovement</router-link> |
-    <router-link to="/CashierWithdrawals">CashierWithdrawals</router-link> |
-    <router-link to="/CashierFeed">CashierFeed</router-link> |
-    <router-link to="/CashierBox">CashierBox</router-link> |
-    <router-link to="/ServicesReports">ServicesReports</router-link> |
-    <router-link to="/DiscountsPage">DiscountsPage</router-link> |
-    <router-link to="/AdvancesPage">AdvancesPage</router-link> |
-    <router-link to="/DiaryReport">DiaryReport</router-link> |
-    <router-link to="/DiaryReport">DiaryReport</router-link> |
-    <router-link to="/AddDiscounts">AddDiscounts</router-link> |
-    <router-link to="/AddAdvances">AddAdvances</router-link> |
-    <router-link to="/ServicesProviders">ServicesProviders</router-link> |
-    <router-link to="/ProductsPage">ProductsPage</router-link> |
-    <router-link to="/SuppliersPage">SuppliersPage</router-link> |
-    <router-link to="/ServicesPage">ServicesPage</router-link> |
-    <router-link to="/UsersPage">UsersPage</router-link> |
-    <router-link to="/PowersPage">PowersPage</router-link> |
-    <router-link to="/AddProviders">AddProviders</router-link> |
-    <router-link to="/AddProducts">AddProducts</router-link> |
-    <router-link to="/AddSuppliers">AddSuppliers</router-link> |
-    <router-link to="/AddUser">AddUser</router-link> |
-    <router-link to="/AddServices">AddServices</router-link> |
-    <router-link to="/AddNewEmployee">AddNewEmployee</router-link> |
-    <router-link to="/ListOfEmployees">ListOfEmployees</router-link> |
-    <router-link to="/EmployeesSalary">EmployeesSalary</router-link> |
-    <router-link to="/SalaryPage">SalaryPage</router-link> |
-    <router-link to="/LiquidationEmployee">LiquidationEmployee</router-link> |
-    <router-link to="/TotalEmployee">TotalEmployee</router-link> |
-  </nav>
+  <nav></nav>
   <NavBar />
   <SideBar />
   <ServicesPage />

@@ -13,7 +13,9 @@
 
           <button class="btn">EXCEL</button>
 
-          <button class="btn">أنشاء جديد</button>
+          <router-link to="/AddNewEmployee"
+            ><button class="btn">أنشاء جديد</button>
+          </router-link>
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>

@@ -91,8 +91,8 @@
       <span>ENG</span>
       <fa icon="earth" />
     </div>
-
-    <!-- <nav class="navbar navbar-expand-lg col-md-12">
+    <!-- Button Navbar-->
+    <nav class="navbar navbar-expand-lg col-md-12">
       <div class="container-fluid">
         <button
           class="navbar-toggler"
@@ -107,154 +107,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
           <ul class="navbar-nav">
-            <div class="active link">
-              <img src="../assets/3.png" />
-              <router-link to="/ControlBoard">لوحة التحكم</router-link>
-            </div>
-            <div class="link">
-              <img src="../assets/1.png" />
-              <router-link to="/PointOfSales">نقطة البيع</router-link>
-            </div>
-            <div class="link">
-              <img src="../assets/2.png" />
-              <router-link to="/ClientPage">العملاء</router-link>
-            </div>
-
-            <div class="dropdown">
-              <div class="menu" data-bs-toggle="dropdown">
-                <img src="../assets/2.png" />
-                <button
-                  class="btn btn-secondary dropdown-toggle"
-                  type="button"
-                  id="dropdownMenuButton2"
-                  aria-expanded="false"
-                >
-                  الموظفون
-                </button>
-              </div>
-              <div class="ul">
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                  <li>
-                    <router-link to="/EmployeeCommissions"
-                      >عمولات الموظفين
-                    </router-link>
-                  </li>
-                  <li>
-                    <router-link to="/EmployeeReport2"
-                      >تقرير الموظف (مفصل)</router-link
-                    >
-                  </li>
-                  <li>
-                    <router-link to="/SalafiyatDiscounts"
-                      >تقرير الخصومات والسلفيات</router-link
-                    >
-                  </li>
-                  <li>
-                    <router-link to="/EmployeeSalary"
-                      >تقرير مسير الرواتب</router-link
-                    >
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="dropdown">
-              <div class="menu" data-bs-toggle="dropdown">
-                <img src="../assets/2.png" />
-                <button
-                  class="btn btn-secondary dropdown-toggle"
-                  type="button"
-                  id="dropdownMenuButton3"
-                  aria-expanded="false"
-                >
-                  الحجوزات
-                </button>
-              </div>
-              <div class="ul">
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
-                  <li>
-                    <router-link to="/">الحجوزات</router-link>
-                  </li>
-                  <li>
-                    <router-link to="/SalonAppointments"
-                      >مواعيد الصالون</router-link
-                    >
-                  </li>
-                  <li>
-                    <router-link to="/DisabledAppoinments"
-                      >المواعيد المعطلة</router-link
-                    >
-                  </li>
-                  <li>
-                    <router-link to="/NewReservation1"
-                      >انشاء حجز جديد</router-link
-                    >
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="dropdown">
-              <div class="menu" data-bs-toggle="dropdown">
-                <img src="../assets/4.png" />
-                <button
-                  class="btn btn-secondary dropdown-toggle"
-                  type="button"
-                  id="dropdownMenuButton2"
-                  aria-expanded="false"
-                >
-                  المعاملات المالية
-                </button>
-              </div>
-              <div class="ul">
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                  <select>
-                    <option>njkgb</option>
-                    <option>njkgb</option>
-                    <option>njkgb</option>
-                  </select>
-                  <li>
-                    <a class="dropdown-item" href="#"> المواعيد المعطلة</a>
-                  </li>
-                  <li><a class="dropdown-item" href="#">إنشاء حجز جديد</a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="dropdown">
-              <div class="menu" data-bs-toggle="dropdown">
-                <img src="../assets/4.png" />
-                <button
-                  class="btn btn-secondary dropdown-toggle"
-                  type="button"
-                  id="dropdownMenuButton2"
-                  aria-expanded="false"
-                >
-                  المنتجات النثرية
-                </button>
-              </div>
-              <div class="ul">
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                  <li>
-                    <router-link to="/SundryProducts"
-                      >المنتجات النثرية</router-link
-                    >
-                  </li>
-                  <li>
-                    <router-link to="/GeneralExpenses"
-                      >بنود المصاريف العمومية</router-link
-                    >
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <li class="nav-item">
-              <fa icon="message" />
-              <fa icon="bell" />
-              <span>ENG</span>
-              <fa icon="earth" />
-            </li>
+            <sidebar-menu :menu="menu" :rtl="rtl" :hideToggle="hideToggle" />
           </ul>
         </div>
       </div>
-    </nav> -->
+    </nav>
     <div class="brand col-lg-4">
       <span>صالون ذقن &amp; شعر</span>
       <img src="../assets/logoo.png" />
@@ -262,10 +119,293 @@
   </nav>
 </template>
 <script>
+import { SidebarMenu } from "vue-sidebar-menu";
+import "vue-sidebar-menu/dist/vue-sidebar-menu.css";
+
 export default {
-  name: "NavBar",
-  methods: {},
-  mounted() {},
+  components: {
+    SidebarMenu,
+  },
+  data() {
+    return {
+      menu: [
+        {
+          href: "ControlBoard",
+          title: "لوحة التحكم",
+          icon: {
+            element: "fa",
+            attributes: {
+              icon: "fa-pie-chart",
+            },
+          },
+        },
+        {
+          href: "PointOfSales",
+          title: "نقطة البيع",
+          icon: {
+            element: "fa",
+            attributes: {
+              icon: "home",
+            },
+          },
+        },
+        {
+          href: "ClientPage",
+          title: "العملاء",
+          icon: {
+            element: "fa",
+            attributes: {
+              icon: "users",
+            },
+          },
+        },
+        {
+          href: "",
+          title: "قسم الإدارة",
+          icon: {
+            element: "fa",
+            attributes: {
+              icon: "fas fa-user-tie",
+            },
+          },
+          child: [
+            {
+              href: "ServicesProviders",
+              title: " مقدمو الخدمات العامة ",
+            },
+            {
+              href: "SuppliersPage",
+              title: "الموردون",
+            },
+            {
+              href: "ServicesPage",
+              title: "الخدمات",
+            },
+            {
+              href: "ProductsPage",
+              title: "المنتجات",
+            },
+            {
+              href: "UsersPage",
+              title: "المستخدمين",
+            },
+            {
+              href: "PowersPage",
+              title: "الصلاحيات",
+            },
+          ],
+        },
+        {
+          href: "",
+          title: "صندوق الفرع",
+          icon: {
+            element: "fa",
+            attributes: {
+              icon: "fa-calculator",
+            },
+          },
+          child: [
+            {
+              href: "FundMovement",
+              title: "رصيد صندوق الفرع",
+            },
+            {
+              href: "CashierFeed",
+              title: "سجل تغذية الكاشير",
+            },
+            {
+              href: "CashierWithdrawals",
+              title: "سجل سحوبات الكاشير",
+            },
+          ],
+        },
+        {
+          href: "",
+          title: "الموظفين",
+          icon: {
+            element: "fa",
+            attributes: {
+              icon: "fa-user-friends",
+            },
+          },
+          child: [
+            {
+              href: "ListOfEmployees",
+              title: "قائمة الموظفين",
+            },
+            {
+              href: "EmployeesSalary",
+              title: "رصيد الموظف",
+            },
+            {
+              href: "SalaryPage",
+              title: "الرواتب",
+            },
+            {
+              href: "LiquidationEmployee",
+              title: "سجل التصفيات",
+            },
+            {
+              href: "EmployeeCommissions",
+              title: "عمولات الموظفين ",
+            },
+            {
+              href: "EmployeeReport2",
+              title: "تقرير الموظف (مفصل)",
+            },
+            {
+              href: "TotalEmployee",
+              title: "تقرير الموظف (الإجمالي)",
+            },
+            {
+              href: "SalafiyatDiscounts",
+              title: "تقرير الخصومات والسلفيات",
+            },
+            {
+              href: "EmployeeSalary",
+              title: "تقرير مسير الرواتب",
+            },
+          ],
+        },
+        {
+          href: "",
+          title: "الحجوزات",
+          icon: {
+            element: "fa",
+            attributes: {
+              icon: "calendar",
+            },
+          },
+          child: [
+            {
+              href: "",
+              title: "الحجوزات",
+            },
+            {
+              href: "SalonAppointments",
+              title: "مواعيد الصالون",
+            },
+            {
+              href: "DisabledAppoinments",
+              title: "المواعيد المعطلة",
+            },
+            {
+              href: "NewReservation1",
+              title: "انشاء حجز جديد",
+            },
+          ],
+        },
+        {
+          href: "",
+          title: "المعاملات المالية",
+          icon: {
+            element: "fa",
+            attributes: {
+              icon: "handshake",
+            },
+          },
+          child: [
+            {
+              href: "",
+              title: "المبيعات",
+              child: [
+                {
+                  href: "SallesBills",
+                  title: "فواتير المبيعات",
+                },
+                {
+                  href: "SalesTax",
+                  title: "تقرير الضريبة (مبيعات)",
+                },
+                {
+                  href: "",
+                  title: "الفواتير المحذوفة",
+                },
+                {
+                  href: "ServicesReports",
+                  title: "تقرير الخدمات",
+                },
+              ],
+            },
+            {
+              href: "",
+              title: "المشتريات والمصروفات",
+              child: [
+                {
+                  href: "ProductsPurchases",
+                  title: "مشتريات المنتجات",
+                },
+                {
+                  href: "SundryPurchases",
+                  title: "المشتريات النثرية",
+                },
+                {
+                  href: "ExpensesTax",
+                  title: "المصاريف العمومية",
+                },
+                {
+                  href: "TaxReports",
+                  title: "تقرير الضريبة (مشتريات)",
+                },
+              ],
+            },
+            {
+              href: "",
+              title: "الحسابات المالية",
+              child: [
+                {
+                  href: "CashierBox",
+                  title: "صندوق الكاشير",
+                },
+                {
+                  href: "TotalCommissions",
+                  title: "تقرير إجمالي العمولات",
+                },
+                {
+                  href: "ClosingAccounts",
+                  title: "تقرير إقفال الحسابات",
+                },
+                {
+                  href: "ClearingCommissions",
+                  title: "تقرير تصفية العمولات",
+                },
+                {
+                  href: "DiaryReport",
+                  title: "تقرير اليوميات",
+                },
+                {
+                  href: "AdvancesPage",
+                  title: "السلفيات",
+                },
+                {
+                  href: "DiscountsPage",
+                  title: "الخصومات",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          href: "SundryProducts",
+          title: "المنتجات النثرية",
+          icon: {
+            element: "fa",
+            attributes: {
+              icon: "suitcase",
+            },
+          },
+          child: [
+            {
+              href: "GeneralExpenses",
+              title: "بنود المصاريف العمومية",
+            },
+          ],
+        },
+      ],
+      rtl: true,
+      hideToggle: true,
+    };
+  },
 };
 </script>
 <style scoped>
@@ -377,24 +517,9 @@ nav .brand span:first-child {
 .dropdown {
   display: inline-block;
 }
-/* .navbar-toggler {
-  margin-bottom: 2vh;
-  outline: none !important;
+.navbar-toggler:focus {
+  box-shadow: none;
 }
-ul {
-  padding: 0;
-} */
-/* li.active {
-  background: #757de84f;
-  border-radius: 7px 0px 0px 7px;
-  padding: 1vh;
-  color: #3f51b5;
-  border-right: 3px solid #3f51b5;
-} */
-/* .navbar-toggler:focus {
-  outline: none;
-  border: 1px solid transparent;
-} */
 @media (max-width: 2000px) {
   .navbar {
     display: none;
@@ -413,6 +538,17 @@ ul {
   }
   .icons {
     display: none;
+  }
+  .NavBar {
+    padding: 2vh 1vh;
+  }
+  .v-sidebar-menu,
+  ul.vsm--menu,
+  .vsm_expanded {
+    width: 100%;
+  }
+  .navbar-nav {
+    padding: 0;
   }
 }
 </style>

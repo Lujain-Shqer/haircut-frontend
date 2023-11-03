@@ -5,6 +5,11 @@
     <div class="container writeBar">
       <h3 class="">أهلا و سهلا بك بعالمك !</h3>
       <div class="coiner">
+        <div class="chosse-serv">
+          <button class="btn active">اليوم الأربعاء</button>
+          <button class="btn">الشهر الحالي</button>
+          <button class="btn">الإجمالي</button>
+        </div>
         <div class="row info-statistics">
           <div class="col-xl-3 col-lg-6 col-md-12">
             <h6>
@@ -261,6 +266,25 @@ h3 {
   font-weight: 600;
   margin-bottom: 3vh;
   display: block;
+}
+.coiner .chosse-serv {
+  border: 3px solid #757de8;
+  border-radius: 20px;
+  color: #f4f6f6;
+  font-weight: 600;
+  width: 50%;
+  margin: auto;
+  padding: 2px 0;
+}
+.coiner .chosse-serv button {
+  width: 33%;
+  color: #999999;
+  border-radius: 20px;
+}
+.coiner .chosse-serv button:hover,
+.coiner .chosse-serv button.active {
+  background: #3f51b5;
+  color: #fff;
 }
 .info-statistics div .state {
   color: #3f51b5;
