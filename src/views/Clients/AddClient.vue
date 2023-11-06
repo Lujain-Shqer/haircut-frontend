@@ -9,14 +9,24 @@
       </p>
       <div class="update-info-client">
         <h6>إضافة بيانات العميل الجديد</h6>
-        <form class="row">
+        <form @submit="addClient" class="row" method="post">
           <div class="col-lg-6 col-md-12">
             <label>الاسم</label>
-            <input type="text" placeholder="إضافة اسم العميل" />
+            <input
+              type="text"
+              placeholder="إضافة اسم العميل"
+              v-model="client_info.name"
+              required
+            />
           </div>
           <div class="col-lg-6 col-md-12">
             <label>هاتف العميل</label>
-            <input type="text" placeholder="إضافة هاتف العميل" />
+            <input
+              type="text"
+              placeholder="إضافة هاتف العميل"
+              v-model="client_info.phone_number"
+              required
+            />
           </div>
           <button class="btn">إضافة عميل</button>
         </form>
@@ -27,6 +37,36 @@
 <script>
 export default {
   name: "AddClient",
+  data() {
+    return {
+      client_info: {
+        name: "",
+        phone_number: "",
+      },
+      errorMessage: "",
+    };
+  },
+  methods: {
+    addClient(event) {
+      event.preventDefault();
+      fetch("http://127.0.0.1:8001/api/customer", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          branch_id: localStorage.getItem("branch_id"),
+          name: this.client_info.name,
+          phone_number: this.client_info.phone_number,
+        }),
+      }).then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+      });
+    },
+  },
 };
 </script>
 <style scoped>

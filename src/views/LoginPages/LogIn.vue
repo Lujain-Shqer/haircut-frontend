@@ -5,13 +5,15 @@
         <img src="../../assets/logoo.png" />
         <h6>صالون ذقن &amp; شعر</h6>
         <h5 class="">تسجيل الدخول إلى حسابك</h5>
-        <form class="input-icons">
+        <form @submit="login" method="post" class="input-icons">
           <label>رقم الجوال</label>
           <div class="input-container">
             <input
               class="input-field"
               type="text"
               placeholder="+970 -596 58000"
+              v-model="user_info.phone_number"
+              required
             />
             <span class="input-icon"><fa icon="phone" /></span>
           </div>
@@ -21,15 +23,20 @@
               class="input-field"
               type="password"
               placeholder="***************"
+              v-model="user_info.password"
+              required
             />
             <span class="input-icon"> <fa icon="lock" /> </span>
           </div>
-
-          <router-link to="/branch"
-            ><button class="btn btn-block signin">
-              تسجيل الدخول
-            </button></router-link
-          >
+          <div class="error-message" v-if="errorMessage">
+            {{ errorMessage }}
+          </div>
+          <button type="submit" class="btn btn-block signin">
+            تسجيل الدخول
+          </button>
+          <!-- <router-link to="/branch"
+            ></router-link
+          > -->
         </form>
         <div class="choose">
           <span></span>
@@ -56,8 +63,60 @@
   <router-view />
 </template>
 <script>
+// import { inject } from "vue";
+
 export default {
   name: "LogIn",
+  data() {
+    return {
+      user_info: {
+        phone_number: "",
+        password: "",
+      },
+      errorMessage: "",
+    };
+  },
+  methods: {
+    login(event) {
+      event.preventDefault();
+      // const hostName = inject("hostName");
+      fetch("http://127.0.0.1:8001/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          phone_number: this.user_info.phone_number,
+          password: this.user_info.password,
+        }),
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            // console.log(this.hostName);
+            throw new Error("فشل تسجيل الدخول (المعلومات المدخلة خاطئة)");
+          }
+        })
+        .then((data) => {
+          localStorage.setItem("access_token", data.access_token);
+          if (data.role == 1) {
+            this.$router.push("/branch");
+          } else {
+            localStorage.setItem("branch_id", data.branch_id);
+            this.$router.push("/ControlBoard");
+          }
+          // console.log(localStorage.getItem("access_token"));
+          // console.log(localStorage.getItem("branch_id"));
+        })
+        .catch((error) => {
+          this.errorMessage = error.message;
+          setTimeout(() => {
+            this.errorMessage = "";
+          }, 5000);
+        });
+    },
+  },
 };
 </script>
 
@@ -183,6 +242,12 @@ export default {
   border-radius: 27px;
   opacity: 0.5;
   margin-right: 1vh;
+}
+.error-message {
+  display: block;
+  padding: 1vh;
+  text-align: start;
+  color: red;
 }
 @media (max-width: 1200px) {
   .logo-img {

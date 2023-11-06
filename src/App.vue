@@ -1,5 +1,5 @@
 <template>
-  <nav></nav>
+  <nav><router-link to="/LogIn">Login</router-link></nav>
   <NavBar />
   <SideBar />
   <ServicesPage />

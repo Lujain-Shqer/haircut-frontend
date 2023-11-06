@@ -6,12 +6,21 @@
         <h6>صالون ذقن &amp; شعر</h6>
         <h5>اختر الفرع لدخول عالمك</h5>
         <div class="card">
-          <router-link to="/ControlBoard"><h4>صالون شعر & ذقن</h4></router-link>
-          <h4>
-            <router-link to="/ControlBoard"
-              ><h4>صالون شعر & ذقن - الرياض-</h4></router-link
-            >
-          </h4>
+          <router-link
+            to="/ControlBoard"
+            @click="storeBranchId(branch.id)"
+            v-for="branch in branches"
+            :key="branch.id"
+          >
+            <h4>
+              {{ branch.branch_name }}
+            </h4></router-link
+          >
+
+          <!-- <router-link to="/ControlBoard"><h4>صالون شعر & ذقن</h4></router-link>
+          <router-link to="/ControlBoard"
+            ><h4>صالون شعر & ذقن - الرياض-</h4></router-link
+          > -->
         </div>
         <p>اكتشف مزايا حسابك الشخصي <br />وقم بإدارة مواعيدك بكل سهولة</p>
       </div>
@@ -30,6 +39,29 @@
 <script>
 export default {
   name: "BranchPage",
+  data() {
+    return {
+      branches: [],
+    };
+  },
+  mounted() {
+    fetch("http://127.0.0.1:8001/api/branch", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => (this.branches = data))
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    storeBranchId(branchId) {
+      console.log(branchId);
+      localStorage.setItem("branch_id", branchId);
+    },
+  },
 };
 </script>
 
