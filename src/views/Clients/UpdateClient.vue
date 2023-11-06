@@ -9,16 +9,16 @@
       </p>
       <div class="update-info-client">
         <h6>تحديث بيانات العميل</h6>
-        <form class="row">
+        <form @submit="updateClient" class="row">
           <div class="col-lg-6 col-md-12">
             <label>الاسم</label>
-            <input type="text" />
+            <input type="text" v-model="client_info.name" />
           </div>
           <div class="col-lg-6 col-md-12">
             <label>هاتف العميل</label>
-            <input type="text" />
+            <input type="text" v-model="client_info.phone_number" />
           </div>
-          <button class="btn">تحديث البيانات</button>
+          <button type="submit" class="btn">تحديث البيانات</button>
         </form>
       </div>
     </div>
@@ -27,6 +27,43 @@
 <script>
 export default {
   name: "UpdateClient",
+  props: ["id"],
+  data() {
+    return {
+      client_info: {
+        name: "",
+        phone_number: "",
+      },
+    };
+  },
+  methods: {
+    updateClient(event) {
+      event.preventDefault();
+      console.log(this.$route.params.id);
+      fetch("http://127.0.0.1:8001/api/customer/" + this.$route.params.id, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: this.client_info.name,
+          phone_number: this.client_info.phone_number,
+        }),
+      })
+        .then((response) => {
+          if (response.ok) {
+            this.$router.push({ name: "ClientPage" });
+            // console.log(this.id);
+            return response.json();
+          }
+        })
+        .catch((error) => {
+          console.error("Error updating client:", error);
+        });
+      console.log("say hiiii");
+    },
+  },
 };
 </script>
 <style scoped>

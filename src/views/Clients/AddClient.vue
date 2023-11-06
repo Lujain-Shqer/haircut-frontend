@@ -49,6 +49,8 @@ export default {
   methods: {
     addClient(event) {
       event.preventDefault();
+      console.log(localStorage.getItem("access_token"));
+      console.log(localStorage.getItem("branch_id"));
       fetch("http://127.0.0.1:8001/api/customer", {
         method: "POST",
         headers: {

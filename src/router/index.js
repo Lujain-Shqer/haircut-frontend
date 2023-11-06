@@ -105,7 +105,7 @@ const routes = [
     component: ClientPage,
   },
   {
-    path: "/updateClient",
+    path: "/updateClient/:id",
     name: "UpdateClient",
     component: UpdateClient,
   },

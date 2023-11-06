@@ -27,6 +27,25 @@
             </tr>
           </thead>
           <tbody>
+            <tr v-for="client in clients" :key="client.id">
+              <td>{{ client.id }}</td>
+              <td>{{ client.name }}</td>
+              <td>{{ client.phone_number }}</td>
+              <td class="text-center">
+                <router-link
+                  :to="{ name: 'UpdateClient', params: { id: client.id } }"
+                >
+                  <button class="btn update">
+                    <fa icon="pencil" /> تعديل
+                  </button></router-link
+                >
+                <button @click="deleteClient(client.id)" class="btn delete">
+                  <fa icon="trash" /> حذف
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <!-- <tbody>
             <tr>
               <td>3451</td>
               <td>علي الأحد</td>
@@ -40,14 +59,14 @@
                 <button class="btn delete"><fa icon="trash" /> حذف</button>
               </td>
             </tr>
-          </tbody>
+          </tbody> -->
           <tfoot>
             <td>صفوف لكل الصفحة</td>
             <td></td>
             <td></td>
             <td>
               <fa icon="	fas fa-angle-right" />
-              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
+              <fa icon="	fas fa-angle-left" />1-10 من {{ clients.length }} عنصر
             </td>
           </tfoot>
         </table>
@@ -58,6 +77,47 @@
 <script>
 export default {
   name: "ClientPage",
+  data() {
+    return {
+      clients: [],
+    };
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/customer/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.clients = data))
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    deleteClient(clientId) {
+      fetch("http://127.0.0.1:8001/api/customer/" + clientId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            this.clients = this.clients.filter(
+              (client) => client.id !== clientId
+            );
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting client:", error);
+        });
+    },
+  },
 };
 </script>
 <style scoped>
