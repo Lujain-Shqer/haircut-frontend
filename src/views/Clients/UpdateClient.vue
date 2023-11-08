@@ -61,7 +61,6 @@ export default {
         .catch((error) => {
           console.error("Error updating client:", error);
         });
-      console.log("say hiiii");
     },
   },
 };
