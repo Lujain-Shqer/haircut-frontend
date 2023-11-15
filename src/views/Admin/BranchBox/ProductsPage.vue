@@ -25,40 +25,24 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr v-for="product in productsToDisplay" :key="product.id">
               <td>
-                <img src="../../../assets/salePoints/Prod/21.png" />
-                زيت نيو هير تايلندي
+                <img
+                  :src="
+                    'http://127.0.0.1:8001/storage/product_images/' +
+                    product.image
+                  "
+                  alt="product"
+                />
+                {{ product.name }}
               </td>
-              <td>500.00</td>
-              <td>صالون شعر & ذقن للحلاقة</td>
+              <td>{{ product.selling_price }}</td>
+              <td>{{ product.branch_id }}</td>
               <td class="text-center">
                 <button class="btn show"><fa icon="pen" /> تعديل</button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <img src="../../../assets/salePoints/Prod/20.png" />
-                زيت نيو هير تايلندي
-              </td>
-              <td>500.00</td>
-              <td>صالون شعر & ذقن للحلاقة</td>
-              <td class="text-center">
-                <button class="btn show"><fa icon="pen" /> تعديل</button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <img src="../../../assets/salePoints/Prod/1.png" />
-                زيت نيو هير تايلندي
-              </td>
-              <td>500.00</td>
-              <td>صالون شعر & ذقن للحلاقة</td>
-              <td class="text-center">
-                <button class="btn show"><fa icon="pen" /> تعديل</button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
+                <button @click="deleteProduct(product.id)" class="btn delete">
+                  <fa icon="trash" /> حذف
+                </button>
               </td>
             </tr>
           </tbody>
@@ -66,10 +50,16 @@
             <td>صفوف لكل الصفحة</td>
             <td></td>
             <td></td>
-            <td>
+            <paginationFoot
+              :current-page="currentPage"
+              :total-pages="pageNumber"
+              :total-data="products.length"
+              @page-change="changePage"
+            ></paginationFoot>
+            <!-- <td>
               <fa icon="	fas fa-angle-right" />
               <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
-            </td>
+            </td> -->
           </tfoot>
         </table>
       </div>
@@ -77,8 +67,68 @@
   </div>
 </template>
 <script>
+import PaginationFoot from "/src/components/PaginationFoot.vue";
 export default {
+  components: {
+    PaginationFoot,
+  },
   name: "ProductsPage",
+  data() {
+    return {
+      products: [],
+      productsPerPage: 7,
+      currentPage: 1,
+    };
+  },
+  computed: {
+    productsToDisplay() {
+      const startIndex = (this.currentPage - 1) * this.productsPerPage;
+      const endIndex = startIndex + this.productsPerPage;
+      return this.products.slice(startIndex, endIndex);
+    },
+    pageNumber() {
+      return Math.ceil(this.products.length / this.productsPerPage);
+    },
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/product/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.products = data))
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    deleteProduct(productId) {
+      fetch("http://127.0.0.1:8001/api/product/" + productId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            this.products = this.products.filter(
+              (product) => product.id !== productId
+            );
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting product:", error);
+        });
+    },
+    changePage(currentPage) {
+      this.currentPage = currentPage;
+    },
+  },
 };
 </script>
 <style scoped>

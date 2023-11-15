@@ -11,7 +11,7 @@
         >إضغط على المنتجات أو الخدمات لإضافتها إلى الطلب لتكون ضمن الفاتورة .
       </span>
       <div class="services text-center">
-        <ServicesPage />
+        <ServicesPage :selectedService="selectedService" />
       </div>
       <h6 class="first-step">تفاصيل حجز الجديد</h6>
       <div class="control-table" style="overflow-x: auto">
@@ -27,21 +27,16 @@
               <th scope="col">سعر لخدمة</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>صبغة ذقن اسود</td>
-              <td>15 دقائق</td>
-              <td>130</td>
+          <tbody v-if="selectedServices.length > 0">
+            <tr v-for="service in selectedServices" :key="service.id">
+              <td>{{ service.name }}</td>
+              <td>{{ service.duration }} دقائق</td>
+              <td>{{ service.price }}</td>
             </tr>
+          </tbody>
+          <tbody v-else>
             <tr>
-              <td>صبغة ذقن اسود</td>
-              <td>15 دقائق</td>
-              <td>130</td>
-            </tr>
-            <tr>
-              <td>صبغة ذقن اسود</td>
-              <td>15 دقائق</td>
-              <td>130</td>
+              <td colspan="3">لم يتم اختيار أي خدمة</td>
             </tr>
           </tbody>
         </table>
@@ -59,6 +54,19 @@ export default {
   name: "NewReservation1",
   components: {
     ServicesPage,
+  },
+  data() {
+    return {
+      reserv_info: {
+        services: {},
+      },
+    };
+  },
+  methods: {},
+  computed: {
+    selectedServices() {
+      return this.$store.state.selectedServices;
+    },
   },
 };
 </script>

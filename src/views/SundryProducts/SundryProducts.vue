@@ -26,7 +26,24 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr v-for="sundry in sundriesToDisplay" :key="sundry.id">
+              <td>{{ sundry.id }}</td>
+              <td>{{ sundry.name }}</td>
+              <td>{{ sundry.branch_id }}</td>
+              <td class="text-center">
+                <router-link
+                  :to="{ name: 'UpdateSundry', params: { id: sundry.id } }"
+                >
+                  <button class="btn update">
+                    <fa icon="pencil" /> تعديل
+                  </button></router-link
+                >
+                <button @click="deleteSundry(sundry.id)" class="btn delete">
+                  <fa icon="trash" /> حذف
+                </button>
+              </td>
+            </tr>
+            <!-- <tr>
               <td>1</td>
               <td>علي الأحد</td>
               <td>096367364</td>
@@ -36,9 +53,20 @@
                 </router-link>
                 <button class="btn delete"><fa icon="trash" /> حذف</button>
               </td>
-            </tr>
+            </tr> -->
           </tbody>
           <tfoot>
+            <td>صفوف لكل الصفحة</td>
+            <td></td>
+            <td></td>
+            <paginationFoot
+              :current-page="currentPage"
+              :total-pages="pageNumber"
+              :total-data="sundries.length"
+              @page-change="changePage"
+            ></paginationFoot>
+          </tfoot>
+          <!-- <tfoot>
             <td>صفوف لكل الصفحة</td>
             <td></td>
             <td></td>
@@ -46,15 +74,75 @@
               <fa icon="	fas fa-angle-right" />
               <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
             </td>
-          </tfoot>
+          </tfoot> -->
         </table>
       </div>
     </div>
   </div>
 </template>
 <script>
+import PaginationFoot from "/src/components/PaginationFoot.vue";
 export default {
+  components: {
+    PaginationFoot,
+  },
   name: "SundryProducts",
+  data() {
+    return {
+      sundries: [],
+      sundriesPerPage: 7,
+      currentPage: 1,
+    };
+  },
+  computed: {
+    sundriesToDisplay() {
+      const startIndex = (this.currentPage - 1) * this.sundriesPerPage;
+      const endIndex = startIndex + this.sundriesPerPage;
+      return this.sundries.slice(startIndex, endIndex);
+    },
+    pageNumber() {
+      return Math.ceil(this.sundries.length / this.sundriesPerPage);
+    },
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/sundry/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.sundries = data))
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    deleteSundry(sundryId) {
+      fetch("http://127.0.0.1:8001/api/sundry/" + sundryId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            this.sundries = this.sundries.filter(
+              (sundry) => sundry.id !== sundryId
+            );
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting sundry:", error);
+        });
+    },
+    changePage(currentPage) {
+      this.currentPage = currentPage;
+    },
+  },
 };
 </script>
 <style scoped>

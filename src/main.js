@@ -4,7 +4,8 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { registerLicense } from "@syncfusion/ej2-base";
 import { provide } from "vue";
-
+// import { setLicenseKey } from "@syncfusion/ej2-base";
+// setLicenseKey("your-license-key");
 library.add(fas);
 
 import App from "./App.vue";

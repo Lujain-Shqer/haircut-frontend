@@ -9,7 +9,10 @@
       <h6 class="first-step">الخطوة الثالثة:</h6>
       <span>اضغط على تاريخ الحجز لتكون بالفاتورة من حيث المواعيد . </span>
       <div class="control_wrapper">
-        <ejs-calendar :isMultiSelection="isMultiSelection"></ejs-calendar>
+        <ejs-calendar
+          :isMultiSelection="isMultiSelection"
+          @change="handleDateChange"
+        ></ejs-calendar>
       </div>
       <h6 class="first-step">تفاصيل حجز الجديد</h6>
       <div class="control-table" style="overflow-x: auto">
@@ -27,39 +30,52 @@
               <th scope="col">سعر لخدمة</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>محمد العلي</td>
-              <td>2023- May- 15</td>
-              <td>صبغة ذقن اسود</td>
-              <td>15 دقائق</td>
-              <td>130</td>
+          <tbody v-if="selectedServices.length > 0">
+            <tr :key="selectedServices[0].id">
+              <td rowspan="{{ selectedServices.length }}">
+                {{ selectedEmployee }}
+              </td>
+              <td rowspan="{{ selectedServices.length }}">
+                {{ selectedDate }}
+              </td>
+              <td>{{ selectedServices[0].name }}</td>
+              <td>{{ selectedServices[0].duration }} دقائق</td>
+              <td>{{ selectedServices[0].price }}</td>
             </tr>
-            <tr>
-              <td>محمد العلي</td>
-              <td>2023- May- 15</td>
-
-              <td scope="row">صبغة ذقن اسود</td>
-              <td>15 دقائق</td>
-              <td>130</td>
-            </tr>
-            <tr>
-              <td>محمد العلي</td>
-              <td>2023- May- 15</td>
-
-              <td scope="row">صبغة ذقن اسود</td>
-              <td>15 دقائق</td>
-              <td>130</td>
-            </tr>
-            <tr>
-              <td>محمد العلي</td>
-              <td>2023- May- 15</td>
-
-              <td scope="row">صبغة ذقن اسود</td>
-              <td>15 دقائق</td>
-              <td>130</td>
+            <tr v-for="service in selectedServices.slice(1)" :key="service.id">
+              <td></td>
+              <td></td>
+              <td>{{ service.name }}</td>
+              <td>{{ service.duration }} دقائق</td>
+              <td>{{ service.price }}</td>
             </tr>
           </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="5">لم يتم اختيار أي خدمة</td>
+            </tr>
+          </tbody>
+
+          <!-- <thead>
+            <tr>
+              <th :rowspan="selectedServices.length" scope="col">اسم الموظف</th>
+              <th :rowspan="selectedServices.length" scope="col">
+                تاريخ الحجز
+              </th>
+              <th scope="col">الخدمة</th>
+              <th scope="col">مدة العمل</th>
+              <th scope="col">سعر لخدمة</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="service in selectedServices" :key="service.id">
+              <td>{{ selectedEmployee }}</td>
+              <td>{{ selectedDate }}</td>
+              <td>{{ service.name }}</td>
+              <td>{{ service.duration }} دقائق</td>
+              <td>{{ service.price }}</td>
+            </tr>
+          </tbody> -->
         </table>
       </div>
       <div class="button-container">
@@ -75,7 +91,7 @@
 </template>
 <script>
 import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
-
+import { format } from "date-fns";
 export default {
   name: "NewReservation3",
   components: {
@@ -84,7 +100,26 @@ export default {
   data() {
     return {
       isMultiSelection: true,
+      // selectedDate: null,
     };
+  },
+  computed: {
+    selectedServices() {
+      return this.$store.state.selectedServices;
+    },
+    selectedDate() {
+      return this.$store.state.reserveDate;
+    },
+    selectedEmployee() {
+      return this.$store.state.reserveEmployee;
+    },
+  },
+  methods: {
+    handleDateChange(args) {
+      const selectedDate = format(args.value, "yyyy-MM-dd");
+      console.log("Selected Date:", selectedDate);
+      this.$store.commit("addDate", selectedDate);
+    },
   },
 };
 </script>

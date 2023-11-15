@@ -8,13 +8,27 @@
         >إضافة اسم الخدمة التي سيتم اعتمادها بالصالون الحلاقة وتقديمها للعملاء
       </span>
       <label>اسم الخدمة</label>
-      <input type="text" placeholder="اسم الخدمة" />
+      <input
+        type="text"
+        placeholder="اسم الخدمة"
+        v-model="service_info.name"
+        required
+      />
       <h4 class="first-step">الخطوة الثاني:</h4>
       <span
         >اختيار الصورة المعبرة عن اسم الخدمة ليتم أدراج بالنظام صالون الحلاقة
       </span>
       <div class="services text-center row">
-        <div class="card">
+        <div
+          v-for="(item, index) in cardCount"
+          :key="index"
+          class="card"
+          @click="selectItem(item, index)"
+          :class="{ active: selectedItems === item }"
+        >
+          <img :src="require(`@/assets/salePoints/Serv/${index + 1}.png`)" />
+        </div>
+        <!-- <div class="card">
           <img src="../../../assets/salePoints/Serv/1.png" />
         </div>
         <div class="card">
@@ -65,137 +79,45 @@
 
         <div class="card">
           <img src="../../../assets/salePoints/Serv/16.png" />
-        </div>
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/1.png" />
-        </div>
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/2.png" />
-        </div>
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/3.png" />
-        </div>
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/4.png" />
-        </div>
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/5.png" />
-        </div>
-
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/6.png" />
-        </div>
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/7.png" />
-        </div>
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/8.png" />
-        </div>
-
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/9.png" />
-        </div>
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/10.png" />
-        </div>
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/11.png" />
-        </div>
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/12.png" />
-        </div>
-
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/13.png" />
-        </div>
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/14.png" />
-        </div>
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/15.png" />
-        </div>
-
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/16.png" />
-        </div>
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/1.png" />
-        </div>
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/2.png" />
-        </div>
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/3.png" />
-        </div>
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/4.png" />
-        </div>
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/5.png" />
-        </div>
-
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/6.png" />
-        </div>
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/7.png" />
-        </div>
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/8.png" />
-        </div>
-
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/9.png" />
-        </div>
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/10.png" />
-        </div>
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/11.png" />
-        </div>
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/12.png" />
-        </div>
-
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/13.png" />
-        </div>
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/14.png" />
-        </div>
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/15.png" />
-        </div>
-
-        <div class="card">
-          <img src="../../../assets/salePoints/Serv/16.png" />
-        </div>
+        </div> -->
       </div>
       <br />
       <h4 class="first-step">الخطوة الثالثة:</h4>
       <span>ادخل قيمة سعر الخدمة متوافق مع معايير الصالون الحلاقة </span>
       <label>سعر الخدمة</label>
-      <input type="text" placeholder="سعر الخدمة" />
+      <input
+        type="text"
+        placeholder="سعر الخدمة"
+        v-model="service_info.price"
+        required
+      />
       <h4 class="first-step">الخطوة الرابعة:</h4>
       <span>ادخل الوقت المطلوب لتقديم للعميل و اعتمادها بالصالون الحلاقة</span>
-      <div class="row">
-        <div class="col-xl-6 col-sm-12 clock">
+      <label>مدة الخدمة</label>
+      <input
+        type="text"
+        placeholder="مدة الخدمة"
+        v-model="service_info.duration"
+        required
+      />
+      <!-- <div class="col-xl-6 col-sm-12 clock">
           <h5 class="first-step">من الساعة:</h5>
           <ul>
             <li>ص</li>
             <li>م</li>
           </ul>
           <input type="text" /> <span>:</span> <input type="text" />
-        </div>
-        <div class="col-xl-6 col-sm-12 clock">
+        </div> -->
+      <!-- <div class="col-xl-6 col-sm-12 clock">
           <h5 class="first-step">الى الساعة:</h5>
           <ul>
             <li>ص</li>
             <li>م</li>
           </ul>
           <input type="text" /> <span>:</span> <input type="text" />
-        </div>
-        <button class="btn bill">إضافة خدمة جديد</button>
+        </div> -->
+      <div class="row">
+        <button @click="addService" class="btn bill">إضافة خدمة جديد</button>
       </div>
     </div>
   </div>
@@ -207,17 +129,57 @@ export default {
   components: {},
   data() {
     return {
+      cardCount: 37,
       component: "ServicesPage",
+      selectedItems: null,
+      service_info: {
+        image: "",
+        name: "",
+        price: "",
+        duration: "",
+      },
     };
   },
   methods: {
     makeActive: function (component, event) {
       this.component = component;
-      event.target.classList.add("blue");
+      const isActive = event.target.classList.contains("active");
+      console.log(isActive);
+      if (!isActive) {
+        event.target.classList.add("blue");
+      }
       if (event.target.nextElementSibling != null)
         event.target.nextElementSibling.classList.remove("blue");
       if (event.target.previousElementSibling != null)
         event.target.previousElementSibling.classList.remove("blue");
+    },
+    selectItem(item, index) {
+      this.selectedItems = item;
+      this.service_info.image = index + 1 + ".png";
+    },
+
+    addService(event) {
+      event.preventDefault();
+      console.log(localStorage.getItem("access_token"));
+      fetch("http://127.0.0.1:8001/api/service", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          branch_id: localStorage.getItem("branch_id"),
+          name: this.service_info.name,
+          price: this.service_info.price,
+          duration: this.service_info.duration,
+          image: this.service_info.image,
+        }),
+      }).then((response) => {
+        if (response.ok) {
+          this.$router.push({ name: "ServicesPage" });
+          return response.json();
+        }
+      });
     },
   },
 };
@@ -255,6 +217,7 @@ export default {
 .addServices label {
   color: #1a2669;
 }
+
 .addServices .first-step ~ input {
   width: 35%;
   margin-bottom: 1vh;
@@ -329,6 +292,10 @@ export default {
   margin-top: 5vh;
 }
 
+.active {
+  background-color: #8590d1;
+  color: white;
+}
 @media (max-width: 991px) {
   .addServices {
     width: 70%;

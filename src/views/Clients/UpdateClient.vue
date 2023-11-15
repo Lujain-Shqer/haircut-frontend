@@ -40,16 +40,19 @@ export default {
     updateClient(event) {
       event.preventDefault();
       console.log(this.$route.params.id);
+      Object.keys(this.client_info).forEach((key) => {
+        if (this.client_info[key] === "") {
+          delete this.client_info[key];
+        }
+      });
+      console.log(this.client_info);
       fetch("http://127.0.0.1:8001/api/customer/" + this.$route.params.id, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          name: this.client_info.name,
-          phone_number: this.client_info.phone_number,
-        }),
+        body: JSON.stringify(this.client_info),
       })
         .then((response) => {
           if (response.ok) {

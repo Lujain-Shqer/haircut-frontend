@@ -43,14 +43,12 @@ export default {
         name: "",
         phone_number: "",
       },
-      errorMessage: "",
     };
   },
   methods: {
     addClient(event) {
       event.preventDefault();
       console.log(localStorage.getItem("access_token"));
-      console.log(localStorage.getItem("branch_id"));
       fetch("http://127.0.0.1:8001/api/customer", {
         method: "POST",
         headers: {
@@ -64,6 +62,7 @@ export default {
         }),
       }).then((response) => {
         if (response.ok) {
+          this.$router.push({ name: "ClientPage" });
           return response.json();
         }
       });

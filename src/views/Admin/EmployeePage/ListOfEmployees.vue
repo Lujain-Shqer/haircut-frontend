@@ -22,7 +22,7 @@
             <tr>
               <th scope="col">كود الموظف</th>
               <th scope="col">الموظف</th>
-              <th scope="col">المدفوع</th>
+              <th scope="col">المهنة</th>
               <th scope="col">الأجر</th>
               <th scope="col">تاريخ</th>
               <th scope="col">رقم الإقامة</th>
@@ -31,7 +31,24 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr v-for="employee in employeesToDisplay" :key="employee.id">
+              <td>{{ employee.id }}</td>
+              <td>{{ employee.name }}</td>
+              <td>{{ employee.job }}</td>
+              <td class="row">
+                <div class="col-5">الراتب :</div>
+                <div class="col-5">{{ employee.salary }}</div>
+                <div class="col-5">العمولة :</div>
+                <div class="col-5">{{ employee.commission }}%</div>
+              </td>
+              <td>{{ employee.created_at }}</td>
+              <td>{{ employee.residence_number }}</td>
+              <td>{{ employee.state }}</td>
+              <td class="text-center">
+                <button class="btn show"><fa icon="pen" /> تعديل</button>
+              </td>
+            </tr>
+            <!-- <tr>
               <td>55900</td>
               <td>أشرف عبدالعزيز</td>
               <td>حلاق</td>
@@ -47,9 +64,24 @@
               <td class="text-center">
                 <button class="btn show"><fa icon="pen" /> تعديل</button>
               </td>
-            </tr>
+            </tr> -->
           </tbody>
           <tfoot>
+            <td>صفوف لكل الصفحة</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <paginationFoot
+              :current-page="currentPage"
+              :total-pages="pageNumber"
+              :total-data="employees.length"
+              @page-change="changePage"
+            ></paginationFoot>
+          </tfoot>
+          <!-- <tfoot>
             <td>صفوف لكل الصفحة</td>
             <td></td>
             <td></td>
@@ -61,15 +93,75 @@
               <fa icon="	fas fa-angle-right" />
               <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
             </td>
-          </tfoot>
+          </tfoot> -->
         </table>
       </div>
     </div>
   </div>
 </template>
 <script>
+import PaginationFoot from "/src/components/PaginationFoot.vue";
 export default {
+  components: {
+    PaginationFoot,
+  },
   name: "ListOfEmployees",
+  data() {
+    return {
+      employees: [],
+      employeesPerPage: 7,
+      currentPage: 1,
+    };
+  },
+  computed: {
+    employeesToDisplay() {
+      const startIndex = (this.currentPage - 1) * this.employeesPerPage;
+      const endIndex = startIndex + this.employeesPerPage;
+      return this.employees.slice(startIndex, endIndex);
+    },
+    pageNumber() {
+      return Math.ceil(this.employees.length / this.employeesPerPage);
+    },
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/employee/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.employees = data))
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    // deleteClient(clientId) {
+    //   fetch("http://127.0.0.1:8001/api/customer/" + clientId, {
+    //     method: "DELETE",
+    //     headers: {
+    //       Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    //       "Content-Type": "application/json",
+    //     },
+    //   })
+    //     .then((response) => {
+    //       if (response.ok) {
+    //         this.clients = this.clients.filter(
+    //           (client) => client.id !== clientId
+    //         );
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.error("Error deleting client:", error);
+    //     });
+    // },
+    changePage(currentPage) {
+      this.currentPage = currentPage;
+    },
+  },
 };
 </script>
 <style scoped>
@@ -173,7 +265,7 @@ export default {
   color: #fff;
   font-weight: 300;
 }
-.listOfEmployee table tfoot td:last-of-type {
+/* .listOfEmployee table tfoot td:last-of-type {
   text-align: end;
   padding-left: 5vh;
 }
@@ -182,7 +274,7 @@ tfoot svg {
   padding: 0 10px;
   color: #fff;
   cursor: pointer;
-}
+} */
 @media (max-width: 991px) {
   .listOfEmployee {
     width: 70%;

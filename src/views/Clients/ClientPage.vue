@@ -27,7 +27,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="client in clients" :key="client.id">
+            <tr v-for="client in clientsToDisplay" :key="client.id">
               <td>{{ client.id }}</td>
               <td>{{ client.name }}</td>
               <td>{{ client.phone_number }}</td>
@@ -64,23 +64,53 @@
             <td>صفوف لكل الصفحة</td>
             <td></td>
             <td></td>
-            <td>
-              <fa icon="	fas fa-angle-right" />
-              <fa icon="	fas fa-angle-left" />1-10 من {{ clients.length }} عنصر
-            </td>
+            <paginationFoot
+              :current-page="currentPage"
+              :total-pages="pageNumber"
+              :total-data="clients.length"
+              @page-change="changePage"
+            ></paginationFoot>
           </tfoot>
+
+          <!-- <tfoot>
+            <td>صفوف لكل الصفحة</td>
+            <td></td>
+            <td></td>
+            <td>
+              <fa @click="prevPage" icon="	fas fa-angle-right" />
+              <fa @click="nextPage" icon="	fas fa-angle-left" />{{
+                currentPage
+              }}-{{ pageNumber }} من {{ clients.length }} عنصر
+            </td>
+          </tfoot> -->
         </table>
       </div>
     </div>
   </div>
 </template>
 <script>
+import PaginationFoot from "/src/components/PaginationFoot.vue";
 export default {
+  components: {
+    PaginationFoot,
+  },
   name: "ClientPage",
   data() {
     return {
       clients: [],
+      clientsPerPage: 7,
+      currentPage: 1,
     };
+  },
+  computed: {
+    clientsToDisplay() {
+      const startIndex = (this.currentPage - 1) * this.clientsPerPage;
+      const endIndex = startIndex + this.clientsPerPage;
+      return this.clients.slice(startIndex, endIndex);
+    },
+    pageNumber() {
+      return Math.ceil(this.clients.length / this.clientsPerPage);
+    },
   },
   mounted() {
     fetch(
@@ -117,6 +147,22 @@ export default {
           console.error("Error deleting client:", error);
         });
     },
+    changePage(currentPage) {
+      this.currentPage = currentPage;
+    },
+    // prevPage() {
+    //   if (this.currentPage > 1) {
+    //     this.currentPage--;
+    //   }
+    // },
+
+    // nextPage() {
+    //   if (
+    //     this.currentPage < Math.ceil(this.clients.length / this.clientsPerPage)
+    //   ) {
+    //     this.currentPage++;
+    //   }
+    // },
   },
 };
 </script>
@@ -207,10 +253,10 @@ export default {
   color: #fff;
   font-weight: 300;
 }
-.client table tfoot td:last-of-type {
+/*.client table tfoot td:last-of-type {
   text-align: end;
   padding-left: 5vh;
-}
+} */
 .client table thead tr th,
 .client table tfoot tr th {
   background: #3f51b5;
@@ -218,12 +264,12 @@ export default {
   height: 5vh;
   font-weight: 400;
 }
-tfoot svg {
+/* tfoot svg {
   background: transparent;
   padding: 0 10px;
   color: #fff;
   cursor: pointer;
-}
+} */
 
 @media (max-width: 991px) {
   .client {

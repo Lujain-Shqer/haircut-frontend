@@ -151,7 +151,7 @@ const routes = [
     component: GeneralExpenses,
   },
   {
-    path: "/UpdateSundry",
+    path: "/UpdateSundry/:id",
     name: "UpdateSundry",
     component: UpdateSundry,
   },

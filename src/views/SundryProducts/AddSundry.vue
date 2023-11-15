@@ -8,14 +8,24 @@
       </p>
       <div class="update-info-client">
         <h6>منتج جديد</h6>
-        <form class="row">
+        <form @submit="addSundry" class="row">
           <div class="col-lg-6 col-md-12">
             <label>الاسم</label>
-            <input type="text" placeholder="اضف اسم المنتج " />
+            <input
+              type="text"
+              placeholder="اضف اسم المنتج "
+              v-model="sundry_info.name"
+              required
+            />
           </div>
           <div class="col-lg-6 col-md-12">
             <label>سعر الشراء</label>
-            <input type="text" placeholder="اضف سعر الشراء" />
+            <input
+              type="text"
+              placeholder="اضف سعر الشراء"
+              v-model="sundry_info.price"
+              required
+            />
           </div>
           <button class="btn">إضافة</button>
         </form>
@@ -26,6 +36,36 @@
 <script>
 export default {
   name: "AddSundry",
+  data() {
+    return {
+      sundry_info: {
+        name: "",
+        price: "",
+      },
+    };
+  },
+  methods: {
+    addSundry(event) {
+      event.preventDefault();
+      fetch("http://127.0.0.1:8001/api/sundry", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          branch_id: localStorage.getItem("branch_id"),
+          name: this.sundry_info.name,
+          price: this.sundry_info.price,
+        }),
+      }).then((response) => {
+        if (response.ok) {
+          this.$router.push({ name: "SundryProducts" });
+          return response.json();
+        }
+      });
+    },
+  },
 };
 </script>
 <style scoped>

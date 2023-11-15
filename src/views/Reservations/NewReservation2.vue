@@ -10,7 +10,18 @@
       <span>إضغط على اسم الموظف لتكون الفاتورة باسمه . </span>
       <div class="employees">
         <div class="row">
-          <div class="employee col-lg-3 col-md-6 col-xs-12 text-center">
+          <div
+            v-for="employee in this.employees"
+            :key="employee.id"
+            @click="selectEmployee(employee.name)"
+            :class="{ active: selectedEmployee === employee.name }"
+            class="employee col-lg-3 col-md-6 col-xs-12 text-center"
+          >
+            <img src="../../assets/Vector.png" />
+            <h6>الاسم الموظف</h6>
+            <span>السيد {{ employee.name }}</span>
+          </div>
+          <!-- <div class="employee col-lg-3 col-md-6 col-xs-12 text-center">
             <img src="../../assets/Vector.png" />
             <h6>الاسم الموظف</h6>
             <span>السيد صابر</span>
@@ -24,12 +35,7 @@
             <img src="../../assets/Vector.png" />
             <h6>الاسم الموظف</h6>
             <span>السيد صابر</span>
-          </div>
-          <div class="employee col-lg-3 col-md-6 col-xs-12 text-center">
-            <img src="../../assets/Vector.png" />
-            <h6>الاسم الموظف</h6>
-            <span>السيد صابر</span>
-          </div>
+          </div> -->
         </div>
       </div>
       <h6 class="first-step">تفاصيل حجز الجديد</h6>
@@ -41,26 +47,31 @@
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
             <tr>
+              <th scope="col">الموظف</th>
               <th scope="col">الخدمة</th>
               <th scope="col">مدة العمل</th>
               <th scope="col">سعر لخدمة</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>صبغة ذقن اسود</td>
-              <td>15 دقائق</td>
-              <td>130</td>
+          <tbody v-if="selectedServices.length > 0">
+            <tr :key="selectedServices[0].id">
+              <td rowspan="{{ selectedServices.length }}">
+                {{ selectedEmployee }}
+              </td>
+              <td>{{ selectedServices[0].name }}</td>
+              <td>{{ selectedServices[0].duration }} دقائق</td>
+              <td>{{ selectedServices[0].price }}</td>
             </tr>
-            <tr>
-              <td>صبغة ذقن اسود</td>
-              <td>15 دقائق</td>
-              <td>130</td>
+            <tr v-for="service in selectedServices.slice(1)" :key="service.id">
+              <td></td>
+              <td>{{ service.name }}</td>
+              <td>{{ service.duration }} دقائق</td>
+              <td>{{ service.price }}</td>
             </tr>
+          </tbody>
+          <tbody v-else>
             <tr>
-              <td>صبغة ذقن اسود</td>
-              <td>15 دقائق</td>
-              <td>130</td>
+              <td colspan="4">لم يتم اختيار أي خدمة</td>
             </tr>
           </tbody>
         </table>
@@ -79,6 +90,41 @@
 <script>
 export default {
   name: "NewReservation2",
+  data() {
+    return {
+      employees: [],
+      // selectedEmployee: "unselected",
+    };
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/employee/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.employees = data))
+      .catch((err) => console.log(err.message));
+  },
+  computed: {
+    selectedServices() {
+      return this.$store.state.selectedServices;
+    },
+    selectedEmployee() {
+      return this.$store.state.reserveEmployee;
+    },
+  },
+  methods: {
+    selectEmployee(employeeName) {
+      // this.selectedEmployee = employeeName;
+      this.$store.commit("addEmployee", employeeName);
+    },
+  },
 };
 </script>
 <style scoped>
@@ -182,7 +228,9 @@ export default {
   width: 25%;
   margin: 5vh 1vh 0;
 }
-
+.active {
+  border: 1px solid #3f51b5;
+}
 @media (max-width: 991px) {
   .newReservation2 {
     width: 70%;

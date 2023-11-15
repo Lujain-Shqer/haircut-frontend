@@ -8,40 +8,84 @@
       <div class="update-info-client row">
         <h6>أنشاء منتج جديد</h6>
         <div class="col-lg-7 col-sm-12">
-          <form class="row">
+          <form @submit.prevent="addProduct" id="my-form" class="row">
             <div class="col-md-12">
               <label>الاسم</label>
-              <input type="text" placeholder=" اسم " />
+              <input
+                type="text"
+                placeholder=" اسم "
+                v-model="product_info.name"
+                required
+              />
             </div>
             <div class="col-md-12">
+              <label>نوع الوحدة</label>
+              <input
+                type="text"
+                placeholder=" نوع الوحدة"
+                v-model="product_info.quantity"
+                required
+              />
+            </div>
+            <!-- <div class="col-md-12">
               <label>اختر الموظف</label>
-              <select class="form-selec" aria-label="Default select example">
+              <select
+                v-model="product_info.selectedEmployee"
+                class="form-selec"
+                aria-label="Default select example"
+              >
                 <option selected>اختر الموظف</option>
+                <option
+                  v-for="employee in all_employees"
+                  :key="employee.id"
+                  :value="employee.name"
+                >
+                  {{ employee.name }}
+                </option>
                 <option value="1">One</option>
                 <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
-            </div>
+                <option value="3">Three</option> 
+              </select> 
+            </div> -->
             <div class="col-md-12">
               <label>سعر الشراء</label>
-              <input type="text" placeholder=" سعر الشراء " />
+              <input
+                type="text"
+                placeholder=" سعر الشراء "
+                v-model="product_info.purchasing_price"
+                required
+              />
             </div>
             <div class="col-md-12">
               <label>سعر البيع</label>
-              <input type="text" placeholder="  سعر البيع " />
+              <input
+                type="text"
+                placeholder="  سعر البيع "
+                v-model="product_info.selling_price"
+                required
+              />
             </div>
           </form>
         </div>
         <div class="download-image col-lg-5 col-sm-12">
+          <input
+            ref="fileInput"
+            type="file"
+            style="display: none"
+            @change="handleFileChange"
+          />
           <h6 class="text-center">يرجى تحميل صورة المنتج</h6>
           <div class="downloaded">
             <img src="../../../assets/downloaded.png" />
             <h6>حدد ملفًا أو قم بالسحب والإسقاط هنا</h6>
             <p>JPG, PNG or PDF, file size no more than 10MB</p>
-            <button class="btn">Select file</button>
+            <button @click="openFilePicker" class="btn">Select file</button>
+          </div>
+          <div class="error-message" v-if="errorMessage">
+            {{ errorMessage }}
           </div>
         </div>
-        <button class="btn">إضافة مقدم خدمة جديد</button>
+        <button @click="submitForm" class="btn">إضافة مقدم خدمة جديد</button>
       </div>
     </div>
   </div>
@@ -49,6 +93,108 @@
 <script>
 export default {
   name: "AddProducts",
+  data() {
+    return {
+      all_employees: [],
+      product_info: {
+        name: "",
+        purchasing_price: "",
+        selling_price: "",
+        selectedEmployee: "",
+        image: "",
+      },
+      errorMessage: "",
+    };
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/employee/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.all_employees = data))
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    addProduct() {
+      let formData = new FormData();
+      // Append form fields to the FormData
+      formData.append("branch_id", localStorage.getItem("branch_id"));
+      formData.append("name", this.product_info.name);
+      formData.append("purchasing_price", this.product_info.purchasing_price);
+      formData.append("selling_price", this.product_info.selling_price);
+      formData.append("quantity", this.product_info.quantity);
+      formData.append("image", this.product_info.image);
+      fetch("http://127.0.0.1:8001/api/product", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+        body: formData,
+      }).then((response) => {
+        if (response.ok) {
+          this.$router.push({ name: "ProductsPage" });
+          return response.json();
+        }
+      });
+    },
+    openFilePicker() {
+      // Trigger click on the hidden file input
+      this.$refs.fileInput.click();
+    },
+    handleFileChange(event) {
+      // Handle the selected file
+      const selectedFile = event.target.files[0];
+      if (selectedFile) {
+        // Check the file extension
+        const allowedExtensions = ["pdf", "jpeg", "jpg", "png"]; // Add more extensions as needed
+        const fileExtension = selectedFile.name.split(".").pop().toLowerCase();
+
+        // Check the file size (less than 10MB)
+        const maxSizeInBytes = 10 * 1024 * 1024; // 10MB
+        if (selectedFile.size <= maxSizeInBytes) {
+          // File has a valid size
+          if (allowedExtensions.includes(fileExtension)) {
+            // File has a valid extension
+            console.log("Selected file:", selectedFile);
+            console.log("type:", typeof selectedFile);
+            this.product_info.image = selectedFile;
+          } else {
+            // Invalid file extension
+            this.errorMessage = "لاحقة ملف غير صحيحة.";
+            setTimeout(() => {
+              this.errorMessage = "";
+            }, 5000);
+          }
+        } else {
+          // File size exceeds 10MB
+          this.errorMessage += "اختر ملف أصغر حجماً.";
+          setTimeout(() => {
+            this.errorMessage = "";
+          }, 5000);
+        }
+      }
+    },
+    submitForm() {
+      // Get the form by its id
+      const form = document.getElementById("my-form");
+
+      // Check if the form exists before submitting
+      if (form) {
+        this.addProduct();
+        // form.submit();
+        console.log("submit");
+      } else {
+        console.error("Form not found!");
+      }
+    },
+  },
 };
 </script>
 <style scoped>
@@ -130,6 +276,13 @@ export default {
   border: 1px solid #1a2669;
   background: #fff;
   color: #0f91d2;
+}
+
+.error-message {
+  display: block;
+  padding: 1vh;
+  text-align: start;
+  color: red;
 }
 @media (max-width: 991px) {
   .addProducts input[type="text"],

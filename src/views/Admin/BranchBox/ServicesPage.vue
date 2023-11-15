@@ -24,14 +24,16 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>الباقة الذهيية 7</td>
-              <td>500.00</td>
-              <td>15 دقائق</td>
-              <td>صالون شعر & ذقن للحلاقة</td>
+            <tr v-for="service in servicesToDisplay" :key="service.id">
+              <td>{{ service.name }}</td>
+              <td>{{ service.price }}</td>
+              <td>{{ service.duration }}</td>
+              <td>{{ service.branch_id }}</td>
               <td class="text-center">
                 <button class="btn show"><fa icon="pen" /> تعديل</button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
+                <button @click="deleteProduct(service.id)" class="btn delete">
+                  <fa icon="trash" /> حذف
+                </button>
               </td>
             </tr>
           </tbody>
@@ -40,10 +42,16 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>
+            <paginationFoot
+              :current-page="currentPage"
+              :total-pages="pageNumber"
+              :total-data="services.length"
+              @page-change="changePage"
+            ></paginationFoot>
+            <!-- <td>
               <fa icon="	fas fa-angle-right" />
               <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
-            </td>
+            </td> -->
           </tfoot>
         </table>
       </div>
@@ -51,8 +59,68 @@
   </div>
 </template>
 <script>
+import PaginationFoot from "/src/components/PaginationFoot.vue";
 export default {
   name: "ServicesPage",
+  components: {
+    PaginationFoot,
+  },
+  data() {
+    return {
+      services: [],
+      servicesPerPage: 7,
+      currentPage: 1,
+    };
+  },
+  computed: {
+    servicesToDisplay() {
+      const startIndex = (this.currentPage - 1) * this.servicesPerPage;
+      const endIndex = startIndex + this.servicesPerPage;
+      return this.services.slice(startIndex, endIndex);
+    },
+    pageNumber() {
+      return Math.ceil(this.services.length / this.servicesPerPage);
+    },
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/service/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.services = data))
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    deleteProduct(serviceId) {
+      fetch("http://127.0.0.1:8001/api/service/" + serviceId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            this.services = this.services.filter(
+              (service) => service.id !== serviceId
+            );
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting service:", error);
+        });
+    },
+    changePage(currentPage) {
+      this.currentPage = currentPage;
+    },
+  },
 };
 </script>
 <style scoped>
