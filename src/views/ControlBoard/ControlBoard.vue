@@ -6,45 +6,26 @@
       <h3 class="">أهلا و سهلا بك بعالمك !</h3>
       <div class="coiner">
         <div class="chosse-serv">
-          <button class="btn active">اليوم الأربعاء</button>
-          <button class="btn">الشهر الحالي</button>
-          <button class="btn">الإجمالي</button>
+          <button
+            v-on:click="makeActive('StatisticsDay', $event)"
+            class="btn blue"
+          >
+            اليوم الأربعاء
+          </button>
+          <button
+            v-on:click="makeActive('StatisticsMonth', $event)"
+            class="btn"
+          >
+            الشهر الحالي
+          </button>
+          <button
+            v-on:click="makeActive('StatisticsTotal', $event)"
+            class="btn"
+          >
+            الإجمالي
+          </button>
         </div>
-        <div class="row info-statistics">
-          <div class="col-xl-3 col-lg-6 col-md-12">
-            <h6>
-              الإيرادات اليومي
-              <span class="state"> 8.3% <fa icon="arrow-up" /></span>
-            </h6>
-            <h5>3,456</h5>
-            <img src="../../assets/sign.png" />
-            <span>34.28 ريال متوسط الطلب</span>
-          </div>
-          <div class="col-xl-3 col-lg-6 col-md-12">
-            <h6>
-              إيرادات الإسبوع
-              <span class="state"> 8.3% <fa icon="arrow-up" /></span>
-            </h6>
-            <h5>5,2</h5>
-            <img src="../../assets/sign.png" />
-            <span>700 زبون</span>
-          </div>
-          <div class="col-xl-3 col-lg-6 col-md-12">
-            <h6>
-              جلسات اليوم
-              <span class="state"> 8.3% <fa icon="arrow-up" /></span>
-            </h6>
-
-            <h5>20</h5>
-
-            <span>زبون</span>
-          </div>
-          <div class="col-xl-3 col-lg-6 col-md-12">
-            <h6>موظف يوم (الأربعاء)</h6>
-            <h5>السيد صابر</h5>
-            <span>بقيمة مبيعات :7000 SAR </span>
-          </div>
-        </div>
+        <component v-bind:is="component"></component>
         <div class="row info-works">
           <div class="col-md-8">
             <div class="row info-work">
@@ -222,18 +203,40 @@
   <router-view />
 </template>
 <script>
-// import NavBar from "@/components/NavBar.vue";
-// import SideBar from "@/components/SideBar.vue";
+// import Chart from "chart.js/auto";
+import StatisticsDay from "@/components/StatisticsDay.vue";
+import StatisticsMonth from "@/components/StatisticsMonth.vue";
+import StatisticsTotal from "@/components/StatisticsTotal.vue";
 
 export default {
   name: "ControlBoard",
-  // components: {
-  //   NavBar,
-  //   SideBar,
-  // },
+  components: {
+    StatisticsDay,
+    StatisticsMonth,
+    StatisticsTotal,
+  },
+  methods: {
+    makeActive: function (component, event) {
+      this.component = component;
+      event.target.classList.add("blue");
+      if (event.target.nextElementSibling != null)
+        event.target.nextElementSibling.classList.remove("blue");
+      if (event.target.previousElementSibling != null)
+        event.target.previousElementSibling.classList.remove("blue");
+    },
+  },
+  data() {
+    return {
+      component: "StatisticsDay",
+    };
+  },
 };
 </script>
 <style scoped>
+.blue {
+  background: #3f51b5;
+  color: #fff !important;
+}
 .ControlBoard {
   width: 100%;
 }
@@ -286,37 +289,7 @@ h3 {
   background: #3f51b5;
   color: #fff;
 }
-.info-statistics div .state {
-  color: #3f51b5;
-  background: #f4f6f6;
-  border-radius: 8px;
-  font-weight: 500;
-  display: inline;
-  margin-right: 1vh;
-  padding: 5px;
-}
-.info-statistics div span {
-  font-weight: 400;
-  margin-top: 2vh;
-}
-.info-statistics div h5 {
-  color: #3f51b5;
-  font-weight: 700;
-  display: inline;
-  padding-left: 2vh;
-}
-.info-statistics div:last-child {
-  border-right: 1px dashed #d9def1;
-  padding-right: 5vh;
-}
-.info-statistics div:nth-child(2) {
-  border-right: 1px dashed #d9def1;
-  padding-right: 5vh;
-}
-.info-statistics div:nth-child(3) {
-  border-right: 1px dashed #d9def1;
-  padding-right: 5vh;
-}
+
 .info-works {
   margin: 0 5vh !important;
   margin-top: 10vh !important;
@@ -446,6 +419,9 @@ h3 {
 
   .container {
     width: 70%;
+  }
+  .coiner .chosse-serv {
+    width: 100%;
   }
 }
 @media (max-width: 765px) {
