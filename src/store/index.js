@@ -5,6 +5,8 @@ export default createStore({
     selectedServices: [],
     reserveEmployee: "غير محدد",
     reserveDate: "غير محدد",
+    reserveClient: "غير محدد",
+    reserveHour: "غير محدد",
   },
   getters: {},
   mutations: {
@@ -19,11 +21,17 @@ export default createStore({
         state.selectedServices.splice(index, 1);
       }
     },
-    addEmployee(state, emplyeeName) {
-      state.reserveEmployee = emplyeeName;
+    addEmployee(state, employee) {
+      state.reserveEmployee = employee;
     },
     addDate(state, Date) {
       state.reserveDate = Date;
+    },
+    addClient(state, client) {
+      state.reserveClient = client;
+    },
+    addHour(state, Hour) {
+      state.reserveHour = Hour;
     },
   },
   actions: {},

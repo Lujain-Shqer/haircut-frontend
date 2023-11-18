@@ -33,7 +33,7 @@
           <tbody v-if="selectedServices.length > 0">
             <tr :key="selectedServices[0].id">
               <td rowspan="{{ selectedServices.length }}">
-                {{ selectedEmployee }}
+                {{ selectedEmployee.name }}
               </td>
               <td rowspan="{{ selectedServices.length }}">
                 {{ selectedDate }}

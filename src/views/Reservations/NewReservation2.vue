@@ -13,8 +13,8 @@
           <div
             v-for="employee in this.employees"
             :key="employee.id"
-            @click="selectEmployee(employee.name)"
-            :class="{ active: selectedEmployee === employee.name }"
+            @click="selectEmployee(employee)"
+            :class="{ active: selectedEmployee.name === employee.name }"
             class="employee col-lg-3 col-md-6 col-xs-12 text-center"
           >
             <img src="../../assets/Vector.png" />
@@ -56,7 +56,7 @@
           <tbody v-if="selectedServices.length > 0">
             <tr :key="selectedServices[0].id">
               <td rowspan="{{ selectedServices.length }}">
-                {{ selectedEmployee }}
+                {{ selectedEmployee.name }}
               </td>
               <td>{{ selectedServices[0].name }}</td>
               <td>{{ selectedServices[0].duration }} دقائق</td>
@@ -120,9 +120,9 @@ export default {
     },
   },
   methods: {
-    selectEmployee(employeeName) {
+    selectEmployee(employee) {
       // this.selectedEmployee = employeeName;
-      this.$store.commit("addEmployee", employeeName);
+      this.$store.commit("addEmployee", employee);
     },
   },
 };

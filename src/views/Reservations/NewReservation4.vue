@@ -10,24 +10,38 @@
       <span>ادخل ساعة الحجز لتكون بالفاتورة من حيث المواعيد . </span>
       <div class="row">
         <div class="col-xl-6 col-sm-12">
-          <h5 class="first-step">من الساعة:</h5>
+          <h5 class="first-step">الساعة:</h5>
           <ul>
             <li>ص</li>
             <li>م</li>
           </ul>
-          <input type="text" /> <span>:</span> <input type="text" />
+          <input
+            min="0"
+            max="59"
+            v-model="minute"
+            type="text"
+            @input="validateMinute"
+          />
+          <span>:</span>
+          <input
+            min="0"
+            max="23"
+            v-model="hour"
+            type="text"
+            @input="validateHour"
+          />
         </div>
-        <div class="col-xl-6 col-sm-12">
+        <!-- <div class="col-xl-6 col-sm-12">
           <h5 class="first-step">الى الساعة:</h5>
           <ul>
             <li>ص</li>
             <li>م</li>
           </ul>
           <input type="text" /> <span>:</span> <input type="text" />
-        </div>
+        </div> -->
       </div>
       <label>اختر اسم العميل</label>
-      <select
+      <!-- <select
         data-live-search="true"
         class="selectpicker show-menu-arrow form-selec"
       >
@@ -35,6 +49,20 @@
         <option value="1">One</option>
         <option value="2">Two</option>
         <option value="3">Three</option>
+      </select> -->
+      <select
+        v-model="client"
+        @change="selectClient"
+        data-live-search="true"
+        class="selectpicker show-menu-arrow form-selec"
+      >
+        <option
+          v-for="client in allClients"
+          :key="client.id"
+          :value="{ id: client.id, name: client.name }"
+        >
+          {{ client.name }}
+        </option>
       </select>
       <h4 class="first-step">تفاصيل حجز الجديد</h4>
       <div class="control-table" style="overflow-x: auto">
@@ -54,33 +82,37 @@
               <th scope="col">سعر لخدمة</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>محمد العلي</td>
-              <td>2023- May- 15</td>
-              <td>عبدالله علي</td>
-              <td>من 7:00م إلى 7:50م</td>
-              <td>صبغة ذقن اسود</td>
-              <td>15 دقائق</td>
-              <td>130</td>
+          <tbody v-if="selectedServices.length > 0">
+            <tr :key="selectedServices[0].id">
+              <td rowspan="{{ selectedServices.length }}">
+                {{ selectedEmployee.name }}
+              </td>
+              <td rowspan="{{ selectedServices.length }}">
+                {{ selectedDate }}
+              </td>
+              <td rowspan="{{ selectedServices.length }}">
+                {{ selectedClient.name }}
+              </td>
+              <td rowspan="{{ selectedServices.length }}">
+                {{ selectedHour }}
+              </td>
+              <td>{{ selectedServices[0].name }}</td>
+              <td>{{ selectedServices[0].duration }} دقائق</td>
+              <td>{{ selectedServices[0].price }}</td>
             </tr>
-            <tr>
-              <td>محمد العلي</td>
-              <td>2023- May- 15</td>
-              <td>عبدالله علي</td>
-              <td>من 7:00م إلى 7:50م</td>
-              <td>صبغة ذقن اسود</td>
-              <td>15 دقائق</td>
-              <td>130</td>
+            <tr v-for="service in selectedServices.slice(1)" :key="service.id">
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>{{ service.name }}</td>
+              <td>{{ service.duration }} دقائق</td>
+              <td>{{ service.price }}</td>
             </tr>
+          </tbody>
+          <tbody v-else>
             <tr>
-              <td>محمد العلي</td>
-              <td>2023- May- 15</td>
-              <td>عبدالله علي</td>
-              <td>من 7:00م إلى 7:50م</td>
-              <td>صبغة ذقن اسود</td>
-              <td>15 دقائق</td>
-              <td>130</td>
+              <td colspan="7">لم يتم اختيار أي خدمة</td>
             </tr>
           </tbody>
         </table>
@@ -97,6 +129,76 @@
 <script>
 export default {
   name: "NewReservation4",
+  data() {
+    return {
+      allClients: [],
+      client: "",
+      hour: "",
+      minute: "",
+    };
+  },
+  mounted() {
+    this.selectDate();
+    fetch(
+      "http://127.0.0.1:8001/api/customer/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.allClients = data))
+      .catch((err) => console.log(err.message));
+  },
+  computed: {
+    selectedServices() {
+      return this.$store.state.selectedServices;
+    },
+    selectedDate() {
+      return this.$store.state.reserveDate;
+    },
+    selectedEmployee() {
+      return this.$store.state.reserveEmployee;
+    },
+    selectedHour() {
+      return this.$store.state.reserveHour;
+    },
+    selectedClient() {
+      return this.$store.state.reserveClient;
+    },
+  },
+  methods: {
+    selectClient() {
+      // this.selectedEmployee = employeeName;
+      this.$store.commit("addClient", this.client);
+    },
+    selectDate() {
+      this.$store.commit(
+        "addHour",
+        `${this.padZero(this.hour)}:${this.padZero(this.minute)}`
+      );
+    },
+    padZero(value) {
+      return value.toString().padStart(2, "0");
+    },
+    validateMinute() {
+      // Ensure minute is within the valid range
+      if (this.minute < 0 || this.minute > 59) {
+        this.minute = ""; // Or any default value or error handling
+      }
+      this.selectDate();
+    },
+    validateHour() {
+      // Ensure hour is within the valid range
+      if (this.hour < 0 || this.hour > 23) {
+        this.hour = ""; // Or any default value or error handling
+      }
+      this.selectDate();
+    },
+  },
 };
 </script>
 <style scoped>
