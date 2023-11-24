@@ -37,7 +37,12 @@
               <td>
                 <span>1</span>
               </td>
-              <td><span>15.00</span>SAR</td>
+              <td><span>15.00</span> SAR</td>
+            </tr>
+            <tr>
+              <td>المجموع</td>
+              <td></td>
+              <td>197.60 </td>
             </tr>
           </tbody>
         </table>
@@ -61,33 +66,40 @@
             </button>
           </div>
           <button class="btn blue-button">إنهاء فترة العمل</button>
-          <button class="btn white-button">
-            <fa icon="plus" /> أضف خدمة جديدة
-          </button>
+          <router-link to="/AddServices">
+            <button class="btn white-button">
+              <fa icon="plus" /> أضف خدمة جديدة
+            </button>
+          </router-link>
         </div>
         <component v-bind:is="component"></component>
       </div>
       <br />
       <h4 class="first-step">الخطوة الثاني:</h4>
       <span>ادخل البيانات المطلوبة بالجدول ادناه لاصدار الفاتورة </span>
-      <form class="row">
+      <div class="row formDiv">
         <div class="col-lg-4 col-md-12">
           <label>الاسم العميل</label>
           <input type="text" placeholder="عميل افتراضي" />
         </div>
         <div class="col-lg-4 col-md-12">
           <label>اسم الموظف</label>
-          <input type="text" placeholder="اختر الموظف" />
+          <select class="form-selec" aria-label="Default select example">
+            <option selected>اختر الموظف</option>
+            <option value="1">السيد صابر</option>
+            <option value="2">محمد عصام</option>
+            <option value="3">أشرف عبدالعزيز</option>
+          </select>
         </div>
+
         <div class="col-lg-4 col-md-12">
           <label>اختر طريقة الدفع</label>
           <div class="chosse">
-            <button class="btn">كاش</button>
-            <button class="btn">شبكة</button>
-            <button class="btn" @click="first">معا</button>
+            <button class="btn" @click="getActive">كاش</button>
+            <button class="btn" @click="getActive">شبكة</button>
+            <button @click="showComponent" class="btn">معا</button>
           </div>
-
-          <div class="row type-pay" v-show="showDiv">
+          <div class="row type-pay" v-show="isComponentVisible">
             <div class="col-6">
               <label>أدخل قيمة الشبكة</label>
               <input class="" type="text" placeholder="أدخل قيمة الكاش" />
@@ -98,22 +110,23 @@
             </div>
           </div>
         </div>
+
         <div class="col-lg-4 col-md-12">
           <label>مبلغ الخصم (إن وجد)</label>
           <input type="text" placeholder="مبلغ الخصم" />
         </div>
         <div class="col-lg-4 col-md-12">
-          <label>اسم الموظف</label>
+          <label>مكافأة من العميل</label>
           <input type="text" placeholder="ادخل قيمة مكافأة من العميل" />
         </div>
         <div class="col-lg-4 col-md-12">
           <label>طريقة دفع المكافأة</label>
           <div class="chosse">
-            <button class="btn">كاش</button>
-            <button class="btn">شبكة</button>
-            <button class="btn" @click="firstt">معا</button>
+            <button class="btn" @click="getActive">كاش</button>
+            <button class="btn" @click="getActive">شبكة</button>
+            <button class="btn" @click="show">معا</button>
           </div>
-          <div class="row type-pay" v-show="showDivv">
+          <div class="row type-pay" v-show="isVisible">
             <div class="col-6">
               <label>أدخل قيمة الشبكة</label>
               <input class="" type="text" placeholder="أدخل قيمة الكاش" />
@@ -125,7 +138,7 @@
           </div>
         </div>
         <button class="btn bill">إصدار فاتورة</button>
-      </form>
+      </div>
     </div>
   </div>
   <router-view />
@@ -147,19 +160,56 @@ export default {
         event.target.nextElementSibling.classList.remove("blue");
       if (event.target.previousElementSibling != null)
         event.target.previousElementSibling.classList.remove("blue");
+      console.log(this.component);
     },
-    first: function () {
-      this.showDiv = true;
+    getActive: function (event) {
+      event.target.classList.add("blue");
+      if (event.target.nextElementSibling != null)
+        event.target.nextElementSibling.classList.remove("blue");
+      if (event.target.previousElementSibling != null)
+        event.target.previousElementSibling.classList.remove("blue");
+      if (this.isComponentVisible) {
+        this.isComponentVisible = false;
+      }
     },
-    firstt: function () {
-      this.showDivv = true;
+    showComponent(event) {
+      event.target.classList.add("blue");
+      if (event.target.nextElementSibling != null)
+        event.target.nextElementSibling.classList.remove("blue");
+      if (event.target.previousElementSibling != null)
+        event.target.previousElementSibling.classList.remove("blue");
+      if (this.isComponentVisible) {
+        this.isComponentVisible = false;
+      } else {
+        this.isComponentVisible = true;
+      }
+    },
+    show(event) {
+      const siblings = Array.from(event.target.parentNode.children).filter(
+        (child) => child !== event.target
+      );
+      console.log(siblings);
+      event.target.classList.add("blue");
+      // <li v-for="(value, key) in event">
+      // </li>
+      if (event.target.nextElementSibling != null)
+        event.target.nextElementSibling.classList.remove("blue");
+      if (event.target.previousElementSibling != null)
+        event.target.previousElementSibling.classList.remove("blue");
+      if (this.isVisible) {
+        this.isVisible = false;
+      } else {
+        this.isVisible = true;
+      }
     },
   },
   data() {
     return {
+      isComponentVisible: false,
+      isVisible: false,
       component: "ServicesPage",
-      option1: false,
-      showDiv: false,
+      payment: "",
+      reward: "",
     };
   },
 };
@@ -176,6 +226,14 @@ export default {
 .pointOfSales {
   direction: rtl;
   width: 80%;
+}
+tr:last-of-type td {
+  background-color: #ebedf7;
+  font-weight: 500;
+}
+tr:last-of-type td:last-of-type {
+  color: #1a2669;
+  font-weight: 600;
 }
 .pointOfSales h4 {
   color: #3f51b5;
@@ -250,12 +308,13 @@ tr {
 .pointOfSales span {
   color: #1a2669;
 }
-.pointOfSales form {
+.pointOfSales .formDiv {
   box-shadow: 0px 0px 15px 0px #00000040;
   border: 1.5px solid #3f51b5;
   border-radius: 8px;
   margin-top: 5vh;
   padding: 2vh;
+  margin-bottom: 5vh;
 }
 .pointOfSales label {
   display: block;
@@ -263,7 +322,8 @@ tr {
   margin-top: 2vh;
   font-weight: 400;
 }
-.pointOfSales input {
+.pointOfSales input,
+.pointOfSales .form-selec {
   border: 1px solid #c8c9cc;
   color: #1a2669;
   border-radius: 8px;
@@ -271,14 +331,15 @@ tr {
   width: 100%;
   outline: none;
 }
-.pointOfSales input::placeholder {
-  color: #c8c9cc;
+.pointOfSales input::placeholder,
+.pointOfSales .form-selec::placeholder {
+  color: #1a2669;
 }
 .pointOfSales button.bill {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
-  width: 25%;
+  width: auto;
   margin: auto;
   margin-top: 5vh;
 }
@@ -326,6 +387,9 @@ tr {
   .table {
     width: 192%;
   }
+  .services .header .chosse-serv {
+    width: auto !important;
+  }
 }
 
 @media (max-width: 540px) {
@@ -352,6 +416,7 @@ tr {
 .services .header button,
 .services .header .chosse-serv {
   display: inline-block;
+  width: auto;
 }
 .services .header .chosse-serv {
   float: right;

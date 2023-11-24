@@ -80,7 +80,7 @@ export default {
   cursor: pointer;
 }
 .red {
-  background: rgb(242, 131, 131);
+  background: #ebedf7;
 }
 .card h6 {
   color: #1a2669;
@@ -98,6 +98,11 @@ export default {
 @media (max-width: 768px) {
   .card {
     width: 32%;
+  }
+}
+@media (max-width: 580px) {
+  .card {
+    width: 40%;
   }
 }
 </style>

@@ -2,7 +2,6 @@ import { createApp } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
-import { registerLicense } from "@syncfusion/ej2-base";
 import { provide } from "vue";
 // import { setLicenseKey } from "@syncfusion/ej2-base";
 // setLicenseKey("your-license-key");
@@ -26,5 +25,6 @@ createApp(App)
   .use(store)
   .use(router)
   .mount("#app");
+import { registerLicense } from "@syncfusion/ej2-base";
 
-registerLicense("OR");
+registerLicense("");

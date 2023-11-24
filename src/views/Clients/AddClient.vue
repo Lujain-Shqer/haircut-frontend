@@ -122,7 +122,7 @@ export default {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
-  width: 25%;
+  width: auto;
   margin: auto;
   margin-top: 5vh;
 }
@@ -131,7 +131,6 @@ export default {
     width: 100%;
   }
   .AddClient button {
-    width: 95%;
     margin-right: 2vh;
     margin-top: 2vh;
   }

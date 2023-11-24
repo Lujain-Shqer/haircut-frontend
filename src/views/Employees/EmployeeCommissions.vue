@@ -137,7 +137,7 @@ export default {
   display: flow-root;
 }
 .employeeCommissions .search {
-  width: 65%;
+  width: auto;
   float: right;
 }
 .employeeCommissions .search span {
@@ -158,7 +158,7 @@ export default {
   border: 1px solid #c8c9cc;
   box-shadow: 0px 0px 4px 0px #6e49cb33;
   border-radius: 8px;
-  width: 25%;
+  width: auto;
   display: inline;
   color: #3f51b5;
   padding: 1vh;
@@ -173,7 +173,7 @@ export default {
 }
 
 .employeeCommissions .extra-table button {
-  width: 35%;
+  width: auto;
   float: left;
   background: #3f51b5;
   color: #fff;
@@ -266,18 +266,14 @@ tfoot svg {
 }
 @media (max-width: 540px) {
   .search {
-    width: 100% !important;
+    width: auto;
   }
-  .employeeCommissions .extra-table button {
-    width: 50%;
-    margin-top: 2vh;
-    float: none;
-  }
+
   .extra-table {
-    width: 210%;
+    width: 210% !important;
   }
   .table {
-    width: 230%;
+    width: 230% !important;
   }
   .employeeCommissions table .update {
     margin-top: 1vh;

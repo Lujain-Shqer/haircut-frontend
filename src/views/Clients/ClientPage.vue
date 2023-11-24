@@ -200,7 +200,7 @@ export default {
   border: 1px solid #c8c9cc;
   box-shadow: 0px 0px 4px 0px #6e49cb33;
   border-radius: 8px;
-  width: 35%;
+  width: auto;
   float: right;
   display: inline;
   float: right;
@@ -219,7 +219,7 @@ export default {
 }
 
 .client .extra-table button {
-  width: 20%;
+  width: auto;
   float: left;
   background: #3f51b5;
   color: #fff;

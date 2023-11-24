@@ -7,190 +7,132 @@
         فاتورة المبيعات عادةً على معلومات مهمة تتعلق بالخدمات التي تم بيعها
         والمبلغ المستحق للدفع.
       </p>
-
-      <div class="all-table" style="overflow-x: auto">
-        <div class="row extra-table">
-          <div class="input-container">
-            <fa icon="coins" />
-            <span>الحجوزات الجديدة</span>
-          </div>
-          <button class="btn">بحث بالتاريخ</button>
-          <button class="btn">من الفترة -> إلى الفترة</button>
-        </div>
-        <table class="table" cellpadding="5" border="1" cellspacing="0">
-          <thead>
-            <tr>
-              <th scope="col">تاريخ الحجز</th>
-              <th scope="col">اسم العميل</th>
-              <th scope="col">رقم هاتف العميل</th>
-
-              <th scope="col">التوقيت</th>
-              <th scope="col">الموظف</th>
-              <th scope="col">الخدمات</th>
-              <th scope="col" class="text-center">الإجراءات</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>9-4-2010</td>
-              <td>فارس الحربي</td>
-              <td>(0559090488)</td>
-              <td>03:05 م - 04:38 م</td>
-              <td>محمد عصام</td>
-              <td>
-                <li>صبغة دقن</li>
-                <li>صبغة دقن</li>
-                <li>صبغة دقن</li>
-                <li>صبغة دقن</li>
-              </td>
-              <td class="text-center">
-                <button class="btn show">
-                  <fa icon="fa-file-pdf" /> عرض الفاتورة
-                </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="">
+        <ejs-schedule
+          height="550px"
+          :eventSettings="appointmentData"
+        ></ejs-schedule>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { ScheduleComponent, Week } from "@syncfusion/ej2-vue-schedule";
+
 export default {
   name: "ShowReservations",
+  components: {
+    "ejs-schedule": ScheduleComponent,
+  },
+  provide: {
+    schedule: [Week],
+  },
+  data() {
+    return {
+      appointmentData: {
+        dataSource: [
+          {
+            Subject: "الاسم الموظف:" + "فارس الحربي",
+            StartTime: "التوقيت" + new Date(2023, 10, 13, 8, 0),
+            EndTime: new Date(2023, 10, 13, 10, 30),
+          },
+          {
+            Subject: "الاسم الموظف:" + "فارس الحربي",
+            StartTime: "التوقيت" + new Date(2023, 10, 5, 10, 0),
+            EndTime: new Date(2023, 10, 5, 10, 50),
+          },
+        ],
+      },
+    };
+  },
 };
 </script>
-<style scoped>
+<style>
 .row {
   margin: 0;
 }
 .showReservations {
-  direction: rtl;
   width: 80%;
 }
 .showReservations h4,
 h5 {
   color: #3f51b5;
   font-weight: 700px;
+  direction: rtl;
 }
 .showReservations p {
   color: #1a2669;
   font-weight: 400;
   padding: 2vh;
+  direction: rtl;
 }
-
-.showReservations .extra-table {
-  margin: 0 4vh;
-  margin-bottom: 3vh;
-  display: flow-root;
+.e-schedule .e-vertical-view .e-header-cells .e-header-day {
+  display: table;
+  font-size: 13px;
+  line-height: unset;
+  padding-bottom: 0;
+  color: #71717a;
+  text-transform: uppercase;
 }
-.showReservations .input-container {
-  width: 30%;
-  float: right;
-  display: inline;
-  float: right;
-  color: #3f51b5;
-  font-weight: 500;
-  margin: 0;
+.e-schedule .e-vertical-view .e-header-cells .e-header-date {
+  font-size: 3vmin;
 }
-
-.showReservations .input-container svg {
-  padding-left: 2vh;
+.e-schedule .e-vertical-view .e-time-cells-wrap table td,
+.e-schedule .e-vertical-view .e-header-cells .e-header-day {
+  font-weight: 900;
 }
-
-.showReservations .extra-table button {
-  width: 20%;
-  margin-right: 10px;
-  float: left;
-  background: #3f51b5;
-  color: #fff;
+.e-toolbar .e-toolbar-items.e-tbar-pos .e-toolbar-right {
+  display: none;
 }
-/* .showReservations .extra-table button:first-of-type, */
-.showReservations .extra-table button:last-of-type {
-  background: #fff;
-  color: #3f51b5;
-  border: 1px solid #3f51b5;
-}
-.showReservations .extra-table button:last-of-type {
-  width: 25%;
-}
-.showReservations .extra-table button:first-of-type {
-  width: 15%;
-}
-.showReservations .all-table {
-  margin-top: 5vh;
-  border: 1px solid #3f51b5;
-  padding: 3vh 0 0;
-  box-shadow: 0px 0px 15px 0px #00000040;
-  border-radius: 8px;
-}
-.showReservations table {
-  margin-bottom: 0;
-  text-align: center;
-}
-tbody,
-td,
-tfoot,
-th,
-thead,
-tr {
-  border-bottom: 1px solid #d9d5ec;
-}
-
-.showReservations table tr td,
-.showReservations table tr th {
+.e-schedule
+  .e-vertical-view
+  .e-day-wrapper
+  .e-appointment:not(.e-schedule-event-clone) {
+  cursor: default;
+  background: #cdefff;
+  font-weight: 100;
   color: #1a2669;
+  border-left: 4px solid #0ea5e9;
+  width: 100% !important;
+  direction: rtl;
+  padding: 0 0 8vh;
 }
-.showReservations table .delete {
-  background: #fff;
-  color: #3f51b5;
-  border: 1px solid #3f51b5;
-  margin-right: 2px;
+.e-popup.e-popup-open {
+  display: none;
 }
-.showReservations table .show {
-  background: #3f51b5;
-  color: #fff;
-  border: 1px solid #3f51b5;
-  margin-left: 2px;
+.e-schedule .e-vertical-view .e-header-cells.e-current-day,
+.e-schedule .e-vertical-view .e-current-time {
+  color: #0ea5e9;
 }
-.showReservations table thead tr th,
-.showReservations table tfoot tr th {
-  background: #3f51b5;
-  color: #e3e3e3;
-  height: 5vh;
-  font-weight: 400;
+.e-schedule .e-vertical-view .e-current-timeline,
+.e-schedule .e-vertical-view .e-previous-timeline {
+  border-top: 1px solid #0ea5e9;
 }
+.e-popup.e-popup-open.e-dialog {
+  display: none;
+}
+.e-dlg-container {
+  display: none !important;
+}
+.e-schedule {
+}
+
 @media (max-width: 991px) {
   .showReservations {
     width: 70%;
-  }
-
-  .extra-table {
-    width: 180%;
-  }
-  .table {
-    width: 192%;
   }
 }
 @media (max-width: 765px) {
   .showReservations {
     width: 100%;
   }
-  .extra-table {
-    width: 175%;
-  }
-  .table {
-    width: 192%;
-  }
 }
-
-@media (max-width: 540px) {
-  .extra-table {
-    width: 210%;
-  }
-  .table {
-    width: 230%;
-  }
-}
+@import "../../../node_modules/@syncfusion/ej2-base/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-buttons/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-calendars/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-dropdowns/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-inputs/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-navigations/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-popups/styles/material.css";
+@import "../../../node_modules/@syncfusion/ej2-vue-schedule/styles/material.css";
 </style>

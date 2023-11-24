@@ -272,5 +272,8 @@ tfoot svg {
   .table {
     width: 230%;
   }
+  .cards {
+    width: 48%;
+  }
 }
 </style>

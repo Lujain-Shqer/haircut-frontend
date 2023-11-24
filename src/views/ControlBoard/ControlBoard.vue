@@ -350,7 +350,7 @@ h3 {
 }
 
 .info-sales img {
-  width: 20%;
+  width: 5vmin;
   background: #757de8;
   padding: 1vh;
   color: #fff;
@@ -431,6 +431,14 @@ h3 {
   }
   .info-works img {
     display: none;
+  }
+  .info-sales img {
+    width: 20%;
+  }
+  @media (max-width: 580px) {
+    .info-sales img {
+      display: none;
+    }
   }
 }
 </style>

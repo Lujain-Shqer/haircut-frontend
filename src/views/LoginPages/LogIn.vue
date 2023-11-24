@@ -257,4 +257,9 @@ export default {
     margin: auto;
   }
 }
+@media (max-width: 765px) {
+  .logo {
+    margin: 0;
+  }
+}
 </style>

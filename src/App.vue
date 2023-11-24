@@ -30,5 +30,6 @@ export default {
 #app {
   z-index: 10000000000000;
   position: relative;
+  background: #fff;
 }
 </style>

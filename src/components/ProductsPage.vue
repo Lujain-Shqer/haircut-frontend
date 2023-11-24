@@ -125,9 +125,13 @@
 <script>
 export default {
   name: "ServicesPage",
+  methods: {},
 };
 </script>
 <style scoped>
+.red {
+  background: #ebedf7;
+}
 .row {
   justify-content: space-around;
 }
@@ -154,13 +158,18 @@ export default {
   cursor: pointer;
 }
 @media (max-width: 991px) {
-  .products .card {
+  .card {
     width: 16%;
   }
 }
 @media (max-width: 768px) {
-  .products .card {
+  .card {
     width: 32%;
+  }
+}
+@media (max-width: 580px) {
+  .card {
+    width: 40%;
   }
 }
 </style>
