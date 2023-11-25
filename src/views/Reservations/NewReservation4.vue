@@ -117,28 +117,33 @@
           </tbody>
         </table>
       </div>
+      <div class="error-message" v-if="errorMessage">
+        {{ errorMessage }}
+      </div>
       <div class="button-container">
         <router-link to="/NewReservation3">
           <button class="btn">رجوع</button>
         </router-link>
-        <button class="btn">إنهاء الطلب</button>
+        <button @click="addReserve" class="btn">إنهاء الطلب</button>
       </div>
     </div>
   </div>
 </template>
 <script>
+import reservationMixin from "@/Mixins/ReservationMixin";
 export default {
   name: "NewReservation4",
+  mixins: [reservationMixin],
   data() {
     return {
       allClients: [],
       client: "",
       hour: "",
       minute: "",
+      errorMessage: "",
     };
   },
   mounted() {
-    this.selectDate();
     fetch(
       "http://127.0.0.1:8001/api/customer/" + localStorage.getItem("branch_id"),
       {
@@ -169,8 +174,58 @@ export default {
     selectedClient() {
       return this.$store.state.reserveClient;
     },
+    totalAmount() {
+      return this.selectedServices.reduce((total, obj) => total + obj.price, 0);
+    },
+    totalDuration() {
+      return this.selectedServices.reduce(
+        (total, obj) => total + obj.duration,
+        0
+      );
+    },
   },
   methods: {
+    addReserve(event) {
+      event.preventDefault();
+      if (
+        this.selectedServices.length === 0 ||
+        this.selectedEmployee.name === "غير محدد" ||
+        this.selectedClient.name === "غير محدد" ||
+        this.selectedHour === "غير محدد" ||
+        this.selectedDate === "غير محدد"
+      ) {
+        this.errorMessage = "أرجو إدخال كافة المعلومات المطلوبة للحجز.";
+        setTimeout(() => {
+          this.errorMessage = "";
+        }, 5000);
+      } else {
+        fetch("http://127.0.0.1:8001/api/reservation", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            branch_id: localStorage.getItem("branch_id"),
+            employee_id: this.selectedEmployee.id,
+            customer_id: this.selectedClient.id,
+            services: this.selectedServices.map((service) => service.id),
+            date: this.selectedDate + " " + this.selectedHour,
+            total_duration: this.totalDuration,
+            total_amount: this.totalAmount,
+          }),
+        })
+          .then((response) => {
+            if (response.ok) {
+              this.$router.push({ name: "ShowReservations" });
+              return response.json();
+            }
+          })
+          .catch((error) => {
+            console.error("Error adding reservation:", error);
+          });
+      }
+    },
     selectClient() {
       // this.selectedEmployee = employeeName;
       this.$store.commit("addClient", this.client);
@@ -334,7 +389,12 @@ export default {
   width: 25%;
   margin: 5vh 1vh 0;
 }
-
+.error-message {
+  display: block;
+  padding: 1vh;
+  text-align: start;
+  color: red;
+}
 @media (max-width: 991px) {
   .newReservation4 {
     width: 70%;

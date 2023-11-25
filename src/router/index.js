@@ -64,6 +64,9 @@ import EmployeesSalary from "../views/Admin/EmployeePage/EmployeesSalary.vue";
 import SalaryPage from "../views/Admin/EmployeePage/SalaryPage.vue";
 import LiquidationEmployee from "../views/Admin/EmployeePage/LiquidationEmployee.vue";
 import TotalEmployee from "../views/Admin/EmployeePage/TotalEmployee.vue";
+import store from "@/store/index";
+import reservationMixin from "@/Mixins/ReservationMixin";
+import orderMixin from "@/Mixins/OrderMixin";
 const routes = [
   {
     path: "/",
@@ -234,6 +237,7 @@ const routes = [
     path: "/PointOfSales",
     name: "PointOfSales",
     component: PointOfSales,
+    meta: { isOnOrderPage: true },
   },
   {
     path: "/SalonAppointments",
@@ -254,21 +258,25 @@ const routes = [
     path: "/NewReservation1",
     name: "NewReservation1",
     component: NewReservation1,
+    meta: { isOnReservationPage: true },
   },
   {
     path: "/NewReservation2",
     name: "NewReservation2",
     component: NewReservation2,
+    meta: { isOnReservationPage: true },
   },
   {
     path: "/NewReservation3",
     name: "NewReservation3",
     component: NewReservation3,
+    meta: { isOnReservationPage: true },
   },
   {
     path: "/NewReservation4",
     name: "NewReservation4",
     component: NewReservation4,
+    meta: { isOnReservationPage: true },
   },
   {
     path: "/FundMovement",
@@ -406,10 +414,38 @@ const routes = [
     component: TotalEmployee,
   },
 ];
-
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
+router.beforeEach((to, from, next) => {
+  // Apply the mixin to set isOnReservationPage flag in the store
+  reservationMixin.beforeRouteEnter.call({ $store: store }, to, from, next);
+  orderMixin.beforeRouteEnter.call({ $store: store }, to, from, next);
+  const toIsOnReservationPage = to.meta.isOnReservationPage || false;
+  // const toIsOnOrderPage = to.meta.isOnOrderPage || false;
+  // const fromIsOnReservationPage = from.meta.isOnReservationPage || false;
+  const fromIsOnOrderPage = from.meta.isOnOrderPage || false;
+  console.log(toIsOnReservationPage);
+  // console.log(toIsOnOrderPage);
+  // console.log(fromIsOnReservationPage);
+  console.log(fromIsOnOrderPage);
 
+  // if (toIsOnOrderPage && fromIsOnReservationPage) {
+  //   store.commit("clearReservationData");
+  // }
+  // if (fromIsOnOrderPage && toIsOnReservationPage) {
+  //   // Clear reservation-related data in the store
+  //   console.log("clear oder data");
+  //   store.commit("clearOrderData");
+  // }
+  if (!toIsOnReservationPage) {
+    store.commit("clearReservationData");
+  }
+  if (fromIsOnOrderPage && toIsOnReservationPage) {
+    store.commit("clearOrderData");
+  }
+
+  // next();
+});
 export default router;

@@ -92,11 +92,13 @@
 <script>
 import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
 import { format } from "date-fns";
+import reservationMixin from "@/Mixins/ReservationMixin";
 export default {
   name: "NewReservation3",
   components: {
     "ejs-calendar": CalendarComponent,
   },
+  mixins: [reservationMixin],
   data() {
     return {
       isMultiSelection: true,

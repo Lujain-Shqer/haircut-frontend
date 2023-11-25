@@ -88,8 +88,10 @@
   </div>
 </template>
 <script>
+import reservationMixin from "@/Mixins/ReservationMixin";
 export default {
   name: "NewReservation2",
+  mixins: [reservationMixin],
   data() {
     return {
       employees: [],

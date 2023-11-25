@@ -49,12 +49,13 @@
 </template>
 <script>
 import ServicesPage from "@/components/ServicesPage.vue";
-
+import reservationMixin from "@/Mixins/ReservationMixin";
 export default {
   name: "NewReservation1",
   components: {
     ServicesPage,
   },
+  mixins: [reservationMixin],
   data() {
     return {
       reserv_info: {
@@ -67,6 +68,9 @@ export default {
     selectedServices() {
       return this.$store.state.selectedServices;
     },
+    isOnReservationPage() {
+      return this.$store.state.isOnReservationPage;
+    },
   },
 };
 </script>
@@ -74,26 +78,32 @@ export default {
 .row {
   margin: 0;
 }
+
 .newReservation1 {
   direction: rtl;
   width: 80%;
 }
+
 .newReservation1 h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
+
 .newReservation1 p {
   color: #1a2669;
   font-weight: 400;
 }
+
 .newReservation1 .first-step {
   display: inline-block;
   margin-top: 5vh;
   color: #3f51b5;
 }
+
 .newReservation1 span {
   color: #1a2669;
 }
+
 .newReservation1 .control-table {
   margin-top: 3vh;
   border: 1px solid #3f51b5;
@@ -102,6 +112,7 @@ export default {
   border-radius: 8px;
   width: 50%;
 }
+
 .newReservation1 .extra-table {
   margin: 0 4vh;
   margin-bottom: 3vh;
@@ -109,6 +120,7 @@ export default {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
 .newReservation1 img {
   margin-left: 4vh;
   background: #fefefe;
@@ -119,6 +131,7 @@ export default {
   box-shadow: 0px 0px 6px -1px #1414141f;
   width: 10%;
 }
+
 .newReservation1 .extra-table span {
   color: #3f51b5;
 }
@@ -129,6 +142,7 @@ export default {
   border-spacing: 0;
   text-align: center;
 }
+
 .newReservation1 table tr td,
 .newReservation1 table tr th {
   color: #1a2669;
@@ -141,6 +155,7 @@ export default {
   height: 5vh;
   font-weight: 400;
 }
+
 .newReservation1 button {
   background: #3f51b5;
   color: #fff;
@@ -156,13 +171,16 @@ export default {
     width: 70%;
   }
 }
+
 @media (max-width: 765px) {
   .newReservation1 {
     width: 100%;
   }
 }
+
 @media (max-width: 540px) {
 }
+
 .services {
   box-shadow: 0px 0px 15px 0px #00000040;
   border: 1.5px solid #3f51b5;

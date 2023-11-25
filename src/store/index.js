@@ -1,13 +1,16 @@
 import { createStore } from "vuex";
+const initialState = {
+  selectedServices: [],
+  reserveEmployee: { name: "غير محدد" },
+  reserveDate: "غير محدد",
+  reserveClient: { name: "غير محدد" },
+  reserveHour: "غير محدد",
+  isOnReservationPage: false,
+  isOnOrderPage: false,
+};
 // import createPersistedState from "vuex-persistedstate";
 export default createStore({
-  state: {
-    selectedServices: [],
-    reserveEmployee: "غير محدد",
-    reserveDate: "غير محدد",
-    reserveClient: "غير محدد",
-    reserveHour: "غير محدد",
-  },
+  state: { ...initialState },
   getters: {},
   mutations: {
     addService(state, service) {
@@ -32,6 +35,22 @@ export default createStore({
     },
     addHour(state, Hour) {
       state.reserveHour = Hour;
+    },
+    clearReservationData(state) {
+      state.selectedServices = [];
+      state.reserveEmployee = { name: "غير محدد" };
+      state.reserveDate = "غير محدد";
+      state.reserveClient = { name: "غير محدد" };
+      state.reserveHour = "غير محدد";
+    },
+    setIsOnReservationPage(state, value) {
+      state.isOnReservationPage = value;
+    },
+    clearOrderData(state) {
+      state.selectedServices = [];
+    },
+    setIsOnOrderPage(state, value) {
+      state.isOnOrderPage = value;
     },
   },
   actions: {},

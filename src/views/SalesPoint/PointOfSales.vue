@@ -42,7 +42,7 @@
             <tr>
               <td>المجموع</td>
               <td></td>
-              <td>197.60 </td>
+              <td>197.60</td>
             </tr>
           </tbody>
         </table>
@@ -146,12 +146,17 @@
 <script>
 import ServicesPage from "@/components/ServicesPage.vue";
 import ProductsPage from "@/components/ProductsPage.vue";
+import orderMixin from "@/Mixins/OrderMixin";
 export default {
   name: "PointOfSales",
   components: {
     ServicesPage,
     ProductsPage,
   },
+  mixins: [orderMixin],
+  // mounted() {
+  //   this.$store.commit("clearSelectedServices");
+  // },
   methods: {
     makeActive: function (component, event) {
       this.component = component;
