@@ -423,22 +423,7 @@ router.beforeEach((to, from, next) => {
   reservationMixin.beforeRouteEnter.call({ $store: store }, to, from, next);
   orderMixin.beforeRouteEnter.call({ $store: store }, to, from, next);
   const toIsOnReservationPage = to.meta.isOnReservationPage || false;
-  // const toIsOnOrderPage = to.meta.isOnOrderPage || false;
-  // const fromIsOnReservationPage = from.meta.isOnReservationPage || false;
   const fromIsOnOrderPage = from.meta.isOnOrderPage || false;
-  console.log(toIsOnReservationPage);
-  // console.log(toIsOnOrderPage);
-  // console.log(fromIsOnReservationPage);
-  console.log(fromIsOnOrderPage);
-
-  // if (toIsOnOrderPage && fromIsOnReservationPage) {
-  //   store.commit("clearReservationData");
-  // }
-  // if (fromIsOnOrderPage && toIsOnReservationPage) {
-  //   // Clear reservation-related data in the store
-  //   console.log("clear oder data");
-  //   store.commit("clearOrderData");
-  // }
   if (!toIsOnReservationPage) {
     store.commit("clearReservationData");
   }

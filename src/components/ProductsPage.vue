@@ -1,11 +1,18 @@
 <template>
   <div class="row">
-    <div class="card">
+    <div
+      v-for="product in products"
+      class="card"
+      :key="product.id"
+      v-on:click="toggleClass(product)"
+      :class="{ red: isProductSelected(product) }"
+    >
+      <img :src="require(`@/assets/salePoints/Prod/${service.image}`)" />
       <img src="../assets/salePoints/Prod/1.png" />
-      <h6>جل شعر سك5 (1000g)</h6>
-      <span>30.00 SAR</span>
+      <h6>{{ product.name }}</h6>
+      <span>{{ product.price }} SAR</span>
     </div>
-    <div class="card">
+    <!-- <div class="card">
       <img src="../assets/salePoints/Prod/2.png" />
       <h6>125gواكس عنكبوت</h6>
       <span>30.00 SAR</span>
@@ -119,13 +126,56 @@
       <img src="../assets/salePoints/Prod/24.png" />
       <h6>مقص ايطالي</h6>
       <span>30.00 SAR</span>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
 export default {
-  name: "ServicesPage",
-  methods: {},
+  name: " ProductsPage",
+  data() {
+    return {
+      products: [],
+      selectedProducts: [],
+    };
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/product/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        this.products = data.map((product) => ({
+          ...product,
+        }));
+      })
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    toggleClass(product) {
+      const isSelected = this.isProductSelected(product);
+      if (isSelected) {
+        this.removeProduct(product);
+      } else {
+        this.addProduct(product);
+      }
+    },
+    isProductSelected(product) {
+      return this.selectedProducts.some(
+        (selectedProduct) => selectedProduct.id === product.id
+      );
+    },
+  },
+  // computed: {
+  //   selectedProducts() {
+  //     return this.$store.state.selectedProducts;
+  //   },
 };
 </script>
 <style scoped>
