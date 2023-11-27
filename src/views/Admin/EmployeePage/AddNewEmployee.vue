@@ -166,8 +166,6 @@ export default {
   methods: {
     addEmployee(event) {
       event.preventDefault();
-      console.log(this.employee_info);
-      console.log(localStorage.getItem("branch_id"));
       fetch("http://127.0.0.1:8001/api/employee", {
         method: "POST",
         headers: {

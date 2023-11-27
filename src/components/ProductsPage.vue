@@ -7,10 +7,12 @@
       v-on:click="toggleClass(product)"
       :class="{ red: isProductSelected(product) }"
     >
-      <img :src="require(`@/assets/salePoints/Prod/${service.image}`)" />
-      <img src="../assets/salePoints/Prod/1.png" />
+      <img
+        :src="'http://127.0.0.1:8001/storage/product_images/' + product.image"
+        alt="product"
+      />
       <h6>{{ product.name }}</h6>
-      <span>{{ product.price }} SAR</span>
+      <span>{{ product.selling_price }} SAR</span>
     </div>
     <!-- <div class="card">
       <img src="../assets/salePoints/Prod/2.png" />
@@ -135,7 +137,7 @@ export default {
   data() {
     return {
       products: [],
-      selectedProducts: [],
+      // selectedProducts: [],
     };
   },
   mounted() {
@@ -161,30 +163,42 @@ export default {
     toggleClass(product) {
       const isSelected = this.isProductSelected(product);
       if (isSelected) {
-        this.removeProduct(product);
+        this.$store.commit("removeProduct", product);
       } else {
-        this.addProduct(product);
+        this.$store.commit("addProduct", product);
       }
+      // this.$emit("sendSelectedProducts", this.selectedProducts);
     },
     isProductSelected(product) {
       return this.selectedProducts.some(
         (selectedProduct) => selectedProduct.id === product.id
       );
     },
+    // removeProduct(product) {
+    //   this.selectedProducts = this.selectedProducts.filter(
+    //     (obj) => obj.id !== product.id
+    //   );
+    // },
+    // addProduct(product) {
+    //   this.selectedProducts.push(product);
+    // },
   },
-  // computed: {
-  //   selectedProducts() {
-  //     return this.$store.state.selectedProducts;
-  //   },
+  computed: {
+    selectedProducts() {
+      return this.$store.state.selectedProducts;
+    },
+  },
 };
 </script>
 <style scoped>
 .red {
   background: #ebedf7;
 }
+
 .row {
   justify-content: space-around;
 }
+
 .card {
   border: 1px solid #1a2669;
   width: 10%;
@@ -192,31 +206,38 @@ export default {
   margin-bottom: 2vh;
   transition: all 0.5s;
 }
+
 .card h6 {
   color: #1a2669;
   font-size: 12px;
 }
+
 .card span {
   color: #3f51b5;
 }
+
 .card img {
   margin-top: 1vh;
 }
+
 .card:hover {
   border: 1px solid #1a2669;
   background: #ebedf7;
   cursor: pointer;
 }
+
 @media (max-width: 991px) {
   .card {
     width: 16%;
   }
 }
+
 @media (max-width: 768px) {
   .card {
     width: 32%;
   }
 }
+
 @media (max-width: 580px) {
   .card {
     width: 40%;

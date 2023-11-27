@@ -427,7 +427,7 @@ router.beforeEach((to, from, next) => {
   if (!toIsOnReservationPage) {
     store.commit("clearReservationData");
   }
-  if (fromIsOnOrderPage && toIsOnReservationPage) {
+  if (fromIsOnOrderPage) {
     store.commit("clearOrderData");
   }
 

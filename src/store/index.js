@@ -7,6 +7,7 @@ const initialState = {
   reserveHour: "غير محدد",
   isOnReservationPage: false,
   isOnOrderPage: false,
+  selectedProducts: [],
 };
 // import createPersistedState from "vuex-persistedstate";
 export default createStore({
@@ -48,9 +49,18 @@ export default createStore({
     },
     clearOrderData(state) {
       state.selectedServices = [];
+      state.selectedProducts = [];
     },
     setIsOnOrderPage(state, value) {
       state.isOnOrderPage = value;
+    },
+    removeProduct(state, product) {
+      state.selectedProducts = state.selectedProducts.filter(
+        (obj) => obj.id !== product.id
+      );
+    },
+    addProduct(state, product) {
+      state.selectedProducts.push(product);
     },
   },
   actions: {},

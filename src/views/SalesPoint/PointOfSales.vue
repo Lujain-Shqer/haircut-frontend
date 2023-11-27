@@ -27,22 +27,61 @@
               <th scope="col">سعر الخدمة / المنتج</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>علي إسماعيل</td>
-              <td>عامر يوسف</td>
-              <td>67</td>
-              <td>234</td>
-              <td>صبغة ذقن اسود</td>
-              <td>
-                <span>1</span>
+          <tbody
+            v-if="selectedServices.length > 0 || selectedProducts.length > 0"
+          >
+            <tr :key="selectedServices[0].id">
+              <td rowspan="{{ selectedServices.length }}">
+                {{ this.order_info.employee.name }}
               </td>
-              <td><span>15.00</span> SAR</td>
+              <td rowspan="{{ selectedServices.length }}">
+                {{ this.order_info.client.name }}
+              </td>
+              <td rowspan="{{ selectedServices.length }}">
+                {{ this.order_info.discount }}
+              </td>
+              <td rowspan="{{ selectedServices.length }}">
+                {{ this.order_info.tip }}
+              </td>
+              <td>{{ selectedServices[0].name }}</td>
+              <td>1</td>
+              <td>{{ selectedServices[0].price }}</td>
+            </tr>
+            <tr v-for="service in selectedServices.slice(1)" :key="service.id">
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>{{ service.name }}</td>
+              <td>1</td>
+              <td>{{ service.price }}</td>
+            </tr>
+            <tr v-for="product in selectedProducts" :key="product.id">
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>{{ product.name }}</td>
+              <td>1</td>
+              <td>{{ product.selling_price }}</td>
             </tr>
             <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
               <td>المجموع</td>
               <td></td>
-              <td>197.60</td>
+              <td>{{ this.amount }}SAR</td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="7">
+                اتباع الخطوات لإصدار الفاتورة
+                <br />
+                اضغط على المنتجات أو الخدمات لإضافتها إلى الطلب
+              </td>
             </tr>
           </tbody>
         </table>
@@ -80,23 +119,46 @@
       <div class="row formDiv">
         <div class="col-lg-4 col-md-12">
           <label>الاسم العميل</label>
-          <input type="text" placeholder="عميل افتراضي" />
+          <select
+            v-model="order_info.client"
+            data-live-search="true"
+            class="selectpicker show-menu-arrow form-selec"
+          >
+            <option disabled selected value="">اختر عميل</option>
+            <option
+              v-for="client in allClients"
+              :key="client.id"
+              :value="{ id: client.id, name: client.name }"
+            >
+              {{ client.name }}
+            </option>
+          </select>
         </div>
         <div class="col-lg-4 col-md-12">
           <label>اسم الموظف</label>
-          <select class="form-selec" aria-label="Default select example">
-            <option selected>اختر الموظف</option>
-            <option value="1">السيد صابر</option>
-            <option value="2">محمد عصام</option>
-            <option value="3">أشرف عبدالعزيز</option>
+          <select
+            v-model="order_info.employee"
+            data-live-search="true"
+            class="selectpicker show-menu-arrow form-selec"
+          >
+            <option disabled selected value="">اختر موظف</option>
+            <option
+              v-for="employee in allEmployees"
+              :key="employee.id"
+              :value="{ id: employee.id, name: employee.name }"
+            >
+              {{ employee.name }}
+            </option>
           </select>
         </div>
 
         <div class="col-lg-4 col-md-12">
           <label>اختر طريقة الدفع</label>
           <div class="chosse">
-            <button class="btn" @click="getActive">كاش</button>
-            <button class="btn" @click="getActive">شبكة</button>
+            <button class="btn" @click="getActive('paymentCash')">كاش</button>
+            <button class="btn" @click="getActive('paymentNetwork')">
+              شبكة
+            </button>
             <button @click="showComponent" class="btn">معا</button>
           </div>
           <div class="row type-pay" v-show="isComponentVisible">
@@ -113,17 +175,26 @@
 
         <div class="col-lg-4 col-md-12">
           <label>مبلغ الخصم (إن وجد)</label>
-          <input type="text" placeholder="مبلغ الخصم" />
+          <input
+            v-model="order_info.discount"
+            type="text"
+            placeholder="مبلغ الخصم"
+          />
         </div>
         <div class="col-lg-4 col-md-12">
           <label>مكافأة من العميل</label>
-          <input type="text" placeholder="ادخل قيمة مكافأة من العميل" />
+          <input
+            v-model="order_info.tip"
+            required
+            type="text"
+            placeholder="ادخل قيمة مكافأة من العميل"
+          />
         </div>
         <div class="col-lg-4 col-md-12">
           <label>طريقة دفع المكافأة</label>
           <div class="chosse">
-            <button class="btn" @click="getActive">كاش</button>
-            <button class="btn" @click="getActive">شبكة</button>
+            <button class="btn" @click="getActive('tipCash')">كاش</button>
+            <button class="btn" @click="getActive('tipNetwork')">شبكة</button>
             <button class="btn" @click="show">معا</button>
           </div>
           <div class="row type-pay" v-show="isVisible">
@@ -137,7 +208,7 @@
             </div>
           </div>
         </div>
-        <button class="btn bill">إصدار فاتورة</button>
+        <button @click="submitBill" class="btn bill">إصدار فاتورة</button>
       </div>
     </div>
   </div>
@@ -154,9 +225,34 @@ export default {
     ProductsPage,
   },
   mixins: [orderMixin],
-  // mounted() {
-  //   this.$store.commit("clearSelectedServices");
-  // },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/customer/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.allClients = data))
+      .catch((err) => console.log(err.message));
+    fetch(
+      "http://127.0.0.1:8001/api/employee/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.allEmployees = data))
+      .catch((err) => console.log(err.message));
+  },
   methods: {
     makeActive: function (component, event) {
       this.component = component;
@@ -165,9 +261,8 @@ export default {
         event.target.nextElementSibling.classList.remove("blue");
       if (event.target.previousElementSibling != null)
         event.target.previousElementSibling.classList.remove("blue");
-      console.log(this.component);
     },
-    getActive: function (event) {
+    getActive: function (event, value) {
       event.target.classList.add("blue");
       if (event.target.nextElementSibling != null)
         event.target.nextElementSibling.classList.remove("blue");
@@ -175,6 +270,18 @@ export default {
         event.target.previousElementSibling.classList.remove("blue");
       if (this.isComponentVisible) {
         this.isComponentVisible = false;
+      }
+      if (value === "paymentCash") {
+        this.order_info.paymentType = "cash";
+      }
+      if (value === "paymentNetwork") {
+        this.order_info.paymentType = "network";
+      }
+      if (value === "tipCash") {
+        this.order_info.tipType = "cash";
+      }
+      if (value === "tipNetwork") {
+        this.order_info.tipType = "network";
       }
     },
     showComponent(event) {
@@ -207,14 +314,79 @@ export default {
         this.isVisible = true;
       }
     },
+    sumProperty(array, property) {
+      return array.reduce(
+        (accumulator, currentValue) => accumulator + currentValue[property],
+        0
+      );
+    },
+    submitBill() {
+      Object.keys(this.order_info).forEach((key) => {
+        if (this.client_info[key] === "") {
+          delete this.client_info[key];
+        }
+      });
+      fetch("http://127.0.0.1:8001/api/order", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          branch_id: localStorage.getItem("branch_id"),
+          name: this.employee_info.name,
+        }),
+      })
+        .then((response) => {
+          if (response.ok) {
+            this.$router.push({ name: "ControlBoard" });
+            return response.json();
+          }
+        })
+        .catch((error) => {
+          if (error.response.status === 400) {
+            // Log the error details sent by the API
+            console.error("Validation error:", error.response.data);
+          } else {
+            console.error("Failed to add a new bill:", error);
+          }
+        });
+    },
+  },
+  computed: {
+    selectedServices() {
+      return this.$store.state.selectedServices;
+    },
+    selectedProducts() {
+      return this.$store.state.selectedProducts;
+    },
+
+    amount() {
+      return (
+        this.sumProperty(this.selectedServices, "price") +
+        this.sumProperty(this.selectedProducts, "selling_price")
+      );
+    },
+    productCount() {
+      return Array(this.selectedProducts.length).fill(1);
+    },
   },
   data() {
     return {
       isComponentVisible: false,
       isVisible: false,
       component: "ServicesPage",
-      payment: "",
-      reward: "",
+      allClients: [],
+      allEmployees: [],
+      order_info: {
+        payment: "0.00",
+        tip: "0.00",
+        discount: "0.00",
+        employee: { name: "غير محدد" },
+        client: { name: "غير محدد" },
+        tipType: null,
+        paymentType: null,
+      },
     };
   },
 };

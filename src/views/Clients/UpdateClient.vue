@@ -39,7 +39,6 @@ export default {
   methods: {
     updateClient(event) {
       event.preventDefault();
-      console.log(this.$route.params.id);
       Object.keys(this.client_info).forEach((key) => {
         if (this.client_info[key] === "") {
           delete this.client_info[key];
