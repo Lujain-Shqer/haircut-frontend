@@ -26,7 +26,6 @@
               type="checkbox"
               value=""
               id="flexCheckDefault"
-              required
               v-model="provider_info.taxState"
             />
           </div>
@@ -52,7 +51,7 @@ export default {
     return {
       provider_info: {
         name: "",
-        taxState: "",
+        taxState: 0,
         taxNumber: "",
       },
     };

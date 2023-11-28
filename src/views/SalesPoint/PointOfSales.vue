@@ -319,7 +319,6 @@ export default {
       );
     },
     resetData() {
-      // Assign the initial data to the current data properties
       Object.assign(this.$data, this.$options.data.call(this));
     },
     submitBill() {
@@ -353,13 +352,15 @@ export default {
             this.selectedProducts.length > 0 ? this.productCount : null,
           amount: this.amount,
           amount_pay_type: this.order_info.paymentType,
-          discount: this.discount,
+          discount: this.order_info.discount,
           tip: this.order_info.tip,
           tip_pay_type: this.order_info.tipType,
         };
         Object.keys(requestBody).forEach((key) => {
           if (requestBody[key] === null) {
             delete requestBody[key];
+          } else {
+            console.log(requestBody[key]);
           }
         });
         fetch("http://127.0.0.1:8001/api/order", {
@@ -372,9 +373,9 @@ export default {
         })
           .then((response) => {
             if (response.ok) {
-              this.$store.commit("clearOrderData");
-              this.resetData();
-              // this.$router.push({ name: "ControlBoard" });
+              // this.$store.commit("clearOrderData");
+              // this.resetData();
+              window.location.reload();
               return response.json();
             }
           })
@@ -411,7 +412,7 @@ export default {
     amount() {
       return (
         this.sumProperty(this.selectedServices, "price") +
-        this.sumProperty(this.selectedProducts, "selling_price")
+        this.sumProperty(this.selectedProducts, "price")
       );
     },
     productCount() {
