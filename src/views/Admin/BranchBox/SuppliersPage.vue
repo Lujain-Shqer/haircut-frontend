@@ -20,27 +20,31 @@
           <thead>
             <tr>
               <th scope="col">الاسم</th>
-              <th scope="col">الرقم الجوال</th>
+              <th scope="col">رقم الضريبي</th>
               <th scope="col" class="text-center">الإجراءات</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>H</td>
-              <td>0584251943</td>
+            <tr v-for="supplier in suppliersToDisplay" :key="supplier.id">
+              <td>{{ supplier.name }}</td>
+              <td>{{ supplier.tax_number }}</td>
               <td class="text-center">
                 <button class="btn show"><fa icon="pen" /> تعديل</button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
+                <button @click="deleteSupplier" class="btn delete">
+                  <fa icon="trash" /> حذف
+                </button>
               </td>
             </tr>
           </tbody>
           <tfoot>
             <td>صفوف لكل الصفحة</td>
             <td></td>
-            <td>
-              <fa icon="	fas fa-angle-right" />
-              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
-            </td>
+            <paginationFoot
+              :current-page="currentPage"
+              :total-pages="pageNumber"
+              :total-data="suppliers.length"
+              @page-change="changePage"
+            ></paginationFoot>
           </tfoot>
         </table>
       </div>
@@ -48,8 +52,68 @@
   </div>
 </template>
 <script>
+import PaginationFoot from "/src/components/PaginationFoot.vue";
 export default {
   name: "SuppliersPage",
+  components: {
+    PaginationFoot,
+  },
+  data() {
+    return {
+      suppliers: [],
+      suppliersPerPage: 7,
+      currentPage: 1,
+    };
+  },
+  computed: {
+    suppliersToDisplay() {
+      const startIndex = (this.currentPage - 1) * this.suppliersPerPage;
+      const endIndex = startIndex + this.suppliersPerPage;
+      return this.suppliers.slice(startIndex, endIndex);
+    },
+    pageNumber() {
+      return Math.ceil(this.suppliers.length / this.suppliersPerPage);
+    },
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/supplier/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.suppliers = data))
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    deleteSupplier(supplierId) {
+      fetch("http://127.0.0.1:8001/api/provider/" + supplierId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            this.suppliers = this.suppliers.filter(
+              (supplier) => supplier.id !== supplierId
+            );
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting supplier:", error);
+        });
+    },
+    changePage(currentPage) {
+      this.currentPage = currentPage;
+    },
+  },
 };
 </script>
 <style scoped>

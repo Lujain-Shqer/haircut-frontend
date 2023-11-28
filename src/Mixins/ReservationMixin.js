@@ -4,8 +4,8 @@ export default {
       vm.$store.commit("setIsOnReservationPage", to.meta.isOnReservationPage);
     });
   },
-  beforeRouteUpdate(to, from, next) {
+  beforeRouteUpdate(to) {
     this.$store.commit("setIsOnReservationPage", to.meta.isOnReservationPage);
-    next();
+    // next();
   },
 };

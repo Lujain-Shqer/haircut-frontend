@@ -8,18 +8,24 @@
       </p>
       <div class="update-info-client">
         <h6>أنشاء مورد جديد</h6>
-        <form class="row">
+        <form @submit="addSupplier" class="row">
           <div class="col-md-12">
             <label>الاسم</label>
-            <input type="text" placeholder=" اسم " />
-          </div>
-          <div class="col-md-12">
-            <label>رقم الجوال</label>
-            <input type="text" placeholder=" رقم الجوال " />
+            <input
+              type="text"
+              placeholder=" اسم "
+              required
+              v-model="supplier_info.name"
+            />
           </div>
           <div class="col-md-12">
             <label>الرقم الضريبي</label>
-            <input type="text" placeholder=" الرقم الضريبي " />
+            <input
+              type="text"
+              placeholder=" الرقم الضريبي "
+              required
+              v-model="supplier_info.taxNumber"
+            />
           </div>
           <button class="btn">إضافة مورد جديد</button>
         </form>
@@ -30,6 +36,36 @@
 <script>
 export default {
   name: "AddSuppliers",
+  data() {
+    return {
+      supplier_info: {
+        name: "",
+        taxNumber: "",
+      },
+    };
+  },
+  methods: {
+    addSupplier(event) {
+      event.preventDefault();
+      fetch("http://127.0.0.1:8001/api/supplier", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          branch_id: localStorage.getItem("branch_id"),
+          name: this.supplier_info.name,
+          tax_number: this.supplier_info.taxNumber,
+        }),
+      }).then((response) => {
+        if (response.ok) {
+          this.$router.push({ name: "SuppliersPage" });
+          return response.json();
+        }
+      });
+    },
+  },
 };
 </script>
 <style scoped>

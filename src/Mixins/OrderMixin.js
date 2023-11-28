@@ -1,11 +1,11 @@
 export default {
-  beforeRouteEnter(to, from, next) {
+  beforeRouteEnter(to, next) {
     next((vm) => {
       vm.$store.commit("setIsOnOrderPage", to.meta.isOnOrderPage);
     });
   },
-  beforeRouteUpdate(to, from, next) {
+  beforeRouteUpdate(to) {
     this.$store.commit("setIsOnOrderPage", to.meta.isOnOrderPage);
-    next();
+    // next();
   },
 };
