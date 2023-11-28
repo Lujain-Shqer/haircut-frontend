@@ -9,10 +9,15 @@
       </p>
       <div class="update-info-client">
         <h6>مقدم خدمة جديد</h6>
-        <form class="row">
+        <form @submit="addProvider" class="row">
           <div class="col-md-12">
             <label>الاسم</label>
-            <input type="text" placeholder=" اسم " />
+            <input
+              type="text"
+              placeholder=" اسم "
+              required
+              v-model="provider_info.name"
+            />
           </div>
           <div class="col-md-12">
             <span>هل مقدم الخدمة خاضع للضريبة:</span>
@@ -21,11 +26,18 @@
               type="checkbox"
               value=""
               id="flexCheckDefault"
+              required
+              v-model="provider_info.taxState"
             />
           </div>
           <div class="col-md-12">
             <label>الرقم الضريبي</label>
-            <input type="text" placeholder=" الرقم الضريبي " />
+            <input
+              type="text"
+              placeholder=" الرقم الضريبي "
+              required
+              v-model="provider_info.taxNumber"
+            />
           </div>
           <button class="btn">إضافة مقدم خدمة جديد</button>
         </form>
@@ -36,6 +48,38 @@
 <script>
 export default {
   name: "AddProviders",
+  data() {
+    return {
+      provider_info: {
+        name: "",
+        taxState: "",
+        taxNumber: "",
+      },
+    };
+  },
+  methods: {
+    addProvider(event) {
+      event.preventDefault();
+      fetch("http://127.0.0.1:8001/api/provider", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          branch_id: localStorage.getItem("branch_id"),
+          name: this.provider_info.name,
+          tax_state: this.provider_info.taxState,
+          tax_number: this.provider_info.taxNumber,
+        }),
+      }).then((response) => {
+        if (response.ok) {
+          this.$router.push({ name: "ServicesProviders" });
+          return response.json();
+        }
+      });
+    },
+  },
 };
 </script>
 <style scoped>

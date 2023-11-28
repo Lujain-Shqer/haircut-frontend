@@ -156,6 +156,7 @@ export default {
 .cashierFeed table {
   margin-bottom: 0;
   border: 1px solid #3f51b5;
+  text-align: center;
 }
 .cashierFeed table tfoot {
   border-radius: 8px;

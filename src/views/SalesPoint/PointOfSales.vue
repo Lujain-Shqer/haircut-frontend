@@ -27,43 +27,32 @@
               <th scope="col">سعر الخدمة / المنتج</th>
             </tr>
           </thead>
-          <tbody
-            v-if="selectedServices.length > 0 || selectedProducts.length > 0"
-          >
-            <tr :key="selectedServices[0].id">
-              <td rowspan="{{ selectedServices.length }}">
+          <tbody v-if="selectedItems.length > 0">
+            <tr :key="selectedItems[0].id">
+              <td rowspan="{{ selectedItems.length }}">
                 {{ this.order_info.employee.name }}
               </td>
-              <td rowspan="{{ selectedServices.length }}">
+              <td rowspan="{{ selectedItems.length }}">
                 {{ this.order_info.client.name }}
               </td>
-              <td rowspan="{{ selectedServices.length }}">
+              <td rowspan="{{ selectedItems.length }}">
                 {{ this.order_info.discount }}
               </td>
-              <td rowspan="{{ selectedServices.length }}">
+              <td rowspan="{{ selectedItems.length }}">
                 {{ this.order_info.tip }}
               </td>
-              <td>{{ selectedServices[0].name }}</td>
+              <td>{{ selectedItems[0].name }}</td>
               <td>1</td>
-              <td>{{ selectedServices[0].price }}</td>
+              <td>{{ selectedItems[0].price }}</td>
             </tr>
-            <tr v-for="service in selectedServices.slice(1)" :key="service.id">
+            <tr v-for="item in selectedItems.slice(1)" :key="item.id">
               <td></td>
               <td></td>
               <td></td>
               <td></td>
-              <td>{{ service.name }}</td>
+              <td>{{ item.name }}</td>
               <td>1</td>
-              <td>{{ service.price }}</td>
-            </tr>
-            <tr v-for="product in selectedProducts" :key="product.id">
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td>{{ product.name }}</td>
-              <td>1</td>
-              <td>{{ product.selling_price }}</td>
+              <td>{{ item.price }}</td>
             </tr>
             <tr>
               <td></td>
@@ -155,8 +144,10 @@
         <div class="col-lg-4 col-md-12">
           <label>اختر طريقة الدفع</label>
           <div class="chosse">
-            <button class="btn" @click="getActive('paymentCash')">كاش</button>
-            <button class="btn" @click="getActive('paymentNetwork')">
+            <button class="btn" @click="getActive($event, 'paymentCash')">
+              كاش
+            </button>
+            <button class="btn" @click="getActive($event, 'paymentNetwork')">
               شبكة
             </button>
             <button @click="showComponent" class="btn">معا</button>
@@ -193,8 +184,12 @@
         <div class="col-lg-4 col-md-12">
           <label>طريقة دفع المكافأة</label>
           <div class="chosse">
-            <button class="btn" @click="getActive('tipCash')">كاش</button>
-            <button class="btn" @click="getActive('tipNetwork')">شبكة</button>
+            <button class="btn" @click="getActive($event, 'tipCash')">
+              كاش
+            </button>
+            <button class="btn" @click="getActive($event, 'tipNetwork')">
+              شبكة
+            </button>
             <button class="btn" @click="show">معا</button>
           </div>
           <div class="row type-pay" v-show="isVisible">
@@ -207,6 +202,9 @@
               <input class="" type="text" placeholder="أدخل قيمة الشبكة" />
             </div>
           </div>
+        </div>
+        <div class="error-message" v-if="errorMessage">
+          {{ errorMessage }}
         </div>
         <button @click="submitBill" class="btn bill">إصدار فاتورة</button>
       </div>
@@ -320,37 +318,75 @@ export default {
         0
       );
     },
+    resetData() {
+      // Assign the initial data to the current data properties
+      Object.assign(this.$data, this.$options.data.call(this));
+    },
     submitBill() {
-      Object.keys(this.order_info).forEach((key) => {
-        if (this.client_info[key] === "") {
-          delete this.client_info[key];
-        }
-      });
-      fetch("http://127.0.0.1:8001/api/order", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      if (
+        (this.selectedServices.length === 0 &&
+          this.selectedProducts.length === 0) ||
+        this.order_info.employee.name === "غير محدد" ||
+        this.order_info.client.name === "غير محدد" ||
+        this.order_info.tip === null ||
+        this.order_info.paymentType === null ||
+        this.order_info.tipType === null
+      ) {
+        this.errorMessage = "أرجو إدخال كافة المعلومات المطلوبة للفاتورة.";
+        setTimeout(() => {
+          this.errorMessage = "";
+        }, 5000);
+      } else {
+        const requestBody = {
           branch_id: localStorage.getItem("branch_id"),
-          name: this.employee_info.name,
-        }),
-      })
-        .then((response) => {
-          if (response.ok) {
-            this.$router.push({ name: "ControlBoard" });
-            return response.json();
-          }
-        })
-        .catch((error) => {
-          if (error.response.status === 400) {
-            // Log the error details sent by the API
-            console.error("Validation error:", error.response.data);
-          } else {
-            console.error("Failed to add a new bill:", error);
+          employee_id: this.order_info.employee.id,
+          customer_id: this.order_info.client.id,
+          services:
+            this.selectedServices.length > 0
+              ? this.selectedServices.map((obj) => obj.id)
+              : null,
+          products:
+            this.selectedProducts.length > 0
+              ? this.selectedProducts.map((obj) => obj.id)
+              : null,
+          products_count:
+            this.selectedProducts.length > 0 ? this.productCount : null,
+          amount: this.amount,
+          amount_pay_type: this.order_info.paymentType,
+          discount: this.discount,
+          tip: this.order_info.tip,
+          tip_pay_type: this.order_info.tipType,
+        };
+        Object.keys(requestBody).forEach((key) => {
+          if (requestBody[key] === null) {
+            delete requestBody[key];
           }
         });
+        fetch("http://127.0.0.1:8001/api/order", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        })
+          .then((response) => {
+            if (response.ok) {
+              this.$store.commit("clearOrderData");
+              this.resetData();
+              // this.$router.push({ name: "ControlBoard" });
+              return response.json();
+            }
+          })
+          .catch((error) => {
+            if (error.response.status === 400) {
+              // Log the error details sent by the API
+              console.error("Validation error:", error.response.data);
+            } else {
+              console.error("Failed to add a new bill:", error);
+            }
+          });
+      }
     },
   },
   computed: {
@@ -358,7 +394,18 @@ export default {
       return this.$store.state.selectedServices;
     },
     selectedProducts() {
-      return this.$store.state.selectedProducts;
+      const products = this.$store.state.selectedProducts;
+      const selectedproducts = products.map((item) => {
+        return {
+          id: item.id,
+          name: item.name,
+          price: item.selling_price,
+        };
+      });
+      return selectedproducts;
+    },
+    selectedItems() {
+      return this.selectedServices.concat(this.selectedProducts);
     },
 
     amount() {
@@ -375,13 +422,13 @@ export default {
     return {
       isComponentVisible: false,
       isVisible: false,
+      errorMessage: "",
       component: "ServicesPage",
       allClients: [],
       allEmployees: [],
       order_info: {
-        payment: "0.00",
-        tip: "0.00",
-        discount: "0.00",
+        tip: null,
+        discount: null,
         employee: { name: "غير محدد" },
         client: { name: "غير محدد" },
         tipType: null,
@@ -542,7 +589,12 @@ tr {
 .pointOfSales .type-pay input {
   font-size: 1.5vmin;
 }
-
+.error-message {
+  display: block;
+  padding: 1vh;
+  text-align: start;
+  color: red;
+}
 @media (max-width: 991px) {
   .pointOfSales {
     width: 70%;

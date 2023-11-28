@@ -27,15 +27,23 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>التأمينات الاجتماعية</td>
-              <td>غير مفعلة</td>
-              <td>0</td>
+            <tr
+              v-for="provider in generalProvidersToDisplay"
+              :key="provider.id"
+            >
+              <td>{{ provider.name }}</td>
+              <td>{{ showTaxSate(provider.tax_state) }}</td>
+              <td>{{ provider.tax_number }}</td>
               <td class="text-center">
                 <button class="btn show">
                   <fa icon="fa-file-pdf" /> عرض الفاتورة
                 </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
+                <button
+                  @click="deleteGeneralProvider(provider.id)"
+                  class="btn delete"
+                >
+                  <fa icon="trash" /> حذف
+                </button>
               </td>
             </tr>
           </tbody>
@@ -43,10 +51,12 @@
             <td>صفوف لكل الصفحة</td>
             <td></td>
             <td></td>
-            <td>
-              <fa icon="	fas fa-angle-right" />
-              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
-            </td>
+            <paginationFoot
+              :current-page="currentPage"
+              :total-pages="pageNumber"
+              :total-data="generalProviders.length"
+              @page-change="changePage"
+            ></paginationFoot>
           </tfoot>
         </table>
       </div>
@@ -54,8 +64,73 @@
   </div>
 </template>
 <script>
+import PaginationFoot from "/src/components/PaginationFoot.vue";
 export default {
   name: "ServicesProviders",
+  components: {
+    PaginationFoot,
+  },
+  data() {
+    return {
+      generalProviders: [],
+      generalProvidersPerPage: 7,
+      currentPage: 1,
+    };
+  },
+  computed: {
+    generalProvidersToDisplay() {
+      const startIndex = (this.currentPage - 1) * this.generalProvidersPerPage;
+      const endIndex = startIndex + this.generalProvidersPerPage;
+      return this.generalProviders.slice(startIndex, endIndex);
+    },
+    pageNumber() {
+      return Math.ceil(
+        this.generalProviders.length / this.generalProvidersPerPage
+      );
+    },
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/provider/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.generalProviders = data))
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    deleteGeneralProvider(generalProviderId) {
+      fetch("http://127.0.0.1:8001/api/provider/" + generalProviderId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            this.generalProviders = this.generalProviders.filter(
+              (generaProvider) => generaProvider.id !== generalProviderId
+            );
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting provider:", error);
+        });
+    },
+    changePage(currentPage) {
+      this.currentPage = currentPage;
+    },
+    showTaxSate(taxState) {
+      return taxState === 1 ? "مفعلة" : " غير مفعلة";
+    },
+  },
 };
 </script>
 <style scoped>
