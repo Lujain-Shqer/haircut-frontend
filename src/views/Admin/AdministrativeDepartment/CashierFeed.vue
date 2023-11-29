@@ -10,8 +10,6 @@
       <div class="all-table" style="overflow-x: auto">
         <div class="row extra-table">
           <div class="search">
-            <fa icon="coins" /> <span>رصيد الصندوق :</span>
-            <span> 7000</span>
             <div class="input-container">
               <fa icon="search" />
               <input
@@ -35,22 +33,34 @@
               <th scope="col" class="text-center">الإجراءات</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
+          <tbody v-if="cashierFeedToDisplay.length > 0">
+            <tr
+              v-for="cashierFeed in cashierFeedToDisplay"
+              :key="cashierFeed.id"
+            >
               <td>
-                <h6>11:35ص</h6>
-                <h6>2023-09-05</h6>
+                <h6>{{ cashierFeed.created_at.split("T")[0] }}</h6>
               </td>
-              <td>456</td>
-              <td>561</td>
-              <td>6</td>
-              <td>97</td>
+              <td>{{ cashierFeed.opening_balance }}</td>
+              <td>{{ cashierFeed.amount }}</td>
+              <td>{{ cashierFeed.statement }}</td>
+              <td>{{ cashierFeed.closing_balance }}</td>
               <td class="text-center">
                 <button class="btn show">
                   <fa icon="fa-file-pdf" /> طباعة
                 </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
+                <button
+                  @click="deleteCashierFeed(cashierFeed.id)"
+                  class="btn delete"
+                >
+                  <fa icon="trash" /> حذف
+                </button>
               </td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="6">لا يوجد سجلات تغذية لعرضها</td>
             </tr>
           </tbody>
           <tfoot>
@@ -60,10 +70,12 @@
 
             <td></td>
             <td></td>
-            <td>
-              <fa icon="	fas fa-angle-right" />
-              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
-            </td>
+            <paginationFoot
+              :current-page="currentPage"
+              :total-pages="pageNumber"
+              :total-data="cashierFeeds.length"
+              @page-change="changePage"
+            ></paginationFoot>
           </tfoot>
         </table>
       </div>
@@ -71,8 +83,68 @@
   </div>
 </template>
 <script>
+import PaginationFoot from "/src/components/PaginationFoot.vue";
 export default {
   name: "CashierFeed",
+  components: {
+    PaginationFoot,
+  },
+  data() {
+    return {
+      cashierFeeds: [],
+      cashierFeedsPerPage: 7,
+      currentPage: 1,
+    };
+  },
+  computed: {
+    cashierFeedToDisplay() {
+      const startIndex = (this.currentPage - 1) * this.cashierFeedsPerPage;
+      const endIndex = startIndex + this.cashierFeedsPerPage;
+      return this.cashierFeeds.slice(startIndex, endIndex);
+    },
+    pageNumber() {
+      return Math.ceil(this.cashierFeeds.length / this.cashierFeedsPerPage);
+    },
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/deposit/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.cashierFeeds = data))
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    deleteCashierFeed(cashierFeedId) {
+      fetch("http://127.0.0.1:8001/api/deposit/" + cashierFeedId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            this.cashierFeeds = this.cashierFeeds.filter(
+              (cashierFeed) => cashierFeed.id !== cashierFeedId
+            );
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting cashier feed:", error);
+        });
+    },
+    changePage(currentPage) {
+      this.currentPage = currentPage;
+    },
+  },
 };
 </script>
 <style scoped>

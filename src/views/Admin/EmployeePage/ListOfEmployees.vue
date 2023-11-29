@@ -41,7 +41,7 @@
                 <div class="col-5">العمولة :</div>
                 <div class="col-5">{{ employee.commission }}%</div>
               </td>
-              <td>{{ employee.created_at }}</td>
+              <td>{{ employee.created_at.split("T")[0] }}</td>
               <td>{{ employee.residence_number }}</td>
               <td>{{ employee.state }}</td>
               <td class="text-center">

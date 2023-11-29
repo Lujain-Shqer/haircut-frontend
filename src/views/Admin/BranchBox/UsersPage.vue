@@ -19,26 +19,33 @@
           <thead>
             <tr>
               <th scope="col">الاسم</th>
-              <th scope="col">النوع</th>
+              <th scope="col">رقم الجوال</th>
               <th scope="col" class="text-center">الإجراءات</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>فارس الحربي</td>
-              <td>مدير الصالون</td>
+          <tbody v-if="usersToDisplay.length > 0">
+            <tr v-for="user in usersToDisplay" :key="user.id">
+              <td>{{ user.first_name + " " + user.last_name }}</td>
+              <td>{{ user.phone_number }}</td>
               <td class="text-center">
                 <button class="btn show"><fa icon="pen" /> تعديل</button>
               </td>
             </tr>
           </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="3">لا يوجد مستخدمين لعرضهم</td>
+            </tr>
+          </tbody>
           <tfoot>
             <td>صفوف لكل الصفحة</td>
             <td></td>
-            <td>
-              <fa icon="	fas fa-angle-right" />
-              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
-            </td>
+            <paginationFoot
+              :current-page="currentPage"
+              :total-pages="pageNumber"
+              :total-data="users.length"
+              @page-change="changePage"
+            ></paginationFoot>
           </tfoot>
         </table>
       </div>
@@ -46,8 +53,66 @@
   </div>
 </template>
 <script>
+import PaginationFoot from "/src/components/PaginationFoot.vue";
 export default {
   name: "UsersPage",
+  components: {
+    PaginationFoot,
+  },
+  data() {
+    return {
+      users: [],
+      usersPerPage: 7,
+      currentPage: 1,
+    };
+  },
+  computed: {
+    usersToDisplay() {
+      const startIndex = (this.currentPage - 1) * this.usersPerPage;
+      const endIndex = startIndex + this.usersPerPage;
+      return this.users.slice(startIndex, endIndex);
+    },
+    pageNumber() {
+      return Math.ceil(this.users.length / this.usersPerPage);
+    },
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/user/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.users = data))
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    deleteUser(userId) {
+      fetch("http://127.0.0.1:8001/api/user/" + userId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            this.users = this.users.filter((user) => user.id !== userId);
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting user:", error);
+        });
+    },
+    changePage(currentPage) {
+      this.currentPage = currentPage;
+    },
+  },
 };
 </script>
 <style scoped>

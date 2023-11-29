@@ -5,30 +5,51 @@
       <p>الأشخاص يكون ضمن عملاء الخاص في صالون الحلاقة</p>
       <div class="update-info-client">
         <h6>مستخدم جديد</h6>
-        <form class="row">
+        <form @submit="addUser" class="row">
           <div class="col-md-6 col-sm-12">
             <label>الاسم الأول</label>
-            <input type="text" placeholder=" الاسم الأول " />
+            <input
+              type="text"
+              placeholder=" الاسم الأول "
+              required
+              v-model="user_info.firstName"
+            />
           </div>
           <div class="col-md-6 col-sm-12">
             <label>الاسم الأخير </label>
-            <input type="text" placeholder=" الاسم الأخير  " />
+            <input
+              type="text"
+              placeholder=" الاسم الأخير  "
+              required
+              v-model="user_info.lastName"
+            />
           </div>
           <div class="col-md-12">
-            <label>البريد الإلكتروني </label>
-            <input type="text" placeholder=" البريد الإلكتروني  " />
-          </div>
-          <div class="col-md-12">
-            <label> اسم المستخدم </label>
-            <input type="text" placeholder=" اسم المستخدم " />
+            <label>رقم الجوال</label>
+            <input
+              type="text"
+              placeholder=" رقم الجوال"
+              required
+              v-model="user_info.phoneNumber"
+            />
           </div>
           <div class="col-md-6 col-sm-12">
             <label>كلمة المرور </label>
-            <input type="password" placeholder=" كلمة المرور  " />
+            <input
+              type="password"
+              placeholder=" كلمة المرور  "
+              required
+              v-model="user_info.password"
+            />
           </div>
           <div class="col-md-6 col-sm-12">
             <label> تأكيد كلمة المرور </label>
-            <input type="password" placeholder=" تأكيد كلمة المرور  " />
+            <input
+              type="password"
+              placeholder=" تأكيد كلمة المرور  "
+              required
+              v-model="user_info.confirmPassword"
+            />
           </div>
           <button class="btn">إضافة مستخدم جديد</button>
         </form>
@@ -39,6 +60,42 @@
 <script>
 export default {
   name: "AddUser",
+  data() {
+    return {
+      user_info: {
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        password: "",
+        confirmPassword: "",
+      },
+    };
+  },
+  methods: {
+    addUser(event) {
+      event.preventDefault();
+      fetch("http://127.0.0.1:8001/api/barber", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          branch_id: localStorage.getItem("branch_id"),
+          first_name: this.user_info.firstName,
+          last_name: this.user_info.lastName,
+          phone_number: this.user_info.phoneNumber,
+          password: this.user_info.password,
+          confirm_password: this.user_info.confirmPassword,
+        }),
+      }).then((response) => {
+        if (response.ok) {
+          this.$router.push({ name: "UsersPage" });
+          return response.json();
+        }
+      });
+    },
+  },
 };
 </script>
 <style scoped>

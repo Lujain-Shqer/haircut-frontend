@@ -75,10 +75,18 @@
             @change="handleFileChange"
           />
           <h6 class="text-center">يرجى تحميل صورة المنتج</h6>
-          <div class="downloaded">
+          <div
+            class="downloaded"
+            @dragover.prevent="onDragOver"
+            @dragleave.prevent="onDragLeave"
+            @drop.prevent="onDrop"
+          >
             <img src="../../../assets/downloaded.png" />
-            <h6>حدد ملفًا أو قم بالسحب والإسقاط هنا</h6>
-            <p>JPG, PNG or PDF, file size no more than 10MB</p>
+            <h6 v-if="!isDropped">حدد ملفًا أو قم بالسحب والإسقاط هنا</h6>
+            <p v-if="!isDropped">
+              JPG, PNG or PDF, file size no more than 10MB
+            </p>
+            <h6 v-else>تم اختيار صورة بنجاح</h6>
             <button @click="openFilePicker" class="btn">Select file</button>
           </div>
           <div class="error-message" v-if="errorMessage">
@@ -104,6 +112,8 @@ export default {
         image: "",
       },
       errorMessage: "",
+      isDragging: false,
+      isDropped: false,
     };
   },
   mounted() {
@@ -148,9 +158,7 @@ export default {
       // Trigger click on the hidden file input
       this.$refs.fileInput.click();
     },
-    handleFileChange(event) {
-      // Handle the selected file
-      const selectedFile = event.target.files[0];
+    checkValidImage(selectedFile) {
       if (selectedFile) {
         // Check the file extension
         const allowedExtensions = ["pdf", "jpeg", "jpg", "png"]; // Add more extensions as needed
@@ -179,6 +187,28 @@ export default {
             this.errorMessage = "";
           }, 5000);
         }
+      }
+    },
+    handleFileChange(event) {
+      // Handle the selected file
+      const selectedFile = event.target.files[0];
+      this.checkValidImage(selectedFile);
+    },
+    onDragOver(event) {
+      this.isDragging = true;
+      event.dataTransfer.dropEffect = "copy";
+    },
+    onDragLeave() {
+      this.isDragging = false;
+    },
+    onDrop(event) {
+      this.isDragging = false;
+      if (event.dataTransfer.files.length > 0) {
+        const selectedFile = event.dataTransfer.files[0];
+        this.checkValidImage(selectedFile);
+        this.isDropped = true;
+      } else {
+        console.log("no files");
       }
     },
     submitForm() {
