@@ -176,7 +176,6 @@
           <label>مكافأة من العميل</label>
           <input
             v-model="order_info.tip"
-            required
             type="text"
             placeholder="ادخل قيمة مكافأة من العميل"
           />
@@ -327,9 +326,7 @@ export default {
           this.selectedProducts.length === 0) ||
         this.order_info.employee.name === "غير محدد" ||
         this.order_info.client.name === "غير محدد" ||
-        this.order_info.tip === null ||
-        this.order_info.paymentType === null ||
-        this.order_info.tipType === null
+        this.order_info.paymentType === null
       ) {
         this.errorMessage = "أرجو إدخال كافة المعلومات المطلوبة للفاتورة.";
         setTimeout(() => {

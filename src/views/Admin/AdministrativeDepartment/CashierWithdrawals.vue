@@ -10,8 +10,6 @@
       <div class="all-table" style="overflow-x: auto">
         <div class="row extra-table">
           <div class="search">
-            <fa icon="coins" /> <span>رصيد الصندوق :</span>
-            <span> 7000</span>
             <div class="input-container">
               <fa icon="search" />
               <input
@@ -35,22 +33,34 @@
               <th scope="col" class="text-center">الإجراءات</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
+          <tbody v-if="cashierWithdrawalsToDisplay.length > 0">
+            <tr
+              v-for="cashierWithdrawal in cashierWithdrawalsToDisplay"
+              :key="cashierWithdrawal.id"
+            >
               <td>
-                <h6>11:35ص</h6>
-                <h6>2023-09-05</h6>
+                <h6>{{ cashierWithdrawal.created_at.split("T")[0] }}</h6>
               </td>
-              <td>456</td>
-              <td>561</td>
-              <td>6</td>
-              <td>97</td>
+              <td>{{ cashierWithdrawal.opening_balance }}</td>
+              <td>{{ cashierWithdrawal.amount }}</td>
+              <td>{{ cashierWithdrawal.statement }}</td>
+              <td>{{ cashierWithdrawal.closing_balance }}</td>
               <td class="text-center">
                 <button class="btn show">
                   <fa icon="fa-file-pdf" /> طباعة
                 </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
+                <button
+                  @click="deleteCashierWithdrawal(cashierWithdrawal.id)"
+                  class="btn delete"
+                >
+                  <fa icon="trash" /> حذف
+                </button>
               </td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="6">لا يوجد سجلات سحوبات لعرضها</td>
             </tr>
           </tbody>
           <tfoot>
@@ -60,10 +70,12 @@
 
             <td></td>
             <td></td>
-            <td>
-              <fa icon="	fas fa-angle-right" />
-              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
-            </td>
+            <paginationFoot
+              :current-page="currentPage"
+              :total-pages="pageNumber"
+              :total-data="cashierWithdrawals.length"
+              @page-change="changePage"
+            ></paginationFoot>
           </tfoot>
         </table>
       </div>
@@ -71,8 +83,72 @@
   </div>
 </template>
 <script>
+import PaginationFoot from "/src/components/PaginationFoot.vue";
 export default {
   name: "CashierWithdrawals",
+  components: {
+    PaginationFoot,
+  },
+  data() {
+    return {
+      cashierWithdrawals: [],
+      cashierWithdrawalsPerPage: 7,
+      currentPage: 1,
+    };
+  },
+  computed: {
+    cashierWithdrawalsToDisplay() {
+      const startIndex =
+        (this.currentPage - 1) * this.cashierWithdrawalsPerPage;
+      const endIndex = startIndex + this.cashierWithdrawalsPerPage;
+      return this.cashierWithdrawals.slice(startIndex, endIndex);
+    },
+    pageNumber() {
+      return Math.ceil(
+        this.cashierWithdrawals.length / this.cashierWithdrawalsPerPage
+      );
+    },
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/withdraw/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.cashierWithdrawals = data))
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    deleteCashierWithdrawal(cashierWithdrawalId) {
+      fetch("http://127.0.0.1:8001/api/withdraw/" + cashierWithdrawalId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            this.cashierWithdrawals = this.cashierWithdrawals.filter(
+              (cashierWithdrawal) =>
+                cashierWithdrawal.id !== cashierWithdrawalId
+            );
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting cashier withdraw:", error);
+        });
+    },
+    changePage(currentPage) {
+      this.currentPage = currentPage;
+    },
+  },
 };
 </script>
 <style scoped>

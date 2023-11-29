@@ -13,7 +13,7 @@
             <fa icon="search" />
             <input class="input-field" type="text" placeholder="البحث عن..." />
           </div>
-          <button class="btn">إنشاء جديد</button>
+          <button class="btn">إنشاء فاتورة</button>
           <button class="btn"><fa icon="filter" /> فلتر</button>
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
@@ -34,24 +34,33 @@
               <th scope="col">تاريخ الإنشاء</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>INV273877</td>
-              <td>567</td>
-              <td>678</td>
-              <td>088</td>
-              <td>1-10</td>
-              <td>0</td>
-              <td>-</td>
-              <td>34567</td>
-              <td>1-10</td>
-              <td>45</td>
-              <td>-</td>
-              <td>-</td>
+          <tbody v-if="salesBillsToDisplay.length > 0">
+            <tr v-for="salesBill in salesBillsToDisplay" :key="salesBill.id">
+              <td>{{ salesBill.id }}</td>
+              <td>{{ salesBill.employee.name }}</td>
+              <td>{{ salesBill.amount_pay_type }}</td>
+              <td>{{ salesBill.amount }}</td>
+              <td>{{ salesBill.discount }}</td>
+              <td>{{ salesBill.tax }}</td>
+              <td>{{ salesBill.tip }}</td>
               <td>
-                <p>9-12|</p>
-                <p>10:30ص</p>
+                {{
+                  salesBill.tip_pay_type === null ? "-" : salesBill.tip_pay_type
+                }}
               </td>
+              <td>{{ salesBill.amount_after_discount }}</td>
+              <td>{{ salesBill.employee_commission }}</td>
+              <td>{{ salesBill.manager_commission }}</td>
+              <td>{{ salesBill.representative_commission }}</td>
+              <td>
+                <p>{{ salesBill.created_at.split("T")[0] }}|</p>
+                <p>{{ salesBill.created_at.split("T")[1].split(".")[0] }}</p>
+              </td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="13">لا يوجد فواتير لعرضها</td>
             </tr>
           </tbody>
           <tfoot>
@@ -67,10 +76,12 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>
-              <fa icon="	fas fa-angle-right" />
-              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
-            </td>
+            <paginationFoot
+              :current-page="currentPage"
+              :total-pages="pageNumber"
+              :total-data="salesBills.length"
+              @page-change="changePage"
+            ></paginationFoot>
           </tfoot>
         </table>
       </div>
@@ -78,8 +89,49 @@
   </div>
 </template>
 <script>
+import PaginationFoot from "/src/components/PaginationFoot.vue";
 export default {
   name: "SallesBills",
+  components: {
+    PaginationFoot,
+  },
+  data() {
+    return {
+      salesBills: [],
+      salesBillsPerPage: 7,
+      currentPage: 1,
+    };
+  },
+  computed: {
+    salesBillsToDisplay() {
+      const startIndex = (this.currentPage - 1) * this.salesBillsPerPage;
+      const endIndex = startIndex + this.salesBillsPerPage;
+      return this.salesBills.slice(startIndex, endIndex);
+    },
+    pageNumber() {
+      return Math.ceil(this.salesBills.length / this.salesBillsPerPage);
+    },
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/order/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.salesBills = data))
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    changePage(currentPage) {
+      this.currentPage = currentPage;
+    },
+  },
 };
 </script>
 <style scoped>

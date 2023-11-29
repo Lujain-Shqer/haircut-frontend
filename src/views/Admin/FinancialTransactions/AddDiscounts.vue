@@ -9,23 +9,44 @@
       </p>
       <div class="update-info-client">
         <h6>إضافة خصم</h6>
-        <form class="row">
+        <form @submit="addDiscount" class="row">
           <div class="col-lg-12">
             <label>اختر الموظف</label>
-            <select class="form-selec" aria-label="Default select example">
-              <option selected>اختر الموظف</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+            <select
+              v-model="discount_info.employeeId"
+              class="form-selec"
+              aria-label="Default select example"
+            >
+              <option disabled selected value="">اختر موظف</option>
+              <option
+                v-for="employee in allEmployees"
+                :key="employee.id"
+                :value="employee.id"
+              >
+                {{ employee.name }}
+              </option>
             </select>
           </div>
           <div class="col-lg-12">
             <label>أدخل مبلغ الخصم</label>
-            <input type="text" placeholder="أدخل مبلغ الخصم" />
+            <input
+              type="text"
+              placeholder="أدخل مبلغ الخصم"
+              required
+              v-model="discount_info.amount"
+            />
           </div>
           <div class="col-lg-12">
             <label>أدخل سبب الخصم</label>
-            <input type="text" placeholder="أدخل سبب الخصم" />
+            <input
+              type="text"
+              placeholder="أدخل سبب الخصم"
+              required
+              v-model="discount_info.reason"
+            />
+          </div>
+          <div class="error-message" v-if="errorMessage">
+            {{ errorMessage }}
           </div>
           <button class="btn add">إضافة خصم</button>
         </form>
@@ -36,6 +57,62 @@
 <script>
 export default {
   name: "AddDiscounts",
+  data() {
+    return {
+      allEmployees: [],
+      errorMessage: "",
+      discount_info: {
+        employeeId: "",
+        amount: "",
+        reason: "",
+      },
+    };
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/employee/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.allEmployees = data))
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    addDiscount(event) {
+      event.preventDefault();
+      if (this.discount_info.employeeId === "") {
+        this.errorMessage = "أرجو إدخال كافة المعلومات المطلوبة للسلفة.";
+        setTimeout(() => {
+          this.errorMessage = "";
+        }, 5000);
+      } else {
+        fetch("http://127.0.0.1:8001/api/rival", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            branch_id: localStorage.getItem("branch_id"),
+            employee_id: this.discount_info.employeeId,
+            amount: this.discount_info.amount,
+            reason: this.discount_info.reason,
+          }),
+        }).then((response) => {
+          if (response.ok) {
+            this.$router.push({ name: "DiscountsPage" });
+            return response.json();
+          }
+        });
+      }
+    },
+  },
 };
 </script>
 <style scoped>
@@ -96,6 +173,12 @@ export default {
   margin: auto;
   width: 25%;
   margin-top: 5vh;
+}
+.error-message {
+  display: block;
+  padding: 1vh;
+  text-align: start;
+  color: red;
 }
 /* .AddTaxable button:first-of-type {
     margin: auto;

@@ -23,20 +23,30 @@
               <th scope="col">عدد مرات البيع الخدمة</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody v-if="servicesReportsToDisplay.length > 0">
+            <tr
+              v-for="servicesReport in servicesReportsToDisplay"
+              :key="servicesReport.id"
+            >
+              <td>{{ servicesReport.name }}</td>
+              <td>{{ servicesReport.total_revenue }}</td>
+              <td>{{ servicesReport.orders_count }} مرة</td>
+            </tr>
+          </tbody>
+          <tbody v-else>
             <tr>
-              <td>الباقة الذهيية 7</td>
-              <td>500.00</td>
-              <td>1245</td>
+              <td colspan="3">لا يوجد تقارير لعرضها</td>
             </tr>
           </tbody>
           <tfoot>
             <td>صفوف لكل الصفحة</td>
             <td></td>
-            <td>
-              <fa icon="	fas fa-angle-right" />
-              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
-            </td>
+            <paginationFoot
+              :current-page="currentPage"
+              :total-pages="pageNumber"
+              :total-data="servicesReports.length"
+              @page-change="changePage"
+            ></paginationFoot>
           </tfoot>
         </table>
       </div>
@@ -44,8 +54,52 @@
   </div>
 </template>
 <script>
+import PaginationFoot from "/src/components/PaginationFoot.vue";
 export default {
   name: "ServicesReports",
+  components: {
+    PaginationFoot,
+  },
+  data() {
+    return {
+      servicesReports: [],
+      servicesReportsPerPage: 7,
+      currentPage: 1,
+    };
+  },
+  computed: {
+    servicesReportsToDisplay() {
+      const startIndex = (this.currentPage - 1) * this.servicesReportsPerPage;
+      const endIndex = startIndex + this.servicesReportsPerPage;
+      return this.servicesReports.slice(startIndex, endIndex);
+    },
+    pageNumber() {
+      return Math.ceil(
+        this.servicesReports.length / this.servicesReportsPerPage
+      );
+    },
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/frequency-service/" +
+        localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.servicesReports = data))
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    changePage(currentPage) {
+      this.currentPage = currentPage;
+    },
+  },
 };
 </script>
 <style scoped>

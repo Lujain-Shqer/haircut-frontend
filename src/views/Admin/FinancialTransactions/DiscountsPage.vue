@@ -27,18 +27,25 @@
               <th scope="col" class="text-center">الإجراءات</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>2023-09-07</td>
-              <td>أشرف عبدالعزيز</td>
-              <td>1807.60</td>
-              <td>مخالة</td>
+          <tbody v-if="discountsToDisplay.length > 0">
+            <tr v-for="discount in discountsToDisplay" :key="discount.id">
+              <td>{{ discount.created_at.split("T")[0] }}</td>
+              <td>{{ discount.employee.name }}</td>
+              <td>{{ discount.amount }}</td>
+              <td>{{ discount.reason }}</td>
               <td class="text-center">
                 <button class="btn show">
                   <fa icon="fa-file-pdf" /> عرض الفاتورة
                 </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
+                <button @click="deleteDiscount(discount.id)" class="btn delete">
+                  <fa icon="trash" /> حذف
+                </button>
               </td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="5">لا يوجد خصومات لعرضها</td>
             </tr>
           </tbody>
           <tfoot>
@@ -46,10 +53,12 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>
-              <fa icon="	fas fa-angle-right" />
-              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
-            </td>
+            <paginationFoot
+              :current-page="currentPage"
+              :total-pages="pageNumber"
+              :total-data="discounts.length"
+              @page-change="changePage"
+            ></paginationFoot>
           </tfoot>
         </table>
       </div>
@@ -57,8 +66,68 @@
   </div>
 </template>
 <script>
+import PaginationFoot from "/src/components/PaginationFoot.vue";
 export default {
   name: "DiscountsPage",
+  components: {
+    PaginationFoot,
+  },
+  data() {
+    return {
+      discounts: [],
+      discountsPerPage: 7,
+      currentPage: 1,
+    };
+  },
+  computed: {
+    discountsToDisplay() {
+      const startIndex = (this.currentPage - 1) * this.discountsPerPage;
+      const endIndex = startIndex + this.discountsPerPage;
+      return this.discounts.slice(startIndex, endIndex);
+    },
+    pageNumber() {
+      return Math.ceil(this.discounts.length / this.discountsPerPage);
+    },
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/rival/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.discounts = data))
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    deleteDiscount(discountId) {
+      fetch("http://127.0.0.1:8001/api/rival/" + discountId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            this.discounts = this.discounts.filter(
+              (discount) => discount.id !== discountId
+            );
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting discount", error);
+        });
+    },
+    changePage(currentPage) {
+      this.currentPage = currentPage;
+    },
+  },
 };
 </script>
 <style scoped>
