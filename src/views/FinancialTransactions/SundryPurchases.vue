@@ -24,19 +24,40 @@
               <th scope="col" class="text-center">الإجراءات</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>60813</td>
-              <td>25.15</td>
-              <td>4.00</td>
-              <td>10.00</td>
-              <td>09-12 | 03:09 ص</td>
+          <tbody v-if="sundryPurchasesToDisplay.length > 0">
+            <tr
+              v-for:="sundryPurchase in sundryPurchasesToDisplay"
+              :key="sundryPurchase.id"
+            >
+              <td>{{ sundryPurchase.supplier.name }}</td>
+              <td>{{ sundryPurchase.tax }}</td>
+              <td>
+                {{
+                  sundryPurchase.discount === 0 ? "-" : sundryPurchase.discount
+                }}
+              </td>
+              <td class="td">{{ sundryPurchase.amount_after_discount }}</td>
+              <td class="td">
+                {{ sundryPurchase.created_at.split("T")[0] }}|{{
+                  sundryPurchase.created_at.split("T")[1].split(".")[0]
+                }}
+              </td>
               <td class="text-center">
                 <button class="btn show">
                   <fa icon="fa-file-pdf" /> عرض الفاتورة
                 </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
+                <button
+                  @click="deleteSundryPurchase(sundryPurchase.id)"
+                  class="btn delete"
+                >
+                  <fa icon="trash" /> حذف
+                </button>
               </td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="7">لا يوجد مشتريات نثرية لعرضها</td>
             </tr>
           </tbody>
           <tfoot>
@@ -45,10 +66,12 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>
-              <fa icon="	fas fa-angle-right" />
-              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
-            </td>
+            <paginationFoot
+              :current-page="currentPage"
+              :total-pages="pageNumber"
+              :total-data="sundryPurchases.length"
+              @page-change="changePage"
+            ></paginationFoot>
           </tfoot>
         </table>
       </div>
@@ -56,8 +79,75 @@
   </div>
 </template>
 <script>
+import PaginationFoot from "/src/components/PaginationFoot.vue";
 export default {
   name: "SundryPurchases",
+  components: {
+    PaginationFoot,
+  },
+  data() {
+    return {
+      sundryPurchases: [],
+      sundryPurchasesPerPage: 7,
+      currentPage: 1,
+    };
+  },
+  computed: {
+    sundryPurchasesToDisplay() {
+      const startIndex = (this.currentPage - 1) * this.sundryPurchasesPerPage;
+      const endIndex = startIndex + this.sundryPurchasesPerPage;
+      return this.sundryPurchases.slice(startIndex, endIndex);
+    },
+    pageNumber() {
+      return Math.ceil(
+        this.sundryPurchases.length / this.sundryPurchasesPerPage
+      );
+    },
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/purchase/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then(
+        (data) =>
+          (this.sundryPurchases = data.filter(
+            (data) => data["type"] === "sundry"
+          ))
+      )
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    deleteSundryPurchase(sundryPurchaseId) {
+      fetch("http://127.0.0.1:8001/api/purchase/" + sundryPurchaseId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            this.sundryPurchases = this.sundryPurchases.filter(
+              (sundryPurchase) => sundryPurchase.id !== sundryPurchaseId
+            );
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting sundry purchase:", error);
+        });
+    },
+    changePage(currentPage) {
+      this.currentPage = currentPage;
+    },
+  },
 };
 </script>
 <style scoped>

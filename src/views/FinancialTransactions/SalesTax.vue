@@ -28,13 +28,18 @@
               <th scope="col">الضريبة</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody v-if="salesTaxesToDisplay.length > 0">
+            <tr v-for="salesTax in salesTaxesToDisplay" :key="salesTax.id">
+              <td>{{ salesTax.created_at.split("T")[0] }}</td>
+              <td>{{ salesTax.id }}</td>
+              <td>{{ salesTax.customer.name }}</td>
+              <td>{{ salesTax.amount_after_discount }}</td>
+              <td>{{ salesTax.tax }}</td>
+            </tr>
+          </tbody>
+          <tbody v-else>
             <tr>
-              <td>ص11:54 | 2023-09-05</td>
-              <td>INV273877</td>
-              <td>أحمد محسن</td>
-              <td>3298.45</td>
-              <td>0.00</td>
+              <td colspan="5">لا يوجد ضرائب مبيعات لعرضها</td>
             </tr>
           </tbody>
           <tfoot>
@@ -42,10 +47,12 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>
-              <fa icon="	fas fa-angle-right" />
-              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
-            </td>
+            <paginationFoot
+              :current-page="currentPage"
+              :total-pages="pageNumber"
+              :total-data="salesTaxes.length"
+              @page-change="changePage"
+            ></paginationFoot>
           </tfoot>
         </table>
       </div>
@@ -53,8 +60,49 @@
   </div>
 </template>
 <script>
+import PaginationFoot from "/src/components/PaginationFoot.vue";
 export default {
   name: "SalesTax",
+  components: {
+    PaginationFoot,
+  },
+  data() {
+    return {
+      salesTaxes: [],
+      salesTaxesPerPage: 7,
+      currentPage: 1,
+    };
+  },
+  computed: {
+    salesTaxesToDisplay() {
+      const startIndex = (this.currentPage - 1) * this.salesTaxesPerPage;
+      const endIndex = startIndex + this.salesTaxesPerPage;
+      return this.salesTaxes.slice(startIndex, endIndex);
+    },
+    pageNumber() {
+      return Math.ceil(this.salesTaxes.length / this.salesTaxesPerPage);
+    },
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/order/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.salesTaxes = data))
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    changePage(currentPage) {
+      this.currentPage = currentPage;
+    },
+  },
 };
 </script>
 <style scoped>

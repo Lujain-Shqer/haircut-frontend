@@ -20,21 +20,22 @@
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
             <tr>
-              <th scope="col">بداية الفترة</th>
-              <th scope="col">نهاية الفترة</th>
+              <th scope="col">التاريخ</th>
               <th scope="col">إجمالي الفواتير</th>
               <th scope="col">إجمالي الإيراد</th>
               <th scope="col">العمولات</th>
               <th scope="col" class="text-center">الإجراءات</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>ص11:54 | 2023-09-05</td>
-              <td>ص11:54 | 2023-09-05</td>
-              <td>1369</td>
-              <td>57005.00</td>
-              <td>3298.45</td>
+          <tbody v-if="diaryReportsToDisplay.length > 0">
+            <tr
+              v-for="diaryReport in diaryReportsToDisplay"
+              :key="diaryReport.id"
+            >
+              <td>{{ diaryReport.day }}</td>
+              <td>{{ diaryReport.Total_Orders }}</td>
+              <td>{{ diaryReport.Total_Revenues }}</td>
+              <td>{{ diaryReport.Total_Commissions }}</td>
               <td class="text-center">
                 <button class="btn show">
                   <fa icon="fa-file-pdf" /> عرض الفاتورة
@@ -42,16 +43,22 @@
               </td>
             </tr>
           </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="5">لا يوجد تقارير يومية لعرضها</td>
+            </tr>
+          </tbody>
           <tfoot>
             <td>صفوف لكل الصفحة</td>
             <td></td>
             <td></td>
             <td></td>
-            <td></td>
-            <td>
-              <fa icon="	fas fa-angle-right" />
-              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
-            </td>
+            <paginationFoot
+              :current-page="currentPage"
+              :total-pages="pageNumber"
+              :total-data="diaryReports.length"
+              @page-change="changePage"
+            ></paginationFoot>
           </tfoot>
         </table>
       </div>
@@ -59,8 +66,50 @@
   </div>
 </template>
 <script>
+import PaginationFoot from "/src/components/PaginationFoot.vue";
 export default {
-  name: "SalesTax",
+  name: "DiaryReport",
+  components: {
+    PaginationFoot,
+  },
+  data() {
+    return {
+      diaryReports: [],
+      diaryReportsPerPage: 7,
+      currentPage: 1,
+    };
+  },
+  computed: {
+    diaryReportsToDisplay() {
+      const startIndex = (this.currentPage - 1) * this.diaryReportsPerPage;
+      const endIndex = startIndex + this.diaryReportsPerPage;
+      return this.diaryReports.slice(startIndex, endIndex);
+    },
+    pageNumber() {
+      return Math.ceil(this.diaryReports.length / this.diaryReportsPerPage);
+    },
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/daily-report/" +
+        localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.diaryReports = data))
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    changePage(currentPage) {
+      this.currentPage = currentPage;
+    },
+  },
 };
 </script>
 <style scoped>

@@ -43,17 +43,6 @@
                 </button>
               </td>
             </tr>
-            <!-- <tr>
-              <td>1</td>
-              <td>علي الأحد</td>
-              <td>096367364</td>
-              <td class="text-center">
-                <router-link to="/UpdateSundry">
-                  <button class="btn update"><fa icon="pencil" /> تعديل</button>
-                </router-link>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr> -->
           </tbody>
           <tfoot>
             <td>صفوف لكل الصفحة</td>
@@ -66,15 +55,6 @@
               @page-change="changePage"
             ></paginationFoot>
           </tfoot>
-          <!-- <tfoot>
-            <td>صفوف لكل الصفحة</td>
-            <td></td>
-            <td></td>
-            <td>
-              <fa icon="	fas fa-angle-right" />
-              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
-            </td>
-          </tfoot> -->
         </table>
       </div>
     </div>

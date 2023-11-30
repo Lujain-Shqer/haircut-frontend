@@ -9,18 +9,23 @@
       </p>
       <div class="update-info-client">
         <h6>تحديث مصروف عمومي</h6>
-        <form class="row">
+        <form @submit="updateExpense" class="row">
           <div class="col-md-12">
             <label>الاسم</label>
-            <input type="text" placeholder="اضف اسم المنتج " />
+            <input
+              type="text"
+              placeholder="اضف اسم المنتج "
+              v-model="expense_info.name"
+            />
           </div>
           <div class="col-md-12">
             <span>هل مقدم الخدمة خاضع للضريبة:</span>
             <input
               class="form-check-input"
               type="checkbox"
-              value=""
+              value="0"
               id="flexCheckDefault"
+              v-model="expense_info.tax_state"
             />
           </div>
           <button class="btn">تحديث</button>
@@ -32,6 +37,56 @@
 <script>
 export default {
   name: "UpdateExpenses",
+  props: ["id"],
+  data() {
+    return {
+      expense_info: {
+        name: "",
+        tax_state: "0",
+      },
+    };
+  },
+  methods: {
+    updateExpense(event) {
+      event.preventDefault();
+      Object.keys(this.expense_info).forEach((key) => {
+        if (this.expense_info[key] === "") {
+          delete this.expense_info[key];
+        }
+      });
+      console.log("Request Data:", {
+        name: this.expense_info.name,
+        tax_state: this.expense_info.tax_state,
+      });
+      fetch("http://127.0.0.1:8001/api/term/" + this.$route.params.id, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: this.expense_info.name,
+          tax_state: this.expense_info.tax_state,
+        }),
+      })
+        .then((response) => {
+          if (response.ok) {
+            this.$router.push({ name: "GeneralExpenses" });
+            return response.json();
+          }
+        })
+        .then((data) => {
+          // Log the response data to the console
+          console.log("API Response:", data);
+        })
+        .catch((error) => {
+          console.error("Error updating expense:", error);
+        });
+    },
+    toggleTaxState() {
+      this.expense_info.tax_state = this.expense_info.tax_state === 1 ? 0 : 1;
+    },
+  },
 };
 </script>
 <style scoped>

@@ -30,7 +30,7 @@
               <td>{{ supplier.tax_number }}</td>
               <td class="text-center">
                 <button class="btn show"><fa icon="pen" /> تعديل</button>
-                <button @click="deleteSupplier" class="btn delete">
+                <button @click="deleteSupplier(supplier.id)" class="btn delete">
                   <fa icon="trash" /> حذف
                 </button>
               </td>
@@ -92,7 +92,7 @@ export default {
   },
   methods: {
     deleteSupplier(supplierId) {
-      fetch("http://127.0.0.1:8001/api/provider/" + supplierId, {
+      fetch("http://127.0.0.1:8001/api/supplier/" + supplierId, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,

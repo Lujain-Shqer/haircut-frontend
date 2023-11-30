@@ -17,7 +17,7 @@
             <button class="btn">إنشاء جديد</button>
           </router-link>
         </div>
-        <table class="table" cellpadding="5" border="1" cellspacing="0">
+        <!-- <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
             <tr>
               <th scope="col">رقم</th>
@@ -50,14 +50,133 @@
               <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
             </td>
           </tfoot>
+        </table> -->
+        <table class="table" cellpadding="5" border="1" cellspacing="0">
+          <thead>
+            <tr>
+              <th scope="col">رقم</th>
+              <th scope="col">الاسم</th>
+              <th scope="col">حالة الضريبة</th>
+              <th scope="col" class="text-center">الإجراءات</th>
+            </tr>
+          </thead>
+          <tbody v-if="generalExpensesToDisplay.length > 0">
+            <tr
+              v-for="generalExpense in generalExpensesToDisplay"
+              :key="generalExpense.id"
+            >
+              <td>{{ generalExpense.id }}</td>
+              <td>{{ generalExpense.name }}</td>
+              <td>{{ showTaxState(generalExpense.tax_state) }}</td>
+              <td class="text-center">
+                <router-link
+                  :to="{
+                    name: 'UpdateExpenses',
+                    params: { id: generalExpense.id },
+                  }"
+                >
+                  <button class="btn update">
+                    <fa icon="pencil" /> تعديل
+                  </button></router-link
+                >
+                <button
+                  @click="deleteGeneralExpense(generalExpense.id)"
+                  class="btn delete"
+                >
+                  <fa icon="trash" /> حذف
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="4">لا يوجد بنود مصارف عمومية لعرضها</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <td>صفوف لكل الصفحة</td>
+            <td></td>
+            <td></td>
+            <paginationFoot
+              :current-page="currentPage"
+              :total-pages="pageNumber"
+              :total-data="generalExpenses.length"
+              @page-change="changePage"
+            ></paginationFoot>
+          </tfoot>
         </table>
       </div>
     </div>
   </div>
 </template>
 <script>
+import PaginationFoot from "/src/components/PaginationFoot.vue";
 export default {
   name: "GeneralExpenses",
+  components: {
+    PaginationFoot,
+  },
+  data() {
+    return {
+      generalExpenses: [],
+      generalExpensesPerPage: 7,
+      currentPage: 1,
+    };
+  },
+  computed: {
+    generalExpensesToDisplay() {
+      const startIndex = (this.currentPage - 1) * this.generalExpensesPerPage;
+      const endIndex = startIndex + this.generalExpensesPerPage;
+      return this.generalExpenses.slice(startIndex, endIndex);
+    },
+    pageNumber() {
+      return Math.ceil(
+        this.generalExpenses.length / this.generalExpensesPerPage
+      );
+    },
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/term/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.generalExpenses = data))
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    deleteGeneralExpense(generalExpenseId) {
+      fetch("http://127.0.0.1:8001/api/term/" + generalExpenseId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            this.generalExpenses = this.generalExpenses.filter(
+              (generalExpense) => generalExpense.id !== generalExpenseId
+            );
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting generalExpense:", error);
+        });
+    },
+    changePage(currentPage) {
+      this.currentPage = currentPage;
+    },
+    showTaxState(taxState) {
+      return taxState === 1 ? "مفعلة" : " غير مفعلة";
+    },
+  },
 };
 </script>
 <style scoped>

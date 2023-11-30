@@ -11,40 +11,95 @@
             <fa icon="coins" />
             <span>تقرير الضريبة (مشتريات)</span>
           </div>
-          <label for="">اختر السنة</label>
-          <select>
-            <option>2023</option>
-            <option>2023</option>
-            <option>2023</option>
-          </select>
-          <label for="">اختر الربع السنوي</label>
-          <select>
-            <option>2023</option>
-            <option>2023</option>
-            <option>2023</option>
-          </select>
-          <button class="btn">بحث</button>
+          <button class="btn">EXCEL</button>
+          <button class="btn">بحث بالتاريخ</button>
+          <button class="btn">من الفترة -> إلى الفترة</button>
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
             <tr>
-              <th scope="col"></th>
-              <th scope="col"></th>
-              <th scope="col"></th>
-              <th scope="col"></th>
-              <th scope="col"></th>
-              <th scope="col" class="text-center"></th>
+              <th scope="col">تاريخ الحركة</th>
+              <th scope="col">رقم الفاتورة</th>
+              <th scope="col">اسم المزود</th>
+              <th scope="col">القيمة</th>
+              <th scope="col">الضريبة</th>
             </tr>
           </thead>
-          <tbody style="height: 10vh"></tbody>
+          <tbody v-if="taxReportsToDisplay.length > 0">
+            <tr v-for="taxReport in taxReportsToDisplay" :key="taxReport.id">
+              <td>{{ taxReport.created_at.split("T")[0] }}</td>
+              <td>{{ taxReport.id }}</td>
+              <td>{{ taxReport.supplier.name }}</td>
+              <td>{{ taxReport.amount_after_discount }}</td>
+              <td>{{ taxReport.tax }}</td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="5">لا يوجد ضرائب مبيعات لعرضها</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <td>صفوف لكل الصفحة</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <paginationFoot
+              :current-page="currentPage"
+              :total-pages="pageNumber"
+              :total-data="taxReports.length"
+              @page-change="changePage"
+            ></paginationFoot>
+          </tfoot>
         </table>
       </div>
     </div>
   </div>
 </template>
 <script>
+import PaginationFoot from "/src/components/PaginationFoot.vue";
 export default {
   name: "TaxReports",
+  components: {
+    PaginationFoot,
+  },
+  data() {
+    return {
+      taxReports: [],
+      taxReportsPerPage: 7,
+      currentPage: 1,
+    };
+  },
+  computed: {
+    taxReportsToDisplay() {
+      const startIndex = (this.currentPage - 1) * this.taxReportsPerPage;
+      const endIndex = startIndex + this.taxReportsPerPage;
+      return this.taxReports.slice(startIndex, endIndex);
+    },
+    pageNumber() {
+      return Math.ceil(this.taxReports.length / this.taxReportsPerPage);
+    },
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/purchase/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.taxReports = data))
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    changePage(currentPage) {
+      this.currentPage = currentPage;
+    },
+  },
 };
 </script>
 <style scoped>
@@ -117,6 +172,33 @@ export default {
   margin-right: 2vh;
   width: 10%;
 }
+.taxReport .extra-table button {
+  width: 16%;
+  margin-right: 10px;
+  float: left;
+  background: #3f51b5;
+  color: #fff;
+}
+.taxReport .extra-table button:first-of-type,
+.taxReport .extra-table button:last-of-type {
+  background: #fff;
+  color: #3f51b5;
+  border: 1px solid #3f51b5;
+}
+.taxReport .extra-table button:last-of-type {
+  width: 25%;
+}
+.taxReport .extra-table button:first-of-type {
+  width: 10%;
+}
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
+  border-bottom: 1px solid #d9d5ec;
+}
 .taxReport table {
   margin-bottom: 0;
   border-collapse: collapse;
@@ -135,7 +217,24 @@ export default {
   height: 5vh;
   font-weight: 400;
 }
+.taxReport table tfoot {
+  border-radius: 8px;
+  background: #3f51b5;
+  width: 100%;
+  color: #fff;
+  font-weight: 300;
+}
+.taxReport table tfoot td:last-of-type {
+  text-align: end;
+  padding-left: 5vh;
+}
 
+tfoot svg {
+  background: transparent;
+  padding: 0 10px;
+  color: #fff;
+  cursor: pointer;
+}
 @media (max-width: 991px) {
   .taxReport {
     width: 70%;

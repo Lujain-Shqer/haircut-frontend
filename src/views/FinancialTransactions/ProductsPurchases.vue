@@ -26,19 +26,42 @@
               <th scope="col" class="text-center">الإجراءات</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>60813</td>
-              <td>25.15</td>
-              <td>4.00</td>
-              <td class="td">10.00</td>
-              <td class="td">09-12 | 03:09 ص</td>
+          <tbody v-if="productsPurchasesToDisplay.length > 0">
+            <tr
+              v-for:="productsPurchase in productsPurchasesToDisplay"
+              :key="productsPurchase.id"
+            >
+              <td>{{ productsPurchase.supplier.name }}</td>
+              <td>{{ productsPurchase.tax }}</td>
+              <td>
+                {{
+                  productsPurchase.discount === 0
+                    ? "-"
+                    : productsPurchase.discount
+                }}
+              </td>
+              <td class="td">{{ productsPurchase.amount_after_discount }}</td>
+              <td class="td">
+                {{ productsPurchase.created_at.split("T")[0] }}|{{
+                  productsPurchase.created_at.split("T")[1].split(".")[0]
+                }}
+              </td>
               <td class="text-center">
                 <button class="btn show">
                   <fa icon="fa-file-pdf" /> عرض الفاتورة
                 </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
+                <button
+                  @click="deleteProductsPurchase(productsPurchase.id)"
+                  class="btn delete"
+                >
+                  <fa icon="trash" /> حذف
+                </button>
               </td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="7">لا يوجد مشتريات منتجات لعرضها</td>
             </tr>
           </tbody>
           <tfoot>
@@ -47,10 +70,12 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>
-              <fa icon="	fas fa-angle-right" />
-              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
-            </td>
+            <paginationFoot
+              :current-page="currentPage"
+              :total-pages="pageNumber"
+              :total-data="productsPurchases.length"
+              @page-change="changePage"
+            ></paginationFoot>
           </tfoot>
         </table>
       </div>
@@ -58,8 +83,75 @@
   </div>
 </template>
 <script>
+import PaginationFoot from "/src/components/PaginationFoot.vue";
 export default {
   name: "ProductsPurchases",
+  components: {
+    PaginationFoot,
+  },
+  data() {
+    return {
+      productsPurchases: [],
+      productsPurchasesPerPage: 7,
+      currentPage: 1,
+    };
+  },
+  computed: {
+    productsPurchasesToDisplay() {
+      const startIndex = (this.currentPage - 1) * this.productsPurchasesPerPage;
+      const endIndex = startIndex + this.productsPurchasesPerPage;
+      return this.productsPurchases.slice(startIndex, endIndex);
+    },
+    pageNumber() {
+      return Math.ceil(
+        this.productsPurchases.length / this.productsPurchasesPerPage
+      );
+    },
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/purchase/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then(
+        (data) =>
+          (this.productsPurchases = data.filter(
+            (data) => data["type"] === "product"
+          ))
+      )
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    deleteProductsPurchase(productsPurchaseId) {
+      fetch("http://127.0.0.1:8001/api/purchase/" + productsPurchaseId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            this.productsPurchases = this.productsPurchases.filter(
+              (productsPurchase) => productsPurchase.id !== productsPurchaseId
+            );
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting products purchase:", error);
+        });
+    },
+    changePage(currentPage) {
+      this.currentPage = currentPage;
+    },
+  },
 };
 </script>
 <style scoped>

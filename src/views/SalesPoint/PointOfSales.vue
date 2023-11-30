@@ -326,7 +326,8 @@ export default {
           this.selectedProducts.length === 0) ||
         this.order_info.employee.name === "غير محدد" ||
         this.order_info.client.name === "غير محدد" ||
-        this.order_info.paymentType === null
+        this.order_info.paymentType === null ||
+        (this.order_info.tipType === null && this.order_info.tip !== null)
       ) {
         this.errorMessage = "أرجو إدخال كافة المعلومات المطلوبة للفاتورة.";
         setTimeout(() => {
@@ -356,8 +357,6 @@ export default {
         Object.keys(requestBody).forEach((key) => {
           if (requestBody[key] === null) {
             delete requestBody[key];
-          } else {
-            console.log(requestBody[key]);
           }
         });
         fetch("http://127.0.0.1:8001/api/order", {

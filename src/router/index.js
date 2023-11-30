@@ -159,7 +159,7 @@ const routes = [
     component: UpdateSundry,
   },
   {
-    path: "/UpdateExpenses",
+    path: "/UpdateExpenses/:id",
     name: "UpdateExpenses",
     component: UpdateExpenses,
   },
@@ -419,9 +419,8 @@ const router = createRouter({
   routes,
 });
 router.beforeEach((to, from, next) => {
-  // Apply the mixin to set isOnReservationPage flag in the store
-  reservationMixin.beforeRouteEnter.call({ $store: store }, to, from, next);
-  orderMixin.beforeRouteEnter.call({ $store: store }, to, from, next);
+  reservationMixin.beforeRouteEnter.call({ $store: store }, to, next);
+  orderMixin.beforeRouteEnter.call({ $store: store }, to, next);
   const toIsOnReservationPage = to.meta.isOnReservationPage || false;
   const fromIsOnOrderPage = from.meta.isOnOrderPage || false;
   if (!toIsOnReservationPage) {

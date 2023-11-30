@@ -40,9 +40,9 @@
               <td>{{ salesBill.employee.name }}</td>
               <td>{{ salesBill.amount_pay_type }}</td>
               <td>{{ salesBill.amount }}</td>
-              <td>{{ salesBill.discount }}</td>
+              <td>{{ salesBill.discount === 0 ? "-" : salesBill.discount }}</td>
               <td>{{ salesBill.tax }}</td>
-              <td>{{ salesBill.tip }}</td>
+              <td>{{ salesBill.tip === 0 ? "-" : salesBill.tip }}</td>
               <td>
                 {{
                   salesBill.tip_pay_type === null ? "-" : salesBill.tip_pay_type
