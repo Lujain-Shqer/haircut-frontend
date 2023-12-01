@@ -1,21 +1,30 @@
 <template>
   <div class="AddNotTaxable">
     <div class="container">
-      <h4>المصاريف العمومية الغير خاضعة للضرببة</h4>
+      <h4>المصاريف العمومية الغير خاضعة للضريبة</h4>
       <p>
         المصاريف التي يمكن خصمها من الإيرادات الخاضعة للضرائب لغرض حساب الضرائب
         الصافية.
       </p>
       <div class="update-info-client">
-        <h6>فاتورة المصاريف العمومية الغير خاضعة للضرببة</h6>
-        <form class="row">
+        <h6>فاتورة المصاريف العمومية الغير خاضعة للضريبة</h6>
+        <form @submit="addNoTax" class="row">
           <div class="col-lg-12">
             <label>البند</label>
-            <select class="form-selec" aria-label="Default select example">
-              <option selected>اختر البند</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+            <select
+              class="form-selec"
+              aria-label="Default select example"
+              v-model="NoTaxes_info.termId"
+              required
+            >
+              <option disabled selected value="">اختر البند</option>
+              <option
+                v-for="generalExpense in allGeneralExpenses"
+                :key="generalExpense.id"
+                :value="generalExpense.id"
+              >
+                {{ generalExpense.name }}
+              </option>
             </select>
           </div>
           <div class="col-lg-12">
@@ -23,18 +32,32 @@
             <select
               data-live-search="true"
               class="selectpicker show-menu-arrow form-selec"
+              v-model="NoTaxes_info.providerId"
+              required
             >
-              <option>اختر مقدم الخدمة</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              <option disabled selected value="">اختر مقدم الخدمة</option>
+              <option
+                v-for="provider in allProviders"
+                :key="provider.id"
+                :value="provider.id"
+              >
+                {{ provider.name }}
+              </option>
             </select>
-            <button class="btn">اضف جديد</button>
+            <router-link
+              :to="{ name: 'AddProviders', query: { from: 'AddNotTaxable' } }"
+            >
+              <button class="btn">اضف جديد</button>
+            </router-link>
           </div>
-
           <div class="col-lg-12">
             <label>ادخل المبلغ</label>
-            <input type="text" placeholder="المبلغ" />
+            <input
+              type="text"
+              placeholder="المبلغ"
+              required
+              v-model="NoTaxes_info.amount"
+            />
           </div>
           <button class="btn add">إضافة الفاتورة</button>
         </form>
@@ -45,6 +68,72 @@
 <script>
 export default {
   name: "AddNotTaxable",
+  data() {
+    return {
+      allGeneralExpenses: [],
+      allProviders: [],
+      NoTaxes_info: {
+        providerId: "",
+        termId: "",
+        amount: "",
+        taxState: "0",
+      },
+    };
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/untaxedterm/" +
+        localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.allGeneralExpenses = data))
+      .catch((err) => console.log(err.message));
+    fetch(
+      "http://127.0.0.1:8001/api/untaxedprovider/" +
+        localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.allProviders = data))
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    addNoTax(event) {
+      event.preventDefault();
+      fetch("http://127.0.0.1:8001/api/general-service", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          branch_id: localStorage.getItem("branch_id"),
+          provider_id: this.NoTaxes_info.providerId,
+          term_id: this.NoTaxes_info.termId,
+          amount: this.NoTaxes_info.amount,
+          tax_state: this.NoTaxes_info.taxState,
+        }),
+      }).then((response) => {
+        if (response.ok) {
+          this.$router.push({ name: "ExpensesNotTax" });
+          return response.json();
+        }
+      });
+    },
+  },
 };
 </script>
 <style scoped>

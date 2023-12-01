@@ -8,14 +8,23 @@
       </p>
       <div class="update-info-client">
         <h6>فاتورة مصاريف عمومية خاضعة للضريبة</h6>
-        <form class="row">
+        <form @submit="addTax" class="row">
           <div class="col-lg-12">
             <label>البند</label>
-            <select class="form-selec" aria-label="Default select example">
-              <option selected>اختر البند</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+            <select
+              class="form-selec"
+              aria-label="Default select example"
+              v-model="taxes_info.termId"
+              required
+            >
+              <option disabled selected value="">اختر البند</option>
+              <option
+                v-for="generalExpense in allGeneralExpenses"
+                :key="generalExpense.id"
+                :value="generalExpense.id"
+              >
+                {{ generalExpense.name }}
+              </option>
             </select>
           </div>
           <div class="col-lg-12">
@@ -23,17 +32,32 @@
             <select
               data-live-search="true"
               class="selectpicker show-menu-arrow form-selec"
+              v-model="taxes_info.providerId"
+              required
             >
-              <option>اختر مقدم الخدمة</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              <option disabled selected value="">اختر مقدم الخدمة</option>
+              <option
+                v-for="provider in allProviders"
+                :key="provider.id"
+                :value="provider.id"
+              >
+                {{ provider.name }}
+              </option>
             </select>
-            <button class="btn">اضف جديد</button>
+            <router-link
+              :to="{ name: 'AddProviders', query: { from: 'AddTaxable' } }"
+            >
+              <button class="btn">اضف جديد</button>
+            </router-link>
           </div>
           <div class="col-lg-12">
             <label>ادخل المبلغ</label>
-            <input type="text" placeholder="المبلغ" />
+            <input
+              type="text"
+              placeholder="المبلغ"
+              required
+              v-model="taxes_info.amount"
+            />
           </div>
           <button class="btn add">إضافة الفاتورة</button>
         </form>
@@ -44,6 +68,72 @@
 <script>
 export default {
   name: "AddTaxable",
+  data() {
+    return {
+      allGeneralExpenses: [],
+      allProviders: [],
+      taxes_info: {
+        providerId: "",
+        termId: "",
+        amount: "",
+        taxState: "1",
+      },
+    };
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/taxedterm/" +
+        localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.allGeneralExpenses = data))
+      .catch((err) => console.log(err.message));
+    fetch(
+      "http://127.0.0.1:8001/api/taxedprovider/" +
+        localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.allProviders = data))
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    addTax(event) {
+      event.preventDefault();
+      fetch("http://127.0.0.1:8001/api/general-service", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          branch_id: localStorage.getItem("branch_id"),
+          provider_id: this.taxes_info.providerId,
+          term_id: this.taxes_info.termId,
+          amount: this.taxes_info.amount,
+          tax_state: this.taxes_info.taxState,
+        }),
+      }).then((response) => {
+        if (response.ok) {
+          this.$router.push({ name: "ExpensesTax" });
+          return response.json();
+        }
+      });
+    },
+  },
 };
 </script>
 <style scoped>

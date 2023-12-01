@@ -34,7 +34,7 @@
             <input
               type="text"
               placeholder=" الرقم الضريبي "
-              required
+              :disabled="isDisabled"
               v-model="provider_info.taxNumber"
             />
           </div>
@@ -56,6 +56,21 @@ export default {
       },
     };
   },
+  computed: {
+    isDisabled() {
+      return (
+        this.provider_info.taxState === 0 ||
+        this.provider_info.taxState === false
+      );
+    },
+  },
+  watch: {
+    isDisabled(newVal) {
+      if (newVal) {
+        this.provider_info.taxNumber = "";
+      }
+    },
+  },
   methods: {
     addProvider(event) {
       event.preventDefault();
@@ -73,7 +88,15 @@ export default {
         }),
       }).then((response) => {
         if (response.ok) {
-          this.$router.push({ name: "ServicesProviders" });
+          const fromPage = this.$route.query.from;
+          if (fromPage === "AddTaxable") {
+            this.$router.push({ name: "AddTaxable" });
+          } else if (fromPage === "AddNotTaxable") {
+            this.$router.push({ name: "AddNotTaxable" });
+          } else {
+            this.$router.push({ name: "ServicesProviders" });
+          }
+
           return response.json();
         }
       });

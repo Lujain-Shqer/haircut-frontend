@@ -28,14 +28,58 @@
               <th scope="col">المتبقي</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody v-if="totalCommissionsToDisplay.length > 0">
+            <tr
+              v-for:="totalCommission in totalCommissionsToDisplay"
+              :key="totalCommission.id"
+            >
+              <td>{{ totalCommission.name }}</td>
+              <td>{{ totalCommission.info.total_order }}</td>
+              <td>
+                {{ totalCommission.info.total_revenue }}
+              </td>
+              <td>{{ totalCommission.info.total_commission }}</td>
+              <td>
+                {{ totalCommission.info.payed_commission }}
+              </td>
+              <td>
+                {{
+                  totalCommission.info.total_commission -
+                  totalCommission.info.payed_commission
+                }}
+              </td>
+            </tr>
             <tr>
-              <td>20-4-2019</td>
-              <td>INGDU</td>
-              <td>2000</td>
-              <td>67</td>
-              <td>2000</td>
-              <td>67</td>
+              <td>الاحصائيات</td>
+              <td>
+                {{ sumProperty(totalCommissions, "total_order") }}
+              </td>
+              <td>
+                {{ sumProperty(totalCommissions, "total_revenue").toFixed(2) }}
+              </td>
+              <td>
+                {{
+                  sumProperty(totalCommissions, "total_commission").toFixed(2)
+                }}
+              </td>
+              <td>
+                {{
+                  sumProperty(totalCommissions, "payed_commission").toFixed(2)
+                }}
+              </td>
+              <td>
+                {{
+                  (
+                    sumProperty(totalCommissions, "total_commission") -
+                    sumProperty(totalCommissions, "payed_commission")
+                  ).toFixed(2)
+                }}
+              </td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="6">لا يوجد عمولات لعرضها</td>
             </tr>
           </tbody>
           <tfoot>
@@ -44,10 +88,12 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>
-              <fa icon="	fas fa-angle-right" />
-              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
-            </td>
+            <paginationFoot
+              :current-page="currentPage"
+              :total-pages="pageNumber"
+              :total-data="totalCommissions.length"
+              @page-change="changePage"
+            ></paginationFoot>
           </tfoot>
         </table>
       </div>
@@ -55,8 +101,59 @@
   </div>
 </template>
 <script>
+import PaginationFoot from "/src/components/PaginationFoot.vue";
 export default {
   name: "TotalCommissions",
+  components: {
+    PaginationFoot,
+  },
+  data() {
+    return {
+      totalCommissions: [],
+      totalCommissionsPerPage: 7,
+      currentPage: 1,
+    };
+  },
+  computed: {
+    totalCommissionsToDisplay() {
+      const startIndex = (this.currentPage - 1) * this.totalCommissionsPerPage;
+      const endIndex = startIndex + this.totalCommissionsPerPage;
+      return this.totalCommissions.slice(startIndex, endIndex);
+    },
+    pageNumber() {
+      return Math.ceil(
+        this.totalCommissions.length / this.totalCommissionsPerPage
+      );
+    },
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/employee-info/" +
+        localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.totalCommissions = data))
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    changePage(currentPage) {
+      this.currentPage = currentPage;
+    },
+    sumProperty(array, property) {
+      return array.reduce(
+        (accumulator, currentValue) =>
+          accumulator + currentValue["info"][property],
+        0
+      );
+    },
+  },
 };
 </script>
 <style scoped>
@@ -155,6 +252,10 @@ tr {
 .totalCommissions table tr th {
   color: #1a2669;
 }
+tr:last-of-type td {
+  background-color: #ebedf7;
+  font-weight: 500;
+}
 .totalCommissions table tfoot {
   border-radius: 8px;
   background: #3f51b5;
@@ -171,7 +272,6 @@ tfoot svg {
   color: #fff;
   cursor: pointer;
 }
-
 @media (max-width: 991px) {
   .totalCommissions {
     width: 70%;

@@ -260,6 +260,13 @@ export default {
         event.target.previousElementSibling.classList.remove("blue");
     },
     getActive: function (event, value) {
+      const siblings = Array.from(event.target.parentNode.children).filter(
+        (child) => child !== event.target
+      );
+      console.log(siblings);
+      siblings.forEach((sibling) => {
+        sibling.classList.remove("blue");
+      });
       event.target.classList.add("blue");
       if (event.target.nextElementSibling != null)
         event.target.nextElementSibling.classList.remove("blue");
@@ -282,6 +289,13 @@ export default {
       }
     },
     showComponent(event) {
+      const siblings = Array.from(event.target.parentNode.children).filter(
+        (child) => child !== event.target
+      );
+      console.log(siblings);
+      siblings.forEach((sibling) => {
+        sibling.classList.remove("blue");
+      });
       event.target.classList.add("blue");
       if (event.target.nextElementSibling != null)
         event.target.nextElementSibling.classList.remove("blue");
@@ -298,9 +312,11 @@ export default {
         (child) => child !== event.target
       );
       console.log(siblings);
+      siblings.forEach((sibling) => {
+        sibling.classList.remove("blue");
+      });
       event.target.classList.add("blue");
-      // <li v-for="(value, key) in event">
-      // </li>
+
       if (event.target.nextElementSibling != null)
         event.target.nextElementSibling.classList.remove("blue");
       if (event.target.previousElementSibling != null)

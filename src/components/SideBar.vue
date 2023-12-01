@@ -228,7 +228,11 @@ export default {
                 },
                 {
                   href: "ExpensesTax",
-                  title: "المصاريف العمومية",
+                  title: "المصاريف العمومية الخاضعة للضريبة",
+                },
+                {
+                  href: "ExpensesNotTax",
+                  title: "المصاريف العمومية الغير خاضعة للضريبة",
                 },
                 {
                   href: "TaxReports",

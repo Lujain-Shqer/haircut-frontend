@@ -1,7 +1,7 @@
 <template>
   <div class="expensesNotTax">
     <div class="container">
-      <h4>المصاريف العمومية الغير خاضعة للضرببة</h4>
+      <h4>المصاريف العمومية الغير خاضعة للضريبة</h4>
       <p>
         المصاريف التي يمكن خصمها من الإيرادات الخاضعة للضرائب لغرض حساب الضرائب
         الصافية.
@@ -26,14 +26,32 @@
               <th scope="col" class="text-center">الإجراءات</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>Gosi</td>
-              <td>التأمينات الاجتماعية</td>
-              <td>120.00</td>
-              <td>09-12 | 03:09 ص</td>
+          <tbody v-if="ExpensesNotTaxesToDisplay.length > 0">
+            <tr
+              v-for="ExpensesNotTax in ExpensesNotTaxesToDisplay"
+              :key="ExpensesNotTax.id"
+            >
+              <td>{{ ExpensesNotTax.general__service__term.name }}</td>
+              <td>{{ ExpensesNotTax.general__service__provider.name }}</td>
+              <td>{{ ExpensesNotTax.amount }}</td>
+              <td>
+                {{ ExpensesNotTax.created_at.split("T")[0] }}|
+                {{ ExpensesNotTax.created_at.split("T")[1].split(".")[0] }}
+              </td>
               <td class="text-center">
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
+                <button
+                  @click="deleteExpensesNotTax(ExpensesNotTax.id)"
+                  class="btn delete"
+                >
+                  <fa icon="trash" /> حذف
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="5">
+                لا يوجد مصاريف عمومية غير خاضعة للضريبة لعرضها
               </td>
             </tr>
           </tbody>
@@ -42,7 +60,12 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>1-10 من 100 عنصر</td>
+            <paginationFoot
+              :current-page="currentPage"
+              :total-pages="pageNumber"
+              :total-data="ExpensesNotTaxes.length"
+              @page-change="changePage"
+            ></paginationFoot>
           </tfoot>
         </table>
       </div>
@@ -50,8 +73,71 @@
   </div>
 </template>
 <script>
+import PaginationFoot from "/src/components/PaginationFoot.vue";
 export default {
   name: "ExpensesNotTax",
+  components: {
+    PaginationFoot,
+  },
+  data() {
+    return {
+      ExpensesNotTaxes: [],
+      ExpensesNotTaxesPerPage: 7,
+      currentPage: 1,
+    };
+  },
+  computed: {
+    ExpensesNotTaxesToDisplay() {
+      const startIndex = (this.currentPage - 1) * this.ExpensesNotTaxesPerPage;
+      const endIndex = startIndex + this.ExpensesNotTaxesPerPage;
+      return this.ExpensesNotTaxes.slice(startIndex, endIndex);
+    },
+    pageNumber() {
+      return Math.ceil(
+        this.ExpensesNotTaxes.length / this.ExpensesNotTaxesPerPage
+      );
+    },
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/general-untaxedservice/" +
+        localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.ExpensesNotTaxes = data))
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    changePage(currentPage) {
+      this.currentPage = currentPage;
+    },
+    deleteExpensesNotTax(ExpensesNotTaxId) {
+      fetch("http://127.0.0.1:8001/api/general-service/" + ExpensesNotTaxId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            this.ExpensesNotTaxes = this.ExpensesNotTaxes.filter(
+              (ExpensesNotTax) => ExpensesNotTax.id !== ExpensesNotTaxId
+            );
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting ExpensesNotTax:", error);
+        });
+    },
+  },
 };
 </script>
 <style scoped>
