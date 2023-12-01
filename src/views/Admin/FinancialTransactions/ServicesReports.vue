@@ -130,7 +130,7 @@ h5 {
   border: 1px solid #c8c9cc;
   box-shadow: 0px 0px 4px 0px #6e49cb33;
   border-radius: 8px;
-  width: 32%;
+  width: auto;
   float: right;
   display: inline;
   float: right;
@@ -150,7 +150,7 @@ h5 {
   color: #3f51b5;
   border: 1px solid #3f51b5;
   float: left;
-  width: 10%;
+  width: auto;
 }
 .servicesReports .all-table {
   margin-top: 5vh;

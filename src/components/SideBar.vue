@@ -205,7 +205,7 @@ export default {
                   title: "تقرير الضريبة (مبيعات)",
                 },
                 {
-                  href: "",
+                  href: "DeletedBills",
                   title: "الفواتير المحذوفة",
                 },
                 {

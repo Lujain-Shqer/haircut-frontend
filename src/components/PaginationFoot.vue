@@ -44,10 +44,6 @@ tfoot {
   color: #fff;
   font-weight: 300;
 }
-td {
-  text-align: end;
-  padding-left: 5vh;
-}
 td svg {
   background: transparent;
   padding: 0 10px;

@@ -42,6 +42,7 @@ import FundMovement from "../views/Admin/AdministrativeDepartment/FundMovement.v
 import CashierWithdrawals from "../views/Admin/AdministrativeDepartment/CashierWithdrawals.vue";
 import CashierFeed from "../views/Admin/AdministrativeDepartment/CashierFeed.vue";
 import ServicesReports from "../views/Admin/FinancialTransactions/ServicesReports.vue";
+import DeletedBills from "../views/Admin/FinancialTransactions/DeletedBills.vue";
 import DiscountsPage from "../views/Admin/FinancialTransactions/DiscountsPage.vue";
 import AdvancesPage from "../views/Admin/FinancialTransactions/AdvancesPage.vue";
 import DiaryReport from "../views/Admin/FinancialTransactions/DiaryReport.vue";
@@ -412,6 +413,11 @@ const routes = [
     path: "/TotalEmployee",
     name: "TotalEmployee",
     component: TotalEmployee,
+  },
+  {
+    path: "/DeletedBills",
+    name: "DeletedBills",
+    component: DeletedBills,
   },
 ];
 const router = createRouter({

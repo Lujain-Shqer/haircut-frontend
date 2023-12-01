@@ -11,7 +11,7 @@
     </div>
     <div class="col-xl-3 col-lg-6 col-md-12">
       <h6>
-        إيرادات الإسبوع
+        إيرادات اسبوع
         <span class="state"> 8.3% <fa icon="arrow-up" /></span>
       </h6>
       <h5>5,2</h5>

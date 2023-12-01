@@ -309,10 +309,14 @@ export default {
 .e-bigger.e-small .e-calendar .e-content td.e-selected:hover,
 .e-calendar .e-content td.e-today span.e-day,
 .e-calendar .e-content td.e-today span.e-day:hover {
-  background: #3f51b5;
-  border: 1px solid #3f51b5;
+  background: #3f51b5 !important;
+  border: 1px solid #3f51b5 !important;
   border-radius: 10px;
-  color: #fff;
+  color: #fff !important;
+}
+.e-calendar .e-content.e-month td,
+.e-calendar .e-content.e-month td:hover {
+  background: transparent !important;
 }
 .app ~ div {
   display: none !important;

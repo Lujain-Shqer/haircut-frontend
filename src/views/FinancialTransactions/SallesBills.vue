@@ -168,7 +168,7 @@ export default {
   border: 1px solid #c8c9cc;
   box-shadow: 0px 0px 4px 0px #6e49cb33;
   border-radius: 8px;
-  width: 32%;
+  width: auto;
   float: right;
   display: inline;
   float: right;
@@ -187,7 +187,7 @@ export default {
 }
 
 .sallesBills .extra-table button {
-  width: 10%;
+  width: auto;
   float: left;
   background: #3f51b5;
   color: #fff;
@@ -227,10 +227,7 @@ export default {
   color: #fff;
   font-weight: 300;
 }
-.sallesBills table tfoot td:last-of-type {
-  text-align: end;
-  padding-left: 5vh;
-}
+
 tfoot svg {
   background: transparent;
   padding: 0 10px;
@@ -262,7 +259,7 @@ tfoot svg {
 }
 @media (max-width: 540px) {
   .extra-table {
-    /* width: 210%; */
+    width: 300% !important;
   }
   .table {
     /* width: 230%; */
