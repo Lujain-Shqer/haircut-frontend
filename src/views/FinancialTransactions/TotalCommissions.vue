@@ -36,16 +36,18 @@
               <td>{{ totalCommission.name }}</td>
               <td>{{ totalCommission.info.total_order }}</td>
               <td>
-                {{ totalCommission.info.total_revenue }}
+                {{ totalCommission.info.total_revenue.toFixed(2) }}
               </td>
-              <td>{{ totalCommission.info.total_commission }}</td>
+              <td>{{ totalCommission.info.total_commission.toFixed(2) }}</td>
               <td>
-                {{ totalCommission.info.payed_commission }}
+                {{ totalCommission.info.payed_commission.toFixed(2) }}
               </td>
               <td>
                 {{
-                  totalCommission.info.total_commission -
-                  totalCommission.info.payed_commission
+                  (
+                    totalCommission.info.total_commission -
+                    totalCommission.info.payed_commission
+                  ).toFixed(2)
                 }}
               </td>
             </tr>

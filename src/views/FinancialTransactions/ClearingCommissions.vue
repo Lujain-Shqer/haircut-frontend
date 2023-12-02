@@ -16,27 +16,38 @@
           <thead>
             <tr>
               <th scope="col">الاسم</th>
-              <th scope="col">الررصيد الإفتتاحي</th>
               <th scope="col">المراد دفعه</th>
               <th scope="col">المتبقي</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>علي إسماعيل</td>
-              <td>4567</td>
+            <tr
+              v-for="cleaningCommission in cleaningCommissions"
+              :key="cleaningCommission.id"
+            >
+              <td>{{ cleaningCommission.name }}</td>
               <td>
                 <input
+                  v-model="payments[cleaningCommission.id]"
                   type="text"
                   placeholder="SAR-
 المبلغ "
                 />
               </td>
-              <td>6002.60</td>
+              <td>
+                {{
+                  (
+                    cleaningCommission.info.total_commission -
+                    cleaningCommission.info.payed_commission
+                  ).toFixed(2)
+                }}
+              </td>
             </tr>
           </tbody>
         </table>
-        <button class="btn">حفظ تصفية العمولات</button>
+        <button @click="clearCommissions" class="btn">
+          حفظ تصفية العمولات
+        </button>
       </div>
     </div>
   </div>
@@ -44,20 +55,88 @@
 <script>
 export default {
   name: "ClearingCommissions",
+  data() {
+    return {
+      cleaningCommissions: [],
+      cleaningCommissionsPerPage: 7,
+      currentPage: 1,
+      payments: [],
+    };
+  },
+  computed: {
+    cleaningCommissionsToDisplay() {
+      const startIndex =
+        (this.currentPage - 1) * this.cleaningCommissionsPerPage;
+      const endIndex = startIndex + this.cleaningCommissionsPerPage;
+      return this.cleaningCommissions.slice(startIndex, endIndex);
+    },
+    pageNumber() {
+      return Math.ceil(
+        this.cleaningCommissions.length / this.cleaningCommissionsPerPage
+      );
+    },
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/employee-info/" +
+        localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.cleaningCommissions = data))
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    changePage(currentPage) {
+      this.currentPage = currentPage;
+    },
+    clearCommissions(event) {
+      event.preventDefault();
+      this.payments.forEach((payment, index) => {
+        console.log(this.cleaningCommissions[index - 1]);
+        fetch("http://127.0.0.1:8001/api/pay-commission", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            employee_id:
+              this.cleaningCommissions[index - 1]["info"]["employee_id"],
+            amount: payment,
+          }),
+        }).then((response) => {
+          if (response.ok) {
+            this.$router.push({ name: "TotalCommissions" });
+            return response.json();
+          }
+        });
+      });
+    },
+  },
 };
 </script>
 <style scoped>
 .row {
   margin: 0;
 }
+
 .clearingCommissions {
   direction: rtl;
   width: 80%;
 }
+
 .clearingCommissions h4 {
   color: #3f51b5;
   font-weight: 600px;
 }
+
 .clearingCommissions p {
   color: #1a2669;
   font-weight: 400;
@@ -69,6 +148,7 @@ export default {
   margin-bottom: 3vh;
   display: flow-root;
 }
+
 .clearingCommissions .input-container {
   width: 25%;
   float: right;
@@ -79,6 +159,7 @@ export default {
   font-weight: 500;
   text-align: start;
 }
+
 .clearingCommissions .input-container svg {
   padding-left: 2vh;
 }
@@ -89,6 +170,7 @@ export default {
   background: #3f51b5;
   color: #fff;
 }
+
 .clearingCommissions .extra-table button:first-of-type {
   background: #fff;
   color: #3f51b5;
@@ -96,10 +178,12 @@ export default {
   width: 25%;
   float: right;
 }
+
 .clearingCommissions .extra-table button:last-of-type {
   width: 15%;
   float: right;
 }
+
 .clearingCommissions .all-table {
   margin-top: 5vh;
   border: 1.5px solid #3f51b5;
@@ -108,16 +192,20 @@ export default {
   border-radius: 8px;
   text-align: center;
 }
+
 .clearingCommissions table {
   margin-bottom: 0;
 }
+
 .clearingCommissions table td:last-child {
   color: #3bd34a;
 }
+
 .clearingCommissions table tfoot {
   border-radius: 8px;
   font-weight: 300;
 }
+
 tbody,
 td,
 tfoot,
@@ -134,46 +222,57 @@ tr {
   height: 5vh;
   font-weight: 400;
 }
+
 .clearingCommissions table tr td,
 .clearingCommissions table tr th {
   color: #1a2669;
 }
+
 .clearingCommissions table .td {
   font-weight: 700;
 }
+
 .clearingCommissions table input {
   border: 1px solid #c8c9cc;
   padding: 1vh;
   border-radius: 8px;
   width: 80%;
 }
+
 .clearingCommissions table ~ button {
   background: #3f51b5;
   color: #fff;
   margin-top: 5vh;
   margin-bottom: 2vh;
 }
+
 @media (max-width: 991px) {
   .clearingCommissions {
     width: 70%;
   }
+
   .clearingCommissions select {
     width: 50%;
   }
+
   .extra-table {
     width: 180%;
   }
+
   .table {
     width: 192%;
   }
 }
+
 @media (max-width: 765px) {
   .clearingCommissions {
     width: 100%;
   }
+
   .extra-table {
     width: 175%;
   }
+
   .table {
     width: 192%;
   }
@@ -183,9 +282,11 @@ tr {
   .clearingCommissions select {
     width: 80%;
   }
+
   .extra-table {
     width: 210%;
   }
+
   .table {
     width: 230%;
   }
