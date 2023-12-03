@@ -103,7 +103,7 @@ export default {
 </script>
 <style scoped>
 .control_wrapper {
-  position: fixed;
+  position: absolute;
   z-index: 1111111111111;
   margin: auto;
   width: 100%;

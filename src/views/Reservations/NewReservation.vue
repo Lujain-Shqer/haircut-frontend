@@ -1,33 +1,25 @@
 <template>
-  <div class="totalEmployee">
+  <div class="NewReservation">
     <div class="container">
-      <h4>تقرير موظف أجمالي</h4>
+      <h4>سجل تصفية الموظفين</h4>
       <p>
-        تقرير الموظف الإجمالي هو وثيقة تُستخدم لتلخيص وتوثيق معلومات وأداء موظف
-        معين خلال فترة زمنية معينة. يتم إعداد هذا التقرير لأغراض متنوعة، بما في
-        ذلك تقييم الأداء واتخاذ القرارات الإدارية والإحصاءات العامة حول العمل
-        الذي يقوم به الموظف.
+        سجل تصفية الموظفين هو وثيقة تُستخدم لتوثيق وتسجيل جميع التفاصيل
+        والإجراءات المتعلقة بتصفية موظف بعد انتهاء علاقته الوظيفية مع منشأة
+        معينة. يتم استخدام هذا السجل لأغراض إدارة الموارد البشرية والشفافية في
+        الإجراءات
       </p>
-      <h6>لإظهار بيانات موظف أجمالي يلزم اختيار المراد البحث عنه</h6>
-      <select class="form-selec" aria-label="Default select example">
-        <option selected>اختر الموظف</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-      </select>
       <div class="all-table" style="overflow-x: auto">
         <div class="row extra-table">
           <div class="input-container">
-            <fa icon="search" />
-            <input class="input-field" type="text" placeholder="البحث عن..." />
+            <fa icon="coins" />
+            <span>سجل تصفية الموظفين</span>
           </div>
-          <button class="btn">EXCEL</button>
           <button class="btn">بحث بالتاريخ</button>
+
           <button class="btn" @click="showComponent">
             من الفترة -> إلى الفترة
           </button>
         </div>
-
         <div class="control_wrapper" v-show="isComponentVisible">
           <ejs-calendar
             :isMultiSelection="isMultiSelection"
@@ -37,27 +29,37 @@
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
             <tr>
-              <th scope="col">بداية الفترة</th>
-              <th scope="col">إجمالي الفواتير</th>
-              <th scope="col">إجمالي الإيراد</th>
-              <th scope="col">العمولات</th>
-              <th scope="col">المدفوعات</th>
+              <th scope="col">كود الموظف</th>
+              <th scope="col">الموظف</th>
+              <th scope="col">الأجر</th>
+              <th scope="col">الاستقطاع</th>
+              <th scope="col">البيان</th>
 
-              <th scope="col">المجموع</th>
+              <th scope="col">المتبقي</th>
+              <th scope="col">الإجراءات</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>ص11:54 | 2023-09-05</td>
-              <td>الراتب</td>
-              <td>2000</td>
-              <td>0.00</td>
-              <td>0.00</td>
-              <td>0.00</td>
+              <td>55900</td>
+              <td>أشرف عبدالعزيز</td>
+              <td class="row">
+                <div class="col-5">الراتب :</div>
+                <div class="col-5">2000</div>
+                <div class="col-5">العمولة :</div>
+                <div class="col-5">9%</div>
+              </td>
+              <td>150</td>
+              <td>خصومات</td>
+              <td>1850</td>
+              <td>
+                <button class="btn update">سدد</button>
+              </td>
             </tr>
           </tbody>
           <tfoot>
             <td>صفوف لكل الصفحة</td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -82,7 +84,7 @@
 import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
 
 export default {
-  name: "TotalEmployee",
+  name: "NewReservation",
   components: {
     "ejs-calendar": CalendarComponent,
   },
@@ -104,97 +106,80 @@ export default {
 </script>
 <style scoped>
 .control_wrapper {
-  position: absolute;
+  position: fixed;
   z-index: 1111111111111;
   margin: auto;
   width: 100%;
+  float: left;
 }
 .e-calendar {
-  margin: 0 auto;
+  margin: auto;
 }
 .row {
   margin: 0;
 }
-.totalEmployee {
+.NewReservation {
   direction: rtl;
   width: 80%;
 }
-.totalEmployee h4,
-.totalEmployee h6 {
+.NewReservation h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
-.totalEmployee h6 {
-  margin-bottom: 2vh;
-}
-.totalEmployee p {
+.NewReservation p {
   color: #1a2669;
   font-weight: 400;
   padding: 2vh;
 }
-.totalEmployee .form-selec {
-  border: 1px solid #c8c9cc;
-  color: #1a2669;
-  border-radius: 8px;
-  padding: 1vh 4vh;
-  width: auto;
-  outline: none;
-}
-
-.totalEmployee .extra-table {
+.NewReservation .extra-table {
   margin: 0 4vh;
   margin-bottom: 3vh;
   display: flow-root;
 }
-.totalEmployee .input-container {
-  border: 1px solid #c8c9cc;
-  box-shadow: 0px 0px 4px 0px #6e49cb33;
-  border-radius: 8px;
-  width: auto;
+.NewReservation .input-container {
   float: right;
-  display: inline;
+  display: contents;
   float: right;
   color: #3f51b5;
   padding: 1vh;
+  font-weight: 500;
 }
-.totalEmployee input {
-  border: 0;
-  outline: none;
-  color: #3f51b5;
-}
-.listOftotalEmployeeEmployee input::placeholder {
-  color: #3f51b5;
-}
-.totalEmployee .input-container svg {
-  padding-left: 0.2vh;
+.NewReservation .input-container svg {
+  padding-left: 2vh;
 }
 
-.totalEmployee .extra-table button {
+.NewReservation .extra-table button {
   width: auto;
   margin-right: 10px;
   background: #3f51b5;
   color: #fff;
   float: left;
 }
-.extra-table button:first-of-type,
-.totalEmployee .extra-table button:last-of-type {
+
+.NewReservation .extra-table button:first-of-type {
+  float: left;
+  background: #3f51b5;
+  color: #fff;
+  border: 1px solid #3f51b5;
+}
+.NewReservation .extra-table button:last-of-type {
+  width: auto;
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
 }
-
-.totalEmployee .all-table {
+.NewReservation .all-table {
   margin-top: 5vh;
   border: 1px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
 }
-.totalEmployee table {
+.NewReservation table {
   margin-bottom: 0;
   text-align: center;
 }
-.totalEmployee table tfoot {
+.NewReservation table tfoot {
   border-radius: 8px;
 }
 tbody,
@@ -206,38 +191,26 @@ tr {
   border-bottom: 1px solid #d9d5ec;
 }
 
-.totalEmployee table thead tr th,
-.totalEmployee table tfoot tr th {
+.NewReservation table thead tr th,
+.NewReservation table tfoot tr th {
   background: #3f51b5;
   color: #e3e3e3;
   height: 5vh;
   font-weight: 400;
 }
-.totalEmployee table tr td,
-.totalEmployee table tr th {
+.NewReservation table tr td,
+.NewReservation table tr th {
   color: #1a2669;
 }
-.totalEmployee table tfoot {
+.NewReservation table tfoot {
   border-radius: 8px;
   background: #3f51b5;
   color: #fff;
   font-weight: 300;
 }
-.totalEmployee table tfoot td:last-of-type {
+.NewReservation table tfoot td:last-of-type {
   text-align: end;
   padding-left: 5vh;
-}
-table .delete {
-  background: #fff;
-  color: #3f51b5;
-  border: 1px solid #3f51b5;
-  margin-left: 2px;
-}
-.totalEmployee table .update {
-  background: #3f51b5;
-  color: #fff;
-  border: 1px solid #3f51b5;
-  margin-right: 2px;
 }
 tfoot svg {
   background: transparent;
@@ -246,10 +219,10 @@ tfoot svg {
   cursor: pointer;
 }
 @media (max-width: 991px) {
-  .totalEmployee {
+  .NewReservation {
     width: 70%;
   }
-  .totalEmployee select {
+  .NewReservation select {
     width: 50%;
   }
   .extra-table {
@@ -260,7 +233,7 @@ tfoot svg {
   }
 }
 @media (max-width: 765px) {
-  .totalEmployee {
+  .NewReservation {
     width: 100%;
   }
   .extra-table {
@@ -272,7 +245,7 @@ tfoot svg {
 }
 
 @media (max-width: 540px) {
-  .totalEmployee select {
+  .NewReservation select {
     width: 80%;
   }
   .extra-table {

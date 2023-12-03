@@ -2,6 +2,7 @@
   <div class="showReservations">
     <div class="container">
       <h4>حجوزات اليوم</h4>
+      <button class="btn">عرض القائمة</button>
       <p>
         تعتبر وثائق مالية تُستخدم لتوثيق عمليات البيع بصالون حلاقة خاص بك. تحتوي
         فاتورة المبيعات عادةً على معلومات مهمة تتعلق بالخدمات التي تم بيعها
@@ -118,6 +119,13 @@ h5 {
   color: #3f51b5;
   font-weight: 700px;
   direction: rtl;
+  display: inline-block;
+  float: right;
+}
+.showReservations button {
+  background: #3f51b5;
+  color: #fff;
+  border: 1px solid #3f51b5;
 }
 
 .showReservations p {

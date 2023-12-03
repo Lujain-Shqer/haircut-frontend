@@ -123,7 +123,7 @@ export default {
   display: flow-root;
 }
 .salonAppointment .input-container {
-  width: 40%;
+  width: auto;
   float: right;
   display: inline;
   float: right;
@@ -136,7 +136,7 @@ export default {
   color: #fff;
   border: 1px solid #3f51b5;
   float: left;
-  width: 10%;
+  width: auto;
 }
 
 .salonAppointment .all-table {
@@ -219,10 +219,13 @@ tr {
     width: 80%;
   }
   .extra-table {
-    width: 210%;
+    width: 260%;
   }
   .table {
-    width: 230%;
+    width: 280%;
+  }
+  .salonAppointment table .update {
+    margin: 0;
   }
 }
 </style>

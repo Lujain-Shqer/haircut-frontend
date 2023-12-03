@@ -15,7 +15,7 @@
         ></ejs-calendar>
       </div>
       <h6 class="first-step">تفاصيل حجز الجديد</h6>
-      <div class="control-table" style="overflow-x: auto">
+      <div class="control-table">
         <div class="row extra-table text-center">
           <img src="../../assets/salePoints/salon.png" />
           <span class="">صالون شعر ذقن للحلاقة</span>
@@ -156,14 +156,12 @@ export default {
 .newReservation3 .control-table {
   margin-top: 5vh;
   border: 1px solid #3f51b5;
-  padding: 3vh 0 0;
+  padding: 1vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
-  width: 80%;
+  width: 60%;
 }
 .newReservation3 .extra-table {
-  margin: 0 4vh;
-  margin-bottom: 3vh;
   display: flow-root;
   border-collapse: collapse;
   border-spacing: 0;
@@ -176,7 +174,7 @@ export default {
   box-shadow: 0px 0px 4px -1px #14141412;
 
   box-shadow: 0px 0px 6px -1px #1414141f;
-  width: 5%;
+  width: 8%;
 }
 .newReservation3 .extra-table span {
   color: #3f51b5;
@@ -210,18 +208,28 @@ export default {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
-  width: 25%;
-  margin: 5vh 1vh 0;
+  width: auto;
+  margin: 5vh 1vh;
+  padding: 1vh 4vh;
 }
 
 @media (max-width: 991px) {
   .newReservation3 {
     width: 70%;
   }
+  .newReservation3 .control-table {
+    width: 80%;
+  }
 }
 @media (max-width: 765px) {
+  .newReservation3 .control-table {
+    width: 100%;
+  }
   .newReservation3 {
     width: 100%;
+  }
+  .newReservation3 .control-table {
+    overflow-x: auto;
   }
 }
 

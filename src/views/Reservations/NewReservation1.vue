@@ -107,15 +107,13 @@ export default {
 .newReservation1 .control-table {
   margin-top: 3vh;
   border: 1px solid #3f51b5;
-  padding: 3vh 0 0;
+  padding: 1vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
   width: 50%;
 }
 
 .newReservation1 .extra-table {
-  margin: 0 4vh;
-  margin-bottom: 3vh;
   display: flow-root;
   border-collapse: collapse;
   border-spacing: 0;
@@ -129,7 +127,7 @@ export default {
   box-shadow: 0px 0px 4px -1px #14141412;
 
   box-shadow: 0px 0px 6px -1px #1414141f;
-  width: 10%;
+  width: 8%;
 }
 
 .newReservation1 .extra-table span {
@@ -160,10 +158,11 @@ export default {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
-  width: 30%;
+  width: auto;
   margin: auto;
-  margin-top: 5vh;
+  margin: 5vh auto;
   display: block;
+  padding: 1vh 4vh;
 }
 
 @media (max-width: 991px) {
@@ -173,6 +172,9 @@ export default {
 }
 
 @media (max-width: 765px) {
+  .newReservation1 .control-table {
+    width: 100%;
+  }
   .newReservation1 {
     width: 100%;
   }

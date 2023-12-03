@@ -37,6 +37,7 @@ import NewReservation1 from "../views/Reservations/NewReservation1.vue";
 import NewReservation2 from "../views/Reservations/NewReservation2.vue";
 import NewReservation3 from "../views/Reservations/NewReservation3.vue";
 import NewReservation4 from "../views/Reservations/NewReservation4.vue";
+import NewReservation from "../views/Reservations/NewReservation.vue";
 import CashierBox from "../views/FinancialTransactions/CashierBox.vue";
 import FundMovement from "../views/Admin/AdministrativeDepartment/FundMovement.vue";
 import CashierWithdrawals from "../views/Admin/AdministrativeDepartment/CashierWithdrawals.vue";
@@ -418,6 +419,11 @@ const routes = [
     path: "/DeletedBills",
     name: "DeletedBills",
     component: DeletedBills,
+  },
+  {
+    path: "/NewReservation",
+    name: "NewReservation",
+    component: NewReservation,
   },
 ];
 const router = createRouter({

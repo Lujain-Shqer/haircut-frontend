@@ -10,15 +10,18 @@
           <h6>حجز المواعيد المعطلة</h6>
           <button class="btn">قائمة المواعيد المعطلة</button>
         </div>
-        <form class="row">
+        <div class="row formDiv">
           <div class="col-lg-12">
             <label>تاريخ العطلة</label>
-            <select class="form-selec" aria-label="Default select example">
-              <option selected>من الفترة -> الى الفترة</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
+            <button class="btn calendar" @click="showComponent">
+              من الفترة -> إلى الفترة
+            </button>
+            <div class="control_wrapper" v-show="isComponentVisible">
+              <ejs-calendar
+                :isMultiSelection="isMultiSelection"
+                @change="handleDateChange"
+              ></ejs-calendar>
+            </div>
           </div>
           <div class="col-lg-12">
             <label>اسم الموظف</label>
@@ -30,17 +33,46 @@
             </select>
           </div>
           <button class="btn add">تأكيد</button>
-        </form>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
+
 export default {
   name: "DisabledAppoinments",
+  components: {
+    "ejs-calendar": CalendarComponent,
+  },
+  data() {
+    return {
+      isComponentVisible: false,
+    };
+  },
+  methods: {
+    showComponent() {
+      if (this.isComponentVisible) {
+        this.isComponentVisible = false;
+      } else {
+        this.isComponentVisible = true;
+      }
+    },
+  },
 };
 </script>
 <style scoped>
+.control_wrapper {
+  position: absolute;
+  z-index: 1111111111111;
+  margin: auto;
+  width: 100%;
+}
+.e-calendar {
+  margin: 0 auto;
+  float: right;
+}
 .row {
   margin: 0;
 }
@@ -76,6 +108,12 @@ export default {
 .disabledAppoinments .input-container button {
   float: left;
 }
+
+.disabledAppoinments .formDiv .calendar {
+  background: #fff;
+  color: #3f51b5;
+  border: 1px solid #3f51b5;
+}
 .disabledAppoinments label {
   display: block;
   margin-bottom: 2vh;
@@ -84,11 +122,11 @@ export default {
 }
 .disabledAppoinments input,
 .disabledAppoinments .form-selec {
-  border: 1px solid #3f51b5;
+  border: 1px solid #ccc;
   color: #3f51b5;
   border-radius: 8px;
   padding: 1vh;
-  width: 50%;
+  width: auto;
   outline: none;
   margin-bottom: 2vh;
 }
@@ -106,20 +144,18 @@ export default {
 }
 .disabledAppoinments button.add {
   margin: auto;
-  width: 25%;
+  width: auto;
   margin-top: 5vh;
+  padding: 1vh 4vh;
 }
 
 @media (max-width: 991px) {
+  .disabledAppoinments {
+    width: 70%;
+  }
   .disabledAppoinments input,
   .disabledAppoinments .form-selec {
     width: 100%;
-  }
-  .disabledAppoinments button,
-  .disabledAppoinments button.add {
-    width: 95%;
-    margin-right: 2vh;
-    margin-top: 2vh;
   }
 }
 @media (max-width: 765px) {

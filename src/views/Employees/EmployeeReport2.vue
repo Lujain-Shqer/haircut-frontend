@@ -7,11 +7,21 @@
         فاتورة المبيعات عادةً على معلومات مهمة تتعلق بالخدمات التي تم بيعها
         والمبلغ المستحق للدفع.
       </p>
+      <h6>لإظهار بيانات تقرير الموظف المفصل يلزم اختيار المراد البحث عنه</h6>
+      <select class="form-selec" aria-label="Default select example">
+        <option selected>اختر الموظف</option>
+        <option value="1">One</option>
+        <option value="2">Two</option>
+        <option value="3">Three</option>
+      </select>
       <div class="row personal-information">
         <div class="col-xl-6 col-lg-8 col-md-12">
           <div class="row">
-            <img src="../../assets/three.png" class="col-4" />
-            <div class="col-6 information">
+            <div class="col-4 text-center">
+              <img src="../../assets/Vector.png" />
+              <h6>المعلومات الشخصية</h6>
+            </div>
+            <div class="col-8 information">
               <div class="row">
                 <h6 class="col-6"><fa icon="user" /> الاسم:</h6>
                 <span class="col-6">أشرف عبد العزيز</span>
@@ -44,7 +54,7 @@
       </div>
       <div class="all-table" style="overflow-x: auto">
         <div class="row extra-table">
-          <select class="form-select" aria-label="Default select example">
+          <select class="form-selec" aria-label="Default select example">
             <option selected>اختر الموظف</option>
             <option value="1">One</option>
             <option value="2">Two</option>
@@ -52,8 +62,18 @@
           </select>
           <button class="btn">EXCEL</button>
           <button class="btn">بحث بالتاريخ</button>
-          <button class="btn">من الفترة -> إلى الفترة</button>
+          <button class="btn" @click="showComponent">
+            من الفترة -> إلى الفترة
+          </button>
         </div>
+
+        <div class="control_wrapper" v-show="isComponentVisible">
+          <ejs-calendar
+            :isMultiSelection="isMultiSelection"
+            @change="handleDateChange"
+          ></ejs-calendar>
+        </div>
+
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
             <tr>
@@ -155,11 +175,39 @@
   </div>
 </template>
 <script>
+import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
+
 export default {
   name: "EmployeeReport",
+  components: {
+    "ejs-calendar": CalendarComponent,
+  },
+  data() {
+    return {
+      isComponentVisible: false,
+    };
+  },
+  methods: {
+    showComponent() {
+      if (this.isComponentVisible) {
+        this.isComponentVisible = false;
+      } else {
+        this.isComponentVisible = true;
+      }
+    },
+  },
 };
 </script>
 <style scoped>
+.control_wrapper {
+  position: absolute;
+  z-index: 1111111111111;
+  margin: auto;
+  width: 100%;
+}
+.e-calendar {
+  margin: 0 auto;
+}
 .row {
   margin: 0;
   justify-content: space-around;
@@ -169,9 +217,13 @@ export default {
   width: 80%;
 }
 .employeeReport h4,
-h5 {
+h5,
+h6 {
   color: #3f51b5;
   font-weight: 700px;
+}
+.employeeReport h6 {
+  margin-bottom: 2vh;
 }
 .employeeReport p {
   color: #1a2669;
@@ -204,6 +256,7 @@ h5 {
 }
 .employeeReport .personal-information img {
   width: 20%;
+  margin-bottom: 1vh;
 }
 .employeeReport .personal-information .information {
   margin: auto;
@@ -221,11 +274,13 @@ h5 {
   box-shadow: 0px 0px 6px -1px #1414141f;
   color: #1a2669;
 }
-.employeeReport select {
-  margin-top: 3vh;
-  width: 20%;
-  color: #3f51b5;
-  border: 1px solid #1a2669;
+.employeeReport .form-selec {
+  border: 1px solid #c8c9cc;
+  color: #1a2669;
+  border-radius: 8px;
+  padding: 1vh 4vh;
+  width: auto;
+  outline: none;
 }
 
 .employeeReport .extra-table {
@@ -234,8 +289,7 @@ h5 {
   display: flow-root;
 }
 .employeeReport .form-select {
-  width: 25%;
-  float: right;
+  width: auto;
   display: inline;
   float: right;
   color: #3f51b5;
@@ -248,7 +302,7 @@ h5 {
 }
 
 .employeeReport .extra-table button {
-  width: 12%;
+  width: auto;
   margin-right: 10px;
   float: left;
   background: #3f51b5;
@@ -259,12 +313,6 @@ h5 {
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
-}
-.employeeReport .extra-table button:last-of-type {
-  width: 25%;
-}
-.employeeReport .extra-table button:first-of-type {
-  width: 10%;
 }
 .employeeReport .all-table {
   margin-top: 5vh;
@@ -361,8 +409,9 @@ tfoot svg {
   .table {
     width: 192%;
   }
-  .employeeReport .per-info .img-info img {
-    width: 20%;
+  .employeeReport .per-info .img-info img,
+  .employeeReport .personal-information img {
+    width: 25%;
   }
 }
 @media (max-width: 765px) {
@@ -387,9 +436,8 @@ tfoot svg {
   .table {
     width: 230%;
   }
-  .employeeReport .personal-information img,
   .employeeReport .per-info .img-info img {
-    width: 40%;
+    width: 30%;
   }
   .employeeReport .per-info h6 {
     font-size: medium;
@@ -409,6 +457,10 @@ tfoot svg {
 
   .employeeReport .personal-information .information {
     width: 100%;
+  }
+  .employeeReport .per-info .img-info img,
+  .employeeReport .personal-information img {
+    width: 50%;
   }
 }
 </style>

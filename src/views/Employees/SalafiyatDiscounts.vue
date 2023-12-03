@@ -7,7 +7,10 @@
         فاتورة المبيعات عادةً على معلومات مهمة تتعلق بالخدمات التي تم بيعها
         والمبلغ المستحق للدفع.
       </p>
-      <select class="form-select" aria-label="Default select example">
+      <h6>
+        لإظهار بيانات الخاص بالخصومات والسلفيات يلزم اختيار المراد البحث عنه
+      </h6>
+      <select class="form-selec" aria-label="Default select example">
         <option selected>اختر الموظف المراد البحث عنه</option>
         <option value="1">One</option>
         <option value="2">Two</option>
@@ -21,7 +24,15 @@
           </div>
           <button class="btn">EXCEL</button>
           <button class="btn">بحث بالتاريخ</button>
-          <button class="btn">من الفترة -> إلى الفترة</button>
+          <button class="btn" @click="showComponent">
+            من الفترة -> إلى الفترة
+          </button>
+        </div>
+        <div class="control_wrapper" v-show="isComponentVisible">
+          <ejs-calendar
+            :isMultiSelection="isMultiSelection"
+            @change="handleDateChange"
+          ></ejs-calendar>
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
@@ -61,11 +72,39 @@
   </div>
 </template>
 <script>
+import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
+
 export default {
   name: "SalafiyatDiscounts",
+  components: {
+    "ejs-calendar": CalendarComponent,
+  },
+  data() {
+    return {
+      isComponentVisible: false,
+    };
+  },
+  methods: {
+    showComponent() {
+      if (this.isComponentVisible) {
+        this.isComponentVisible = false;
+      } else {
+        this.isComponentVisible = true;
+      }
+    },
+  },
 };
 </script>
 <style scoped>
+.control_wrapper {
+  position: absolute;
+  z-index: 1111111111111;
+  margin: auto;
+  width: 100%;
+}
+.e-calendar {
+  margin: 0 auto;
+}
 .row {
   margin: 0;
 }
@@ -73,20 +112,26 @@ export default {
   direction: rtl;
   width: 80%;
 }
-.salafiyatDiscounts h4 {
+.salafiyatDiscounts h4,
+h6 {
   color: #3f51b5;
   font-weight: 700px;
+}
+.salafiyatDiscounts h6 {
+  margin-bottom: 2vh;
 }
 .salafiyatDiscounts p {
   color: #1a2669;
   font-weight: 400;
   padding: 2vh;
 }
-.salafiyatDiscounts select {
-  margin-top: 3vh;
-  width: 35%;
-  color: #3f51b5;
-  border: 1px solid #1a2669;
+.salafiyatDiscounts .form-selec {
+  border: 1px solid #c8c9cc;
+  color: #1a2669;
+  border-radius: 8px;
+  padding: 1vh;
+  width: auto;
+  outline: none;
 }
 
 .salafiyatDiscounts .extra-table {
@@ -95,7 +140,7 @@ export default {
   display: flow-root;
 }
 .salafiyatDiscounts .input-container {
-  width: 33%;
+  width: auto;
   float: right;
   display: inline;
   float: right;
@@ -108,7 +153,7 @@ export default {
 }
 
 .salafiyatDiscounts .extra-table button {
-  width: 16%;
+  width: auto;
   margin-right: 10px;
   float: left;
   background: #3f51b5;
@@ -120,22 +165,17 @@ export default {
   color: #3f51b5;
   border: 1px solid #3f51b5;
 }
-.salafiyatDiscounts .extra-table button:last-of-type {
-  width: 25%;
-}
-.salafiyatDiscounts .extra-table button:first-of-type {
-  width: 10%;
-}
+
 .salafiyatDiscounts .all-table {
   margin-top: 5vh;
-  border: 1.5px solid #3f51b5;
+  border: 1px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
 }
 .salafiyatDiscounts table {
   margin-bottom: 0;
-  border: 1.5px solid #3f51b5;
+  border: 1px solid #3f51b5;
   text-align: center;
 }
 .salafiyatDiscounts table tfoot {

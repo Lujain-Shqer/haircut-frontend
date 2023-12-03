@@ -8,7 +8,7 @@
       </p>
       <h5 class="first-step">الخطوة الرابعة:</h5>
       <span>ادخل ساعة الحجز لتكون بالفاتورة من حيث المواعيد . </span>
-      <div class="row">
+      <div class="row times">
         <div class="col-xl-6 col-sm-12">
           <h5 class="first-step">الساعة:</h5>
           <ul>
@@ -275,7 +275,6 @@ export default {
 .newReservation4 .first-step {
   display: inline-block;
   color: #3f51b5;
-  margin-top: 5vh;
 }
 .newReservation4 span {
   color: #1a2669;
@@ -295,6 +294,9 @@ export default {
 }
 .newReservation4 input ~ span {
   font-size: 5vmin;
+}
+.newReservation4 .times {
+  margin-top: 5vh;
 }
 .newReservation4 ul {
   display: inline-block;
@@ -329,17 +331,18 @@ export default {
   outline: none;
   display: block;
 }
+.newReservation4 .form-selec ~ .first-step {
+  margin-top: 2vh;
+}
 .newReservation4 .control-table {
   margin-top: 5vh;
   border: 1px solid #3f51b5;
-  padding: 3vh 0 0;
+  padding: 1vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
   width: 80%;
 }
 .newReservation4 .extra-table {
-  margin: 0 4vh;
-  margin-bottom: 3vh;
   display: flow-root;
   border-collapse: collapse;
   border-spacing: 0;
@@ -355,7 +358,7 @@ export default {
   box-shadow: 0px 0px 4px -1px #14141412;
 
   box-shadow: 0px 0px 6px -1px #1414141f;
-  width: 5%;
+  width: 6%;
 }
 
 .newReservation4 table {
@@ -386,8 +389,9 @@ export default {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
-  width: 25%;
-  margin: 5vh 1vh 0;
+  width: auto;
+  margin: 5vh 1vh;
+  padding: 1vh 4vh;
 }
 .error-message {
   display: block;
@@ -402,6 +406,16 @@ export default {
 }
 @media (max-width: 765px) {
   .newReservation4 {
+    width: 100%;
+  }
+  .newReservation4 .control-table {
+    width: 100%;
+  }
+  .newReservation4 .form-selec {
+    width: auto;
+  }
+  .newReservation4 h5 {
+    display: block;
     width: 100%;
   }
 }

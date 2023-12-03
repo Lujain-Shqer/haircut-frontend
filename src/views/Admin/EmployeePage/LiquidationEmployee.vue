@@ -15,7 +15,16 @@
             <span>سجل تصفية الموظفين</span>
           </div>
           <button class="btn">بحث بالتاريخ</button>
-          <button class="btn">من الفترة -> إلى الفترة</button>
+
+          <button class="btn" @click="showComponent">
+            من الفترة -> إلى الفترة
+          </button>
+        </div>
+        <div class="control_wrapper" v-show="isComponentVisible">
+          <ejs-calendar
+            :isMultiSelection="isMultiSelection"
+            @change="handleDateChange"
+          ></ejs-calendar>
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
@@ -72,11 +81,40 @@
   </div>
 </template>
 <script>
+import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
+
 export default {
   name: "LiquidationEmployee",
+  components: {
+    "ejs-calendar": CalendarComponent,
+  },
+  data() {
+    return {
+      isComponentVisible: false,
+    };
+  },
+  methods: {
+    showComponent() {
+      if (this.isComponentVisible) {
+        this.isComponentVisible = false;
+      } else {
+        this.isComponentVisible = true;
+      }
+    },
+  },
 };
 </script>
 <style scoped>
+.control_wrapper {
+  position: fixed;
+  z-index: 1111111111111;
+  margin: auto;
+  width: 100%;
+  float: left;
+}
+.e-calendar {
+  margin: auto;
+}
 .row {
   margin: 0;
 }
@@ -111,7 +149,7 @@ export default {
 }
 
 .LiquidationEmployee .extra-table button {
-  width: 16%;
+  width: auto;
   margin-right: 10px;
   background: #3f51b5;
   color: #fff;
@@ -125,7 +163,7 @@ export default {
   border: 1px solid #3f51b5;
 }
 .LiquidationEmployee .extra-table button:last-of-type {
-  width: 25%;
+  width: auto;
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
