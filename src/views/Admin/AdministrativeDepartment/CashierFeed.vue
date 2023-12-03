@@ -19,8 +19,16 @@
               />
             </div>
           </div>
-          <button class="btn">من الفترة -> إلى الفترة</button>
           <button class="btn">بحث بالتاريخ</button>
+          <button class="btn" @click="showComponent">
+            من الفترة -> إلى الفترة
+          </button>
+        </div>
+        <div class="control_wrapper" v-show="isComponentVisible">
+          <ejs-calendar
+            :isMultiSelection="isMultiSelection"
+            @change="handleDateChange"
+          ></ejs-calendar>
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
@@ -83,17 +91,20 @@
   </div>
 </template>
 <script>
+import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
 import PaginationFoot from "/src/components/PaginationFoot.vue";
 export default {
   name: "CashierFeed",
   components: {
     PaginationFoot,
+    "ejs-calendar": CalendarComponent,
   },
   data() {
     return {
       cashierFeeds: [],
       cashierFeedsPerPage: 7,
       currentPage: 1,
+      isComponentVisible: false,
     };
   },
   computed: {
@@ -144,10 +155,26 @@ export default {
     changePage(currentPage) {
       this.currentPage = currentPage;
     },
+    showComponent() {
+      if (this.isComponentVisible) {
+        this.isComponentVisible = false;
+      } else {
+        this.isComponentVisible = true;
+      }
+    },
   },
 };
 </script>
 <style scoped>
+.control_wrapper {
+  position: fixed;
+  z-index: 1111111111111;
+  margin: auto;
+  width: 100%;
+}
+.e-calendar {
+  margin: 0 auto;
+}
 .row {
   margin: 0;
 }
@@ -170,7 +197,7 @@ export default {
   display: flow-root;
 }
 .cashierFeed .search {
-  width: 65%;
+  width: auto;
   float: right;
 }
 .cashierFeed .search span {
@@ -191,7 +218,7 @@ export default {
   border: 1px solid #c8c9cc;
   box-shadow: 0px 0px 4px 0px #6e49cb33;
   border-radius: 8px;
-  width: 25%;
+  width: auto;
   display: inline;
   color: #3f51b5;
   padding: 1vh;
@@ -199,19 +226,22 @@ export default {
 .cashierFeed input {
   border: 0;
   outline: none;
+  color: #3f51b5;
 }
 .cashierFeed input::placeholder {
   color: #757575;
   text-align: start;
 }
-.cashierFeed .extra-table button:first-of-type {
-  width: 20%;
+.cashierFeed .extra-table button {
+  float: left;
+  width: auto;
+}
+.cashierFeed .extra-table button:last-of-type {
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
 }
-.cashierFeed .extra-table button:last-of-type {
-  width: 10%;
+.cashierFeed .extra-table button:first-of-type {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
@@ -285,7 +315,7 @@ tfoot svg {
 
 @media (max-width: 991px) {
   .extra-table {
-    width: 200%;
+    width: 160%;
   }
   .table {
     width: 170%;

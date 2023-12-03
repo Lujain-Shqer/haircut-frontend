@@ -9,8 +9,16 @@
             <fa icon="coins" />
             <span>تصفية العمولات</span>
           </div>
-          <button class="btn">من الفترة -> إلى الفترة</button>
           <button class="btn">بحث بالتاريخ</button>
+          <button class="btn" @click="showComponent">
+            من الفترة -> إلى الفترة
+          </button>
+        </div>
+        <div class="control_wrapper" v-show="isComponentVisible">
+          <ejs-calendar
+            :isMultiSelection="isMultiSelection"
+            @change="handleDateChange"
+          ></ejs-calendar>
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
@@ -53,14 +61,20 @@
   </div>
 </template>
 <script>
+import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
+
 export default {
   name: "ClearingCommissions",
+  components: {
+    "ejs-calendar": CalendarComponent,
+  },
   data() {
     return {
       cleaningCommissions: [],
       cleaningCommissionsPerPage: 7,
       currentPage: 1,
       payments: [],
+      isComponentVisible: false,
     };
   },
   computed: {
@@ -119,10 +133,26 @@ export default {
         });
       });
     },
+    showComponent() {
+      if (this.isComponentVisible) {
+        this.isComponentVisible = false;
+      } else {
+        this.isComponentVisible = true;
+      }
+    },
   },
 };
 </script>
 <style scoped>
+.control_wrapper {
+  position: fixed;
+  z-index: 1111111111111;
+  width: 78%;
+  margin: auto;
+}
+.e-calendar {
+  float: left;
+}
 .row {
   margin: 0;
 }
@@ -150,7 +180,7 @@ export default {
 }
 
 .clearingCommissions .input-container {
-  width: 25%;
+  width: auto;
   float: right;
   display: inline;
   float: right;
@@ -165,7 +195,7 @@ export default {
 }
 
 .clearingCommissions .extra-table button {
-  width: 15%;
+  width: auto;
   margin-right: 10px;
   background: #3f51b5;
   color: #fff;
@@ -175,18 +205,16 @@ export default {
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
-  width: 25%;
-  float: right;
+  float: left;
 }
 
 .clearingCommissions .extra-table button:last-of-type {
-  width: 15%;
-  float: right;
+  float: left;
 }
 
 .clearingCommissions .all-table {
   margin-top: 5vh;
-  border: 1.5px solid #3f51b5;
+  border: 1px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;

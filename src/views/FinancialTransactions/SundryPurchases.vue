@@ -184,7 +184,7 @@ export default {
   border: 1px solid #c8c9cc;
   box-shadow: 0px 0px 4px 0px #6e49cb33;
   border-radius: 8px;
-  width: 32%;
+  width: auto;
   float: right;
   display: inline;
   float: right;
@@ -194,6 +194,7 @@ export default {
 .sundryPurchases input {
   border: 0;
   outline: none;
+  color: #3f51b5;
 }
 .sundryPurchases input::placeholder {
   color: #3f51b5;
@@ -203,7 +204,7 @@ export default {
 }
 
 .sundryPurchases .extra-table button {
-  width: 20%;
+  width: auto;
   float: left;
   background: #3f51b5;
   color: #fff;

@@ -225,8 +225,8 @@ export default {
   font-weight: 400;
 }
 .addNewEmployee .update-info-client {
-  margin-top: 5vh;
-  border: 1.5px solid #3f51b5;
+  margin: 5vh 0;
+  border: 1px solid #3f51b5;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
   padding: 5vh;
@@ -241,9 +241,10 @@ export default {
   margin-bottom: 2vh;
   margin-top: 2vh;
   font-weight: 400;
+  color: #1a2669;
 }
 .addNewEmployee input {
-  color: #1a2669;
+  color: #3f51b5;
   border-radius: 8px;
   padding: 1vh;
   width: 70%;
@@ -266,7 +267,7 @@ export default {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
-  width: 25%;
+  width: auto;
   margin: auto;
   margin-top: 5vh;
 }

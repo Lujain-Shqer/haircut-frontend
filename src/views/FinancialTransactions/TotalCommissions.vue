@@ -15,7 +15,12 @@
           </div>
           <button class="btn">EXCEL</button>
           <button class="btn">بحث بالتاريخ</button>
-          <button class="btn">من الفترة -> إلى الفترة</button>
+          <button class="btn" @click="showComponent">
+            من الفترة -> إلى الفترة
+          </button>
+        </div>
+        <div class="control_wrapper" v-show="isComponentVisible">
+          <ejs-calendar></ejs-calendar>
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
@@ -103,17 +108,20 @@
   </div>
 </template>
 <script>
+import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
 import PaginationFoot from "/src/components/PaginationFoot.vue";
 export default {
   name: "TotalCommissions",
   components: {
     PaginationFoot,
+    "ejs-calendar": CalendarComponent,
   },
   data() {
     return {
       totalCommissions: [],
       totalCommissionsPerPage: 7,
       currentPage: 1,
+      isComponentVisible: false,
     };
   },
   computed: {
@@ -155,10 +163,26 @@ export default {
         0
       );
     },
+    showComponent() {
+      if (this.isComponentVisible) {
+        this.isComponentVisible = false;
+      } else {
+        this.isComponentVisible = true;
+      }
+    },
   },
 };
 </script>
 <style scoped>
+.control_wrapper {
+  position: fixed;
+  z-index: 1111111111111;
+  margin: auto;
+  width: 100%;
+}
+.e-calendar {
+  margin: 0 auto;
+}
 .row {
   margin: 0;
 }
@@ -182,7 +206,7 @@ export default {
   display: flow-root;
 }
 .totalCommissions .input-container {
-  width: 25%;
+  width: auto;
   float: right;
   display: inline;
   float: right;
@@ -200,7 +224,7 @@ export default {
 }
 
 .totalCommissions .extra-table button {
-  width: 15%;
+  width: auto;
   margin-right: 10px;
   float: left;
   background: #3f51b5;
@@ -211,12 +235,6 @@ export default {
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
-}
-.totalCommissions .extra-table button:last-of-type {
-  width: 25%;
-}
-.totalCommissions .extra-table button:first-of-type {
-  width: 12%;
 }
 .totalCommissions .all-table {
   margin-top: 5vh;
@@ -305,10 +323,10 @@ tfoot svg {
     width: 80%;
   }
   .extra-table {
-    width: 210%;
+    width: 230%;
   }
   .table {
-    width: 230%;
+    width: 250%;
   }
 }
 </style>

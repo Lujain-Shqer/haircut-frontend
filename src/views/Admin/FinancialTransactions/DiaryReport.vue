@@ -15,7 +15,15 @@
           </div>
           <button class="btn">EXCEL</button>
           <button class="btn">بحث بالتاريخ</button>
-          <button class="btn">من الفترة -> إلى الفترة</button>
+          <button class="btn" @click="showComponent">
+            من الفترة -> إلى الفترة
+          </button>
+        </div>
+        <div class="control_wrapper" v-show="isComponentVisible">
+          <ejs-calendar
+            :isMultiSelection="isMultiSelection"
+            @change="handleDateChange"
+          ></ejs-calendar>
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
@@ -66,17 +74,20 @@
   </div>
 </template>
 <script>
+import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
 import PaginationFoot from "/src/components/PaginationFoot.vue";
 export default {
   name: "DiaryReport",
   components: {
     PaginationFoot,
+    "ejs-calendar": CalendarComponent,
   },
   data() {
     return {
       diaryReports: [],
       diaryReportsPerPage: 7,
       currentPage: 1,
+      isComponentVisible: false,
     };
   },
   computed: {
@@ -109,10 +120,26 @@ export default {
     changePage(currentPage) {
       this.currentPage = currentPage;
     },
+    showComponent() {
+      if (this.isComponentVisible) {
+        this.isComponentVisible = false;
+      } else {
+        this.isComponentVisible = true;
+      }
+    },
   },
 };
 </script>
 <style scoped>
+.control_wrapper {
+  position: fixed;
+  z-index: 1111111111111;
+  width: 78%;
+  margin: auto;
+}
+.e-calendar {
+  float: left;
+}
 .row {
   margin: 0;
 }
@@ -140,7 +167,7 @@ h5 {
   border: 1px solid #c8c9cc;
   box-shadow: 0px 0px 4px 0px #6e49cb33;
   border-radius: 8px;
-  width: 32%;
+  width: auto;
   float: right;
   display: inline;
   float: right;
@@ -150,6 +177,7 @@ h5 {
 .DiaryReport input {
   border: 0;
   outline: none;
+  color: #3f51b5;
 }
 .DiaryReport input::placeholder {
   color: #3f51b5;
@@ -159,7 +187,7 @@ h5 {
 }
 
 .DiaryReport .extra-table button {
-  width: 16%;
+  width: auto;
   margin-right: 10px;
   float: left;
   background: #3f51b5;
@@ -171,12 +199,7 @@ h5 {
   color: #3f51b5;
   border: 1px solid #3f51b5;
 }
-.DiaryReport .extra-table button:last-of-type {
-  width: 25%;
-}
-.DiaryReport .extra-table button:first-of-type {
-  width: 10%;
-}
+
 .DiaryReport .all-table {
   margin-top: 5vh;
   border: 1px solid #3f51b5;

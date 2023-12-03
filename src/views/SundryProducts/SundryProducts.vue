@@ -143,7 +143,7 @@ export default {
 }
 .sundry .control-table {
   margin-top: 5vh;
-  border: 1.5px solid #3f51b5;
+  border: 1px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
@@ -159,7 +159,7 @@ export default {
   border: 1px solid #c8c9cc;
   box-shadow: 0px 0px 4px 0px #6e49cb33;
   border-radius: 8px;
-  width: 35%;
+  width: auto;
   float: right;
   display: inline;
   float: right;
@@ -169,6 +169,7 @@ export default {
 .sundry input {
   border: 0;
   outline: none;
+  color: #3f51b5;
 }
 .sundry input::placeholder {
   color: #3f51b5;
@@ -178,7 +179,7 @@ export default {
 }
 
 .sundry .extra-table button {
-  width: 20%;
+  width: auto;
   float: left;
   background: #3f51b5;
   color: #fff;

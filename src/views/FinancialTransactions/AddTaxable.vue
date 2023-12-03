@@ -173,7 +173,7 @@ export default {
 .AddTaxable input,
 .AddTaxable .form-selec {
   border: 1px solid #c8c9cc;
-  color: #c8c9cc;
+  color: #3f51b5;
   border-radius: 8px;
   padding: 1vh;
   width: 50%;
@@ -192,13 +192,11 @@ export default {
 }
 .AddTaxable button.add {
   margin: auto;
-  width: 25%;
+  width: auto;
   margin-top: 5vh;
+  padding: 1vh 4vh;
 }
-/* .AddTaxable button:first-of-type {
-  margin: auto;
-  margin-bottom: 1vh;
-} */
+
 @media (max-width: 991px) {
   .AddTaxable input,
   .AddTaxable .form-selec {
@@ -206,9 +204,8 @@ export default {
   }
   .AddTaxable button,
   .AddTaxable button.add {
-    width: 95%;
-    margin-right: 2vh;
-    margin-top: 2vh;
+    width: auto;
+    margin: 2vh auto;
   }
   .AddTaxable {
     width: 70%;

@@ -11,9 +11,18 @@
             <fa icon="coins" />
             <span>تقرير الضريبة (مشتريات)</span>
           </div>
-          <button class="btn">EXCEL</button>
-          <button class="btn">بحث بالتاريخ</button>
-          <button class="btn">من الفترة -> إلى الفترة</button>
+          <label>اختر السنة</label>
+          <select class="form-selec">
+            <option>2022</option>
+          </select>
+          <label>اختر الربع السنوي</label>
+          <select class="form-selec">
+            <option>الربع الاول</option>
+          </select>
+          <button class="btn">بحث</button>
+        </div>
+        <div class="control_wrapper" v-show="isComponentVisible">
+          <ejs-calendar></ejs-calendar>
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
@@ -134,8 +143,7 @@ export default {
 }
 .taxReport .input-container {
   border-radius: 8px;
-  width: 30%;
-  float: right;
+  width: auto;
   display: inline;
   color: #3f51b5;
   padding: 1vh;
@@ -161,7 +169,7 @@ export default {
   border: 1px solid #1a2669;
   color: #3f51b5;
   border-radius: 8px;
-  padding: 1vh;
+  padding: 1vh 2vh;
   outline: none;
   font-weight: 600;
   margin-left: 2vh;
@@ -170,26 +178,8 @@ export default {
   background: #3f51b5;
   color: #fff;
   margin-right: 2vh;
-  width: 10%;
-}
-.taxReport .extra-table button {
-  width: 16%;
-  margin-right: 10px;
-  float: left;
-  background: #3f51b5;
-  color: #fff;
-}
-.taxReport .extra-table button:first-of-type,
-.taxReport .extra-table button:last-of-type {
-  background: #fff;
-  color: #3f51b5;
-  border: 1px solid #3f51b5;
-}
-.taxReport .extra-table button:last-of-type {
-  width: 25%;
-}
-.taxReport .extra-table button:first-of-type {
-  width: 10%;
+  width: auto;
+  padding: 1vh 3vh;
 }
 tbody,
 td,
@@ -259,10 +249,10 @@ tfoot svg {
 }
 @media (max-width: 540px) {
   .extra-table {
-    width: 210%;
+    width: 240%;
   }
   .table {
-    width: 230%;
+    width: 260%;
   }
 }
 </style>

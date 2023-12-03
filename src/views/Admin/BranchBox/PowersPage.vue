@@ -458,6 +458,7 @@
         </div>
       </div>
     </div>
+    <button class="btn">إرسال</button>
   </div>
 </template>
 <script>
@@ -506,6 +507,15 @@ export default {
 }
 .powersPage .card span {
   font-weight: 600;
+}
+.powersPage button {
+  background: #3f51b5;
+  color: #fff;
+  border: 1px solid #3f51b5;
+  padding: 1vh 5vh;
+  display: block;
+  width: auto;
+  margin: 2vh auto;
 }
 
 @media (max-width: 991px) {

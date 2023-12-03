@@ -3,22 +3,22 @@
     <div class="container">
       <h4>الرواتب</h4>
       <p>يتم إضافة الرواتب تلقائيا عند نهاية كل شهر</p>
-      <select class="form-select" aria-label="Default select example">
-        <option selected>اختر الموظف</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-      </select>
       <div class="all-table" style="overflow-x: auto">
         <div class="row extra-table">
           <div class="input-container">
             <fa icon="coins" />
             <span>إقفال حسابات الرواتب</span>
           </div>
-          <button class="btn">من الفترة -> إلى الفترة</button>
+          <button class="btn">EXCEL</button>
+
           <button class="btn">بحث بالتاريخ</button>
 
-          <button class="btn">EXCEL</button>
+          <button class="btn" @click="showComponent">
+            من الفترة -> إلى الفترة
+          </button>
+        </div>
+        <div class="control_wrapper" v-show="isComponentVisible">
+          <ejs-calendar></ejs-calendar>
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
@@ -75,11 +75,38 @@
   </div>
 </template>
 <script>
+import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
 export default {
   name: "SalaryPage",
+  components: {
+    "ejs-calendar": CalendarComponent,
+  },
+  data() {
+    return {
+      isComponentVisible: false,
+    };
+  },
+  methods: {
+    showComponent() {
+      if (this.isComponentVisible) {
+        this.isComponentVisible = false;
+      } else {
+        this.isComponentVisible = true;
+      }
+    },
+  },
 };
 </script>
 <style scoped>
+.control_wrapper {
+  position: fixed;
+  z-index: 1111111111111;
+  margin: auto;
+  width: 100%;
+}
+.e-calendar {
+  margin: 0 auto;
+}
 .row {
   margin: 0;
 }
@@ -95,12 +122,6 @@ export default {
   color: #1a2669;
   font-weight: 400;
   padding: 2vh;
-}
-.salaryPage select {
-  margin-top: 3vh;
-  width: 35%;
-  color: #3f51b5;
-  border: 1px solid #1a2669;
 }
 
 .salaryPage .extra-table {
@@ -121,10 +142,11 @@ export default {
 }
 
 .salaryPage .extra-table button {
-  width: 16%;
+  width: auto;
   margin-right: 10px;
   background: #3f51b5;
   color: #fff;
+  float: left;
 }
 .extra-table button:first-of-type,
 .salaryPage .extra-table button:last-of-type {
@@ -132,13 +154,7 @@ export default {
   color: #3f51b5;
   border: 1px solid #3f51b5;
 }
-.salaryPage .extra-table button:last-of-type {
-  width: 10%;
-  float: left;
-}
-.salaryPage .extra-table button:first-of-type {
-  width: 25%;
-}
+
 .salaryPage .all-table {
   margin-top: 5vh;
   border: 1.5px solid #3f51b5;

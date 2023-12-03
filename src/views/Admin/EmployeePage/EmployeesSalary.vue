@@ -4,7 +4,7 @@
       <h4>الرواتب الموظفين</h4>
       <p>يتم إضافة الرواتب تلقائيا عند نهاية كل شهر</p>
       <h6>لإظهار بيانات الخاص بالراتب يلزم اختيار المراد البحث عنه</h6>
-      <select class="form-select" aria-label="Default select example">
+      <select class="form-selec" aria-label="Default select example">
         <option selected>اختر الموظف</option>
         <option value="1">One</option>
         <option value="2">Two</option>
@@ -16,10 +16,19 @@
             <fa icon="coins" />
             <span>رصيد الموظف</span>
           </div>
-          <button class="btn">من الفترة -> إلى الفترة</button>
+          <button class="btn">EXCEL</button>
+
           <button class="btn">بحث بالتاريخ</button>
 
-          <button class="btn">EXCEL</button>
+          <button class="btn" @click="showComponent">
+            من الفترة -> إلى الفترة
+          </button>
+        </div>
+        <div class="control_wrapper" v-show="isComponentVisible">
+          <ejs-calendar
+            :isMultiSelection="isMultiSelection"
+            @change="handleDateChange"
+          ></ejs-calendar>
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
@@ -69,11 +78,39 @@
   </div>
 </template>
 <script>
+import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
+
 export default {
   name: "EmployeesSalary",
+  components: {
+    "ejs-calendar": CalendarComponent,
+  },
+  data() {
+    return {
+      isComponentVisible: false,
+    };
+  },
+  methods: {
+    showComponent() {
+      if (this.isComponentVisible) {
+        this.isComponentVisible = false;
+      } else {
+        this.isComponentVisible = true;
+      }
+    },
+  },
 };
 </script>
 <style scoped>
+.control_wrapper {
+  position: fixed;
+  z-index: 1111111111111;
+  margin: auto;
+  width: 100%;
+}
+.e-calendar {
+  margin: 0 auto;
+}
 .row {
   margin: 0;
 }
@@ -91,13 +128,15 @@ export default {
   font-weight: 400;
   padding: 2vh;
 }
-.employeeSalary select {
-  margin-top: 3vh;
-  width: 35%;
+.employeeSalary .form-selec {
+  border: 1px solid #c8c9cc;
   color: #3f51b5;
-  border: 1px solid #1a2669;
+  border-radius: 8px;
+  padding: 0.5vh 4vh;
+  width: auto;
+  outline: none;
+  margin-top: 2vh;
 }
-
 .employeeSalary .extra-table {
   margin: 0 4vh;
   margin-bottom: 3vh;
@@ -116,10 +155,11 @@ export default {
 }
 
 .employeeSalary .extra-table button {
-  width: 16%;
+  width: auto;
   margin-right: 10px;
   background: #3f51b5;
   color: #fff;
+  float: left;
 }
 .extra-table button:first-of-type,
 .employeeSalary .extra-table button:last-of-type {
@@ -127,16 +167,10 @@ export default {
   color: #3f51b5;
   border: 1px solid #3f51b5;
 }
-.employeeSalary .extra-table button:last-of-type {
-  width: 10%;
-  float: left;
-}
-.employeeSalary .extra-table button:first-of-type {
-  width: 25%;
-}
+
 .employeeSalary .all-table {
   margin-top: 5vh;
-  border: 1.5px solid #3f51b5;
+  border: 1px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;

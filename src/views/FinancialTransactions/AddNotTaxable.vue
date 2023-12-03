@@ -178,6 +178,7 @@ export default {
   padding: 1vh;
   width: 50%;
   outline: none;
+  color: #3f51b5;
 }
 .AddNotTaxable input::placeholder,
 .AddNotTaxable .form-select::placeholder {
@@ -192,8 +193,9 @@ export default {
 }
 .AddNotTaxable button.add {
   margin: auto;
-  width: 25%;
+  width: auto;
   margin-top: 5vh;
+  padding: 1vh 4vh;
 }
 
 @media (max-width: 991px) {
@@ -203,9 +205,11 @@ export default {
   }
   .AddNotTaxable button,
   .AddNotTaxable button.add {
-    width: 95%;
-    margin-right: 2vh;
-    margin-top: 2vh;
+    width: auto;
+    margin: 2vh auto;
+  }
+  .AddNotTaxable {
+    width: 70%;
   }
 }
 @media (max-width: 765px) {

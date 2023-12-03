@@ -218,11 +218,19 @@ export default {
   methods: {
     makeActive: function (component, event) {
       this.component = component;
+      // event.target.classList.add("blue");
+      // if (event.target.nextElementSibling != null)
+      //   event.target.nextElementSibling.classList.remove("blue");
+      // if (event.target.previousElementSibling != null)
+      //   event.target.previousElementSibling.classList.remove("blue");
+      const siblings = Array.from(event.target.parentNode.children).filter(
+        (child) => child !== event.target
+      );
+      console.log(siblings);
+      siblings.forEach((sibling) => {
+        sibling.classList.remove("blue");
+      });
       event.target.classList.add("blue");
-      if (event.target.nextElementSibling != null)
-        event.target.nextElementSibling.classList.remove("blue");
-      if (event.target.previousElementSibling != null)
-        event.target.previousElementSibling.classList.remove("blue");
     },
   },
   data() {

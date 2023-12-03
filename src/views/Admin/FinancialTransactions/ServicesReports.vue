@@ -140,6 +140,7 @@ h5 {
 .servicesReports input {
   border: 0;
   outline: none;
+  color: #3f51b5;
 }
 .servicesReports input::placeholder {
   color: #3f51b5;

@@ -85,7 +85,7 @@ export default {
   font-weight: 400;
 }
 .addSuppliers .update-info-client {
-  margin-top: 5vh;
+  margin: 5vh 0;
   border: 1.5px solid #3f51b5;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
@@ -103,7 +103,7 @@ export default {
   font-weight: 400;
 }
 .addSuppliers input {
-  color: #1a2669;
+  color: #3f51b5;
   border-radius: 8px;
   padding: 1vh;
   width: 40%;
@@ -124,9 +124,10 @@ export default {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
-  width: 25%;
+  width: auto;
   margin: auto;
   margin-top: 5vh;
+  padding: 1vh 2vh;
 }
 
 @media (max-width: 991px) {

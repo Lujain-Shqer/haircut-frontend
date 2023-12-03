@@ -21,8 +21,16 @@
               />
             </div>
           </div>
-          <button class="btn">من الفترة -> إلى الفترة</button>
           <button class="btn">بحث بالتاريخ</button>
+          <button class="btn" @click="showComponent">
+            من الفترة -> إلى الفترة
+          </button>
+        </div>
+        <div class="control_wrapper" v-show="isComponentVisible">
+          <ejs-calendar
+            :isMultiSelection="isMultiSelection"
+            @change="handleDateChange"
+          ></ejs-calendar>
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
@@ -127,11 +135,39 @@
   </div>
 </template>
 <script>
+import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
+
 export default {
   name: "FundMovement",
+  components: {
+    "ejs-calendar": CalendarComponent,
+  },
+  data() {
+    return {
+      isComponentVisible: false,
+    };
+  },
+  methods: {
+    showComponent() {
+      if (this.isComponentVisible) {
+        this.isComponentVisible = false;
+      } else {
+        this.isComponentVisible = true;
+      }
+    },
+  },
 };
 </script>
 <style scoped>
+.control_wrapper {
+  position: fixed;
+  z-index: 1111111111111;
+  margin: auto;
+  width: 100%;
+}
+.e-calendar {
+  margin: 0 auto;
+}
 .row {
   margin: 0;
 }
@@ -152,10 +188,10 @@ export default {
   margin: 0 4vh;
   margin-bottom: 3vh;
   display: flow-root;
-  width: 110%;
+  width: 120%;
 }
 .fundMovement .search {
-  width: 65%;
+  width: auto;
   float: right;
 }
 .fundMovement .search span {
@@ -176,30 +212,35 @@ export default {
   border: 1px solid #c8c9cc;
   box-shadow: 0px 0px 4px 0px #6e49cb33;
   border-radius: 8px;
-  width: 25%;
+  width: auto;
   display: inline;
   color: #3f51b5;
   padding: 1vh;
 }
 .fundMovement input {
   border: 0;
+  outline: none;
+  color: #3f51b5;
 }
 .fundMovement input::placeholder {
   color: #757575;
   text-align: start;
 }
+.fundMovement .extra-table button {
+  width: auto;
+  float: left;
+}
 .fundMovement .extra-table button:first-of-type {
-  width: 20%;
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
 }
 .fundMovement .extra-table button:last-of-type {
-  width: 10%;
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
   margin-right: 5px;
+  margin-left: 2vh;
 }
 .fundMovement .all-table {
   margin-top: 5vh;
@@ -211,8 +252,8 @@ export default {
 }
 .fundMovement table {
   margin-bottom: 0;
-  border: 1.5px solid #3f51b5;
-  width: 115%;
+  border: 1px solid #3f51b5;
+  width: 130%;
   text-align: center;
 }
 .fundMovement table tfoot {
@@ -253,10 +294,10 @@ tfoot svg {
   cursor: pointer;
 }
 
-.fundMovement table tfoot td:last-of-type {
+/* .fundMovement table tfoot td:last-of-type {
   text-align: end;
   padding-left: 5vh;
-}
+} */
 .fundMovement .feed-the-box {
   margin-top: 8vh;
   border: 1px solid #3f51b5;
@@ -297,46 +338,46 @@ tfoot svg {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
-  width: 25%;
+  width: auto;
   margin: auto;
   margin-top: 5vh;
 }
 @media (max-width: 991px) {
   .extra-table {
-    width: 200%;
+    width: 200% !important;
   }
   .table {
-    width: 170%;
+    width: 220% !important;
   }
   .fundMovement {
     width: 70%;
   }
-  .fundMovement .feed-the-box input {
+  /* .fundMovement .feed-the-box input {
     width: 100%;
   }
   .fundMovement .feed-the-box button {
     width: 95%;
     margin-right: 2vh;
     margin-top: 2vh;
-  }
+  } */
 }
 @media (max-width: 765px) {
-  .extra-table {
+  /* .extra-table {
     width: 180%;
   }
   .table {
     width: 192%;
-  }
+  } */
   .fundMovement {
     width: 100%;
   }
 }
 @media (max-width: 540px) {
   .extra-table {
-    width: 220%;
+    width: 280% !important;
   }
   .table {
-    width: 250%;
+    width: 300% !important;
   }
 }
 </style>

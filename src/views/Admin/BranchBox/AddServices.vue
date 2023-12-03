@@ -7,7 +7,7 @@
       <span
         >إضافة اسم الخدمة التي سيتم اعتمادها بالصالون الحلاقة وتقديمها للعملاء
       </span>
-      <label>اسم الخدمة</label>
+      <label>اسم الخدمة:</label>
       <input
         type="text"
         placeholder="اسم الخدمة"
@@ -84,7 +84,7 @@
       <br />
       <h4 class="first-step">الخطوة الثالثة:</h4>
       <span>ادخل قيمة سعر الخدمة متوافق مع معايير الصالون الحلاقة </span>
-      <label>سعر الخدمة</label>
+      <label>سعر الخدمة:</label>
       <input
         type="text"
         placeholder="سعر الخدمة"
@@ -93,7 +93,7 @@
       />
       <h4 class="first-step">الخطوة الرابعة:</h4>
       <span>ادخل الوقت المطلوب لتقديم للعميل و اعتمادها بالصالون الحلاقة</span>
-      <label>مدة الخدمة</label>
+      <label>مدة الخدمة:</label>
       <input
         type="text"
         placeholder="مدة الخدمة"
@@ -221,6 +221,7 @@ export default {
 .addServices .first-step ~ input {
   width: 35%;
   margin-bottom: 1vh;
+  color: #3f51b5;
 }
 .addServices span {
   color: #1a2669;
@@ -236,7 +237,7 @@ export default {
   display: block;
   margin-bottom: 2vh;
   margin-top: 2vh;
-  font-weight: 400;
+  font-weight: 600;
 }
 .addServices input {
   border: 1px solid #c8c9cc;
@@ -287,9 +288,10 @@ export default {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
-  width: 25%;
+  width: auto;
   margin: auto;
-  margin-top: 5vh;
+  margin: 5vh 0;
+  padding: 1vh 4vh;
 }
 
 .active {
@@ -316,6 +318,9 @@ export default {
   }
   .table {
     width: 192%;
+  }
+  .addServices .first-step ~ input {
+    width: 100%;
   }
 }
 

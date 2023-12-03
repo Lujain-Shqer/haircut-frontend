@@ -115,8 +115,8 @@ export default {
   font-weight: 400;
 }
 .addUser .update-info-client {
-  margin-top: 5vh;
-  border: 1.5px solid #3f51b5;
+  margin: 5vh 0;
+  border: 1px solid #3f51b5;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
   padding: 5vh;
@@ -133,7 +133,7 @@ export default {
   font-weight: 400;
 }
 .addUser input {
-  color: #1a2669;
+  color: #3f51b5;
   border-radius: 8px;
   padding: 1vh;
   width: 70%;
@@ -156,19 +156,14 @@ export default {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
-  width: 25%;
-  margin: auto;
-  margin-top: 5vh;
+  width: auto;
+  margin: 5vh auto;
+  padding: 1vh 4vh;
 }
 
 @media (max-width: 991px) {
   .addUser input {
     width: 100%;
-  }
-  .addUser button {
-    width: 95%;
-    margin-right: 2vh;
-    margin-top: 2vh;
   }
   .addUser {
     width: 70%;
