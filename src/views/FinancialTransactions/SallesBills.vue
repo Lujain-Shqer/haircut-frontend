@@ -13,8 +13,9 @@
             <fa icon="search" />
             <input class="input-field" type="text" placeholder="البحث عن..." />
           </div>
-          <button class="btn">إنشاء فاتورة</button>
-          <button class="btn"><fa icon="filter" /> فلتر</button>
+          <router-link to="/PointOfSales"
+            ><button class="btn">إنشاء فاتورة</button></router-link
+          >
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
@@ -194,11 +195,11 @@ export default {
   color: #fff;
   margin-right: 2vh;
 }
-.sallesBills .extra-table button:last-of-type {
+/* .sallesBills .extra-table button:last-of-type {
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
-}
+} */
 .sallesBills table {
   margin-bottom: 0;
   border-collapse: collapse;

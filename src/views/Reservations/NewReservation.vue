@@ -41,27 +41,36 @@
               <th scope="col">الاجراءات</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>2023-09-05</td>
-              <td>فارس الحربي</td>
-              <td>(0559090488)</td>
-              <td>03:05 م - 04:38 م</td>
-              <td>محمد عصام</td>
+          <tbody v-if="appointmentsToDisplay.length > 0">
+            <tr v-for="reserve in appointmentsToDisplay" :key="reserve.id">
+              <td>{{ reserve.date }}</td>
+              <td>{{ reserve.customerName }}</td>
+              <td>{{ reserve.customerPhoneNumber }}</td>
+              <td>{{ reserve.time }}</td>
+              <td>{{ reserve.employee }}</td>
               <td>
                 <ul>
-                  <li>صبغة ذقن اسود</li>
-                  <li>صبغة ذقن اسود</li>
-                  <li>صبغة ذقن اسود</li>
-                  <li>صبغة ذقن اسود</li>
+                  <li v-for="service in reserve.services" :key="service.id">
+                    {{ service.name }}
+                  </li>
                 </ul>
               </td>
               <td>
                 <button class="btn show">
                   <fa icon="fa-file-pdf" /> عرض الفاتورة
                 </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
+                <button
+                  @click="deleteAppointment(reserve.id)"
+                  class="btn delete"
+                >
+                  <fa icon="trash" /> حذف
+                </button>
               </td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td>لا يوجد حجوزات لعرضها</td>
             </tr>
           </tbody>
           <tfoot>
@@ -71,10 +80,12 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>
-              <fa icon="	fas fa-angle-right" />
-              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
-            </td>
+            <paginationFoot
+              :current-page="currentPage"
+              :total-pages="pageNumber"
+              :total-data="appointments.length"
+              @page-change="changePage"
+            ></paginationFoot>
           </tfoot>
         </table>
       </div>
@@ -82,25 +93,134 @@
   </div>
 </template>
 <script>
-import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
-
+import PaginationFoot from "/src/components/PaginationFoot.vue";
 export default {
   name: "NewReservation",
   components: {
-    "ejs-calendar": CalendarComponent,
+    PaginationFoot,
   },
   data() {
     return {
       isComponentVisible: false,
+      appointmentsPerPage: 7,
+      currentPage: 1,
+      appointments: [],
     };
   },
+  computed: {
+    appointmentsToDisplay() {
+      const startIndex = (this.currentPage - 1) * this.appointmentsPerPage;
+      const endIndex = startIndex + this.appointmentsPerPage;
+      return this.appointments.slice(startIndex, endIndex);
+    },
+    pageNumber() {
+      return Math.ceil(this.appointments.length / this.appointmentsPerPage);
+    },
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/reservation/" +
+        localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        this.appointments = data.map((obj) => {
+          return this.proccessReservation(obj);
+        });
+      })
+      .catch((err) => console.log(err.message));
+  },
   methods: {
+    deleteAppointment(appointmentId) {
+      fetch("http://127.0.0.1:8001/api/reservation/" + appointmentId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            this.appointments = this.appointments.filter(
+              (appointment) => appointment.id !== appointmentId
+            );
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting appointment:", error);
+        });
+    },
+
     showComponent() {
       if (this.isComponentVisible) {
         this.isComponentVisible = false;
       } else {
         this.isComponentVisible = true;
       }
+    },
+    showDate(reservation) {
+      const regex = /(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/;
+      const match = reservation.date.match(regex);
+      let year, month, day;
+      if (match) {
+        [, year, month, day] = match;
+      }
+      year = parseInt(year, 10);
+      month = parseInt(month, 10);
+      day = parseInt(day, 10);
+      return year + "-" + month + "-" + day;
+    },
+    showTime(reservation) {
+      const regex = /(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/;
+      const match = reservation.date.match(regex);
+      let hour, minutes;
+      if (match) {
+        [, , , , hour, minutes] = match;
+      }
+      hour = parseInt(hour, 10);
+      minutes = parseInt(minutes, 10);
+      // Creating a new Date object with the provided hour and minutes
+      let startTime = new Date();
+      startTime.setHours(hour);
+      startTime.setMinutes(minutes);
+
+      // Calculating endTime by adding total_duration to startTime
+      let endTime = new Date(
+        startTime.getTime() + reservation.total_duration * 60 * 1000
+      );
+
+      // Formatting startTime and endTime for display
+      const formattedStartTime = startTime.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+      const formattedEndTime = endTime.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+
+      return formattedStartTime + "-" + formattedEndTime;
+    },
+    proccessReservation(reservation) {
+      const new_reserv = {};
+      new_reserv.id = reservation.id;
+      new_reserv.employee = reservation.employee.name;
+      new_reserv.services = reservation.services;
+      new_reserv.customerName = reservation.customer.name;
+      new_reserv.customerPhoneNumber = reservation.customer.phone_number;
+      new_reserv.time = this.showTime(reservation);
+      new_reserv.date = this.showDate(reservation);
+      return new_reserv;
+    },
+    changePage(currentPage) {
+      this.currentPage = currentPage;
     },
   },
 };

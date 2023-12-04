@@ -12,8 +12,8 @@
         <div class="col-xl-6 col-sm-12">
           <h5 class="first-step">الساعة:</h5>
           <ul>
-            <li>ص</li>
-            <li>م</li>
+            <li></li>
+            <li></li>
           </ul>
           <input
             min="0"
@@ -309,9 +309,9 @@ export default {
   text-align: center;
   margin: 0px 3vh;
 }
-.newReservation4 ul li {
+/* .newReservation4 ul li {
   padding: 10px;
-}
+} */
 .newReservation4 ul li:hover {
   background: #ebedf7;
 }

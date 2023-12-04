@@ -11,11 +11,11 @@
             <fa icon="calendar" />
             <span>المواعيد المعطلة</span>
           </div>
-          <!-- <button class="btn">بحث بالتاريخ</button>
+          <button class="btn">بحث بالتاريخ</button>
 
           <button class="btn" @click="showComponent">
             من الفترة -> إلى الفترة
-          </button> -->
+          </button>
         </div>
         <div class="control_wrapper" v-show="isComponentVisible">
           <ejs-calendar
@@ -26,25 +26,36 @@
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
             <tr>
+              <th scope="col">الرقم</th>
               <th scope="col">التاريخ</th>
               <th scope="col">اسم الموظف</th>
-              <th scope="col">رقم</th>
+              <th scope="col" class="text-center">الإجراءات</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>2023-09-05</td>
-              <td>فارس الحربي</td>
-              <td>(0559090488)</td>
+          <tbody v-if="disabledAppoinmentsPerPage.length >0">
+            <tr v-for=" disabled in disabledAppoinmentsPerPage" :key="disabled.id">
+              <td>{{disabled.id}}</td>
+              <td>{{ disabled.employee.name }}</td>
+              <td>{{ disabled.employee.phone_number }}</td>
+              <td class="text-center">
+                <button class="btn show"><fa icon="pen" /> تعديل</button>
+                <button @click="deleteDisabledAppoinment(disabled.id)" class="btn delete"><fa icon="trash" /> حذف</button>
+              </td>
             </tr>
+          </tbody>
+          <tbody v-else>
+            <tr><td>لا يوجد مواعيد عطلة لعرضها</td></tr>
           </tbody>
           <tfoot>
             <td>صفوف لكل الصفحة</td>
-            <td>
-              <fa icon="	fas fa-angle-right" />
-              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
-            </td>
             <td></td>
+            <td></td>
+            <paginationFoot
+              :current-page="currentPage"
+              :total-pages="pageNumber"
+              :total-data="disabledAppoinments.length"
+              @page-change="changePage"
+            ></paginationFoot>
           </tfoot>
         </table>
       </div>
@@ -53,18 +64,69 @@
 </template>
 <script>
 import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
-
+import PaginationFoot from "/src/components/PaginationFoot.vue";
 export default {
   name: "ShowDisabledAppoinments",
   components: {
     "ejs-calendar": CalendarComponent,
+    PaginationFoot,
   },
   data() {
     return {
       isComponentVisible: false,
+      disabledAppoinments: [],
+      disabledAppoinmentsPerPage: 7,
+      currentPage: 1,
     };
   },
+  computed: {
+    disabledAppoinmentsToDisplay() {
+      const startIndex = (this.currentPage - 1) * this.disabledAppoinmentsPerPage;
+      const endIndex = startIndex + this.disabledAppoinmentsPerPage;
+      return this.disabledAppoinments.slice(startIndex, endIndex);
+    },
+    pageNumber() {
+      return Math.ceil(this.disabledAppoinments.length / this.disabledAppoinmentsPerPage);
+    },
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/stoped-reservation/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.disabledAppoinments = data))
+      .catch((err) => console.log(err.message));
+  },
   methods: {
+    deleteDisabledAppoinment(disabledAppoinmentId) {
+      fetch("http://127.0.0.1:8001/api/stoped-reservation/" + disabledAppoinmentId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            this.disabledAppoinments = this.disabledAppoinments.filter(
+              (disabledAppoinment) => disabledAppoinment.id !== disabledAppoinmentId
+            );
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting disabledAppoinment:", error);
+        });
+    },
+    changePage(currentPage) {
+      this.currentPage = currentPage;
+    },
     showComponent() {
       if (this.isComponentVisible) {
         this.isComponentVisible = false;
@@ -104,7 +166,7 @@ h5 {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
-  float: left;
+  display: inline-block;
 }
 .ShowDisabledAppoinments p {
   color: #1a2669;
@@ -174,7 +236,6 @@ h5 {
   color: #fff;
   border: 1px solid #3f51b5;
   margin-left: 5px;
-  margin-bottom: 1vh;
 }
 .ShowDisabledAppoinments table tfoot {
   border-radius: 8px;

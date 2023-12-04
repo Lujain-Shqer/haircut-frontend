@@ -257,6 +257,11 @@ const routes = [
     component: DisabledAppoinments,
   },
   {
+    path: "/ShowDisabledAppoinments",
+    name: "ShowDisabledAppoinments",
+    component: ShowDisabledAppoinments,
+  },
+  {
     path: "/ShowReservations",
     name: "ShowReservations",
     component: ShowReservations,

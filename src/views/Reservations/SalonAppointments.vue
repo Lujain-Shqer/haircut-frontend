@@ -11,7 +11,7 @@
             <h6>مواعيد دوام الصالون</h6>
           </div>
           <router-link to="/UpdateAppoinments"
-            ><button class="btn">تحديث</button></router-link
+            ><button class="btn">إضافة موعد</button></router-link
           >
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">

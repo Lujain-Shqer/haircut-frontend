@@ -6,11 +6,11 @@
         التي تشمل الخدمات والمنتجات التي تعزز تجربة العميل وتجعلها فاخرة ومريحة
       </p>
       <div class="update-info-client">
-        <h6>تعديل مواعيد الدوام الصالون</h6>
-        <form class="row">
+        <h6>إضافة موعد دوام للصالون</h6>
+        <form @submit="addDate" class="row">
           <div class="col-lg-6 col-md-12">
             <label>اختر يوم من أيام الاسبوع : </label>
-            <select class="form-selec">
+            <select class="form-selec" v-model="date_info.date">
               <option>الأحد</option>
               <option>الإثنين</option>
               <option>الثلاثاء</option>
@@ -24,25 +24,49 @@
             <div class="col-xl-6 col-sm-12">
               <h5 class="first-step">من الساعة:</h5>
               <ul>
-                <li>ص</li>
-                <li>م</li>
+                <li></li>
+                <li></li>
               </ul>
-              <input min="0" max="59" type="text" />
+              <input
+                min="0"
+                max="59"
+                type="text"
+                v-model="date_info.startTime.minute"
+                @input="validateMinute(true)"
+              />
               <span>:</span>
-              <input min="0" max="23" type="text" />
+              <input
+                min="0"
+                max="23"
+                type="text"
+                v-model="date_info.startTime.hour"
+                @input="validateHour(true)"
+              />
             </div>
             <div class="col-xl-6 col-sm-12">
               <h5 class="first-step">الى الساعة:</h5>
               <ul>
-                <li>ص</li>
-                <li>م</li>
+                <li></li>
+                <li></li>
               </ul>
-              <input min="0" max="59" type="text" />
+              <input
+                min="0"
+                max="59"
+                type="text"
+                v-model="date_info.endTime.minute"
+                @input="validateMinute()"
+              />
               <span>:</span>
-              <input min="0" max="23" type="text" />
+              <input
+                min="0"
+                max="23"
+                type="text"
+                v-model="date_info.endTime.hour"
+                @input="validateHour()"
+              />
             </div>
           </div>
-          <button class="btn">تعديل</button>
+          <button class="btn">إضافة</button>
         </form>
       </div>
     </div>
@@ -53,16 +77,17 @@ export default {
   name: "UpdateAppoinments",
   data() {
     return {
-      sundry_info: {
-        name: "",
-        price: "",
+      date_info: {
+        date: "",
+        startTime: { minute: "", hour: "" },
+        endTime: { minute: "", hour: "" },
       },
     };
   },
   methods: {
-    addSundry(event) {
+    addDate(event) {
       event.preventDefault();
-      fetch("http://127.0.0.1:8001/api/sundry", {
+      fetch("http://127.0.0.1:8001/api/date", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -70,15 +95,59 @@ export default {
         },
         body: JSON.stringify({
           branch_id: localStorage.getItem("branch_id"),
-          name: this.sundry_info.name,
-          price: this.sundry_info.price,
+          day: this.date_info.date,
+          start_time:
+            this.padZero(this.date_info.startTime.hour) +
+            ":" +
+            this.padZero(this.date_info.startTime.minute),
+          end_time:
+            this.padZero(this.date_info.endTime.hour) +
+            ":" +
+            this.padZero(this.date_info.endTime.minute),
         }),
       }).then((response) => {
         if (response.ok) {
-          this.$router.push({ name: "SundryProducts" });
+          this.$router.push({ name: "SalonAppointments" });
           return response.json();
         }
       });
+    },
+    padZero(value) {
+      return value.toString().padStart(2, "0");
+    },
+    validateMinute(isStart) {
+      if (isStart) {
+        if (
+          this.date_info.startTime.minute < 0 ||
+          this.date_info.startTime.minute > 59
+        ) {
+          this.date_info.startTime.minute = "";
+        }
+      } else {
+        if (
+          this.date_info.endTime.minute < 0 ||
+          this.date_info.endTime.minute > 59
+        ) {
+          this.date_info.endTime.minute = "";
+        }
+      }
+    },
+    validateHour(isStart) {
+      if (isStart) {
+        if (
+          this.date_info.startTime.hour < 0 ||
+          this.date_info.startTime.hour > 23
+        ) {
+          this.date_info.startTime.hour = "";
+        }
+      } else {
+        if (
+          this.date_info.endTime.hour < 0 ||
+          this.date_info.endTime.hour > 23
+        ) {
+          this.date_info.endTime.hour = "";
+        }
+      }
     },
   },
 };
@@ -163,9 +232,9 @@ export default {
   text-align: center;
   margin: 0px 3vh;
 }
-.updateAppoinments ul li {
+/* .updateAppoinments ul li {
   padding: 10px;
-}
+} */
 .updateAppoinments ul li:hover {
   background: #ebedf7;
 }

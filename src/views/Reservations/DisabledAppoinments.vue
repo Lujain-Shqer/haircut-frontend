@@ -16,7 +16,7 @@
           <div class="col-lg-12">
             <label>تاريخ العطلة</label>
             <button class="btn calendar" @click="showComponent">
-              من الفترة -> إلى الفترة
+              اختر اليوم
             </button>
             <div class="control_wrapper" v-show="isComponentVisible">
               <ejs-calendar
@@ -27,14 +27,25 @@
           </div>
           <div class="col-lg-12">
             <label>اسم الموظف</label>
-            <select class="form-selec" aria-label="Default select example">
-              <option selected>اختر اسم الموظف</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+            <select
+              v-model="offDay_info.employee"
+              class="form-selec"
+              aria-label="Default select example"
+            >
+              <option disabled selected value="">اختر موظف</option>
+              <option
+                v-for="employee in allEmployees"
+                :key="employee.id"
+                :value="employee.id"
+              >
+                {{ employee.name }}
+              </option>
             </select>
           </div>
-          <button class="btn add">تأكيد</button>
+          <div class="error-message" v-if="errorMessage">
+            {{ errorMessage }}
+          </div>
+          <button @click="addDisabledAppointment" class="btn add">تأكيد</button>
         </div>
       </div>
     </div>
@@ -42,7 +53,7 @@
 </template>
 <script>
 import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
-
+import { format } from "date-fns";
 export default {
   name: "DisabledAppoinments",
   components: {
@@ -51,15 +62,71 @@ export default {
   data() {
     return {
       isComponentVisible: false,
+      allEmployees: [],
+      errorMessage: "",
+      offDay_info: {
+        selectedDay: "",
+        employee: "",
+      },
     };
   },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/employee/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.allEmployees = data))
+      .catch((err) => console.log(err.message));
+  },
   methods: {
+    addDisabledAppointment(event) {
+      event.preventDefault();
+      if (
+        this.offDay_info.employee === "" ||
+        this.offDay_info.selectedDay === ""
+      ) {
+        this.errorMessage =
+          "أرجو إدخال كافة المعلومات المطلوبة لحجز موعد عطلة.";
+        setTimeout(() => {
+          this.errorMessage = "";
+        }, 5000);
+      } else {
+        fetch("http://127.0.0.1:8001/api/stoped-reservation", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            branch_id: localStorage.getItem("branch_id"),
+            employee_id: this.offDay_info.employee,
+            date: this.offDay_info.selectedDay,
+          }),
+        }).then((response) => {
+          if (response.ok) {
+            this.$router.push({ name: "ShowDisabledAppoinments" });
+            return response.json();
+          }
+        });
+      }
+    },
+
     showComponent() {
       if (this.isComponentVisible) {
         this.isComponentVisible = false;
       } else {
         this.isComponentVisible = true;
       }
+    },
+    handleDateChange(args) {
+      this.offDay_info.selectedDay = format(args.value, "yyyy-MM-dd");
     },
   },
 };
@@ -139,6 +206,12 @@ export default {
   margin-top: 5vh;
   padding: 1vh 4vh;
   width: auto;
+}
+.error-message {
+  display: block;
+  padding: 1vh;
+  text-align: start;
+  color: red;
 }
 
 @media (max-width: 991px) {
