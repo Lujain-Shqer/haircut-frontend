@@ -74,6 +74,12 @@ export default {
   methods: {
     addProvider(event) {
       event.preventDefault();
+      Object.keys(this.provider_info).forEach((key) => {
+        if (this.provider_info[key] === "") {
+          delete this.provider_info[key];
+        }
+      });
+      console.log(this.provider_info);
       fetch("http://127.0.0.1:8001/api/provider", {
         method: "POST",
         headers: {

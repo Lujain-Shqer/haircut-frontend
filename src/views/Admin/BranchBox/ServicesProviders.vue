@@ -33,7 +33,7 @@
             >
               <td>{{ provider.name }}</td>
               <td>{{ showTaxSate(provider.tax_state) }}</td>
-              <td>{{ provider.tax_number }}</td>
+              <td>{{ showTaxNumber(provider.tax_number) }}</td>
               <td class="text-center">
                 <button class="btn show">
                   <fa icon="fa-file-pdf" /> عرض الفاتورة
@@ -129,6 +129,9 @@ export default {
     },
     showTaxSate(taxState) {
       return taxState === 1 ? "مفعلة" : " غير مفعلة";
+    },
+    showTaxNumber(taxNumber) {
+      return taxNumber === -1 ? "-" : taxNumber;
     },
   },
 };

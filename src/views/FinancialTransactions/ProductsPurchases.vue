@@ -112,7 +112,8 @@ export default {
   },
   mounted() {
     fetch(
-      "http://127.0.0.1:8001/api/purchase/" + localStorage.getItem("branch_id"),
+      "http://127.0.0.1:8001/api/product-purchase/" +
+        localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -122,12 +123,7 @@ export default {
       }
     )
       .then((res) => res.json())
-      .then(
-        (data) =>
-          (this.productsPurchases = data.filter(
-            (data) => data["type"] === "product"
-          ))
-      )
+      .then((data) => (this.productsPurchases = data))
       .catch((err) => console.log(err.message));
   },
   methods: {

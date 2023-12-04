@@ -23,72 +23,30 @@
               <th scope="col" class="text-center">الإجراءات</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td scope="row"><span>الاحد</span></td>
-              <td><span>الاحد</span></td>
-              <td><span>الاحد</span></td>
+          <tbody v-if="dates.length > 0">
+            <tr v-for="date in dates" :key="date.id">
+              <td scope="row">
+                <span>{{ date.day }}</span>
+              </td>
+              <td>
+                <span>{{ date.start_time }}</span>
+              </td>
+              <td>
+                <span>{{ date.end_time }}</span>
+              </td>
               <td class="text-center">
                 <button class="btn update">
                   <fa icon="fa-file-pdf" /> عرض الفاتورة
                 </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
+                <button @click="deleteDate(date.id)" class="btn delete">
+                  <fa icon="trash" /> حذف
+                </button>
               </td>
             </tr>
+          </tbody>
+          <tbody v-else>
             <tr>
-              <td scope="row"><span>الاثنين</span></td>
-              <td><span>الاثنين</span></td>
-              <td><span>الاثنين</span></td>
-              <td class="text-center">
-                <button class="btn update">
-                  <fa icon="fa-file-pdf" /> عرض الفاتورة
-                </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <td scope="row"><span>الثلاثاء</span></td>
-              <td><span>الثلاثاء</span></td>
-              <td><span>الثلاثاء</span></td>
-              <td class="text-center">
-                <button class="btn update">
-                  <fa icon="fa-file-pdf" /> عرض الفاتورة
-                </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <td scope="row"><span>الاربعاء</span></td>
-              <td><span>الاربعاء</span></td>
-              <td><span>الاربعاء</span></td>
-              <td class="text-center">
-                <button class="btn update">
-                  <fa icon="fa-file-pdf" /> عرض الفاتورة
-                </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <td scope="row"><span>الخميس</span></td>
-              <td><span>الخميس</span></td>
-              <td><span>الخميس</span></td>
-              <td class="text-center">
-                <button class="btn update">
-                  <fa icon="fa-file-pdf" /> عرض الفاتورة
-                </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-            <tr>
-              <td scope="row"><span>السبت</span></td>
-              <td><span>السبت</span></td>
-              <td><span>السبت</span></td>
-              <td class="text-center">
-                <button class="btn update">
-                  <fa icon="fa-file-pdf" /> عرض الفاتورة
-                </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
+              <td colspan="4">لا يوجد مواعيد دوام لعرضها</td>
             </tr>
           </tbody>
         </table>
@@ -99,6 +57,45 @@
 <script>
 export default {
   name: "SalonAppointments",
+  data() {
+    return {
+      dates: [],
+    };
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/date/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.dates = data))
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    deleteDate(dateId) {
+      fetch("http://127.0.0.1:8001/api/date/" + dateId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            this.dates = this.dates.filter((date) => date.id !== dateId);
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting date:", error);
+        });
+    },
+  },
 };
 </script>
 <style scoped>

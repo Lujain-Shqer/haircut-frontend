@@ -21,7 +21,7 @@
             <tr>
               <th scope="col">رقم</th>
               <th scope="col">الاسم</th>
-              <th scope="col">الفرع</th>
+              <th scope="col">السعر</th>
               <th scope="col" class="text-center">الإجراءات</th>
             </tr>
           </thead>
@@ -29,7 +29,7 @@
             <tr v-for="sundry in sundriesToDisplay" :key="sundry.id">
               <td>{{ sundry.id }}</td>
               <td>{{ sundry.name }}</td>
-              <td>{{ sundry.branch_id }}</td>
+              <td>{{ sundry.price }}</td>
               <td class="text-center">
                 <router-link
                   :to="{ name: 'UpdateSundry', params: { id: sundry.id } }"
