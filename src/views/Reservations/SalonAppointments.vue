@@ -10,7 +10,9 @@
           <div class="input-container">
             <h6>مواعيد دوام الصالون</h6>
           </div>
-          <button class="btn">تحديث</button>
+          <router-link to="/UpdateAppoinments"
+            ><button class="btn">تحديث</button></router-link
+          >
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>

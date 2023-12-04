@@ -23,6 +23,9 @@ import SallesBills from "../views/FinancialTransactions/SallesBills.vue";
 import SalesTax from "../views/FinancialTransactions/SalesTax.vue";
 import ProductsPurchases from "../views/FinancialTransactions/ProductsPurchases.vue";
 import SundryPurchases from "../views/FinancialTransactions/SundryPurchases.vue";
+import AddSundryPurchases from "../views/FinancialTransactions/AddSundryPurchases.vue";
+import AddProductsPurchases from "../views/FinancialTransactions/AddProductsPurchases.vue";
+
 import ExpensesTax from "../views/FinancialTransactions/ExpensesTax.vue";
 import ExpensesNotTax from "../views/FinancialTransactions/ExpensesNotTax.vue";
 import TaxReports from "../views/FinancialTransactions/TaxReports.vue";
@@ -38,6 +41,8 @@ import NewReservation2 from "../views/Reservations/NewReservation2.vue";
 import NewReservation3 from "../views/Reservations/NewReservation3.vue";
 import NewReservation4 from "../views/Reservations/NewReservation4.vue";
 import NewReservation from "../views/Reservations/NewReservation.vue";
+import UpdateAppoinments from "../views/Reservations/UpdateAppoinments.vue";
+import ShowDisabledAppoinments from "../views/Reservations/ShowDisabledAppoinments.vue";
 import CashierBox from "../views/FinancialTransactions/CashierBox.vue";
 import FundMovement from "../views/Admin/AdministrativeDepartment/FundMovement.vue";
 import CashierWithdrawals from "../views/Admin/AdministrativeDepartment/CashierWithdrawals.vue";
@@ -424,6 +429,26 @@ const routes = [
     path: "/NewReservation",
     name: "NewReservation",
     component: NewReservation,
+  },
+  {
+    path: "/UpdateAppoinments",
+    name: "UpdateAppoinments",
+    component: UpdateAppoinments,
+  },
+  {
+    path: "/ShowDisabledAppoinments",
+    name: "ShowDisabledAppoinments",
+    component: ShowDisabledAppoinments,
+  },
+  {
+    path: "/AddSundryPurchases",
+    name: "AddSundryPurchases",
+    component: AddSundryPurchases,
+  },
+  {
+    path: "/AddProductsPurchases",
+    name: "AddProductsPurchases",
+    component: AddProductsPurchases,
   },
 ];
 const router = createRouter({

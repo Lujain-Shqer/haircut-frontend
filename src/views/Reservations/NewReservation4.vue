@@ -294,6 +294,7 @@ export default {
 }
 .newReservation4 input ~ span {
   font-size: 5vmin;
+  margin: 1vh;
 }
 .newReservation4 .times {
   margin-top: 5vh;

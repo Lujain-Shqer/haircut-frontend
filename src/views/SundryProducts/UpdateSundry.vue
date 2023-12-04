@@ -123,7 +123,8 @@ export default {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
-  width: 25%;
+  width: auto;
+  padding: 1vh 4vh;
   margin: auto;
   margin-top: 5vh;
 }

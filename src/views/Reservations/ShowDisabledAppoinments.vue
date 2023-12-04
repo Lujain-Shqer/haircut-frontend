@@ -1,26 +1,21 @@
 <template>
-  <div class="NewReservation">
+  <div class="ShowDisabledAppoinments">
     <div class="container">
-      <h4>حجوزات اليوم</h4>
-      <router-link to="/ShowReservations"
-        ><button class="btn">عرض التقويم</button></router-link
-      >
+      <h4>المواعيد المعطلة</h4>
       <p>
-        تعتبر وثائق مالية تُستخدم لتوثيق عمليات البيع بصالون حلاقة خاص بك. تحتوي
-        فاتورة المبيعات عادةً على معلومات مهمة تتعلق بالخدمات التي تم بيعها
-        والمبلغ المستحق للدفع.
+        التي تشمل الخدمات والمنتجات التي تعزز تجربة العميل وتجعلها فاخرة ومريحة
       </p>
       <div class="all-table" style="overflow-x: auto">
         <div class="row extra-table">
           <div class="input-container">
-            <fa icon="coins" />
-            <span>الحجوزات الجديدة</span>
+            <fa icon="calendar" />
+            <span>المواعيد المعطلة</span>
           </div>
-          <button class="btn">بحث بالتاريخ</button>
+          <!-- <button class="btn">بحث بالتاريخ</button>
 
           <button class="btn" @click="showComponent">
             من الفترة -> إلى الفترة
-          </button>
+          </button> -->
         </div>
         <div class="control_wrapper" v-show="isComponentVisible">
           <ejs-calendar
@@ -31,14 +26,9 @@
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
             <tr>
-              <th scope="col">التاريخ الحجز</th>
-              <th scope="col">الاسم العميل</th>
-              <th scope="col">رقم هاتف العميل</th>
-              <th scope="col">التوقيت</th>
-              <th scope="col">الموظف</th>
-
-              <th scope="col">الخدمات</th>
-              <th scope="col">الاجراءات</th>
+              <th scope="col">التاريخ</th>
+              <th scope="col">اسم الموظف</th>
+              <th scope="col">رقم</th>
             </tr>
           </thead>
           <tbody>
@@ -46,35 +36,15 @@
               <td>2023-09-05</td>
               <td>فارس الحربي</td>
               <td>(0559090488)</td>
-              <td>03:05 م - 04:38 م</td>
-              <td>محمد عصام</td>
-              <td>
-                <ul>
-                  <li>صبغة ذقن اسود</li>
-                  <li>صبغة ذقن اسود</li>
-                  <li>صبغة ذقن اسود</li>
-                  <li>صبغة ذقن اسود</li>
-                </ul>
-              </td>
-              <td>
-                <button class="btn show">
-                  <fa icon="fa-file-pdf" /> عرض الفاتورة
-                </button>
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
             </tr>
           </tbody>
           <tfoot>
             <td>صفوف لكل الصفحة</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
             <td>
               <fa icon="	fas fa-angle-right" />
               <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
             </td>
+            <td></td>
           </tfoot>
         </table>
       </div>
@@ -85,7 +55,7 @@
 import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
 
 export default {
-  name: "NewReservation",
+  name: "ShowDisabledAppoinments",
   components: {
     "ejs-calendar": CalendarComponent,
   },
@@ -119,34 +89,34 @@ export default {
 .row {
   margin: 0;
 }
-.NewReservation {
+.ShowDisabledAppoinments {
   direction: rtl;
   width: 80%;
 }
-.NewReservation h4,
+.ShowDisabledAppoinments h4,
 h5 {
   color: #3f51b5;
   font-weight: 700px;
   direction: rtl;
   display: inline-block;
 }
-.NewReservation button {
+.ShowDisabledAppoinments button {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
   float: left;
 }
-.NewReservation p {
+.ShowDisabledAppoinments p {
   color: #1a2669;
   font-weight: 400;
   padding: 2vh;
 }
-.NewReservation .extra-table {
+.ShowDisabledAppoinments .extra-table {
   margin: 0 4vh;
   margin-bottom: 3vh;
   display: flow-root;
 }
-.NewReservation .input-container {
+.ShowDisabledAppoinments .input-container {
   float: right;
   display: contents;
   float: right;
@@ -154,59 +124,59 @@ h5 {
   padding: 1vh;
   font-weight: 500;
 }
-.NewReservation .input-container svg {
+.ShowDisabledAppoinments .input-container svg {
   padding-left: 2vh;
 }
 
-.NewReservation .extra-table button {
+.ShowDisabledAppoinments .extra-table button {
   width: auto;
   margin-right: 10px;
   background: #3f51b5;
   color: #fff;
   float: left;
 }
-.NewReservation .extra-table ul {
+.ShowDisabledAppoinments .extra-table ul {
   line-height: 1.1;
   font-size: 1.5vmin;
 }
 
-.NewReservation .extra-table button:first-of-type {
+.ShowDisabledAppoinments .extra-table button:first-of-type {
   float: left;
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
 }
-.NewReservation .extra-table button:last-of-type {
+.ShowDisabledAppoinments .extra-table button:last-of-type {
   width: auto;
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
 }
-.NewReservation .all-table {
+.ShowDisabledAppoinments .all-table {
   margin-top: 5vh;
   border: 1px solid #3f51b5;
   padding: 3vh 0 0;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
 }
-.NewReservation table {
+.ShowDisabledAppoinments table {
   margin-bottom: 0;
   text-align: center;
 }
-.NewReservation table .delete {
+.ShowDisabledAppoinments table .delete {
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
   margin-right: 5px;
 }
-.NewReservation table .show {
+.ShowDisabledAppoinments table .show {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
   margin-left: 5px;
   margin-bottom: 1vh;
 }
-.NewReservation table tfoot {
+.ShowDisabledAppoinments table tfoot {
   border-radius: 8px;
 }
 tbody,
@@ -218,24 +188,24 @@ tr {
   border-bottom: 1px solid #d9d5ec;
 }
 
-.NewReservation table thead tr th,
-.NewReservation table tfoot tr th {
+.ShowDisabledAppoinments table thead tr th,
+.ShowDisabledAppoinments table tfoot tr th {
   background: #3f51b5;
   color: #e3e3e3;
   height: 5vh;
   font-weight: 400;
 }
-.NewReservation table tr td,
-.NewReservation table tr th {
+.ShowDisabledAppoinments table tr td,
+.ShowDisabledAppoinments table tr th {
   color: #1a2669;
 }
-.NewReservation table tfoot {
+.ShowDisabledAppoinments table tfoot {
   border-radius: 8px;
   background: #3f51b5;
   color: #fff;
   font-weight: 300;
 }
-.NewReservation table tfoot td:last-of-type {
+.ShowDisabledAppoinments table tfoot td:last-of-type {
   text-align: end;
   padding-left: 5vh;
 }
@@ -246,7 +216,7 @@ tfoot svg {
   cursor: pointer;
 }
 @media (max-width: 991px) {
-  .NewReservation {
+  .ShowDisabledAppoinments {
     width: 70%;
   }
   .extra-table {
@@ -257,7 +227,7 @@ tfoot svg {
   }
 }
 @media (max-width: 765px) {
-  .NewReservation {
+  .ShowDisabledAppoinments {
     width: 100%;
   }
   .extra-table {

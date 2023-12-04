@@ -8,7 +8,9 @@
       <div class="update-info-client">
         <div class="input-container">
           <h6>حجز المواعيد المعطلة</h6>
-          <button class="btn">قائمة المواعيد المعطلة</button>
+          <router-link to="/ShowDisabledAppoinments"
+            ><button class="btn">قائمة المواعيد المعطلة</button></router-link
+          >
         </div>
         <div class="row formDiv">
           <div class="col-lg-12">
@@ -108,25 +110,17 @@ export default {
 .disabledAppoinments .input-container button {
   float: left;
 }
-
-.disabledAppoinments .formDiv .calendar {
-  background: #fff;
-  color: #3f51b5;
-  border: 1px solid #3f51b5;
-}
 .disabledAppoinments label {
   display: block;
   margin-bottom: 2vh;
   margin-top: 2vh;
   color: #1a2669;
 }
-.disabledAppoinments input,
 .disabledAppoinments .form-selec {
   border: 1px solid #ccc;
   color: #3f51b5;
   border-radius: 8px;
   padding: 1vh;
-  width: auto;
   outline: none;
   margin-bottom: 2vh;
 }
@@ -138,15 +132,13 @@ export default {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
-  margin-right: 2vh;
   font-size: 2vh;
-  font-weight: 500;
 }
 .disabledAppoinments button.add {
   margin: auto;
-  width: auto;
   margin-top: 5vh;
   padding: 1vh 4vh;
+  width: auto;
 }
 
 @media (max-width: 991px) {
