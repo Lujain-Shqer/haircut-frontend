@@ -43,6 +43,7 @@ import NewReservation4 from "../views/Reservations/NewReservation4.vue";
 import NewReservation from "../views/Reservations/NewReservation.vue";
 import UpdateAppoinments from "../views/Reservations/UpdateAppoinments.vue";
 import ShowDisabledAppoinments from "../views/Reservations/ShowDisabledAppoinments.vue";
+import UpdateDisabledAppoinments from "../views/Reservations/UpdateDisabledAppoinments";
 import CashierBox from "../views/FinancialTransactions/CashierBox.vue";
 import FundMovement from "../views/Admin/AdministrativeDepartment/FundMovement.vue";
 import CashierWithdrawals from "../views/Admin/AdministrativeDepartment/CashierWithdrawals.vue";
@@ -260,6 +261,11 @@ const routes = [
     path: "/ShowDisabledAppoinments",
     name: "ShowDisabledAppoinments",
     component: ShowDisabledAppoinments,
+  },
+  {
+    path: "/UpdateDisabledAppoinments/:id",
+    name: "UpdateDisabledAppoinments",
+    component: UpdateDisabledAppoinments,
   },
   {
     path: "/ShowReservations",

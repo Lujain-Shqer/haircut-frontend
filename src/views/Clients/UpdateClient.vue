@@ -44,7 +44,6 @@ export default {
           delete this.client_info[key];
         }
       });
-      console.log(this.client_info);
       fetch("http://127.0.0.1:8001/api/customer/" + this.$route.params.id, {
         method: "PUT",
         headers: {

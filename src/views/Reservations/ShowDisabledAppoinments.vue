@@ -32,19 +32,36 @@
               <th scope="col" class="text-center">الإجراءات</th>
             </tr>
           </thead>
-          <tbody v-if="disabledAppoinmentsPerPage.length >0">
-            <tr v-for=" disabled in disabledAppoinmentsPerPage" :key="disabled.id">
-              <td>{{disabled.id}}</td>
+          <tbody v-if="disabledAppoinmentsToDisplay.length > 0">
+            <tr
+              v-for="disabled in disabledAppoinmentsToDisplay"
+              :key="disabled.id"
+            >
+              <td>{{ disabled.id }}</td>
+              <td>{{ disabled.date }}</td>
               <td>{{ disabled.employee.name }}</td>
-              <td>{{ disabled.employee.phone_number }}</td>
               <td class="text-center">
-                <button class="btn show"><fa icon="pen" /> تعديل</button>
-                <button @click="deleteDisabledAppoinment(disabled.id)" class="btn delete"><fa icon="trash" /> حذف</button>
+                <router-link
+                  :to="{
+                    name: 'UpdateDisabledAppoinments',
+                    params: { id: disabled.id },
+                  }"
+                >
+                  <button class="btn show"><fa icon="pen" /> تعديل</button>
+                </router-link>
+                <button
+                  @click="deleteDisabledAppoinment(disabled.id)"
+                  class="btn delete"
+                >
+                  <fa icon="trash" /> حذف
+                </button>
               </td>
             </tr>
           </tbody>
           <tbody v-else>
-            <tr><td>لا يوجد مواعيد عطلة لعرضها</td></tr>
+            <tr>
+              <td colspan="4">لا يوجد مواعيد عطلة لعرضها</td>
+            </tr>
           </tbody>
           <tfoot>
             <td>صفوف لكل الصفحة</td>
@@ -81,17 +98,21 @@ export default {
   },
   computed: {
     disabledAppoinmentsToDisplay() {
-      const startIndex = (this.currentPage - 1) * this.disabledAppoinmentsPerPage;
+      const startIndex =
+        (this.currentPage - 1) * this.disabledAppoinmentsPerPage;
       const endIndex = startIndex + this.disabledAppoinmentsPerPage;
       return this.disabledAppoinments.slice(startIndex, endIndex);
     },
     pageNumber() {
-      return Math.ceil(this.disabledAppoinments.length / this.disabledAppoinmentsPerPage);
+      return Math.ceil(
+        this.disabledAppoinments.length / this.disabledAppoinmentsPerPage
+      );
     },
   },
   mounted() {
     fetch(
-      "http://127.0.0.1:8001/api/stoped-reservation/" + localStorage.getItem("branch_id"),
+      "http://127.0.0.1:8001/api/stoped-reservation/" +
+        localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -106,17 +127,21 @@ export default {
   },
   methods: {
     deleteDisabledAppoinment(disabledAppoinmentId) {
-      fetch("http://127.0.0.1:8001/api/stoped-reservation/" + disabledAppoinmentId, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-      })
+      fetch(
+        "http://127.0.0.1:8001/api/stoped-reservation/" + disabledAppoinmentId,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
         .then((response) => {
           if (response.ok) {
             this.disabledAppoinments = this.disabledAppoinments.filter(
-              (disabledAppoinment) => disabledAppoinment.id !== disabledAppoinmentId
+              (disabledAppoinment) =>
+                disabledAppoinment.id !== disabledAppoinmentId
             );
           }
         })

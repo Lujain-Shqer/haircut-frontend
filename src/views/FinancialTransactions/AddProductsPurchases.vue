@@ -8,25 +8,54 @@
         تحقيق رضا الزبون وإعادته لزيارات متكررة.
       </p>
       <div class="update-info-client">
-        <h6>إضافة منتج نثري</h6>
-        <form class="row">
+        <h6>شراء منتج</h6>
+        <form @submit="AddProductsPurchases" class="row">
           <div class="col-lg-12">
             <label>المورد</label>
-            <select class="form-selec" required>
-              <option value="">one</option>
-              <option value="">one</option>
-              <option value="">one</option>
-              <option value="">one</option>
-              <option value="">one</option>
+            <select
+              class="form-selec"
+              v-model="purchase_info.supplierId"
+              required
+            >
+              <option disabled selected value="">اختر مورد</option>
+              <option
+                v-for="supplier in allSuppliers"
+                :key="supplier.id"
+                :value="supplier.id"
+              >
+                {{ supplier.name }}
+              </option>
             </select>
           </div>
-          <div class="col-lg-12 row cards">
-            <label> المنتجات النثرية</label>
-            <div class="col">
-              <div class="card">
-                <img src="../../assets/salePoints/Prod/16.png" />
-                <input type="text" placeholder="Enter input here" />
+          <div class="col-lg-12 row">
+            <label> المنتجات :</label>
+            <div
+              class="product-container col-md-3"
+              v-for="product in allProducts"
+              :key="product.id"
+            >
+              <div
+                class="card"
+                v-on:click="toggleClass(product)"
+                :class="{ red: isProductSelected(product) }"
+              >
+                <img
+                  :src="
+                    'http://127.0.0.1:8001/storage/product_images/' +
+                    product.image
+                  "
+                  alt="product"
+                />
+
+                <h6>{{ product.name }}</h6>
+                <span>{{ product.selling_price }} SAR</span>
               </div>
+              <input
+                type="text"
+                placeholder="الكمية"
+                v-if="isProductSelected(product)"
+                v-model="purchase_info.productsCount[getProductIndex(product)]"
+              />
             </div>
           </div>
           <button class="btn add">إضافة الفاتورة</button>
@@ -39,17 +68,125 @@
 export default {
   name: "AddProductsPurchases",
   data() {
-    return {};
+    return {
+      allSuppliers: [],
+      allProducts: [],
+      purchase_info: {
+        supplierId: "",
+        selectedProducts: [],
+        productsCount: [],
+      },
+    };
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/supplier/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.allSuppliers = data))
+      .catch((err) => console.log(err.message));
+    fetch(
+      "http://127.0.0.1:8001/api/product/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.allProducts = data))
+      .catch((err) => console.log(err.message));
   },
   methods: {
-    show() {},
+    AddProductsPurchases(event) {
+      event.preventDefault();
+      fetch("http://127.0.0.1:8001/api/purchase", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          branch_id: localStorage.getItem("branch_id"),
+          supplier_id: this.purchase_info.supplierId,
+          products:
+            this.purchase_info.selectedProducts.length > 0
+              ? this.purchase_info.selectedProducts.map((obj) => obj.id)
+              : null,
+          products_count: this.purchase_info.productsCount,
+          amount: this.sumProperty(
+            this.purchase_info.selectedProducts,
+            this.purchase_info.productsCount,
+            "selling_price"
+          ),
+          type: "product",
+        }),
+      }).then((response) => {
+        if (response.ok) {
+          this.$router.push({ name: "ProductsPurchases" });
+          return response.json();
+        }
+      });
+    },
+    toggleClass(product) {
+      const isSelected = this.isProductSelected(product);
+      if (isSelected) {
+        this.remove(product);
+      } else {
+        this.add(product);
+      }
+    },
+    add(product) {
+      this.purchase_info.selectedProducts.push(product);
+      this.purchase_info.productsCount.push("");
+    },
+    remove(product) {
+      const index = this.getProductIndex(product);
+      if (index !== -1) {
+        this.purchase_info.selectedProducts.splice(index, 1);
+      }
+      this.purchase_info.productsCount.splice(index, 1);
+    },
+    getProductIndex(product) {
+      return this.purchase_info.selectedProducts.findIndex(
+        (selectedProduct) => selectedProduct.id === product.id
+      );
+    },
+    sumProperty(productArray, countArray, property) {
+      return productArray.reduce(
+        (sum, currentProduct, index) =>
+          sum + currentProduct[property] * countArray[index],
+        0
+      );
+    },
+  },
+  computed: {
+    isProductSelected() {
+      return (product) =>
+        this.purchase_info.selectedProducts.some(
+          (selectedProduct) => selectedProduct.id === product.id
+        );
+    },
   },
 };
 </script>
 <style scoped>
-.row {
+/* .row {
   margin: 0;
+} */
+.red {
+  background: #ebedf7;
 }
+
 .AddProductsPurchases {
   direction: rtl;
   width: 80%;
@@ -127,21 +264,55 @@ export default {
     width: 100%;
   }
 }
-/* For The Products */
+
 .row {
   justify-content: space-around;
 }
-.card {
-  border: 0;
-  width: 10%;
-  transition: all 0.5s;
-  margin-bottom: 2vh;
-  display: inline-block;
+
+.product-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.card input {
+
+.card {
+  border: 1px solid #1a2669;
+  width: 50%;
+  margin-bottom: 2vh;
+  transition: all 0.5s;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+}
+
+.card img {
   width: 100%;
-  margin: 1vh 0;
-  display: none;
+  height: auto;
+  margin-top: 1vh;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  display: block;
+}
+
+.card h6,
+.card span {
+  display: block;
+  text-align: center;
+  color: #3f51b5;
+}
+.card:hover {
+  border: 1px solid #1a2669;
+  background: #ebedf7;
+  cursor: pointer;
+}
+
+input {
+  width: 50%;
+  padding: 1vh;
+  margin-top: 2vh;
+  box-sizing: border-box;
+  border: 1px solid #c8c9cc;
+  border-radius: 8px;
 }
 
 @media (max-width: 991px) {

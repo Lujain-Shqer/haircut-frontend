@@ -33,6 +33,7 @@
               <th scope="col">مدير الفرع</th>
               <th scope="col">مندوب</th>
               <th scope="col">تاريخ الإنشاء</th>
+              <th scope="col" class="text-center">الإجراءات</th>
             </tr>
           </thead>
           <tbody v-if="salesBillsToDisplay.length > 0">
@@ -57,6 +58,14 @@
                 <p>{{ salesBill.created_at.split("T")[0] }}|</p>
                 <p>{{ salesBill.created_at.split("T")[1].split(".")[0] }}</p>
               </td>
+              <td class="text-center">
+                <button
+                  @click="deleteSalesBill(salesBill.id)"
+                  class="btn delete"
+                >
+                  <fa icon="trash" /> حذف
+                </button>
+              </td>
             </tr>
           </tbody>
           <tbody v-else>
@@ -66,6 +75,7 @@
           </tbody>
           <tfoot>
             <td>صفوف لكل الصفحة</td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -129,6 +139,25 @@ export default {
       .catch((err) => console.log(err.message));
   },
   methods: {
+    deleteSalesBill(salesBillId) {
+      fetch("http://127.0.0.1:8001/api/order/" + salesBillId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            this.salesBills = this.salesBills.filter(
+              (salesBill) => salesBill.id !== salesBillId
+            );
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting disabledAppoinment:", error);
+        });
+    },
     changePage(currentPage) {
       this.currentPage = currentPage;
     },
@@ -221,6 +250,12 @@ export default {
   color: #e3e3e3;
   height: 5vh;
   font-weight: 400;
+}
+.sallesBills table .delete {
+  background: #fff;
+  color: #3f51b5;
+  border: 1px solid #3f51b5;
+  margin-right: 5px;
 }
 .sallesBills table tfoot {
   border-radius: 8px;
