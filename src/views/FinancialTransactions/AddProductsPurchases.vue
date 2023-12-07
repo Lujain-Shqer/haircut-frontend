@@ -57,6 +57,9 @@
                 v-model="purchase_info.productsCount[getProductIndex(product)]"
               />
             </div>
+            <div class="error-message" v-if="errorMessage">
+              {{ errorMessage }}
+            </div>
           </div>
           <button class="btn add">إضافة الفاتورة</button>
         </form>
@@ -71,6 +74,7 @@ export default {
     return {
       allSuppliers: [],
       allProducts: [],
+      errorMessage: "",
       purchase_info: {
         supplierId: "",
         selectedProducts: [],
@@ -109,33 +113,45 @@ export default {
   methods: {
     AddProductsPurchases(event) {
       event.preventDefault();
-      fetch("http://127.0.0.1:8001/api/purchase", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          branch_id: localStorage.getItem("branch_id"),
-          supplier_id: this.purchase_info.supplierId,
-          products:
-            this.purchase_info.selectedProducts.length > 0
-              ? this.purchase_info.selectedProducts.map((obj) => obj.id)
-              : null,
-          products_count: this.purchase_info.productsCount,
-          amount: this.sumProperty(
-            this.purchase_info.selectedProducts,
-            this.purchase_info.productsCount,
-            "selling_price"
-          ),
-          type: "product",
-        }),
-      }).then((response) => {
-        if (response.ok) {
-          this.$router.push({ name: "ProductsPurchases" });
-          return response.json();
-        }
-      });
+      console.log(this.purchase_info);
+      if (
+        (this.purchase_info.selectedProducts.length === 0 &&
+          this.purchase_info.productsCount.length === 0) ||
+        this.purchase_info.productsCount.some((obj) => obj === "")
+      ) {
+        this.errorMessage = "أرجو إدخال كافة المعلومات المطلوبة للفاتورة.";
+        setTimeout(() => {
+          this.errorMessage = "";
+        }, 5000);
+      } else {
+        fetch("http://127.0.0.1:8001/api/purchase", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            branch_id: localStorage.getItem("branch_id"),
+            supplier_id: this.purchase_info.supplierId,
+            products:
+              this.purchase_info.selectedProducts.length > 0
+                ? this.purchase_info.selectedProducts.map((obj) => obj.id)
+                : null,
+            products_count: this.purchase_info.productsCount,
+            amount: this.sumProperty(
+              this.purchase_info.selectedProducts,
+              this.purchase_info.productsCount,
+              "selling_price"
+            ),
+            type: "product",
+          }),
+        }).then((response) => {
+          if (response.ok) {
+            this.$router.push({ name: "ProductsPurchases" });
+            return response.json();
+          }
+        });
+      }
     },
     toggleClass(product) {
       const isSelected = this.isProductSelected(product);
@@ -244,7 +260,12 @@ export default {
   margin-top: 5vh;
   padding: 1vh 4vh;
 }
-
+.error-message {
+  display: block;
+  padding: 1vh;
+  text-align: start;
+  color: red;
+}
 @media (max-width: 991px) {
   .AddProductsPurchases input,
   .AddProductsPurchases .form-selec {

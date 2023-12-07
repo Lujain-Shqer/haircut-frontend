@@ -37,6 +37,11 @@
                 <button class="btn show">
                   <fa icon="fa-file-pdf" /> عرض الفاتورة
                 </button>
+                <router-link
+                  :to="{ name: 'UpdateDiscounts', params: { id: discount.id } }"
+                >
+                  <button class="btn show"><fa icon="pen" /> تعديل</button>
+                </router-link>
                 <button @click="deleteDiscount(discount.id)" class="btn delete">
                   <fa icon="trash" /> حذف
                 </button>
@@ -204,6 +209,7 @@ export default {
   color: #3f51b5;
   border: 1px solid #3f51b5;
   margin-right: 5px;
+  margin-bottom: 1vh;
 }
 .discountsPage table .show {
   background: #3f51b5;

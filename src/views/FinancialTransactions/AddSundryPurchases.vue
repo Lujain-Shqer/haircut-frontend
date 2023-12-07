@@ -7,26 +7,39 @@
       </p>
       <div class="update-info-client">
         <h6>إضافة منتج نثري</h6>
-        <form class="row">
+        <form @submit="AddSundryPurchases" class="row">
           <div class="col-lg-12">
             <label>المورد</label>
-            <select class="form-selec" required>
-              <option value="">one</option>
-              <option value="">one</option>
-              <option value="">one</option>
-              <option value="">one</option>
-              <option value="">one</option>
+            <select
+              class="form-selec"
+              v-model="purchase_info.supplierId"
+              required
+            >
+              <option disabled selected value="">اختر مورد</option>
+              <option
+                v-for="supplier in allSuppliers"
+                :key="supplier.id"
+                :value="supplier.id"
+              >
+                {{ supplier.name }}
+              </option>
             </select>
           </div>
           <div class="col-lg-12">
             <label> المنتجات النثرية</label>
-            <select class="form-selec" required>
-              <option value="">one</option>
-              <option value="">one</option>
-              <option value="">one</option>
-              <option value="">one</option>
-              <option value="">one</option>
-              <option value="">one</option>
+            <select
+              multiple
+              class="form-selec"
+              v-model="purchase_info.selectedProducts"
+              required
+            >
+              <option
+                v-for="sundry in allSundryProducts"
+                :key="sundry.id"
+                :value="{ id: sundry.id, price: sundry.price }"
+              >
+                {{ sundry.name }}
+              </option>
             </select>
           </div>
           <button class="btn add">إضافة الفاتورة</button>
@@ -38,6 +51,82 @@
 <script>
 export default {
   name: "AddSundryPurchases",
+  data() {
+    return {
+      allSuppliers: [],
+      allSundryProducts: [],
+      errorMessage: "",
+      purchase_info: {
+        supplierId: "",
+        selectedProducts: [],
+      },
+    };
+  },
+  mounted() {
+    fetch(
+      "http://127.0.0.1:8001/api/supplier/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.allSuppliers = data))
+      .catch((err) => console.log(err.message));
+    fetch(
+      "http://127.0.0.1:8001/api/sundry/" + localStorage.getItem("branch_id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => (this.allSundryProducts = data))
+      .catch((err) => console.log(err.message));
+  },
+  methods: {
+    AddSundryPurchases(event) {
+      event.preventDefault();
+      console.log(this.purchase_info.selectedProducts);
+      fetch("http://127.0.0.1:8001/api/purchase", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          branch_id: localStorage.getItem("branch_id"),
+          supplier_id: this.purchase_info.supplierId,
+          sundrys:
+            this.purchase_info.selectedProducts.length > 0
+              ? this.purchase_info.selectedProducts.map((obj) => obj.id)
+              : null,
+          amount: this.sumProperty(
+            this.purchase_info.selectedProducts,
+            "price"
+          ),
+          type: "sundry",
+        }),
+      }).then((response) => {
+        if (response.ok) {
+          this.$router.push({ name: "SundryPurchases" });
+          return response.json();
+        }
+      });
+    },
+    sumProperty(array, property) {
+      return array.reduce(
+        (accumulator, currentValue) => accumulator + currentValue[property],
+        0
+      );
+    },
+  },
 };
 </script>
 <style scoped>

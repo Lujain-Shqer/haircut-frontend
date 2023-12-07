@@ -37,6 +37,11 @@
                 <button class="btn show">
                   <fa icon="fa-file-pdf" /> عرض الفاتورة
                 </button>
+                <router-link
+                  :to="{ name: 'UpdateAdvances', params: { id: advance.id } }"
+                >
+                  <button class="btn show"><fa icon="pen" /> تعديل</button>
+                </router-link>
                 <button @click="deleteAdvance(advance.id)" class="btn delete">
                   <fa icon="trash" /> حذف
                 </button>
@@ -216,6 +221,7 @@ export default {
   color: #3f51b5;
   border: 1px solid #3f51b5;
   margin-right: 5px;
+  margin-bottom: 1vh;
 }
 
 .advancesPage table .show {

@@ -52,6 +52,8 @@ import ServicesReports from "../views/Admin/FinancialTransactions/ServicesReport
 import DeletedBills from "../views/Admin/FinancialTransactions/DeletedBills.vue";
 import DiscountsPage from "../views/Admin/FinancialTransactions/DiscountsPage.vue";
 import AdvancesPage from "../views/Admin/FinancialTransactions/AdvancesPage.vue";
+import UpdateDiscounts from "../views/Admin/FinancialTransactions/UpdateDiscounts.vue";
+import UpdateAdvances from "../views/Admin/FinancialTransactions/UpdateAdvances.vue";
 import DiaryReport from "../views/Admin/FinancialTransactions/DiaryReport.vue";
 import AddDiscounts from "../views/Admin/FinancialTransactions/AddDiscounts.vue";
 import AddAdvances from "../views/Admin/FinancialTransactions/AddAdvances.vue";
@@ -69,6 +71,7 @@ import AddServices from "../views/Admin/BranchBox/AddServices.vue";
 import AddNewEmployee from "../views/Admin/EmployeePage/AddNewEmployee.vue";
 import ListOfEmployees from "../views/Admin/EmployeePage/ListOfEmployees.vue";
 import EmployeesSalary from "../views/Admin/EmployeePage/EmployeesSalary.vue";
+import UpdateEmployee from "../views/Admin/EmployeePage/UpdateEmployee.vue";
 import SalaryPage from "../views/Admin/EmployeePage/SalaryPage.vue";
 import LiquidationEmployee from "../views/Admin/EmployeePage/LiquidationEmployee.vue";
 import TotalEmployee from "../views/Admin/EmployeePage/TotalEmployee.vue";
@@ -347,9 +350,19 @@ const routes = [
     component: AddDiscounts,
   },
   {
+    path: "/UpdateDiscounts/:id",
+    name: "UpdateDiscounts",
+    component: UpdateDiscounts,
+  },
+  {
     path: "/AddAdvances",
     name: "AddAdvances",
     component: AddAdvances,
+  },
+  {
+    path: "/UpdateAdvances/:id",
+    name: "UpdateAdvances",
+    component: UpdateAdvances,
   },
   {
     path: "/ServicesProviders",
@@ -410,6 +423,11 @@ const routes = [
     path: "/ListOfEmployees",
     name: "ListOfEmployees",
     component: ListOfEmployees,
+  },
+  {
+    path: "/UpdateEmployee/:id",
+    name: "UpdateEmployee",
+    component: UpdateEmployee,
   },
   {
     path: "/EmployeesSalary",

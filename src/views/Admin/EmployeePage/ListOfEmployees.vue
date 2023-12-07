@@ -45,7 +45,14 @@
               <td>{{ employee.residence_number }}</td>
               <td>{{ employee.state }}</td>
               <td class="text-center">
-                <button class="btn show"><fa icon="pen" /> تعديل</button>
+                <router-link
+                  :to="{ name: 'UpdateEmployee', params: { id: employee.id } }"
+                >
+                  <button class="btn show"><fa icon="pen" /> تعديل</button>
+                </router-link>
+                <button @click="deleteEmployee(employee.id)" class="btn delete">
+                  <fa icon="trash" /> حذف
+                </button>
               </td>
             </tr>
             <!-- <tr>
@@ -139,25 +146,25 @@ export default {
       .catch((err) => console.log(err.message));
   },
   methods: {
-    // deleteClient(clientId) {
-    //   fetch("http://127.0.0.1:8001/api/customer/" + clientId, {
-    //     method: "DELETE",
-    //     headers: {
-    //       Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-    //       "Content-Type": "application/json",
-    //     },
-    //   })
-    //     .then((response) => {
-    //       if (response.ok) {
-    //         this.clients = this.clients.filter(
-    //           (client) => client.id !== clientId
-    //         );
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error deleting client:", error);
-    //     });
-    // },
+    deleteEmployee(employeeId) {
+      fetch("http://127.0.0.1:8001/api/employee/" + employeeId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            this.employees = this.employees.filter(
+              (employee) => employee.id !== employeeId
+            );
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting employee:", error);
+        });
+    },
     changePage(currentPage) {
       this.currentPage = currentPage;
     },
@@ -264,6 +271,13 @@ export default {
   width: 100%;
   color: #fff;
   font-weight: 300;
+}
+.listOfEmployee table .delete {
+  background: #fff;
+  color: #3f51b5;
+  border: 1px solid #3f51b5;
+  margin-right: 10px;
+  margin-bottom: 1vh;
 }
 /* .listOfEmployee table tfoot td:last-of-type {
   text-align: end;
