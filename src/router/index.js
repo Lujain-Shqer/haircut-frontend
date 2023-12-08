@@ -41,6 +41,7 @@ import NewReservation2 from "../views/Reservations/NewReservation2.vue";
 import NewReservation3 from "../views/Reservations/NewReservation3.vue";
 import NewReservation4 from "../views/Reservations/NewReservation4.vue";
 import NewReservation from "../views/Reservations/NewReservation.vue";
+import UpdateReservation from "../views/Reservations/UpdateReservation.vue";
 import UpdateAppoinments from "../views/Reservations/UpdateAppoinments.vue";
 import ShowDisabledAppoinments from "../views/Reservations/ShowDisabledAppoinments.vue";
 import UpdateDisabledAppoinments from "../views/Reservations/UpdateDisabledAppoinments";
@@ -458,6 +459,11 @@ const routes = [
     path: "/NewReservation",
     name: "NewReservation",
     component: NewReservation,
+  },
+  {
+    path: "/UpdateReservation/:id",
+    name: "UpdateReservation",
+    component: UpdateReservation,
   },
   {
     path: "/UpdateAppoinments",

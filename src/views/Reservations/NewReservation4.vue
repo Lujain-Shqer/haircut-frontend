@@ -31,25 +31,8 @@
             @input="validateHour"
           />
         </div>
-        <!-- <div class="col-xl-6 col-sm-12">
-          <h5 class="first-step">الى الساعة:</h5>
-          <ul>
-            <li>ص</li>
-            <li>م</li>
-          </ul>
-          <input type="text" /> <span>:</span> <input type="text" />
-        </div> -->
       </div>
       <label>اختر اسم العميل</label>
-      <!-- <select
-        data-live-search="true"
-        class="selectpicker show-menu-arrow form-selec"
-      >
-        <option>اختر اسم العميل</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-      </select> -->
       <select
         v-model="client"
         @change="selectClient"

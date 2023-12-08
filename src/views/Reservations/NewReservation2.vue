@@ -21,21 +21,6 @@
             <h6>الاسم الموظف</h6>
             <span>السيد {{ employee.name }}</span>
           </div>
-          <!-- <div class="employee col-lg-3 col-md-6 col-xs-12 text-center">
-            <img src="../../assets/Vector.png" />
-            <h6>الاسم الموظف</h6>
-            <span>السيد صابر</span>
-          </div>
-          <div class="employee col-lg-3 col-md-6 col-xs-12 text-center">
-            <img src="../../assets/Vector.png" />
-            <h6>الاسم الموظف</h6>
-            <span>السيد صابر</span>
-          </div>
-          <div class="employee col-lg-3 col-md-6 col-xs-12 text-center">
-            <img src="../../assets/Vector.png" />
-            <h6>الاسم الموظف</h6>
-            <span>السيد صابر</span>
-          </div> -->
         </div>
       </div>
       <h6 class="first-step">تفاصيل حجز الجديد</h6>

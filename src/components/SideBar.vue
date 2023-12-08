@@ -17,7 +17,7 @@ export default {
     return {
       menu: [
         {
-          href: "ControlBoard",
+          href: "/ControlBoard",
           title: "لوحة التحكم",
           icon: {
             element: "fa",
@@ -27,7 +27,7 @@ export default {
           },
         },
         {
-          href: "PointOfSales",
+          href: "/PointOfSales",
           title: "نقطة البيع",
           icon: {
             element: "fa",
@@ -37,7 +37,7 @@ export default {
           },
         },
         {
-          href: "ClientPage",
+          href: "/ClientPage",
           title: "العملاء",
           icon: {
             element: "fa",
@@ -57,27 +57,27 @@ export default {
           },
           child: [
             {
-              href: "ServicesProviders",
+              href: "/ServicesProviders",
               title: " مقدمو الخدمات العامة ",
             },
             {
-              href: "SuppliersPage",
+              href: "/SuppliersPage",
               title: "الموردون",
             },
             {
-              href: "ServicesPage",
+              href: "/ServicesPage",
               title: "الخدمات",
             },
             {
-              href: "ProductsPage",
+              href: "/ProductsPage",
               title: "المنتجات",
             },
             {
-              href: "UsersPage",
+              href: "/UsersPage",
               title: "المستخدمين",
             },
             {
-              href: "PowersPage",
+              href: "/PowersPage",
               title: "الصلاحيات",
             },
           ],
@@ -93,15 +93,15 @@ export default {
           },
           child: [
             {
-              href: "FundMovement",
+              href: "/FundMovement",
               title: "رصيد صندوق الفرع",
             },
             {
-              href: "CashierFeed",
+              href: "/CashierFeed",
               title: "سجل تغذية الكاشير",
             },
             {
-              href: "CashierWithdrawals",
+              href: "/CashierWithdrawals",
               title: "سجل سحوبات الكاشير",
             },
           ],
@@ -117,39 +117,39 @@ export default {
           },
           child: [
             {
-              href: "ListOfEmployees",
+              href: "/ListOfEmployees",
               title: "قائمة الموظفين",
             },
             {
-              href: "EmployeesSalary",
+              href: "/EmployeesSalary",
               title: "رصيد الموظف",
             },
             {
-              href: "SalaryPage",
+              href: "/SalaryPage",
               title: "الرواتب",
             },
             {
-              href: "LiquidationEmployee",
+              href: "/LiquidationEmployee",
               title: "سجل التصفيات",
             },
             {
-              href: "EmployeeCommissions",
+              href: "/EmployeeCommissions",
               title: "عمولات الموظفين ",
             },
             {
-              href: "EmployeeReport2",
+              href: "/EmployeeReport2",
               title: "تقرير الموظف (مفصل)",
             },
             {
-              href: "TotalEmployee",
+              href: "/TotalEmployee",
               title: "تقرير الموظف (الإجمالي)",
             },
             {
-              href: "SalafiyatDiscounts",
+              href: "/SalafiyatDiscounts",
               title: "تقرير الخصومات والسلفيات",
             },
             {
-              href: "EmployeeSalary",
+              href: "/EmployeeSalary",
               title: "تقرير مسير الرواتب",
             },
           ],
@@ -165,19 +165,19 @@ export default {
           },
           child: [
             {
-              href: "Showreservations",
+              href: "/Showreservations",
               title: "الحجوزات",
             },
             {
-              href: "SalonAppointments",
+              href: "/SalonAppointments",
               title: "مواعيد الصالون",
             },
             {
-              href: "DisabledAppoinments",
+              href: "/DisabledAppoinments",
               title: "المواعيد المعطلة",
             },
             {
-              href: "NewReservation1",
+              href: "/NewReservation1",
               title: "انشاء حجز جديد",
             },
           ],
@@ -197,45 +197,45 @@ export default {
               title: "المبيعات",
               child: [
                 {
-                  href: "SallesBills",
+                  href: "/SallesBills",
                   title: "فواتير المبيعات",
                 },
                 {
-                  href: "SalesTax",
+                  href: "/SalesTax",
                   title: "تقرير الضريبة (مبيعات)",
                 },
                 {
-                  href: "DeletedBills",
+                  href: "/DeletedBills",
                   title: "الفواتير المحذوفة",
                 },
                 {
-                  href: "ServicesReports",
+                  href: "/ServicesReports",
                   title: "تقرير الخدمات",
                 },
               ],
             },
             {
               href: "",
-              title: "المشتريات والمصروفات",
+              title: "/المشتريات والمصروفات",
               child: [
                 {
-                  href: "ProductsPurchases",
+                  href: "/ProductsPurchases",
                   title: "مشتريات المنتجات",
                 },
                 {
-                  href: "SundryPurchases",
+                  href: "/SundryPurchases",
                   title: "المشتريات النثرية",
                 },
                 {
-                  href: "ExpensesTax",
+                  href: "/ExpensesTax",
                   title: "المصاريف العمومية الخاضعة للضريبة",
                 },
                 {
-                  href: "ExpensesNotTax",
+                  href: "/ExpensesNotTax",
                   title: "المصاريف العمومية الغير خاضعة للضريبة",
                 },
                 {
-                  href: "TaxReports",
+                  href: "/TaxReports",
                   title: "تقرير الضريبة (مشتريات)",
                 },
               ],
@@ -245,31 +245,31 @@ export default {
               title: "الحسابات المالية",
               child: [
                 {
-                  href: "CashierBox",
+                  href: "/CashierBox",
                   title: "صندوق الكاشير",
                 },
                 {
-                  href: "TotalCommissions",
+                  href: "/TotalCommissions",
                   title: "تقرير إجمالي العمولات",
                 },
                 {
-                  href: "ClosingAccounts",
+                  href: "/ClosingAccounts",
                   title: "تقرير إقفال الحسابات",
                 },
                 {
-                  href: "ClearingCommissions",
+                  href: "/ClearingCommissions",
                   title: "تقرير تصفية العمولات",
                 },
                 {
-                  href: "DiaryReport",
+                  href: "/DiaryReport",
                   title: "تقرير اليوميات",
                 },
                 {
-                  href: "AdvancesPage",
+                  href: "/AdvancesPage",
                   title: "السلفيات",
                 },
                 {
-                  href: "DiscountsPage",
+                  href: "/DiscountsPage",
                   title: "الخصومات",
                 },
               ],
@@ -277,7 +277,7 @@ export default {
           ],
         },
         {
-          href: "SundryProducts",
+          href: "/SundryProducts",
           title: "المنتجات النثرية",
           icon: {
             element: "fa",
@@ -287,7 +287,7 @@ export default {
           },
           child: [
             {
-              href: "GeneralExpenses",
+              href: "/GeneralExpenses",
               title: "بنود المصاريف العمومية",
             },
           ],

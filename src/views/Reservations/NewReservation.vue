@@ -56,14 +56,23 @@
                 </ul>
               </td>
               <td>
-                <button class="btn show">
-                  <fa icon="fa-file-pdf" /> عرض الفاتورة
-                </button>
                 <button
                   @click="deleteAppointment(reserve.id)"
                   class="btn delete"
                 >
                   <fa icon="trash" /> حذف
+                </button>
+                <router-link
+                  :to="{
+                    name: 'UpdateReservation',
+                    params: { id: reserve.id },
+                  }"
+                >
+                  <button class="btn show"><fa icon="pen" /> تعديل</button>
+                </router-link>
+
+                <button class="btn show">
+                  <fa icon="fa-file-pdf" /> عرض الفاتورة
                 </button>
               </td>
             </tr>
