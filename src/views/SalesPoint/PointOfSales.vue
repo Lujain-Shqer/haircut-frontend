@@ -205,7 +205,9 @@
         <div class="error-message" v-if="errorMessage">
           {{ errorMessage }}
         </div>
-        <button @click="submitBill" class="btn bill">إصدار فاتورة</button>
+        <button :disabled="isLoading" @click="submitBill" class="btn bill">
+          إصدار فاتورة
+        </button>
       </div>
     </div>
   </div>
@@ -337,6 +339,7 @@ export default {
       Object.assign(this.$data, this.$options.data.call(this));
     },
     submitBill() {
+      this.isLoading = true;
       if (
         (this.selectedServices.length === 0 &&
           this.selectedProducts.length === 0) ||
@@ -384,6 +387,7 @@ export default {
           body: JSON.stringify(requestBody),
         })
           .then((response) => {
+            this.isLoading = false;
             if (response.ok) {
               // this.$store.commit("clearOrderData");
               // this.resetData();
@@ -434,6 +438,7 @@ export default {
   data() {
     return {
       isComponentVisible: false,
+      isLoading: false,
       isVisible: false,
       errorMessage: "",
       component: "ServicesPage",

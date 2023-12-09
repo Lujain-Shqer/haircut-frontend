@@ -122,7 +122,9 @@
             <label>الحالة</label>
             <input type="text" placeholder="  مفعل " />
           </div>
-          <button type="submit" class="btn">تحديث بيانات الموظف</button>
+          <button :disabled="isLoading" type="submit" class="btn">
+            تحديث بيانات الموظف
+          </button>
         </form>
       </div>
     </div>
@@ -150,11 +152,13 @@ export default {
         insurance_cost: "",
         costs_responsible: "",
       },
+      isLoading: false,
     };
   },
   methods: {
     updateEmployee(event) {
       event.preventDefault();
+      this.isLoading = true;
       Object.keys(this.employee_info).forEach((key) => {
         if (
           this.employee_info[key] === "" ||
@@ -172,6 +176,7 @@ export default {
         body: JSON.stringify(this.employee_info),
       })
         .then((response) => {
+          this.isLoading = false;
           if (response.ok) {
             this.$router.push({ name: "ListOfEmployees" });
             return response.json();

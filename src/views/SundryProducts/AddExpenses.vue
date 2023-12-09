@@ -29,7 +29,7 @@
               v-model="expenses_info.taxState"
             />
           </div>
-          <button class="btn">إضافة</button>
+          <button :disabled="isLoading" class="btn">إضافة</button>
         </form>
       </div>
     </div>
@@ -44,11 +44,13 @@ export default {
         name: "",
         taxState: 0,
       },
+      isLoading: false,
     };
   },
   methods: {
     addExpense(event) {
       event.preventDefault();
+      this.isLoading = true;
       fetch("http://127.0.0.1:8001/api/term", {
         method: "POST",
         headers: {
@@ -61,6 +63,7 @@ export default {
           tax_state: this.expenses_info.taxState,
         }),
       }).then((response) => {
+        this.isLoading = false;
         if (response.ok) {
           this.$router.push({ name: "GeneralExpenses" });
           return response.json();

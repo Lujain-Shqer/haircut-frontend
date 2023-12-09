@@ -45,7 +45,13 @@
           <div class="error-message" v-if="errorMessage">
             {{ errorMessage }}
           </div>
-          <button @click="addDisabledAppointment" class="btn add">تأكيد</button>
+          <button
+            :disabled="isLoading"
+            @click="addDisabledAppointment"
+            class="btn add"
+          >
+            تأكيد
+          </button>
         </div>
       </div>
     </div>
@@ -64,6 +70,7 @@ export default {
       isComponentVisible: false,
       allEmployees: [],
       errorMessage: "",
+      isLoading: false,
       offDay_info: {
         selectedDay: "",
         employee: "",
@@ -88,6 +95,7 @@ export default {
   methods: {
     addDisabledAppointment(event) {
       event.preventDefault();
+      this.isLoading = true;
       if (
         this.offDay_info.employee === "" ||
         this.offDay_info.selectedDay === ""
@@ -110,6 +118,7 @@ export default {
             date: this.offDay_info.selectedDay,
           }),
         }).then((response) => {
+          this.isLoading = false;
           if (response.ok) {
             this.$router.push({ name: "ShowDisabledAppoinments" });
             return response.json();

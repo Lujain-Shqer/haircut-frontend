@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     showSubject(reservation) {
-      return ":الاسم الموظف" + reservation.customer.name;
+      return "اسم الموظف : " + reservation.customer.name;
     },
     showTime(reservation) {
       const regex = /(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/;

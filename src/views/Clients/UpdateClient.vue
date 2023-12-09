@@ -18,7 +18,9 @@
             <label>هاتف العميل</label>
             <input type="text" v-model="client_info.phone_number" />
           </div>
-          <button type="submit" class="btn">تحديث البيانات</button>
+          <button :disabled="isLoading" type="submit" class="btn">
+            تحديث البيانات
+          </button>
         </form>
       </div>
     </div>
@@ -34,11 +36,13 @@ export default {
         name: "",
         phone_number: "",
       },
+      isLoading: false,
     };
   },
   methods: {
     updateClient(event) {
       event.preventDefault();
+      this.isLoading = true;
       Object.keys(this.client_info).forEach((key) => {
         if (this.client_info[key] === "") {
           delete this.client_info[key];
@@ -53,6 +57,7 @@ export default {
         body: JSON.stringify(this.client_info),
       })
         .then((response) => {
+          this.isLoading = false;
           if (response.ok) {
             this.$router.push({ name: "ClientPage" });
             // console.log(this.id);

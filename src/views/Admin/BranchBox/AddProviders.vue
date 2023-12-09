@@ -38,7 +38,9 @@
               v-model="provider_info.taxNumber"
             />
           </div>
-          <button class="btn">إضافة مقدم خدمة جديد</button>
+          <button :disabled="isLoading" class="btn">
+            إضافة مقدم خدمة جديد
+          </button>
         </form>
       </div>
     </div>
@@ -47,6 +49,7 @@
 <script>
 export default {
   name: "AddProviders",
+  params: ["id"],
   data() {
     return {
       provider_info: {
@@ -54,6 +57,7 @@ export default {
         taxState: 0,
         taxNumber: "",
       },
+      isLoading: false,
     };
   },
   computed: {
@@ -74,6 +78,7 @@ export default {
   methods: {
     addProvider(event) {
       event.preventDefault();
+      this.isLoading = true;
       Object.keys(this.provider_info).forEach((key) => {
         if (this.provider_info[key] === "") {
           delete this.provider_info[key];
@@ -93,12 +98,24 @@ export default {
           tax_number: this.provider_info.taxNumber,
         }),
       }).then((response) => {
+        this.isLoading = false;
         if (response.ok) {
           const fromPage = this.$route.query.from;
+          const id = this.$route.query.id;
           if (fromPage === "AddTaxable") {
             this.$router.push({ name: "AddTaxable" });
           } else if (fromPage === "AddNotTaxable") {
             this.$router.push({ name: "AddNotTaxable" });
+          } else if (fromPage === "UpdateTax") {
+            this.$router.push({
+              name: "UpdateTax",
+              params: { id: id },
+            });
+          } else if (fromPage === "UpdateNotTax") {
+            this.$router.push({
+              name: "UpdateNotTax",
+              params: { id: id },
+            });
           } else {
             this.$router.push({ name: "ServicesProviders" });
           }

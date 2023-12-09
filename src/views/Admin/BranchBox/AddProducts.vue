@@ -93,7 +93,9 @@
             {{ errorMessage }}
           </div>
         </div>
-        <button @click="submitForm" class="btn">إضافة مقدم خدمة جديد</button>
+        <button :disabled="isLoading" @click="submitForm" class="btn">
+          إضافة منتج جديد
+        </button>
       </div>
     </div>
   </div>
@@ -114,6 +116,7 @@ export default {
       errorMessage: "",
       isDragging: false,
       isDropped: false,
+      isLoading: false,
     };
   },
   mounted() {
@@ -133,6 +136,7 @@ export default {
   },
   methods: {
     addProduct() {
+      this.isLoading = true;
       let formData = new FormData();
       // Append form fields to the FormData
       formData.append("branch_id", localStorage.getItem("branch_id"));
@@ -148,6 +152,7 @@ export default {
         },
         body: formData,
       }).then((response) => {
+        this.isLoading = false;
         if (response.ok) {
           this.$router.push({ name: "ProductsPage" });
           return response.json();
@@ -173,6 +178,7 @@ export default {
             console.log("Selected file:", selectedFile);
             console.log("type:", typeof selectedFile);
             this.product_info.image = selectedFile;
+            this.isDropped = true;
           } else {
             // Invalid file extension
             this.errorMessage = "لاحقة ملف غير صحيحة.";

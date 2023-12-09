@@ -51,7 +51,7 @@
               v-model="user_info.confirmPassword"
             />
           </div>
-          <button class="btn">إضافة مستخدم جديد</button>
+          <button :disabled="isLoading" class="btn">إضافة مستخدم جديد</button>
         </form>
       </div>
     </div>
@@ -69,11 +69,13 @@ export default {
         password: "",
         confirmPassword: "",
       },
+      isLoading: false,
     };
   },
   methods: {
     addUser(event) {
       event.preventDefault();
+      this.isLoading = true;
       fetch("http://127.0.0.1:8001/api/barber", {
         method: "POST",
         headers: {
@@ -89,6 +91,7 @@ export default {
           confirm_password: this.user_info.confirmPassword,
         }),
       }).then((response) => {
+        this.isLoading = false;
         if (response.ok) {
           this.$router.push({ name: "UsersPage" });
           return response.json();

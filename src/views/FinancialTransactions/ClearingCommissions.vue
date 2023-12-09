@@ -53,7 +53,7 @@
             </tr>
           </tbody>
         </table>
-        <button @click="clearCommissions" class="btn">
+        <button :disabled="isLoading" @click="clearCommissions" class="btn">
           حفظ تصفية العمولات
         </button>
       </div>
@@ -75,6 +75,7 @@ export default {
       currentPage: 1,
       payments: [],
       isComponentVisible: false,
+      isLoading: false,
     };
   },
   computed: {
@@ -112,6 +113,7 @@ export default {
     },
     clearCommissions(event) {
       event.preventDefault();
+      this.isLoading = true;
       this.payments.forEach((payment, index) => {
         console.log(this.cleaningCommissions[index - 1]);
         fetch("http://127.0.0.1:8001/api/pay-commission", {
@@ -126,6 +128,7 @@ export default {
             amount: payment,
           }),
         }).then((response) => {
+          this.isLoading = false;
           if (response.ok) {
             this.$router.push({ name: "TotalCommissions" });
             return response.json();

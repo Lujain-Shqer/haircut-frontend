@@ -48,7 +48,7 @@
           <div class="error-message" v-if="errorMessage">
             {{ errorMessage }}
           </div>
-          <button class="btn add">إضافة خصم</button>
+          <button :disabled="isLoading" class="btn add">إضافة خصم</button>
         </form>
       </div>
     </div>
@@ -61,6 +61,7 @@ export default {
     return {
       allEmployees: [],
       errorMessage: "",
+      isLoading: false,
       discount_info: {
         employeeId: "",
         amount: "",
@@ -86,6 +87,7 @@ export default {
   methods: {
     addDiscount(event) {
       event.preventDefault();
+      this.isLoading = true;
       if (this.discount_info.employeeId === "") {
         this.errorMessage = "أرجو إدخال كافة المعلومات المطلوبة للسلفة.";
         setTimeout(() => {
@@ -105,6 +107,7 @@ export default {
             reason: this.discount_info.reason,
           }),
         }).then((response) => {
+          this.isLoading = false;
           if (response.ok) {
             this.$router.push({ name: "DiscountsPage" });
             return response.json();

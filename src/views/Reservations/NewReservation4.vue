@@ -107,7 +107,9 @@
         <router-link to="/NewReservation3">
           <button class="btn">رجوع</button>
         </router-link>
-        <button @click="addReserve" class="btn">إنهاء الطلب</button>
+        <button :disabled="isLoading" @click="addReserve" class="btn">
+          إنهاء الطلب
+        </button>
       </div>
     </div>
   </div>
@@ -124,6 +126,7 @@ export default {
       hour: "",
       minute: "",
       errorMessage: "",
+      isLoading: false,
     };
   },
   mounted() {
@@ -170,6 +173,7 @@ export default {
   methods: {
     addReserve(event) {
       event.preventDefault();
+      this.isLoading = true;
       if (
         this.selectedServices.length === 0 ||
         this.selectedEmployee.name === "غير محدد" ||
@@ -199,6 +203,7 @@ export default {
           }),
         })
           .then((response) => {
+            this.isLoading = false;
             if (response.ok) {
               this.$router.push({ name: "ShowReservations" });
               return response.json();

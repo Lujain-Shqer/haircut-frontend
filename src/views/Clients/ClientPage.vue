@@ -239,12 +239,14 @@ export default {
   color: #3f51b5;
   border: 1px solid #3f51b5;
   margin-right: 10px;
+  margin-bottom: 1vh;
 }
 .client table .update {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
   margin-left: 10px;
+  margin-bottom: 1vh;
 }
 .client table tfoot {
   border-radius: 8px;

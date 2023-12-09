@@ -27,7 +27,7 @@
               required
             />
           </div>
-          <button class="btn">إضافة</button>
+          <button :disabled="isLoading" class="btn">إضافة</button>
         </form>
       </div>
     </div>
@@ -42,11 +42,13 @@ export default {
         name: "",
         price: "",
       },
+      isLoading: false,
     };
   },
   methods: {
     addSundry(event) {
       event.preventDefault();
+      this.isLoading = true;
       fetch("http://127.0.0.1:8001/api/sundry", {
         method: "POST",
         headers: {
@@ -59,6 +61,7 @@ export default {
           price: this.sundry_info.price,
         }),
       }).then((response) => {
+        this.isLoading = false;
         if (response.ok) {
           this.$router.push({ name: "SundryProducts" });
           return response.json();

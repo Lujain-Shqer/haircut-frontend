@@ -31,7 +31,11 @@
           <div class="error-message" v-if="errorMessage">
             {{ errorMessage }}
           </div>
-          <button type="submit" class="btn btn-block signin">
+          <button
+            :disabled="isLoading"
+            type="submit"
+            class="btn btn-block signin"
+          >
             تسجيل الدخول
           </button>
           <!-- <router-link to="/branch"
@@ -74,11 +78,13 @@ export default {
         password: "",
       },
       errorMessage: "",
+      isLoading: false,
     };
   },
   methods: {
     login(event) {
       event.preventDefault();
+      this.isLoading = true;
       // const hostName = inject("hostName");
       fetch("http://127.0.0.1:8001/api/login", {
         method: "POST",
@@ -91,6 +97,7 @@ export default {
         }),
       })
         .then((response) => {
+          this.isLoading = false;
           if (response.ok) {
             return response.json();
           } else {

@@ -197,6 +197,7 @@ export default {
   color: #3f51b5;
   border: 1px solid #3f51b5;
   margin-right: 5px;
+  margin-bottom: 1vh;
 }
 .servicesPage table .show {
   background: #3f51b5;

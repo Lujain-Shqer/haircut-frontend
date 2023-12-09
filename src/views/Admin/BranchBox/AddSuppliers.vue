@@ -27,7 +27,7 @@
               v-model="supplier_info.taxNumber"
             />
           </div>
-          <button class="btn">إضافة مورد جديد</button>
+          <button :disabled="isLoading" class="btn">إضافة مورد جديد</button>
         </form>
       </div>
     </div>
@@ -38,6 +38,7 @@ export default {
   name: "AddSuppliers",
   data() {
     return {
+      isLoading: false,
       supplier_info: {
         name: "",
         taxNumber: "",
@@ -47,6 +48,7 @@ export default {
   methods: {
     addSupplier(event) {
       event.preventDefault();
+      this.isLoading = true;
       fetch("http://127.0.0.1:8001/api/supplier", {
         method: "POST",
         headers: {
@@ -59,6 +61,7 @@ export default {
           tax_number: this.supplier_info.taxNumber,
         }),
       }).then((response) => {
+        this.isLoading = false;
         if (response.ok) {
           this.$router.push({ name: "SuppliersPage" });
           return response.json();

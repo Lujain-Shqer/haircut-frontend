@@ -19,6 +19,8 @@ import AddSundry from "../views/SundryProducts/AddSundry.vue";
 import AddExpenses from "../views/SundryProducts/AddExpenses.vue";
 import AddTaxable from "../views/FinancialTransactions/AddTaxable.vue";
 import AddNotTaxable from "../views/FinancialTransactions/AddNotTaxable.vue";
+import UpdateTax from "../views/FinancialTransactions/UpdateTax.vue";
+import UpdateNotTax from "../views/FinancialTransactions/UpdateNotTax.vue";
 import SallesBills from "../views/FinancialTransactions/SallesBills.vue";
 import SalesTax from "../views/FinancialTransactions/SalesTax.vue";
 import ProductsPurchases from "../views/FinancialTransactions/ProductsPurchases.vue";
@@ -191,9 +193,19 @@ const routes = [
     component: AddTaxable,
   },
   {
+    path: "/UpdateTax/:id",
+    name: "UpdateTax",
+    component: UpdateTax,
+  },
+  {
     path: "/AddNotTaxable",
     name: "AddNotTaxable",
     component: AddNotTaxable,
+  },
+  {
+    path: "/UpdateNotTax/:id",
+    name: "UpdateNotTax",
+    component: UpdateNotTax,
   },
   {
     path: "/SallesBills",

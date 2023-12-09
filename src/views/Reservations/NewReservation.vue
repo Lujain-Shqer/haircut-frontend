@@ -79,7 +79,7 @@
           </tbody>
           <tbody v-else>
             <tr>
-              <td>لا يوجد حجوزات لعرضها</td>
+              <td colspan="7">لا يوجد حجوزات لعرضها</td>
             </tr>
           </tbody>
           <tfoot>

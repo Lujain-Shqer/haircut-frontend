@@ -216,7 +216,7 @@ export default {
             },
             {
               href: "",
-              title: "/المشتريات والمصروفات",
+              title: "المشتريات والمصروفات",
               child: [
                 {
                   href: "/ProductsPurchases",

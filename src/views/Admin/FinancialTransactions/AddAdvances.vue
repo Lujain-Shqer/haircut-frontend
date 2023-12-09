@@ -48,7 +48,7 @@
           <div class="error-message" v-if="errorMessage">
             {{ errorMessage }}
           </div>
-          <button class="btn add">إضافة السلفة</button>
+          <button :disabled="isLoading" class="btn add">إضافة السلفة</button>
         </form>
       </div>
     </div>
@@ -61,6 +61,7 @@ export default {
     return {
       allEmployees: [],
       errorMessage: "",
+      isLoading: false,
       advance_info: {
         employeeId: "",
         amount: "",
@@ -86,6 +87,7 @@ export default {
   methods: {
     addAdvance(event) {
       event.preventDefault();
+      this.isLoading = true;
       if (this.advance_info.employeeId === "") {
         this.errorMessage = "أرجو إدخال كافة المعلومات المطلوبة للسلفة.";
         setTimeout(() => {
@@ -105,6 +107,7 @@ export default {
             source: this.advance_info.source,
           }),
         }).then((response) => {
+          this.isLoading = false;
           if (response.ok) {
             this.$router.push({ name: "AdvancesPage" });
             return response.json();

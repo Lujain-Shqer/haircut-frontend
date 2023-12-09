@@ -117,7 +117,9 @@
           <input type="text" /> <span>:</span> <input type="text" />
         </div> -->
       <div class="row">
-        <button @click="addService" class="btn bill">إضافة خدمة جديد</button>
+        <button :disabled="isLoading" @click="addService" class="btn bill">
+          إضافة خدمة جديدة
+        </button>
       </div>
     </div>
   </div>
@@ -131,6 +133,7 @@ export default {
     return {
       cardCount: 37,
       component: "ServicesPage",
+      isLoading: false,
       selectedItems: null,
       service_info: {
         image: "",
@@ -160,6 +163,7 @@ export default {
 
     addService(event) {
       event.preventDefault();
+      this.isLoading = true;
       console.log(localStorage.getItem("access_token"));
       fetch("http://127.0.0.1:8001/api/service", {
         method: "POST",
@@ -175,6 +179,7 @@ export default {
           image: this.service_info.image,
         }),
       }).then((response) => {
+        this.isLoading = false;
         if (response.ok) {
           this.$router.push({ name: "ServicesPage" });
           return response.json();

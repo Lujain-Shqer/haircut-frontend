@@ -61,7 +61,7 @@
               {{ errorMessage }}
             </div>
           </div>
-          <button class="btn add">إضافة الفاتورة</button>
+          <button :disabled="isLoading" class="btn add">إضافة الفاتورة</button>
         </form>
       </div>
     </div>
@@ -75,6 +75,7 @@ export default {
       allSuppliers: [],
       allProducts: [],
       errorMessage: "",
+      isLoading: false,
       purchase_info: {
         supplierId: "",
         selectedProducts: [],
@@ -113,6 +114,7 @@ export default {
   methods: {
     AddProductsPurchases(event) {
       event.preventDefault();
+      this.isLoading = true;
       console.log(this.purchase_info);
       if (
         (this.purchase_info.selectedProducts.length === 0 &&
@@ -146,6 +148,7 @@ export default {
             type: "product",
           }),
         }).then((response) => {
+          this.isLoading = false;
           if (response.ok) {
             this.$router.push({ name: "ProductsPurchases" });
             return response.json();
@@ -242,6 +245,7 @@ export default {
   width: 50%;
   outline: none;
   color: #3f51b5;
+  margin-top: 0;
 }
 .AddProductsPurchases input::placeholder,
 .AddProductsPurchases .form-select::placeholder {
@@ -294,6 +298,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 4vh;
 }
 
 .card {

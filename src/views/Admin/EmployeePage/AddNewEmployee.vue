@@ -134,7 +134,9 @@
             <label>الحالة</label>
             <input type="text" placeholder="  مفعل " />
           </div>
-          <button type="submit" class="btn">إضافة الموظف</button>
+          <button :disabled="isLoading" type="submit" class="btn">
+            إضافة الموظف
+          </button>
         </form>
       </div>
     </div>
@@ -161,11 +163,13 @@ export default {
         insurance_cost: "",
         costs_responsible: "",
       },
+      isLoading: false,
     };
   },
   methods: {
     addEmployee(event) {
       event.preventDefault();
+      this.isLoading = true;
       fetch("http://127.0.0.1:8001/api/employee", {
         method: "POST",
         headers: {
@@ -191,6 +195,7 @@ export default {
         }),
       })
         .then((response) => {
+          this.isLoading = false;
           if (response.ok) {
             this.$router.push({ name: "ListOfEmployees" });
             return response.json();

@@ -1,5 +1,5 @@
 <template>
-  <div class="AddTaxable">
+  <div class="UpdateTax">
     <div class="container">
       <h4>المصاريف العمومية خاضعة للضريبة</h4>
       <p>
@@ -7,15 +7,14 @@
         الضرائب عليها.
       </p>
       <div class="update-info-client">
-        <h6>فاتورة مصاريف عمومية خاضعة للضريبة</h6>
-        <form @submit="addTax" class="row">
+        <h6>تعديل فاتورة مصاريف عمومية خاضعة للضريبة</h6>
+        <form @submit="updateTax" class="row">
           <div class="col-lg-12">
             <label>البند</label>
             <select
               class="form-selec"
               aria-label="Default select example"
-              v-model="taxes_info.termId"
-              required
+              v-model="taxes_info.term_id"
             >
               <option disabled selected value="">اختر البند</option>
               <option
@@ -32,8 +31,7 @@
             <select
               data-live-search="true"
               class="selectpicker show-menu-arrow form-selec"
-              v-model="taxes_info.providerId"
-              required
+              v-model="taxes_info.provider_id"
             >
               <option disabled selected value="">اختر مقدم الخدمة</option>
               <option
@@ -45,7 +43,10 @@
               </option>
             </select>
             <router-link
-              :to="{ name: 'AddProviders', query: { from: 'AddTaxable' } }"
+              :to="{
+                name: 'AddProviders',
+                query: { from: 'UpdateTax', id: this.$route.params.id },
+              }"
             >
               <button class="btn">اضف جديد</button>
             </router-link>
@@ -55,11 +56,10 @@
             <input
               type="text"
               placeholder="المبلغ"
-              required
               v-model="taxes_info.amount"
             />
           </div>
-          <button class="btn add">إضافة الفاتورة</button>
+          <button class="btn add">تعديل الفاتورة</button>
         </form>
       </div>
     </div>
@@ -67,16 +67,17 @@
 </template>
 <script>
 export default {
-  name: "AddTaxable",
+  name: "UpdateTax",
+  params: ["id"],
   data() {
     return {
       allGeneralExpenses: [],
       allProviders: [],
       taxes_info: {
-        providerId: "",
-        termId: "",
+        provider_id: "",
+        term_id: "",
         amount: "",
-        taxState: "1",
+        tax_state: "1",
       },
     };
   },
@@ -111,22 +112,24 @@ export default {
       .catch((err) => console.log(err.message));
   },
   methods: {
-    addTax(event) {
+    updateTax(event) {
       event.preventDefault();
-      fetch("http://127.0.0.1:8001/api/general-service", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          branch_id: localStorage.getItem("branch_id"),
-          provider_id: this.taxes_info.providerId,
-          term_id: this.taxes_info.termId,
-          amount: this.taxes_info.amount,
-          tax_state: this.taxes_info.taxState,
-        }),
-      }).then((response) => {
+      Object.keys(this.taxes_info).forEach((key) => {
+        if (this.taxes_info[key] === "") {
+          delete this.taxes_info[key];
+        }
+      });
+      fetch(
+        "http://127.0.0.1:8001/api/general-service/" + this.$route.params.id,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(this.taxes_info),
+        }
+      ).then((response) => {
         if (response.ok) {
           this.$router.push({ name: "ExpensesTax" });
           return response.json();
@@ -140,38 +143,38 @@ export default {
 .row {
   margin: 0;
 }
-.AddTaxable {
+.UpdateTax {
   direction: rtl;
   width: 80%;
 }
-.AddTaxable h4 {
+.UpdateTax h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
-.AddTaxable p {
+.UpdateTax p {
   color: #1a2669;
   font-weight: 400;
 }
-.AddTaxable .update-info-client {
+.UpdateTax .update-info-client {
   margin-top: 5vh 0;
   border: 1px solid #3f51b5;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
   padding: 5vh;
 }
-.AddTaxable h6 {
+.UpdateTax h6 {
   color: #3f51b5;
   font-weight: 700px;
   margin-bottom: 3vh;
 }
-.AddTaxable label {
+.UpdateTax label {
   display: block;
   margin-bottom: 2vh;
   margin-top: 2vh;
   color: #1a2669;
 }
-.AddTaxable input,
-.AddTaxable .form-selec {
+.UpdateTax input,
+.UpdateTax .form-selec {
   border: 1px solid #c8c9cc;
   color: #3f51b5;
   border-radius: 8px;
@@ -179,18 +182,18 @@ export default {
   width: 50%;
   outline: none;
 }
-.AddTaxable input::placeholder,
-.AddTaxable .form-select::placeholder {
+.UpdateTax input::placeholder,
+.UpdateTax .form-select::placeholder {
   color: #c8c9cc;
 }
-.AddTaxable button {
+.UpdateTax button {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
   margin-right: 2vh;
   font-size: 2vh;
 }
-.AddTaxable button.add {
+.UpdateTax button.add {
   margin: auto;
   width: auto;
   margin-top: 5vh;
@@ -198,21 +201,21 @@ export default {
 }
 
 @media (max-width: 991px) {
-  .AddTaxable input,
-  .AddTaxable .form-selec {
+  .UpdateTax input,
+  .UpdateTax .form-selec {
     width: 100%;
   }
-  .AddTaxable button,
-  .AddTaxable button.add {
+  .UpdateTax button,
+  .UpdateTax button.add {
     width: auto;
     margin: 2vh auto;
   }
-  .AddTaxable {
+  .UpdateTax {
     width: 70%;
   }
 }
 @media (max-width: 765px) {
-  .AddTaxable {
+  .UpdateTax {
     width: 100%;
   }
 }

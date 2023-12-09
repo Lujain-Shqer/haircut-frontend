@@ -1,21 +1,20 @@
 <template>
-  <div class="AddTaxable">
+  <div class="UpdateNotTax">
     <div class="container">
-      <h4>المصاريف العمومية خاضعة للضريبة</h4>
+      <h4>المصاريف العمومية الغير خاضعة للضريبة</h4>
       <p>
-        يتم تضمينها في حساب الإيرادات الإجمالية للفرد أو الشركة لغرض حساب
-        الضرائب عليها.
+        المصاريف التي يمكن خصمها من الإيرادات الخاضعة للضرائب لغرض حساب الضرائب
+        الصافية.
       </p>
       <div class="update-info-client">
-        <h6>فاتورة مصاريف عمومية خاضعة للضريبة</h6>
-        <form @submit="addTax" class="row">
+        <h6>تعديل فاتورة المصاريف العمومية الغير خاضعة للضريبة</h6>
+        <form @submit="updateNoTax" class="row">
           <div class="col-lg-12">
             <label>البند</label>
             <select
               class="form-selec"
               aria-label="Default select example"
-              v-model="taxes_info.termId"
-              required
+              v-model="NoTaxes_info.term_id"
             >
               <option disabled selected value="">اختر البند</option>
               <option
@@ -32,8 +31,7 @@
             <select
               data-live-search="true"
               class="selectpicker show-menu-arrow form-selec"
-              v-model="taxes_info.providerId"
-              required
+              v-model="NoTaxes_info.provider_id"
             >
               <option disabled selected value="">اختر مقدم الخدمة</option>
               <option
@@ -45,7 +43,10 @@
               </option>
             </select>
             <router-link
-              :to="{ name: 'AddProviders', query: { from: 'AddTaxable' } }"
+              :to="{
+                name: 'AddProviders',
+                query: { from: 'UpdateNotTax', id: this.$route.params.id },
+              }"
             >
               <button class="btn">اضف جديد</button>
             </router-link>
@@ -55,11 +56,10 @@
             <input
               type="text"
               placeholder="المبلغ"
-              required
-              v-model="taxes_info.amount"
+              v-model="NoTaxes_info.amount"
             />
           </div>
-          <button class="btn add">إضافة الفاتورة</button>
+          <button class="btn add">تعديل الفاتورة</button>
         </form>
       </div>
     </div>
@@ -67,22 +67,22 @@
 </template>
 <script>
 export default {
-  name: "AddTaxable",
+  name: "UpdateNotTax",
   data() {
     return {
       allGeneralExpenses: [],
       allProviders: [],
-      taxes_info: {
-        providerId: "",
-        termId: "",
+      NoTaxes_info: {
+        provider_id: "",
+        term_id: "",
         amount: "",
-        taxState: "1",
+        tax_state: "0",
       },
     };
   },
   mounted() {
     fetch(
-      "http://127.0.0.1:8001/api/taxedterm/" +
+      "http://127.0.0.1:8001/api/untaxedterm/" +
         localStorage.getItem("branch_id"),
       {
         method: "GET",
@@ -96,7 +96,7 @@ export default {
       .then((data) => (this.allGeneralExpenses = data))
       .catch((err) => console.log(err.message));
     fetch(
-      "http://127.0.0.1:8001/api/taxedprovider/" +
+      "http://127.0.0.1:8001/api/untaxedprovider/" +
         localStorage.getItem("branch_id"),
       {
         method: "GET",
@@ -111,24 +111,27 @@ export default {
       .catch((err) => console.log(err.message));
   },
   methods: {
-    addTax(event) {
+    updateNoTax(event) {
       event.preventDefault();
-      fetch("http://127.0.0.1:8001/api/general-service", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          branch_id: localStorage.getItem("branch_id"),
-          provider_id: this.taxes_info.providerId,
-          term_id: this.taxes_info.termId,
-          amount: this.taxes_info.amount,
-          tax_state: this.taxes_info.taxState,
-        }),
-      }).then((response) => {
+      Object.keys(this.NoTaxes_info).forEach((key) => {
+        if (this.NoTaxes_info[key] === "") {
+          delete this.NoTaxes_info[key];
+        }
+      });
+      console.log(this.NoTaxes_info);
+      fetch(
+        "http://127.0.0.1:8001/api/general-service/" + this.$route.params.id,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(this.NoTaxes_info),
+        }
+      ).then((response) => {
         if (response.ok) {
-          this.$router.push({ name: "ExpensesTax" });
+          this.$router.push({ name: "ExpensesNotTax" });
           return response.json();
         }
       });
@@ -140,57 +143,58 @@ export default {
 .row {
   margin: 0;
 }
-.AddTaxable {
+.UpdateNotTax {
   direction: rtl;
   width: 80%;
 }
-.AddTaxable h4 {
+.UpdateNotTax h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
-.AddTaxable p {
+.UpdateNotTax p {
   color: #1a2669;
   font-weight: 400;
 }
-.AddTaxable .update-info-client {
+.UpdateNotTax .update-info-client {
   margin-top: 5vh 0;
   border: 1px solid #3f51b5;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
   padding: 5vh;
 }
-.AddTaxable h6 {
+.UpdateNotTax h6 {
   color: #3f51b5;
   font-weight: 700px;
   margin-bottom: 3vh;
 }
-.AddTaxable label {
+.UpdateNotTax label {
   display: block;
   margin-bottom: 2vh;
   margin-top: 2vh;
   color: #1a2669;
 }
-.AddTaxable input,
-.AddTaxable .form-selec {
+.UpdateNotTax input,
+.UpdateNotTax .form-selec {
   border: 1px solid #c8c9cc;
-  color: #3f51b5;
+  color: #c8c9cc;
   border-radius: 8px;
   padding: 1vh;
   width: 50%;
   outline: none;
+  color: #3f51b5;
 }
-.AddTaxable input::placeholder,
-.AddTaxable .form-select::placeholder {
+.UpdateNotTax input::placeholder,
+.UpdateNotTax .form-select::placeholder {
   color: #c8c9cc;
 }
-.AddTaxable button {
+.UpdateNotTax button {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
   margin-right: 2vh;
   font-size: 2vh;
 }
-.AddTaxable button.add {
+.UpdateNotTax button.add {
   margin: auto;
   width: auto;
   margin-top: 5vh;
@@ -198,21 +202,21 @@ export default {
 }
 
 @media (max-width: 991px) {
-  .AddTaxable input,
-  .AddTaxable .form-selec {
+  .UpdateNotTax input,
+  .UpdateNotTax .form-selec {
     width: 100%;
   }
-  .AddTaxable button,
-  .AddTaxable button.add {
+  .UpdateNotTax button,
+  .UpdateNotTax button.add {
     width: auto;
     margin: 2vh auto;
   }
-  .AddTaxable {
+  .UpdateNotTax {
     width: 70%;
   }
 }
 @media (max-width: 765px) {
-  .AddTaxable {
+  .UpdateNotTax {
     width: 100%;
   }
 }

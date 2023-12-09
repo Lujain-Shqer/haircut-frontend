@@ -39,6 +39,14 @@
                 {{ ExpensesNotTax.created_at.split("T")[1].split(".")[0] }}
               </td>
               <td class="text-center">
+                <router-link
+                  :to="{
+                    name: 'UpdateNotTax',
+                    params: { id: ExpensesNotTax.id },
+                  }"
+                >
+                  <button class="btn show"><fa icon="pen" /> تعديل</button>
+                </router-link>
                 <button
                   @click="deleteExpensesNotTax(ExpensesNotTax.id)"
                   class="btn delete"
@@ -215,6 +223,14 @@ export default {
   color: #3f51b5;
   border: 1px solid #3f51b5;
   margin-right: 2px;
+  margin-bottom: 1vh;
+}
+.expensesNotTax table .show {
+  background: #3f51b5;
+  color: #fff;
+  border: 1px solid #3f51b5;
+  margin-left: 5px;
+  margin-bottom: 1vh;
 }
 .expensesNotTax table thead tr th,
 .expensesNotTax table tfoot tr th {

@@ -66,7 +66,7 @@
               />
             </div>
           </div>
-          <button class="btn">إضافة</button>
+          <button :disabled="isLoading" class="btn">إضافة</button>
         </form>
       </div>
     </div>
@@ -82,11 +82,13 @@ export default {
         startTime: { minute: "", hour: "" },
         endTime: { minute: "", hour: "" },
       },
+      isLoading: false,
     };
   },
   methods: {
     addDate(event) {
       event.preventDefault();
+      this.isLoading = true;
       fetch("http://127.0.0.1:8001/api/date", {
         method: "POST",
         headers: {
@@ -106,6 +108,7 @@ export default {
             this.padZero(this.date_info.endTime.minute),
         }),
       }).then((response) => {
+        this.isLoading = false;
         if (response.ok) {
           this.$router.push({ name: "SalonAppointments" });
           return response.json();

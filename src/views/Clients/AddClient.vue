@@ -28,7 +28,7 @@
               required
             />
           </div>
-          <button class="btn">إضافة عميل</button>
+          <button :disabled="isLoading" class="btn">إضافة عميل</button>
         </form>
       </div>
     </div>
@@ -39,6 +39,7 @@ export default {
   name: "AddClient",
   data() {
     return {
+      isLoading: false,
       client_info: {
         name: "",
         phone_number: "",
@@ -48,6 +49,7 @@ export default {
   methods: {
     addClient(event) {
       event.preventDefault();
+      this.isLoading = true;
       console.log(localStorage.getItem("access_token"));
       fetch("http://127.0.0.1:8001/api/customer", {
         method: "POST",
@@ -61,6 +63,7 @@ export default {
           phone_number: this.client_info.phone_number,
         }),
       }).then((response) => {
+        this.isLoading = false;
         if (response.ok) {
           this.$router.push({ name: "ClientPage" });
           return response.json();
