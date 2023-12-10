@@ -25,7 +25,7 @@
               v-model="sundry_info.price"
             />
           </div>
-          <button class="btn">تحديث</button>
+          <button :disabled="isLoading" class="btn">تحديث</button>
         </form>
       </div>
     </div>
@@ -41,11 +41,13 @@ export default {
         name: "",
         price: "",
       },
+      isLoading: false,
     };
   },
   methods: {
     updateSundry(event) {
       event.preventDefault();
+      this.isLoading = true;
       console.log(this.$route.params.id);
       Object.keys(this.sundry_info).forEach((key) => {
         if (this.sundry_info[key] === "") {
@@ -62,6 +64,7 @@ export default {
         body: JSON.stringify(this.sundry_info),
       })
         .then((response) => {
+          this.isLoading = false;
           if (response.ok) {
             this.$router.push({ name: "SundryProducts" });
             return response.json();

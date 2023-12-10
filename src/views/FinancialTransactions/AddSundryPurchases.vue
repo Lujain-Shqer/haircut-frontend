@@ -42,7 +42,7 @@
               </option>
             </select>
           </div>
-          <button class="btn add">إضافة الفاتورة</button>
+          <button :disabled="isLoading" class="btn add">إضافة الفاتورة</button>
         </form>
       </div>
     </div>
@@ -53,6 +53,7 @@ export default {
   name: "AddSundryPurchases",
   data() {
     return {
+      isLoading: false,
       allSuppliers: [],
       allSundryProducts: [],
       errorMessage: "",
@@ -93,6 +94,7 @@ export default {
   methods: {
     AddSundryPurchases(event) {
       event.preventDefault();
+      this.isLoading = true;
       console.log(this.purchase_info.selectedProducts);
       fetch("http://127.0.0.1:8001/api/purchase", {
         method: "POST",
@@ -114,6 +116,7 @@ export default {
           type: "sundry",
         }),
       }).then((response) => {
+        this.isLoading = false;
         if (response.ok) {
           this.$router.push({ name: "SundryPurchases" });
           return response.json();

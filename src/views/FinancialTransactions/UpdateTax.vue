@@ -59,7 +59,7 @@
               v-model="taxes_info.amount"
             />
           </div>
-          <button class="btn add">تعديل الفاتورة</button>
+          <button :disabled="isLoading" class="btn add">تعديل الفاتورة</button>
         </form>
       </div>
     </div>
@@ -79,6 +79,7 @@ export default {
         amount: "",
         tax_state: "1",
       },
+      isLoading: false,
     };
   },
   mounted() {
@@ -114,6 +115,7 @@ export default {
   methods: {
     updateTax(event) {
       event.preventDefault();
+      this.isLoading = true;
       Object.keys(this.taxes_info).forEach((key) => {
         if (this.taxes_info[key] === "") {
           delete this.taxes_info[key];
@@ -130,6 +132,7 @@ export default {
           body: JSON.stringify(this.taxes_info),
         }
       ).then((response) => {
+        this.isLoading = false;
         if (response.ok) {
           this.$router.push({ name: "ExpensesTax" });
           return response.json();

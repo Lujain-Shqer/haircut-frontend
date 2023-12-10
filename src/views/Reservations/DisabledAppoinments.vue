@@ -20,8 +20,8 @@
             </button>
             <div class="control_wrapper" v-show="isComponentVisible">
               <ejs-calendar
-                :isMultiSelection="isMultiSelection"
                 @change="handleDateChange"
+                :showTodayButton="true"
               ></ejs-calendar>
             </div>
           </div>

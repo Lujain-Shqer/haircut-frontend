@@ -59,7 +59,7 @@
               v-model="NoTaxes_info.amount"
             />
           </div>
-          <button class="btn add">إضافة الفاتورة</button>
+          <button :disabled="isLoading" class="btn add">إضافة الفاتورة</button>
         </form>
       </div>
     </div>
@@ -78,6 +78,7 @@ export default {
         amount: "",
         taxState: "0",
       },
+      isLoading: false,
     };
   },
   mounted() {
@@ -113,6 +114,7 @@ export default {
   methods: {
     addNoTax(event) {
       event.preventDefault();
+      this.isLoading = true;
       fetch("http://127.0.0.1:8001/api/general-service", {
         method: "POST",
         headers: {
@@ -127,6 +129,7 @@ export default {
           tax_state: this.NoTaxes_info.taxState,
         }),
       }).then((response) => {
+        this.isLoading = false;
         if (response.ok) {
           this.$router.push({ name: "ExpensesNotTax" });
           return response.json();

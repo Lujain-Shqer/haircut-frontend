@@ -70,6 +70,7 @@
 <script>
 import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
 import PaginationFoot from "/src/components/PaginationFoot.vue";
+import { format } from "date-fns";
 export default {
   name: "SalesTax",
   components: {
@@ -82,6 +83,8 @@ export default {
       salesTaxesPerPage: 7,
       currentPage: 1,
       isComponentVisible: false,
+      isMultiSelection: true,
+      selectedDate: [],
     };
   },
   computed: {
@@ -119,6 +122,18 @@ export default {
       } else {
         this.isComponentVisible = true;
       }
+    },
+    handleDateChange(args) {
+      const index = this.selectedDate.indexOf(args.value);
+      if (index === -1) {
+        this.selectedDate.push(format(args.value, "yyyy-MM-dd"));
+        if (this.selectedDate.length > 2) {
+          this.selectedDate.shift();
+        }
+      } else {
+        this.selectedDate.splice(index, 1);
+      }
+      console.log(this.selectedDate);
     },
   },
 };

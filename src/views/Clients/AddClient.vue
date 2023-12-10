@@ -50,7 +50,6 @@ export default {
     addClient(event) {
       event.preventDefault();
       this.isLoading = true;
-      console.log(localStorage.getItem("access_token"));
       fetch("http://127.0.0.1:8001/api/customer", {
         method: "POST",
         headers: {

@@ -59,7 +59,7 @@
               v-model="NoTaxes_info.amount"
             />
           </div>
-          <button class="btn add">تعديل الفاتورة</button>
+          <button :disabled="isLoading" class="btn add">تعديل الفاتورة</button>
         </form>
       </div>
     </div>
@@ -78,6 +78,7 @@ export default {
         amount: "",
         tax_state: "0",
       },
+      isLoading: false,
     };
   },
   mounted() {
@@ -113,6 +114,7 @@ export default {
   methods: {
     updateNoTax(event) {
       event.preventDefault();
+      this.isLoading = true;
       Object.keys(this.NoTaxes_info).forEach((key) => {
         if (this.NoTaxes_info[key] === "") {
           delete this.NoTaxes_info[key];
@@ -130,6 +132,7 @@ export default {
           body: JSON.stringify(this.NoTaxes_info),
         }
       ).then((response) => {
+        this.isLoading = false;
         if (response.ok) {
           this.$router.push({ name: "ExpensesNotTax" });
           return response.json();

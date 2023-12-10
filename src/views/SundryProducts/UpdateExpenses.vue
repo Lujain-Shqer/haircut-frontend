@@ -28,7 +28,7 @@
               v-model="expense_info.tax_state"
             />
           </div>
-          <button class="btn">تحديث</button>
+          <button :disabled="isLoading" class="btn">تحديث</button>
         </form>
       </div>
     </div>
@@ -44,19 +44,17 @@ export default {
         name: "",
         tax_state: "0",
       },
+      isLoading: false,
     };
   },
   methods: {
     updateExpense(event) {
       event.preventDefault();
+      this.isLoading = true;
       Object.keys(this.expense_info).forEach((key) => {
         if (this.expense_info[key] === "") {
           delete this.expense_info[key];
         }
-      });
-      console.log("Request Data:", {
-        name: this.expense_info.name,
-        tax_state: this.expense_info.tax_state,
       });
       fetch("http://127.0.0.1:8001/api/term/" + this.$route.params.id, {
         method: "PUT",
@@ -70,6 +68,7 @@ export default {
         }),
       })
         .then((response) => {
+          this.isLoading = false;
           if (response.ok) {
             this.$router.push({ name: "GeneralExpenses" });
             return response.json();
