@@ -9,7 +9,13 @@
         <div class="row extra-table">
           <div class="input-container">
             <fa icon="search" />
-            <input class="input-field" type="text" placeholder="البحث عن..." />
+            <input
+              class="input-field"
+              type="text"
+              placeholder="البحث عن..."
+              v-model="searchQuery"
+              @keyup.enter="search"
+            />
           </div>
           <router-link to="/AddProducts">
             <button class="btn">إنشاء جديد</button>
@@ -24,7 +30,7 @@
               <th scope="col" class="text-center">الإجراءات</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody v-if="productsToDisplay.length > 0">
             <tr v-for="product in productsToDisplay" :key="product.id">
               <td>
                 <img
@@ -44,6 +50,11 @@
                   <fa icon="trash" /> حذف
                 </button>
               </td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="5">لا يوجد منتجات لعرضهم</td>
             </tr>
           </tbody>
           <tfoot>
@@ -78,6 +89,7 @@ export default {
       products: [],
       productsPerPage: 7,
       currentPage: 1,
+      searchQuery: "",
     };
   },
   computed: {
@@ -91,21 +103,25 @@ export default {
     },
   },
   mounted() {
-    fetch(
-      "http://127.0.0.1:8001/api/product/" + localStorage.getItem("branch_id"),
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => (this.products = data))
-      .catch((err) => console.log(err.message));
+    this.fetchAllProducts();
   },
   methods: {
+    fetchAllProducts() {
+      fetch(
+        "http://127.0.0.1:8001/api/product/" +
+          localStorage.getItem("branch_id"),
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => (this.products = data))
+        .catch((err) => console.log(err.message));
+    },
     deleteProduct(productId) {
       fetch("http://127.0.0.1:8001/api/product/" + productId, {
         method: "DELETE",
@@ -128,6 +144,33 @@ export default {
     changePage(currentPage) {
       this.currentPage = currentPage;
     },
+    search(event) {
+      event.preventDefault();
+      fetch(
+        "http://127.0.0.1:8001/api/product/" +
+          localStorage.getItem("branch_id"),
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            query: this.searchQuery,
+          }),
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => (this.products = data))
+        .catch((err) => console.log(err.message));
+    },
+  },
+  watch: {
+    searchQuery(newValue) {
+      if (newValue.trim() === "") {
+        this.fetchAllProducts();
+      }
+    },
   },
 };
 </script>
@@ -135,18 +178,22 @@ export default {
 .row {
   margin: 0;
 }
+
 .productsPage {
   direction: rtl;
   width: 80%;
 }
+
 .productsPage h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
+
 .productsPage p {
   color: #1a2669;
   font-weight: 400;
 }
+
 .productsPage .control-table {
   margin-top: 5vh;
   border: 1px solid #3f51b5;
@@ -154,6 +201,7 @@ export default {
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
 }
+
 .productsPage .extra-table {
   margin: 0 4vh;
   margin-bottom: 3vh;
@@ -161,6 +209,7 @@ export default {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
 .productsPage .input-container {
   border: 1px solid #c8c9cc;
   box-shadow: 0px 0px 4px 0px #6e49cb33;
@@ -172,14 +221,17 @@ export default {
   color: #3f51b5;
   padding: 1vh;
 }
+
 .productsPage input {
   border: 0;
   outline: none;
   color: #3f51b5;
 }
+
 .productsPage input::placeholder {
   color: #3f51b5;
 }
+
 .productsPage .input-container svg {
   padding-left: 0.2vh;
 }
@@ -190,22 +242,26 @@ export default {
   background: #3f51b5;
   color: #fff;
 }
+
 .productsPage table {
   margin-bottom: 0;
   border-collapse: collapse;
   border-spacing: 0;
   text-align: center;
 }
+
 .productsPage table tr td,
 .productsPage table tr th {
   color: #1a2669;
 }
+
 .productsPage table tr td img {
   width: 12%;
   border: 1px solid #ccc;
   border-radius: 8px;
   margin-left: 1vh;
 }
+
 .productsPage table .delete {
   background: #fff;
   color: #3f51b5;
@@ -213,6 +269,7 @@ export default {
   margin-right: 5px;
   margin-bottom: 1vh;
 }
+
 .productsPage table .show {
   background: #3f51b5;
   color: #fff;
@@ -220,6 +277,7 @@ export default {
   margin-left: 5px;
   margin-bottom: 1vh;
 }
+
 .productsPage table thead tr th,
 .productsPage table tfoot tr th {
   background: #3f51b5;
@@ -227,6 +285,7 @@ export default {
   height: 5vh;
   font-weight: 400;
 }
+
 .productsPage table tfoot {
   border-radius: 8px;
   background: #3f51b5;
@@ -234,10 +293,12 @@ export default {
   color: #fff;
   font-weight: 300;
 }
+
 .productsPage table tfoot td:last-of-type {
   text-align: end;
   padding-left: 5vh;
 }
+
 tfoot svg {
   background: transparent;
   padding: 0 10px;
@@ -249,31 +310,39 @@ tfoot svg {
   .productsPage {
     width: 70%;
   }
+
   .extra-table {
     width: 130%;
   }
+
   .table {
     width: 140%;
   }
 }
+
 @media (max-width: 765px) {
   .productsPage {
     width: 100%;
   }
+
   .extra-table {
     width: 170%;
   }
+
   .table {
     width: 182%;
   }
 }
+
 @media (max-width: 540px) {
   .extra-table {
     width: 210%;
   }
+
   .table {
     width: 230%;
   }
+
   .cards {
     width: 48%;
   }
