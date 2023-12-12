@@ -10,7 +10,13 @@
         <div class="row extra-table">
           <div class="input-container">
             <fa icon="search" />
-            <input class="input-field" type="text" placeholder="البحث عن..." />
+            <input
+              class="input-field"
+              type="text"
+              placeholder="البحث عن..."
+              v-model="searchQuery"
+              @keyup.enter="search"
+            />
           </div>
           <router-link to="/AddSundry">
             <button class="btn">إنشاء جديد</button></router-link
@@ -25,7 +31,7 @@
               <th scope="col" class="text-center">الإجراءات</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody v-if="sundriesToDisplay.length > 0">
             <tr v-for="sundry in sundriesToDisplay" :key="sundry.id">
               <td>{{ sundry.id }}</td>
               <td>{{ sundry.name }}</td>
@@ -42,6 +48,11 @@
                   <fa icon="trash" /> حذف
                 </button>
               </td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="4">لا يوجد منتجات نثرية لعرضها</td>
             </tr>
           </tbody>
           <tfoot>
@@ -72,6 +83,7 @@ export default {
       sundries: [],
       sundriesPerPage: 7,
       currentPage: 1,
+      searchQuery: "",
     };
   },
   computed: {
@@ -85,21 +97,24 @@ export default {
     },
   },
   mounted() {
-    fetch(
-      "http://127.0.0.1:8001/api/sundry/" + localStorage.getItem("branch_id"),
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => (this.sundries = data))
-      .catch((err) => console.log(err.message));
+    this.fetchAllSundry();
   },
   methods: {
+    fetchAllSundry() {
+      fetch(
+        "http://127.0.0.1:8001/api/sundry/" + localStorage.getItem("branch_id"),
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => (this.sundries = data))
+        .catch((err) => console.log(err.message));
+    },
     deleteSundry(sundryId) {
       fetch("http://127.0.0.1:8001/api/sundry/" + sundryId, {
         method: "DELETE",
@@ -121,6 +136,32 @@ export default {
     },
     changePage(currentPage) {
       this.currentPage = currentPage;
+    },
+    search(event) {
+      event.preventDefault();
+      fetch(
+        "http://127.0.0.1:8001/api/sundry/" + localStorage.getItem("branch_id"),
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            query: this.searchQuery,
+          }),
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => (this.sundries = data))
+        .catch((err) => console.log(err.message));
+    },
+  },
+  watch: {
+    searchQuery(newValue) {
+      if (newValue.trim() === "") {
+        this.fetchAllSundry();
+      }
     },
   },
 };

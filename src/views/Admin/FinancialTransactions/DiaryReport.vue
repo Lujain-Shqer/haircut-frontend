@@ -9,10 +9,6 @@
 
       <div class="all-table" style="overflow-x: auto">
         <div class="row extra-table">
-          <div class="input-container">
-            <fa icon="search" />
-            <input class="input-field" type="text" placeholder="البحث عن..." />
-          </div>
           <button class="btn">EXCEL</button>
           <button class="btn">بحث بالتاريخ</button>
           <button class="btn" @click="showComponent">

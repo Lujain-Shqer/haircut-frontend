@@ -11,7 +11,13 @@
         <div class="row extra-table">
           <div class="input-container">
             <fa icon="search" />
-            <input class="input-field" type="text" placeholder="البحث عن..." />
+            <input
+              class="input-field"
+              type="text"
+              placeholder="البحث عن..."
+              v-model="searchQuery"
+              @keyup.enter="search"
+            />
           </div>
           <router-link to="/AddProductsPurchases">
             <button class="btn">إنشاء فاتورة</button>
@@ -96,6 +102,7 @@ export default {
       productsPurchases: [],
       productsPurchasesPerPage: 7,
       currentPage: 1,
+      searchQuery: "",
     };
   },
   computed: {
@@ -111,22 +118,25 @@ export default {
     },
   },
   mounted() {
-    fetch(
-      "http://127.0.0.1:8001/api/product-purchase/" +
-        localStorage.getItem("branch_id"),
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => (this.productsPurchases = data))
-      .catch((err) => console.log(err.message));
+    this.fetchAllProductsPurchases();
   },
   methods: {
+    fetchAllProductsPurchases() {
+      fetch(
+        "http://127.0.0.1:8001/api/product-purchase/" +
+          localStorage.getItem("branch_id"),
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => (this.productsPurchases = data))
+        .catch((err) => console.log(err.message));
+    },
     deleteProductsPurchase(productsPurchaseId) {
       fetch("http://127.0.0.1:8001/api/purchase/" + productsPurchaseId, {
         method: "DELETE",
@@ -148,6 +158,34 @@ export default {
     },
     changePage(currentPage) {
       this.currentPage = currentPage;
+    },
+    search(event) {
+      event.preventDefault();
+      console.log("hiiiiiii");
+      fetch(
+        "http://127.0.0.1:8001/api/product-purchase/" +
+          localStorage.getItem("branch_id"),
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            query: this.searchQuery,
+          }),
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => (this.productsPurchases = data))
+        .catch((err) => console.log(err.message));
+    },
+  },
+  watch: {
+    searchQuery(newValue) {
+      if (newValue.trim() === "") {
+        this.fetchAllProductsPurchases();
+      }
     },
   },
 };

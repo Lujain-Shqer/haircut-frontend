@@ -9,16 +9,6 @@
             <fa icon="coins" />
             <span>تصفية العمولات</span>
           </div>
-          <button class="btn">بحث بالتاريخ</button>
-          <button class="btn" @click="showComponent">
-            من الفترة -> إلى الفترة
-          </button>
-        </div>
-        <div class="control_wrapper" v-show="isComponentVisible">
-          <ejs-calendar
-            :isMultiSelection="isMultiSelection"
-            @change="handleDateChange"
-          ></ejs-calendar>
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
@@ -61,13 +51,8 @@
   </div>
 </template>
 <script>
-import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
-
 export default {
   name: "ClearingCommissions",
-  components: {
-    "ejs-calendar": CalendarComponent,
-  },
   data() {
     return {
       cleaningCommissions: [],

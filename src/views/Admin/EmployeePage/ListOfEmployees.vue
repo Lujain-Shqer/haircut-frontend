@@ -7,7 +7,13 @@
         <div class="row extra-table">
           <div class="input-container">
             <fa icon="search" />
-            <input class="input-field" type="text" placeholder="البحث عن..." />
+            <input
+              class="input-field"
+              type="text"
+              placeholder="البحث عن..."
+              v-model="searchQuery"
+              @keyup.enter="search"
+            />
           </div>
           <button class="btn">PDF</button>
 
@@ -30,7 +36,7 @@
               <th scope="col" class="text-center">الإجراءات</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody v-if="employeesToDisplay.length > 0">
             <tr v-for="employee in employeesToDisplay" :key="employee.id">
               <td>{{ employee.id }}</td>
               <td>{{ employee.name }}</td>
@@ -55,23 +61,11 @@
                 </button>
               </td>
             </tr>
-            <!-- <tr>
-              <td>55900</td>
-              <td>أشرف عبدالعزيز</td>
-              <td>حلاق</td>
-              <td class="row">
-                <div class="col-5">الراتب :</div>
-                <div class="col-5">2000</div>
-                <div class="col-5">العمولة :</div>
-                <div class="col-5">9%</div>
-              </td>
-              <td>صالون شعر & ذقن للحلاقة</td>
-              <td>3129745448</td>
-              <td>مفعل</td>
-              <td class="text-center">
-                <button class="btn show"><fa icon="pen" /> تعديل</button>
-              </td>
-            </tr> -->
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="8">لا يوجد موظفون لعرضهم</td>
+            </tr>
           </tbody>
           <tfoot>
             <td>صفوف لكل الصفحة</td>
@@ -88,19 +82,6 @@
               @page-change="changePage"
             ></paginationFoot>
           </tfoot>
-          <!-- <tfoot>
-            <td>صفوف لكل الصفحة</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>
-              <fa icon="	fas fa-angle-right" />
-              <fa icon="	fas fa-angle-left" />1-10 من 100 عنصر
-            </td>
-          </tfoot> -->
         </table>
       </div>
     </div>
@@ -118,6 +99,7 @@ export default {
       employees: [],
       employeesPerPage: 7,
       currentPage: 1,
+      searchQuery: "",
     };
   },
   computed: {
@@ -131,21 +113,25 @@ export default {
     },
   },
   mounted() {
-    fetch(
-      "http://127.0.0.1:8001/api/employee/" + localStorage.getItem("branch_id"),
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => (this.employees = data))
-      .catch((err) => console.log(err.message));
+    this.fetchAllEmployees();
   },
   methods: {
+    fetchAllEmployees() {
+      fetch(
+        "http://127.0.0.1:8001/api/employee/" +
+          localStorage.getItem("branch_id"),
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => (this.employees = data))
+        .catch((err) => console.log(err.message));
+    },
     deleteEmployee(employeeId) {
       fetch("http://127.0.0.1:8001/api/employee/" + employeeId, {
         method: "DELETE",
@@ -167,6 +153,33 @@ export default {
     },
     changePage(currentPage) {
       this.currentPage = currentPage;
+    },
+    search(event) {
+      event.preventDefault();
+      fetch(
+        "http://127.0.0.1:8001/api/employee/" +
+          localStorage.getItem("branch_id"),
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            query: this.searchQuery,
+          }),
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => (this.employees = data))
+        .catch((err) => console.log(err.message));
+    },
+  },
+  watch: {
+    searchQuery(newValue) {
+      if (newValue.trim() === "") {
+        this.fetchAllEmployees();
+      }
     },
   },
 };

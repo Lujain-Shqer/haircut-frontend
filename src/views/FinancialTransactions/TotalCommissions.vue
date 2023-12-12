@@ -9,15 +9,21 @@
       </p>
       <div class="all-table" style="overflow-x: auto">
         <div class="row extra-table">
-          <div class="input-container">
+          <button class="btn">EXCEL</button>
+          <div class="container">
             <fa icon="coins" />
             <span>تقرير إجمالي العمولات</span>
           </div>
-          <button class="btn">EXCEL</button>
-          <button class="btn">بحث بالتاريخ</button>
-          <button class="btn" @click="showComponent">
-            من الفترة -> إلى الفترة
-          </button>
+          <div class="input-container">
+            <fa icon="search" />
+            <input
+              class="input-field"
+              type="text"
+              placeholder="البحث عن..."
+              v-model="searchQuery"
+              @keyup.enter="search"
+            />
+          </div>
         </div>
         <div class="control_wrapper" v-show="isComponentVisible">
           <ejs-calendar></ejs-calendar>
@@ -122,6 +128,7 @@ export default {
       totalCommissionsPerPage: 7,
       currentPage: 1,
       isComponentVisible: false,
+      searchQuery: "",
     };
   },
   computed: {
@@ -137,22 +144,25 @@ export default {
     },
   },
   mounted() {
-    fetch(
-      "http://127.0.0.1:8001/api/employee-info/" +
-        localStorage.getItem("branch_id"),
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => (this.totalCommissions = data))
-      .catch((err) => console.log(err.message));
+    this.fetchAllCommissions();
   },
   methods: {
+    fetchAllCommissions() {
+      fetch(
+        "http://127.0.0.1:8001/api/employee-info/" +
+          localStorage.getItem("branch_id"),
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => (this.totalCommissions = data))
+        .catch((err) => console.log(err.message));
+    },
     changePage(currentPage) {
       this.currentPage = currentPage;
     },
@@ -168,6 +178,33 @@ export default {
         this.isComponentVisible = false;
       } else {
         this.isComponentVisible = true;
+      }
+    },
+    search(event) {
+      event.preventDefault();
+      fetch(
+        "http://127.0.0.1:8001/api/employee-info/" +
+          localStorage.getItem("branch_id"),
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            query: this.searchQuery,
+          }),
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => (this.totalCommissions = data))
+        .catch((err) => console.log(err.message));
+    },
+  },
+  watch: {
+    searchQuery(newValue) {
+      if (newValue.trim() === "") {
+        this.fetchAllCommissions();
       }
     },
   },
@@ -205,18 +242,37 @@ export default {
   margin-bottom: 3vh;
   display: flow-root;
 }
-.totalCommissions .input-container {
+.totalCommissions .container {
   width: auto;
   float: right;
   display: inline;
-  float: right;
   color: #3f51b5;
   padding: 1vh;
   font-weight: 500;
 }
+.totalCommissions .input-container {
+  border: 1px solid #c8c9cc;
+  box-shadow: 0px 0px 4px 0px #6e49cb33;
+  border-radius: 8px;
+  width: auto;
+  float: left;
+  display: inline;
+  color: #3f51b5;
+  padding: 1vh;
+}
+.totalCommissions input {
+  border: 0;
+  outline: none;
+  color: #3f51b5;
+}
+.totalCommissions input::placeholder {
+  color: #3f51b5;
+}
 .totalCommissions .input-container svg {
+  padding-left: 0.2vh;
+}
+.totalCommissions .container svg {
   margin-left: 2vh;
-  background: #f7f7f7;
   border-radius: 5px;
   box-shadow: 0px 0px 4px -1px #14141412;
   padding: 0 1vh;
