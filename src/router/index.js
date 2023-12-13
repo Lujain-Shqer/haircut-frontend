@@ -31,6 +31,7 @@ import AddProductsPurchases from "../views/FinancialTransactions/AddProductsPurc
 import ExpensesTax from "../views/FinancialTransactions/ExpensesTax.vue";
 import ExpensesNotTax from "../views/FinancialTransactions/ExpensesNotTax.vue";
 import TaxReports from "../views/FinancialTransactions/TaxReports.vue";
+import SundryTaxReports from "../views/FinancialTransactions/ٍSundryTaxReports.vue";
 import TotalCommissions from "../views/FinancialTransactions/TotalCommissions.vue";
 import ClosingAccounts from "../views/FinancialTransactions/ClosingAccounts.vue";
 import ClearingCommissions from "../views/FinancialTransactions/ClearingCommissions.vue";
@@ -241,6 +242,11 @@ const routes = [
     path: "/TaxReports",
     name: "TaxReports",
     component: TaxReports,
+  },
+  {
+    path: "/SundryTaxReports",
+    name: "SundryTaxReports",
+    component: SundryTaxReports,
   },
   {
     path: "/TotalCommissions",

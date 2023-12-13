@@ -19,7 +19,7 @@
               />
             </div>
           </div>
-          <button class="btn">بحث بالتاريخ</button>
+          <button class="btn" @click="search">بحث بالتاريخ</button>
           <button class="btn" @click="showComponent">
             من الفترة -> إلى الفترة
           </button>
@@ -68,7 +68,7 @@
           </tbody>
           <tbody v-else>
             <tr>
-              <td colspan="6">لا يوجد سجلات تغذية لعرضها</td>
+              <td colspan="6">{{ info }}</td>
             </tr>
           </tbody>
           <tfoot>
@@ -93,6 +93,7 @@
 <script>
 import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
 import PaginationFoot from "/src/components/PaginationFoot.vue";
+import { format } from "date-fns";
 export default {
   name: "CashierFeed",
   components: {
@@ -105,6 +106,9 @@ export default {
       cashierFeedsPerPage: 7,
       currentPage: 1,
       isComponentVisible: false,
+      isMultiSelection: true,
+      selectedDate: [],
+      info: "لا يوجد سجلات تغذية لعرضها",
     };
   },
   computed: {
@@ -160,6 +164,59 @@ export default {
         this.isComponentVisible = false;
       } else {
         this.isComponentVisible = true;
+      }
+    },
+    handleDateChange(args) {
+      const dateString = format(args.value, "yyyy-MM-dd");
+
+      if (!this.selectedDate.includes(dateString)) {
+        this.selectedDate.push(dateString);
+
+        if (this.selectedDate.length > 2) {
+          this.selectedDate.shift();
+        }
+      }
+    },
+    search(event) {
+      event.preventDefault();
+      if (this.selectedDate.length < 2) {
+        this.info = " أرجو إدخال تاريخ بداية الفترة ونهايتها";
+        this.cashierFeeds = [];
+      } else {
+        fetch(
+          "http://127.0.0.1:8001/api/filter-deposit/" +
+            localStorage.getItem("branch_id"),
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              start_date: this.selectedDate[0],
+              end_date: this.selectedDate[1],
+            }),
+          }
+        )
+          .then((res) => {
+            if (res.ok) {
+              return res.json();
+            } else {
+              throw new Error(
+                "يجب أن يكون تاريخ بداية الفترة أصغر من تاريخ نهاية الفترة "
+              );
+            }
+          })
+          .then((data) => {
+            this.cashierFeeds = data;
+            if (this.cashierFeeds.length === 0) {
+              this.info = "لا يوجد في الفترة المحددة سجلات تغذية لعرضها";
+            }
+          })
+          .catch((err) => {
+            this.cashierFeeds = [];
+            this.info = err.message;
+          });
       }
     },
   },

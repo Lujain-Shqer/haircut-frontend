@@ -11,18 +11,16 @@
             <fa icon="coins" />
             <span>تقرير الضريبة (مشتريات)</span>
           </div>
-          <label>اختر السنة</label>
-          <select class="form-selec">
-            <option>2022</option>
-          </select>
-          <label>اختر الربع السنوي</label>
-          <select class="form-selec">
-            <option>الربع الاول</option>
-          </select>
-          <button class="btn">بحث</button>
+          <button class="btn" @click="search">بحث بالتاريخ</button>
+          <button class="btn" @click="showComponent">
+            من الفترة -> إلى الفترة
+          </button>
         </div>
         <div class="control_wrapper" v-show="isComponentVisible">
-          <ejs-calendar></ejs-calendar>
+          <ejs-calendar
+            :isMultiSelection="isMultiSelection"
+            @change="handleDateChange"
+          ></ejs-calendar>
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
@@ -45,7 +43,7 @@
           </tbody>
           <tbody v-else>
             <tr>
-              <td colspan="5">لا يوجد ضرائب مبيعات لعرضها</td>
+              <td colspan="5">{{ info }}</td>
             </tr>
           </tbody>
           <tfoot>
@@ -66,17 +64,24 @@
   </div>
 </template>
 <script>
+import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
 import PaginationFoot from "/src/components/PaginationFoot.vue";
+import { format } from "date-fns";
 export default {
   name: "TaxReports",
   components: {
     PaginationFoot,
+    "ejs-calendar": CalendarComponent,
   },
   data() {
     return {
       taxReports: [],
       taxReportsPerPage: 7,
       currentPage: 1,
+      isComponentVisible: false,
+      isMultiSelection: true,
+      selectedDate: [],
+      info: "لا يوجد ضرائب مبيعات لعرضها",
     };
   },
   computed: {
@@ -91,7 +96,8 @@ export default {
   },
   mounted() {
     fetch(
-      "http://127.0.0.1:8001/api/purchase/" + localStorage.getItem("branch_id"),
+      "http://127.0.0.1:8001/api/product-purchase/" +
+        localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -108,12 +114,82 @@ export default {
     changePage(currentPage) {
       this.currentPage = currentPage;
     },
+    showComponent() {
+      if (this.isComponentVisible) {
+        this.isComponentVisible = false;
+      } else {
+        this.isComponentVisible = true;
+      }
+    },
+    handleDateChange(args) {
+      const dateString = format(args.value, "yyyy-MM-dd");
+
+      if (!this.selectedDate.includes(dateString)) {
+        this.selectedDate.push(dateString);
+
+        if (this.selectedDate.length > 2) {
+          this.selectedDate.shift();
+        }
+      }
+    },
+    search(event) {
+      event.preventDefault();
+      if (this.selectedDate.length < 2) {
+        this.info = " أرجو إدخال تاريخ بداية الفترة ونهايتها";
+        this.taxReports = [];
+      } else {
+        fetch(
+          "http://127.0.0.1:8001/api/filter-product-purchase/" +
+            localStorage.getItem("branch_id"),
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              start_date: this.selectedDate[0],
+              end_date: this.selectedDate[1],
+            }),
+          }
+        )
+          .then((res) => {
+            if (res.ok) {
+              return res.json();
+            } else {
+              throw new Error(
+                "يجب أن يكون تاريخ بداية الفترة أصغر من تاريخ نهاية الفترة "
+              );
+            }
+          })
+          .then((data) => {
+            this.taxReports = data;
+            if (this.taxReports.length === 0) {
+              this.info = "لا يوجد في الفترة المحددة ضرائب مبيعات لعرضها";
+            }
+          })
+          .catch((err) => {
+            this.taxReports = [];
+            this.info = err.message;
+          });
+      }
+    },
   },
 };
 </script>
 <style scoped>
 .row {
   margin: 0;
+}
+.control_wrapper {
+  position: fixed;
+  z-index: 1111111111111;
+  width: 78%;
+  margin: auto;
+}
+.e-calendar {
+  float: left;
+  margin-left: 20vw;
 }
 .taxReport {
   direction: rtl;
@@ -140,6 +216,18 @@ export default {
   display: flow-root;
   border-collapse: collapse;
   border-spacing: 0;
+}
+.taxReport .extra-table button {
+  width: auto;
+  margin-right: 10px;
+  float: left;
+  background: #3f51b5;
+  color: #fff;
+}
+.taxReport .extra-table button:last-of-type {
+  background: #fff;
+  color: #3f51b5;
+  border: 1px solid #3f51b5;
 }
 .taxReport .input-container {
   border-radius: 8px;

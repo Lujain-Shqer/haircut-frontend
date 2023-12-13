@@ -19,9 +19,20 @@
               @keyup.enter="search"
             />
           </div>
+
           <router-link to="/AddAdvances">
             <button class="btn">إنشاء جديد</button>
           </router-link>
+          <button class="btn" @click="searchByDate">بحث بالتاريخ</button>
+          <button class="btn special" @click="showComponent">
+            من الفترة -> إلى الفترة
+          </button>
+        </div>
+        <div class="control_wrapper" v-show="isComponentVisible">
+          <ejs-calendar
+            :isMultiSelection="isMultiSelection"
+            @change="handleDateChange"
+          ></ejs-calendar>
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
@@ -56,7 +67,7 @@
           </tbody>
           <tbody v-else>
             <tr>
-              <td colspan="5">لا يوجد سلفيات لعرضها</td>
+              <td colspan="5">{{ info }}</td>
             </tr>
           </tbody>
           <tfoot>
@@ -77,11 +88,14 @@
   </div>
 </template>
 <script>
+import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
 import PaginationFoot from "/src/components/PaginationFoot.vue";
+import { format } from "date-fns";
 export default {
   name: "AdvancesPage",
   components: {
     PaginationFoot,
+    "ejs-calendar": CalendarComponent,
   },
   data() {
     return {
@@ -89,6 +103,10 @@ export default {
       advancesPerPage: 7,
       currentPage: 1,
       searchQuery: "",
+      isComponentVisible: false,
+      isMultiSelection: true,
+      selectedDate: [],
+      info: "لا يوجد سلفيات لعرضها",
     };
   },
   computed: {
@@ -143,6 +161,13 @@ export default {
     changePage(currentPage) {
       this.currentPage = currentPage;
     },
+    showComponent() {
+      if (this.isComponentVisible) {
+        this.isComponentVisible = false;
+      } else {
+        this.isComponentVisible = true;
+      }
+    },
     search(event) {
       event.preventDefault();
       fetch(
@@ -163,6 +188,59 @@ export default {
         .then((data) => (this.advances = data))
         .catch((err) => console.log(err.message));
     },
+    handleDateChange(args) {
+      const dateString = format(args.value, "yyyy-MM-dd");
+
+      if (!this.selectedDate.includes(dateString)) {
+        this.selectedDate.push(dateString);
+
+        if (this.selectedDate.length > 2) {
+          this.selectedDate.shift();
+        }
+      }
+    },
+    searchByDate(event) {
+      event.preventDefault();
+      if (this.selectedDate.length < 2) {
+        this.info = " أرجو إدخال تاريخ بداية الفترة ونهايتها";
+        this.advances = [];
+      } else {
+        fetch(
+          "http://127.0.0.1:8001/api/filter-advance/" +
+            localStorage.getItem("branch_id"),
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              start_date: this.selectedDate[0],
+              end_date: this.selectedDate[1],
+            }),
+          }
+        )
+          .then((res) => {
+            if (res.ok) {
+              return res.json();
+            } else {
+              throw new Error(
+                "يجب أن يكون تاريخ بداية الفترة أصغر من تاريخ نهاية الفترة "
+              );
+            }
+          })
+          .then((data) => {
+            this.advances = data;
+            if (this.advances.length === 0) {
+              this.info = "لا يوجد في الفترة المحددة سحوبات لعرضها";
+            }
+          })
+          .catch((err) => {
+            this.advances = [];
+            this.info = err.message;
+          });
+      }
+    },
   },
   watch: {
     searchQuery(newValue) {
@@ -177,7 +255,15 @@ export default {
 .row {
   margin: 0;
 }
-
+.control_wrapper {
+  position: fixed;
+  z-index: 1111111111111;
+  width: 78%;
+  margin: auto;
+}
+.e-calendar {
+  float: left;
+}
 .advancesPage {
   direction: rtl;
   width: 80%;
@@ -209,6 +295,18 @@ export default {
   border-spacing: 0;
 }
 
+.advancesPage .extra-table button {
+  width: auto;
+  margin-right: 10px;
+  float: left;
+  background: #3f51b5;
+  color: #fff;
+}
+.advancesPage .extra-table button.special {
+  background: #fff;
+  color: #3f51b5;
+  border: 1px solid #3f51b5;
+}
 .advancesPage .input-container {
   border: 1px solid #c8c9cc;
   box-shadow: 0px 0px 4px 0px #6e49cb33;

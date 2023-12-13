@@ -238,6 +238,10 @@ export default {
                   href: "/TaxReports",
                   title: "تقرير الضريبة (مشتريات)",
                 },
+                {
+                  href: "/SundryTaxReports",
+                  title: "تقرير الضريبة (مشتريات نثرية)",
+                },
               ],
             },
             {
