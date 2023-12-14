@@ -11,10 +11,11 @@
         والمبلغ المستحق للدفع.
       </p>
       <div v-if="showReserve">
-        <ejs-schedule
+        <!-- <ejs-schedule
           height="550px"
           :eventSettings="appointmentData"
-        ></ejs-schedule>
+        ></ejs-schedule> -->
+        <ejs-schedule height="550px"></ejs-schedule>
       </div>
     </div>
   </div>

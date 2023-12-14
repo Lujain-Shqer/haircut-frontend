@@ -1,9 +1,7 @@
 <template>
-  <nav><router-link to="/LogIn">Login</router-link></nav>
-  <NavBar />
-  <SideBar />
-  <ServicesPage />
-
+  <!-- <nav><router-link to="/LogIn">Login</router-link></nav> -->
+  <NavBar v-if="enableNavigation" />
+  <SideBar v-if="enableNavigation" />
   <router-view />
 </template>
 <script>
@@ -17,6 +15,15 @@ export default {
     NavBar,
     SideBar,
     // ServicesPage,
+  },
+  // mounted() {
+  //   console.log(this.$router.currentRoute.name);
+  // },
+  computed: {
+    enableNavigation() {
+      const disabledNavRoutes = ["LogIn", "BranchPage"];
+      return disabledNavRoutes.indexOf(this.$route.name) === -1;
+    },
   },
 };
 // margin-left: 1vh;
