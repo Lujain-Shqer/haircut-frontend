@@ -277,6 +277,9 @@ export default {
       if (this.isComponentVisible) {
         this.isComponentVisible = false;
       }
+      if (this.isVisible) {
+        this.isVisible = false;
+      }
       if (value === "paymentCash") {
         this.order_info.paymentType = "cash";
       }
@@ -467,7 +470,7 @@ export default {
 }
 .pointOfSales {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 tr:last-of-type td {
   background-color: #ebedf7;

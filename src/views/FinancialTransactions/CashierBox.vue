@@ -107,7 +107,7 @@ export default {
 }
 .cashierBox {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .cashierBox h4 {
   color: #3f51b5;
@@ -251,4 +251,8 @@ tfoot svg {
     width: 270%;
   }
 }
+.control_wrapper {
+    width: auto !important;
+    float: none !important;
+  }
 </style>

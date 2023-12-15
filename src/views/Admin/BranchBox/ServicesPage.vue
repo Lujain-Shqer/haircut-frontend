@@ -172,7 +172,7 @@ export default {
 }
 .servicesPage {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .servicesPage h4 {
   color: #3f51b5;

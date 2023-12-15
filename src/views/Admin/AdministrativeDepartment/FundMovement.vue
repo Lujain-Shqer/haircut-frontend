@@ -160,7 +160,7 @@ export default {
 </script>
 <style scoped>
 .control_wrapper {
-  position: fixed;
+  position: absolute;
   z-index: 1111111111111;
   margin: auto;
   width: 100%;
@@ -173,7 +173,7 @@ export default {
 }
 .fundMovement {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .fundMovement h4 {
   color: #3f51b5;
@@ -299,7 +299,7 @@ tfoot svg {
   padding-left: 5vh;
 } */
 .fundMovement .feed-the-box {
-  margin-top: 8vh;
+  margin: 8vh 0 3vh;
   border: 1px solid #3f51b5;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
@@ -352,24 +352,14 @@ tfoot svg {
   .fundMovement {
     width: 70%;
   }
-  /* .fundMovement .feed-the-box input {
-    width: 100%;
-  }
-  .fundMovement .feed-the-box button {
-    width: 95%;
-    margin-right: 2vh;
-    margin-top: 2vh;
-  } */
 }
 @media (max-width: 765px) {
-  /* .extra-table {
-    width: 180%;
-  }
-  .table {
-    width: 192%;
-  } */
   .fundMovement {
     width: 100%;
+  }
+  .control_wrapper {
+    width: auto !important;
+    float: none !important;
   }
 }
 @media (max-width: 540px) {
@@ -379,5 +369,9 @@ tfoot svg {
   .table {
     width: 300% !important;
   }
+}
+.control_wrapper {
+  width: auto !important;
+  float: none !important;
 }
 </style>

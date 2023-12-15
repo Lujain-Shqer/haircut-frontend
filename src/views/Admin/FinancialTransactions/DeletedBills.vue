@@ -89,7 +89,7 @@ export default {
 }
 .deletedBills {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .deletedBills h4,
 h5 {
@@ -216,4 +216,8 @@ tfoot svg {
     width: 250%;
   }
 }
+.control_wrapper {
+    width: auto !important;
+    float: none !important;
+  }
 </style>

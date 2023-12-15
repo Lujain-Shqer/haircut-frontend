@@ -239,7 +239,7 @@ export default {
 }
 .addProducts {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .addProducts h4 {
   color: #3f51b5;

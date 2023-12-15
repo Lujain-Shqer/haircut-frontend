@@ -137,7 +137,7 @@ export default {
 }
 .updateDisabledAppoinments {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 
 .updateDisabledAppoinments h4 {

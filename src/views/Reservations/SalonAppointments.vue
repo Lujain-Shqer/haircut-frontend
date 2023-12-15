@@ -104,7 +104,7 @@ export default {
 }
 .salonAppointment {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .salonAppointment h4 {
   color: #3f51b5;

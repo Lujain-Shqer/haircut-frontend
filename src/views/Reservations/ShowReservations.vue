@@ -10,7 +10,7 @@
         فاتورة المبيعات عادةً على معلومات مهمة تتعلق بالخدمات التي تم بيعها
         والمبلغ المستحق للدفع.
       </p>
-      <div v-if="showReserve">
+      <div class="sched" v-if="showReserve">
         <!-- <ejs-schedule
           height="550px"
           :eventSettings="appointmentData"
@@ -41,7 +41,7 @@ export default {
           },
         ],
       },
-      showReserve: false,
+      showReserve: true,
     };
   },
   mounted() {
@@ -109,12 +109,15 @@ export default {
 };
 </script>
 <style>
+.sched {
+  margin: 2vh;
+}
 .row {
   margin: 0;
 }
 
 .showReservations {
-  width: 80%;
+  width: 77%;
 }
 
 .showReservations h4,

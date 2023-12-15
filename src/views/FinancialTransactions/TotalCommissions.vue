@@ -225,7 +225,7 @@ export default {
 }
 .totalCommissions {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .totalCommissions h4 {
   color: #3f51b5;

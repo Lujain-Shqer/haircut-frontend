@@ -412,7 +412,7 @@ export default {
   margin: 0;
 }
 .NavBar {
-  padding: 1vh 10vh;
+  padding: 1vh 15vh 0 1vh;
   box-shadow: 0px 1px 0px 0px #12203b17;
   background: #ebedf7;
   margin-bottom: 3vh;
@@ -519,6 +519,7 @@ nav .brand span:first-child {
 .navbar-toggler:focus {
   box-shadow: none;
 }
+
 @media (max-width: 2000px) {
   .navbar {
     display: none;

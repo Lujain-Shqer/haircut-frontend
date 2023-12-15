@@ -181,7 +181,7 @@ export default {
 
 .productsPage {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 
 .productsPage h4 {

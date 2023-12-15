@@ -264,7 +264,7 @@ export default {
 }
 .discountsPage {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .discountsPage h4 {
   color: #3f51b5;
@@ -409,4 +409,8 @@ tfoot svg {
     width: 230%;
   }
 }
+.control_wrapper {
+    width: auto !important;
+    float: none !important;
+  }
 </style>

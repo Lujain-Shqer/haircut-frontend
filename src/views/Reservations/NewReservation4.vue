@@ -250,7 +250,7 @@ export default {
 }
 .newReservation4 {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .newReservation4 h4 {
   color: #3f51b5;
@@ -408,4 +408,8 @@ export default {
     width: 100%;
   }
 }
+.control_wrapper {
+    width: auto !important;
+    float: none !important;
+  }
 </style>

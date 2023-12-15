@@ -193,7 +193,7 @@ export default {
 }
 .taxReport {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .taxReport h4 {
   color: #3f51b5;
@@ -343,4 +343,8 @@ tfoot svg {
     width: 260%;
   }
 }
+.control_wrapper {
+    width: auto !important;
+    float: none !important;
+  }
 </style>

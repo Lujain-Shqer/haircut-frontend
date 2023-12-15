@@ -78,7 +78,7 @@ export default {
 }
 .AddClient {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .AddClient h4 {
   color: #3f51b5;

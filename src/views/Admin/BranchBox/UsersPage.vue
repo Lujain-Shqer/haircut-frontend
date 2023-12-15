@@ -157,7 +157,7 @@ export default {
 }
 .usersPage {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .usersPage h4 {
   color: #3f51b5;

@@ -214,7 +214,7 @@ export default {
 }
 .employeeReport {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .employeeReport h4,
 h5,
@@ -463,4 +463,8 @@ tfoot svg {
     width: 50%;
   }
 }
+.control_wrapper {
+    width: auto !important;
+    float: none !important;
+  }
 </style>

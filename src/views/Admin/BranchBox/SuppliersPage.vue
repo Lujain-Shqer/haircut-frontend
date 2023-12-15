@@ -166,7 +166,7 @@ export default {
 
 .suppliersPage {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 
 .suppliersPage h4 {

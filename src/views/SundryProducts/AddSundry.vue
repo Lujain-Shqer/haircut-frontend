@@ -77,7 +77,7 @@ export default {
 }
 .addSundry {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .addSundry h4 {
   color: #3f51b5;

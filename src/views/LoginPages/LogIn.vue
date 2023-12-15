@@ -4,7 +4,7 @@
       <div class="col-xl-4 col-lg-8 logo text-center">
         <img src="../../assets/logoo.png" />
         <h6>صالون ذقن &amp; شعر</h6>
-        <h5 class="">تسجيل الدخول إلى حسابك</h5>
+        <h4 class="">تسجيل الدخول إلى حسابك</h4>
         <form @submit="login" method="post" class="input-icons">
           <label>رقم الجوال</label>
           <div class="input-container">
@@ -146,16 +146,17 @@ export default {
 .login h6 {
   color: #1a2669;
 }
-.login h5 {
+.login h4 {
   color: #3f51b5;
-  margin: 5vh 0;
+  margin: 3vh 0;
+  font-size: 3vmin;
 }
 .login label {
   display: block;
   text-align: start;
   color: #1a2669;
   font-weight: 600;
-  margin: 5vh 0 2vh;
+  margin: 2vh 0;
 }
 .input-container {
   border: 1px solid #c8c9cc;

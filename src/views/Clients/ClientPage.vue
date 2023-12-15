@@ -204,7 +204,7 @@ export default {
 
 .client {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 
 .client h4 {

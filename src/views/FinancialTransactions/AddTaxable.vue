@@ -145,7 +145,7 @@ export default {
 }
 .AddTaxable {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .AddTaxable h4 {
   color: #3f51b5;

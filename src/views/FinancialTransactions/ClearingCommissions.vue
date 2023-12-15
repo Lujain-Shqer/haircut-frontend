@@ -147,7 +147,7 @@ export default {
 
 .clearingCommissions {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 
 .clearingCommissions h4 {

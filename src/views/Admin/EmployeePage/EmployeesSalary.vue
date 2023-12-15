@@ -116,7 +116,7 @@ export default {
 }
 .employeeSalary {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .employeeSalary h4,
 .employeeSalary h6 {
@@ -268,4 +268,8 @@ tfoot svg {
     width: 230%;
   }
 }
+.control_wrapper {
+    width: auto !important;
+    float: none !important;
+  }
 </style>

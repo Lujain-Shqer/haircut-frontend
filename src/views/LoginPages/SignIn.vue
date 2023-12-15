@@ -4,7 +4,7 @@
       <div class="col-xl-4 col-lg-8 logo text-center">
         <img src="../../assets/logoo.png" />
         <h6>صالون ذقن &amp; شعر</h6>
-        <h5 class="">إنشاء حساب جديد</h5>
+        <h4 class="">إنشاء حساب جديد</h4>
         <form class="input-icons">
           <label>اسم المستخدم</label>
           <div class="input-container">
@@ -89,19 +89,19 @@ export default {
   box-shadow: 0px 0px 50px 0px #00000040;
   border-radius: 0 8px 8px 0px;
 }
-.sigin h5 {
-  color: #3f51b5;
-  margin: 4vh 0;
-}
 .sigin h6 {
   color: #1a2669;
+}
+.sigin h4 {
+  color: #3f51b5;
+  text-align: right;
 }
 .sigin label {
   display: block;
   text-align: start;
   color: #1a2669;
   font-weight: 600;
-  margin: 3vh 0 1vh;
+  margin: 2vh 0;
 }
 .input-container {
   border: 1px solid #c8c9cc;

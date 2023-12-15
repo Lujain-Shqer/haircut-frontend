@@ -172,7 +172,7 @@ export default {
 }
 .sundry {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .sundry h4 {
   color: #3f51b5;

@@ -4,7 +4,7 @@
       <div class="col-xl-4 col-lg-8 logo text-center">
         <img src="../../assets/logoo.png" />
         <h6>صالون ذقن &amp; شعر</h6>
-        <h5>اختر الفرع لدخول عالمك</h5>
+        <h4>اختر الفرع لدخول عالمك</h4>
         <div class="card">
           <router-link
             to="/ControlBoard"
@@ -80,9 +80,10 @@ export default {
 .branch h6 {
   color: #1a2669;
 }
-.branch h5 {
+.branch h4 {
   color: #3f51b5;
-  margin: 5vh 0 10vh;
+  margin: 3vh 0;
+  font-size: 3vmin;
 }
 
 .branch .card {

@@ -81,7 +81,7 @@ export default {
 
 .newReservation1 {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 
 .newReservation1 h4 {

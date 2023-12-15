@@ -110,7 +110,7 @@ export default {
 }
 .salafiyatDiscounts {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .salafiyatDiscounts h4,
 h6 {
@@ -266,4 +266,8 @@ tfoot svg {
     width: 230%;
   }
 }
+.control_wrapper {
+    width: auto !important;
+    float: none !important;
+  }
 </style>

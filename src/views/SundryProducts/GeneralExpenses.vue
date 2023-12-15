@@ -221,7 +221,7 @@ export default {
 }
 .expenses {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .expenses h4 {
   color: #3f51b5;

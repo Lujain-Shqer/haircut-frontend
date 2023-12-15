@@ -196,7 +196,7 @@ export default {
 }
 .productsPurchases {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .productsPurchases h4 {
   color: #3f51b5;

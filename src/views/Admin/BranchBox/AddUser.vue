@@ -107,7 +107,7 @@ export default {
 }
 .addUser {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .addUser h4 {
   color: #3f51b5;

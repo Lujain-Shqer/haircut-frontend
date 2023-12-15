@@ -228,7 +228,7 @@ export default {
 </script>
 <style scoped>
 .control_wrapper {
-  position: fixed;
+  position: absolute;
   z-index: 1111111111111;
   margin: auto;
   width: 100%;
@@ -241,7 +241,7 @@ export default {
 }
 .cashierWithdraw {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .cashierWithdraw h4 {
   color: #3f51b5;
@@ -405,4 +405,8 @@ tfoot svg {
     width: 250%;
   }
 }
+.control_wrapper {
+    width: auto !important;
+    float: none !important;
+  }
 </style>

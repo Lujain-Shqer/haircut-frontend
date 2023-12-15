@@ -110,7 +110,7 @@ export default {
 
 .updateAdvances {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 
 .updateAdvances h4 {

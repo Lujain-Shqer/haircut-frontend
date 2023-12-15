@@ -83,7 +83,7 @@ export default {
 }
 .updateSundry {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .updateSundry h4 {
   color: #3f51b5;

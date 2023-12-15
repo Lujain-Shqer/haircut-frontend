@@ -79,7 +79,7 @@ export default {
 }
 .closingAccounts {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .closingAccounts h4 {
   color: #3f51b5;
@@ -190,4 +190,8 @@ tr {
     width: 230%;
   }
 }
+.control_wrapper {
+    width: auto !important;
+    float: none !important;
+  }
 </style>

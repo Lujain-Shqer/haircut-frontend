@@ -117,7 +117,7 @@ export default {
 }
 .totalEmployee {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .totalEmployee h4,
 .totalEmployee h6 {
@@ -282,4 +282,8 @@ tfoot svg {
     width: 230%;
   }
 }
+.control_wrapper {
+    width: auto !important;
+    float: none !important;
+  }
 </style>

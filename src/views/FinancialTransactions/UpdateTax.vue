@@ -148,7 +148,7 @@ export default {
 }
 .UpdateTax {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .UpdateTax h4 {
   color: #3f51b5;

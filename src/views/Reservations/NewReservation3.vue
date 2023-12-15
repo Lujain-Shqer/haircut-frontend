@@ -8,7 +8,7 @@
       </p>
       <h6 class="first-step">الخطوة الثالثة:</h6>
       <span>اضغط على تاريخ الحجز لتكون بالفاتورة من حيث المواعيد . </span>
-      <div class="control_wrapper">
+      <div class="control_wrapper cont">
         <ejs-calendar
           :isMultiSelection="isMultiSelection"
           @change="handleDateChange"
@@ -131,7 +131,7 @@ export default {
 }
 .newReservation3 {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .newReservation3 h4 {
   color: #3f51b5;
@@ -231,21 +231,25 @@ export default {
   .newReservation3 .control-table {
     overflow-x: auto;
   }
+  .e-calendar {
+    width: auto !important;
+  }
 }
 
 @import "../../../node_modules/@syncfusion/ej2-base/styles/material.css";
 @import "../../../node_modules/@syncfusion/ej2-buttons/styles/material.css";
 @import "../../../node_modules/@syncfusion/ej2-vue-calendars/styles/material.css";
 .control_wrapper {
-  width: 400px;
+  width: 400px auto !important;
   margin: 2vh auto;
 }
 .e-calendar {
   width: 350px;
-  max-width: none;
+  max-width: 400px;
   box-shadow: 0px 0px 8px 0px #00000040;
   padding: 0 1vh;
   border-radius: 10px;
+  margin: 2vh auto !important;
 }
 .control_wrapper .e-calendar .e-header .e-title,
 .e-bigger.e-small .e-calendar .e-header .e-title {
@@ -281,6 +285,7 @@ export default {
   color: #757de8 !important;
   font-weight: 700;
   text-transform: uppercase;
+  background: none !important;
 }
 .e-calendar table tbody tr td {
   color: #3f51b5;
@@ -328,5 +333,14 @@ export default {
 }
 .app ~ div {
   display: none !important;
+}
+.cont {
+  margin: auto !important;
+  float: none !important;
+  display: contents;
+}
+.cont .e-calendar .e-header.e-month,
+.e-bigger.e-small .e-calendar .e-header.e-month {
+  margin-bottom: -8vh;
 }
 </style>

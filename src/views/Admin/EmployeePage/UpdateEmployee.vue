@@ -200,7 +200,7 @@ export default {
 }
 .updateEmployee {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .updateEmployee h4 {
   color: #3f51b5;

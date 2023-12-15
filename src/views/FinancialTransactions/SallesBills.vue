@@ -206,7 +206,7 @@ export default {
 }
 .sallesBills {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .sallesBills h4 {
   color: #3f51b5;

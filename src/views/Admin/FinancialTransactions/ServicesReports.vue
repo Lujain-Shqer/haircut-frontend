@@ -146,7 +146,7 @@ export default {
 }
 .servicesReports {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .servicesReports h4,
 h5 {

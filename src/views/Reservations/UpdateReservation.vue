@@ -238,7 +238,7 @@ export default {
 
 .updateReservation {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 
 .updateReservation h4 {

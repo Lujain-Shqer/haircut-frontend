@@ -79,7 +79,7 @@ export default {
 }
 .addExpenses {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .addExpenses h4 {
   color: #3f51b5;

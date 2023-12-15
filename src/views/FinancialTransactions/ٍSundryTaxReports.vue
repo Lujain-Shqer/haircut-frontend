@@ -198,7 +198,7 @@ export default {
 }
 .SundryTaxReport {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .SundryTaxReport h4 {
   color: #3f51b5;
@@ -348,4 +348,8 @@ tfoot svg {
     width: 260%;
   }
 }
+.control_wrapper {
+    width: auto !important;
+    float: none !important;
+  }
 </style>

@@ -472,7 +472,7 @@ export default {
 }
 .powersPage {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .powersPage h4 {
   color: #3f51b5;

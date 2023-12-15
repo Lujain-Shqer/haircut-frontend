@@ -161,7 +161,7 @@ export default {
 }
 .updateAppoinments {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .updateAppoinments h4 {
   color: #3f51b5;
@@ -251,10 +251,14 @@ export default {
   margin-top: 5vh;
   padding: 1vh 4vh;
 }
+.updateAppoinments input {
+    margin-bottom: 2vh;
+  }
 
 @media (max-width: 991px) {
   .updateAppoinments input {
-    width: 100%;
+    width: 13%;
+    margin-bottom: 2vh;
   }
   .updateAppoinments button {
     width: 95%;

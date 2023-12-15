@@ -249,7 +249,7 @@ export default {
   width: 100%;
 }
 .writeBar {
-  width: 80%;
+  width: 77%;
   float: left;
 }
 .container {

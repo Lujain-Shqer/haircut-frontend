@@ -118,7 +118,7 @@ export default {
 }
 .updateDiscounts {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .updateDiscounts h4 {
   color: #3f51b5;

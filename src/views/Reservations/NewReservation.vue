@@ -102,11 +102,13 @@
   </div>
 </template>
 <script>
+import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
 import PaginationFoot from "/src/components/PaginationFoot.vue";
 export default {
   name: "NewReservation",
   components: {
     PaginationFoot,
+    "ejs-calendar": CalendarComponent,
   },
   data() {
     return {
@@ -234,9 +236,9 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style>
 .control_wrapper {
-  position: fixed;
+  position: absolute;
   z-index: 1111111111111;
   margin: auto;
   width: 100%;
@@ -250,7 +252,7 @@ export default {
 }
 .NewReservation {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .NewReservation h4,
 h5 {

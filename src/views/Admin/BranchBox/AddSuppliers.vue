@@ -77,7 +77,7 @@ export default {
 }
 .addSuppliers {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 .addSuppliers h4 {
   color: #3f51b5;

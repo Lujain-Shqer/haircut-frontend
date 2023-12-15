@@ -125,7 +125,7 @@ export default {
 
 .addAdvances {
   direction: rtl;
-  width: 80%;
+  width: 77%;
 }
 
 .addAdvances h4 {
