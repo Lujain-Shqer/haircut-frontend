@@ -39,4 +39,36 @@ export default {
   position: relative;
   background: #fff;
 }
+@media (max-width: 991px) {
+  .table {
+    width: 150% !important;
+  }
+  .extra-table {
+    width: 130% !important;
+  }
+}
+@media (max-width: 765px) {
+  .table {
+    width: 220% !important;
+  }
+  .extra-table {
+    width: 200% !important;
+  }
+  .table .search {
+    float: none !important;
+    display: inline-block !important;
+  }
+  .extra-table button {
+    float: none !important;
+    margin: 0 5px;
+  }
+}
+@media (max-width: 540px) {
+  .extra-table {
+    width: 260% !important;
+  }
+  .table {
+    width: 280% !important;
+  }
+}
 </style>

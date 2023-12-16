@@ -214,12 +214,12 @@ tfoot svg {
   .employeesalary {
     width: 70%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 185%;
   }
   .table {
     width: 205%;
-  }
+  } */
 }
 @media (max-width: 765px) {
   /* .container {
@@ -228,21 +228,21 @@ tfoot svg {
   .employeesalary {
     width: 100%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 175%;
   }
   .table {
     width: 192%;
-  }
+  } */
 }
-@media (max-width: 540px) {
+/* @media (max-width: 540px) {
   .extra-table {
     width: 255%;
   }
   .table {
     width: 276%;
-  }
-}
+  } */
+/* } */
 .control_wrapper {
   width: auto !important;
   float: none !important;

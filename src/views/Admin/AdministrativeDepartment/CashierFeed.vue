@@ -371,34 +371,28 @@ tfoot svg {
 }
 
 @media (max-width: 991px) {
-  .extra-table {
+  /* .extra-table {
     width: 160%;
   }
   .table {
     width: 170%;
-  }
+  } */
   .cashierFeed {
     width: 70%;
   }
 }
 @media (max-width: 765px) {
-  .extra-table {
+  /* .extra-table {
     width: 180%;
   }
   .table {
     width: 192%;
-  }
+  } */
   .cashierFeed {
     width: 100%;
   }
 }
 @media (max-width: 540px) {
-  .extra-table {
-    width: 220%;
-  }
-  .table {
-    width: 250%;
-  }
 }
 .control_wrapper {
   width: auto !important;

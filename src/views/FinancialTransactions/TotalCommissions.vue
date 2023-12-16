@@ -9,11 +9,6 @@
       </p>
       <div class="all-table" style="overflow-x: auto">
         <div class="row extra-table">
-          <button class="btn">EXCEL</button>
-          <div class="container">
-            <fa icon="coins" />
-            <span>تقرير إجمالي العمولات</span>
-          </div>
           <div class="input-container">
             <fa icon="search" />
             <input
@@ -24,6 +19,7 @@
               @keyup.enter="search"
             />
           </div>
+          <button class="btn">EXCEL</button>
         </div>
         <div class="control_wrapper" v-show="isComponentVisible">
           <ejs-calendar></ejs-calendar>
@@ -242,21 +238,14 @@ export default {
   margin-bottom: 3vh;
   display: flow-root;
 }
-.totalCommissions .container {
-  width: auto;
-  float: right;
-  display: inline;
-  color: #3f51b5;
-  padding: 1vh;
-  font-weight: 500;
-}
 .totalCommissions .input-container {
   border: 1px solid #c8c9cc;
   box-shadow: 0px 0px 4px 0px #6e49cb33;
   border-radius: 8px;
   width: auto;
-  float: left;
+  float: right;
   display: inline;
+  float: right;
   color: #3f51b5;
   padding: 1vh;
 }
@@ -281,10 +270,10 @@ export default {
 
 .totalCommissions .extra-table button {
   width: auto;
-  margin-right: 10px;
   float: left;
   background: #3f51b5;
   color: #fff;
+  margin-right: 2vh;
 }
 .totalCommissions .extra-table button:first-of-type,
 .totalCommissions .extra-table button:last-of-type {
@@ -355,22 +344,20 @@ tfoot svg {
   .totalCommissions select {
     width: 50%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 180%;
   }
   .table {
     width: 192%;
-  }
+  } */
 }
 @media (max-width: 765px) {
   .totalCommissions {
     width: 100%;
   }
-  .extra-table {
-    width: 175%;
-  }
-  .table {
-    width: 192%;
+  .extra-table button {
+    float: right !important;
+    margin: 0 5px;
   }
 }
 
@@ -378,11 +365,11 @@ tfoot svg {
   .totalCommissions select {
     width: 80%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 230%;
   }
   .table {
     width: 250%;
-  }
+  } */
 }
 </style>

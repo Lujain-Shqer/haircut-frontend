@@ -325,13 +325,13 @@ export default {
     width: 70%;
   }
 
-  .extra-table {
+  /* .extra-table {
     width: 130%;
   }
 
   .table {
     width: 140%;
-  }
+  } */
 }
 
 @media (max-width: 765px) {
@@ -339,22 +339,22 @@ export default {
     width: 100%;
   }
 
-  .extra-table {
+  /* .extra-table {
     width: 170%;
   }
 
   .table {
     width: 182%;
-  }
+  } */
 }
 
 @media (max-width: 540px) {
-  .extra-table {
+  /* .extra-table {
     width: 210%;
   }
 
   .table {
     width: 230%;
-  }
+  } */
 }
 </style>

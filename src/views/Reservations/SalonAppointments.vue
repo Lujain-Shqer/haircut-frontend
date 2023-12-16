@@ -194,35 +194,35 @@ tr {
   .salonAppointment select {
     width: 50%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 180%;
   }
   .table {
     width: 192%;
-  }
+  } */
 }
 @media (max-width: 765px) {
   .salonAppointment {
     width: 100%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 175%;
   }
   .table {
     width: 192%;
-  }
+  } */
 }
 
 @media (max-width: 540px) {
   .salonAppointment select {
     width: 80%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 260%;
   }
   .table {
     width: 280%;
-  }
+  } */
   .salonAppointment table .update {
     margin: 0;
   }

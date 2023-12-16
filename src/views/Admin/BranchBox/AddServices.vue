@@ -307,35 +307,35 @@ export default {
   .addServices {
     width: 70%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 180%;
   }
   .table {
     width: 192%;
-  }
+  } */
 }
 @media (max-width: 765px) {
   .addServices {
     width: 100%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 175%;
   }
   .table {
     width: 192%;
-  }
+  } */
   .addServices .first-step ~ input {
     width: 100%;
   }
 }
 
 @media (max-width: 540px) {
-  .extra-table {
+  /* .extra-table {
     width: 210%;
   }
   .table {
     width: 230%;
-  }
+  } */
 }
 
 .services {

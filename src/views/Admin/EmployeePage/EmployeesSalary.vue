@@ -238,35 +238,35 @@ tfoot svg {
   .employeeSalary select {
     width: 50%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 180%;
   }
   .table {
     width: 192%;
-  }
+  } */
 }
 @media (max-width: 765px) {
   .employeeSalary {
     width: 100%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 175%;
   }
   .table {
     width: 192%;
-  }
+  } */
 }
 
 @media (max-width: 540px) {
   .employeeSalary select {
     width: 80%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 210%;
   }
   .table {
     width: 230%;
-  }
+  } */
 }
 .control_wrapper {
   width: auto !important;

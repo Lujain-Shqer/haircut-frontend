@@ -401,13 +401,13 @@ tfoot svg {
     width: 70%;
   }
 
-  .extra-table {
+  /* .extra-table {
     width: 130%;
   }
 
   .table {
     width: 140%;
-  }
+  } */
 }
 
 @media (max-width: 765px) {
@@ -415,23 +415,23 @@ tfoot svg {
     width: 100%;
   }
 
-  .extra-table {
+  /* .extra-table {
     width: 170%;
   }
 
   .table {
     width: 182%;
-  }
+  } */
 }
 
 @media (max-width: 540px) {
-  .extra-table {
+  /* .extra-table {
     width: 210%;
   }
 
   .table {
     width: 230%;
-  }
+  } */
 }
 .control_wrapper {
   width: auto !important;

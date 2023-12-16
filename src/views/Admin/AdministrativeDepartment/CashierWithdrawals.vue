@@ -256,7 +256,6 @@ export default {
   margin: 0 4vh;
   margin-bottom: 3vh;
   display: flow-root;
-  width: 100%;
 }
 .cashierWithdraw .search {
   width: auto;
@@ -378,34 +377,34 @@ tfoot svg {
 }
 
 @media (max-width: 991px) {
-  .extra-table {
+  /* .extra-table {
     width: 160%;
   }
   .table {
     width: 170%;
-  }
+  } */
   .cashierWithdraw {
     width: 70%;
   }
 }
 @media (max-width: 765px) {
-  .extra-table {
+  /* .extra-table {
     width: 180%;
   }
   .table {
     width: 192%;
-  }
+  } */
   .cashierWithdraw {
     width: 100%;
   }
 }
 @media (max-width: 540px) {
-  .extra-table {
+  /* .extra-table {
     width: 220%;
   }
   .table {
     width: 250%;
-  }
+  } */
 }
 .control_wrapper {
   width: auto !important;

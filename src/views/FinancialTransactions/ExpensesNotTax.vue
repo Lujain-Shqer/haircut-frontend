@@ -3,8 +3,10 @@
     <div class="container">
       <h4>المصاريف العمومية الغير خاضعة للضريبة</h4>
       <p>
-        المصاريف التي يمكن خصمها من الإيرادات الخاضعة للضرائب لغرض حساب الضرائب
-        الصافية.
+        المصاريف العامة غير الخاضعة للضرائب تشمل النفقات التي لا تخضع للضرائب
+        على القيمة المضافة (VAT) أو ضرائب أخرى مماثلة. هذه المصاريف تشمل عادة
+        النفقات التي يتم دفعها بشكل منتظم لتشغيل العمل دون أن تكون جزءًا من
+        الإيرادات المفرج عنها.
       </p>
       <div class="control-table" style="overflow-x: auto">
         <div class="row extra-table">
@@ -293,30 +295,30 @@ export default {
   .expensesNotTax {
     width: 70%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 130%;
   }
   .table {
     width: 140%;
-  }
+  } */
 }
 @media (max-width: 765px) {
   .expensesNotTax {
     width: 100%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 170%;
   }
   .table {
     width: 182%;
-  }
+  } */
 }
 @media (max-width: 540px) {
-  .extra-table {
+  /* .extra-table {
     width: 210%;
   }
   .table {
     width: 230%;
-  }
+  } */
 }
 </style>

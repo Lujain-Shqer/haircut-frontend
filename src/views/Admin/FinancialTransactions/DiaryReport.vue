@@ -9,6 +9,16 @@
 
       <div class="all-table" style="overflow-x: auto">
         <div class="row extra-table">
+          <div class="input-container">
+            <fa icon="search" />
+            <input
+              class="input-field"
+              type="text"
+              placeholder="البحث عن..."
+              v-model="searchQuery"
+              @keyup.enter="search"
+            />
+          </div>
           <button class="btn">EXCEL</button>
           <button class="btn" @click="search">بحث بالتاريخ</button>
           <button class="btn" @click="showComponent">
@@ -238,7 +248,6 @@ h5 {
 .DiaryReport .input-container svg {
   padding-left: 0.2vh;
 }
-
 .DiaryReport .extra-table button {
   width: auto;
   margin-right: 10px;
@@ -313,32 +322,32 @@ tfoot svg {
     width: 70%;
   }
 
-  .extra-table {
+  /* .extra-table {
     width: 180%;
   }
   .table {
     width: 192%;
-  }
+  } */
 }
 @media (max-width: 765px) {
   .DiaryReport {
     width: 100%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 175%;
   }
   .table {
     width: 192%;
-  }
+  } */
 }
 
 @media (max-width: 540px) {
-  .extra-table {
+  /* .extra-table {
     width: 210%;
   }
   .table {
     width: 230%;
-  }
+  } */
 }
 .control_wrapper {
   width: auto !important;

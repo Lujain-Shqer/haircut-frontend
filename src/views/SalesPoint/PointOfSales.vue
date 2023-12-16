@@ -620,36 +620,36 @@ tr {
   .pointOfSales {
     width: 70%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 180%;
   }
   .table {
     width: 192%;
-  }
+  } */
 }
 @media (max-width: 765px) {
   .pointOfSales {
     width: 100%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 175%;
   }
   .table {
     width: 192%;
-  }
+  } */
   .services .header .chosse-serv {
     width: auto !important;
   }
 }
 
 @media (max-width: 540px) {
-  .extra-table {
+  /* .extra-table {
     width: 210%;
   }
   .table {
     width: 230%;
-  }
-  .services .header button{
+  } */
+  .services .header button {
     float: right !important;
   }
 }

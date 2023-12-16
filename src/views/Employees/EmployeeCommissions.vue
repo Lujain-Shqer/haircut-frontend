@@ -243,38 +243,59 @@ tfoot svg {
   color: #fff;
   cursor: pointer;
 }
-
-@media (max-width: 991px) {
-  .extra-table {
-    width: 140% !important;
-  }
+@media (max-width: 1200px) {
   .table {
-    width: 165% !important;
+    width: 130% !important;
+  }
+  .extra-table {
+    width: 110% !important;
+  }
+}
+@media (max-width: 991px) {
+  .table {
+    width: 170% !important;
+  }
+  .extra-table {
+    width: 150% !important;
   }
   .employeeCommissions {
     width: 70%;
   }
 }
 @media (max-width: 765px) {
-  .extra-table {
-    width: 170% !important;
-  }
-  .table {
-    width: 182% !important;
-  }
   .employeeCommissions {
     width: 100%;
   }
+  .table {
+    width: 220% !important;
+  }
+  .extra-table {
+    width: 200% !important;
+  }
+  .table .search {
+    float: none !important;
+    display: inline-block !important;
+  }
+  .extra-table button {
+    float: none !important;
+    margin: 0 5px;
+  }
 }
 @media (max-width: 540px) {
-  .extra-table {
-    width: 240% !important;
-  }
-  .table {
-    width: 260% !important;
-  }
   .employeeCommissions table .update {
     margin-top: 1vh;
+  }
+  .extra-table {
+    width: 250% !important;
+  }
+  .table {
+    width: 270% !important;
+  }
+  .extra-table {
+    width: 250% !important;
+  }
+  .table {
+    width: 270% !important;
   }
 }
 </style>

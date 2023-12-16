@@ -3,9 +3,8 @@
     <div class="container">
       <h4>مشتريات المنتجات</h4>
       <p>
-        يعتمدون على خبرة الحلاق في تلبية توقعاتهم وجعلهم يشعرون بالارتياح
-        بمظهرهم الجديد. تلعب العلاقة الجيدة بين الحلاق والعميل دورًا مهمًا في
-        تحقيق رضا الزبون وإعادته لزيارات متكررة.
+        مشتريات المنتجات في نظام إدارة صالون الحلاقة تمثل عملية شراء المواد
+        والمستلزمات اللازمة لتشغيل الصالون. يتضمن هذا العمل
       </p>
       <div class="control-table" style="overflow-x: auto">
         <div class="row extra-table">
@@ -301,30 +300,30 @@ tfoot svg {
   .productsPurchases {
     width: 70%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 130%;
   }
   .table {
     width: 140%;
-  }
+  } */
 }
 @media (max-width: 765px) {
   .productsPurchases {
     width: 100%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 170%;
   }
   .table {
     width: 182%;
-  }
+  } */
 }
 @media (max-width: 540px) {
-  .extra-table {
+  /* .extra-table {
     width: 210%;
   }
   .table {
     width: 230%;
-  }
+  } */
 }
 </style>

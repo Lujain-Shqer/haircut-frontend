@@ -3,7 +3,9 @@
     <div class="container">
       <h4>المشتريات النثرية</h4>
       <p>
-        التي تشمل الخدمات والمنتجات التي تعزز تجربة العميل وتجعلها فاخرة ومريحة
+        المشتريات النثرية تشير إلى عمليات الشراء التي تتم بدون تخطيط مسبق أو
+        بشكل عشوائي دون مراعاة دقيقة للكميات أو المواصفات. في سياق إدارة صالون
+        الحلاقة
       </p>
       <div class="control-table" style="overflow-x: auto">
         <div class="row extra-table">
@@ -296,30 +298,30 @@ tfoot svg {
   .sundryPurchases {
     width: 70%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 130%;
   }
   .table {
     width: 140%;
-  }
+  } */
 }
 @media (max-width: 765px) {
   .sundryPurchases {
     width: 100%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 170%;
   }
   .table {
     width: 182%;
-  }
+  } */
 }
 @media (max-width: 540px) {
-  .extra-table {
+  /* .extra-table {
     width: 210%;
   }
   .table {
     width: 230%;
-  }
+  } */
 }
 </style>

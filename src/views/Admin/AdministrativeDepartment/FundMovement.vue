@@ -291,10 +291,6 @@ tfoot svg {
   cursor: pointer;
 }
 
-/* .fundMovement table tfoot td:last-of-type {
-  text-align: end;
-  padding-left: 5vh;
-} */
 .fundMovement .feed-the-box {
   margin: 8vh 0 3vh;
   border: 1px solid #3f51b5;
@@ -339,15 +335,28 @@ tfoot svg {
   margin: auto;
   margin-top: 5vh;
 }
-@media (max-width: 991px) {
-  .extra-table {
-    width: 210% !important;
-  }
+
+.control_wrapper {
+  width: auto !important;
+  float: none !important;
+}
+@media (max-width: 1300px) {
   .table {
-    width: 220% !important;
+    width: 150% !important;
   }
+  .fundMovement .extra-table {
+    width: 140% !important;
+  }
+}
+@media (max-width: 991px) {
   .fundMovement {
     width: 70%;
+  }
+  .table {
+    width: 200% !important;
+  }
+  .fundMovement .extra-table {
+    width: 190% !important;
   }
 }
 @media (max-width: 765px) {
@@ -358,23 +367,10 @@ tfoot svg {
     width: auto !important;
     float: none !important;
   }
-  .extra-table {
-    width: 260% !important;
-  }
-  .table {
-    width: 270% !important;
-  }
 }
 @media (max-width: 540px) {
-  .extra-table {
-    width: 285% !important;
+  .search {
+    margin-bottom: 2vh !important;
   }
-  .table {
-    width: 300% !important;
-  }
-}
-.control_wrapper {
-  width: auto !important;
-  float: none !important;
 }
 </style>

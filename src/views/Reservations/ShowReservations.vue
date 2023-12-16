@@ -210,12 +210,12 @@ h5 {
   .showReservations {
     width: 70%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 200% !important;
   }
   .table {
     width: 210% !important;
-  }
+  } */
   .e-schedule .e-table-container,
   .e-schedule-toolbar-container {
     width: 150%;
@@ -226,12 +226,12 @@ h5 {
   .showReservations {
     width: 100%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 230% !important;
   }
   .table {
     width: 250% !important;
-  }
+  } */
   .e-schedule .e-table-container,
   .e-schedule-toolbar-container {
     width: 200%;

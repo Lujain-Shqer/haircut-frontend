@@ -3,9 +3,9 @@
     <div class="container">
       <h4>الخصومات والسلفيات</h4>
       <p>
-        تعتبر وثائق مالية تُستخدم لتوثيق عمليات البيع بصالون حلاقة خاص بك. تحتوي
-        فاتورة المبيعات عادةً على معلومات مهمة تتعلق بالخدمات التي تم بيعها
-        والمبلغ المستحق للدفع.
+        السلفيات هي مبالغ مالية تُعطى للعملاء أو الموظفين مقدمًا قبل تقديم
+        الخدمة أو السلعة المقابلة. هذه المبالغ تُمنح عادة كجزء من اتفاق مسبق بين
+        الطرفين ويجري تحصيلها في وقت لاحق.
       </p>
       <h6>
         لإظهار بيانات الخاص بالخصومات والسلفيات يلزم اختيار المراد البحث عنه
@@ -236,35 +236,35 @@ tfoot svg {
   .salafiyatDiscounts select {
     width: 50%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 180%;
   }
   .table {
     width: 192%;
-  }
+  } */
 }
 @media (max-width: 765px) {
   .salafiyatDiscounts {
     width: 100%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 175%;
   }
   .table {
     width: 192%;
-  }
+  } */
 }
 
 @media (max-width: 540px) {
   .salafiyatDiscounts select {
     width: 80%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 210%;
   }
   .table {
     width: 230%;
-  }
+  } */
 }
 .control_wrapper {
   width: auto !important;

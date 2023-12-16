@@ -317,31 +317,31 @@ tfoot svg {
   .taxReport {
     width: 70%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 130%;
   }
   .table {
     width: 140%;
-  }
+  } */
 }
 @media (max-width: 765px) {
   .taxReport {
     width: 100%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 170%;
   }
   .table {
     width: 182%;
-  }
+  } */
 }
 @media (max-width: 540px) {
-  .extra-table {
+  /* .extra-table {
     width: 240%;
   }
   .table {
     width: 260%;
-  }
+  } */
 }
 .control_wrapper {
   width: auto !important;

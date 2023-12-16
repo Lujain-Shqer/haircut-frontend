@@ -312,30 +312,29 @@ tfoot svg {
   .sallesBills {
     width: 70%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 200% !important;
   }
   .table {
     width: 210% !important;
-  }
+  } */
 }
 @media (max-width: 765px) {
   .sallesBills {
     width: 100%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 230% !important;
   }
   .table {
     width: 250% !important;
-  }
+  } */
 }
 @media (max-width: 540px) {
-  .extra-table {
+  /* .extra-table {
     width: 300% !important;
   }
   .table {
-    /* width: 230%; */
-  }
+  } */
 }
 </style>

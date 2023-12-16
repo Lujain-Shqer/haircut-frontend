@@ -3,8 +3,8 @@
     <div class="container">
       <h4>المصاريف العمومية خاضعة للضريبة</h4>
       <p>
-        يتم تضمينها في حساب الإيرادات الإجمالية للفرد أو الشركة لغرض حساب
-        الضرائب عليها.
+        المصاريف العمومية التي تخضع للضرائب عادة تشمل النفقات التي يتم تطبيق
+        ضريبة عليها، مثل ضريبة القيمة المضافة (VAT) أو ضرائب مبيعات أخرى.
       </p>
       <div class="control-table" style="overflow-x: auto">
         <div class="row extra-table">
@@ -294,30 +294,30 @@ tfoot svg {
   .expensesTax {
     width: 70%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 130%;
   }
   .table {
     width: 140%;
-  }
+  } */
 }
 @media (max-width: 765px) {
   .expensesTax {
     width: 100%;
   }
-  .extra-table {
+  /* .extra-table {
     width: 170%;
   }
   .table {
     width: 182%;
-  }
+  } */
 }
 @media (max-width: 540px) {
-  .extra-table {
+  /* .extra-table {
     width: 210%;
   }
   .table {
     width: 230%;
-  }
+  } */
 }
 </style>
