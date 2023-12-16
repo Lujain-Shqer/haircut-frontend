@@ -48,7 +48,7 @@
           <span></span>
         </div>
 
-        <router-link to="/signin">
+        <router-link to="/">
           <button class="btn btn-block signup">
             إنشاء حساب جديد
           </button></router-link

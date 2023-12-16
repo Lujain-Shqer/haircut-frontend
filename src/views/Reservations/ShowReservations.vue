@@ -202,19 +202,39 @@ h5 {
 .e-dlg-container {
   display: none !important;
 }
-
 .e-schedule {
+  overflow-x: auto;
 }
 
 @media (max-width: 991px) {
   .showReservations {
     width: 70%;
   }
+  .extra-table {
+    width: 200% !important;
+  }
+  .table {
+    width: 210% !important;
+  }
+  .e-schedule .e-table-container,
+  .e-schedule-toolbar-container {
+    width: 150%;
+  }
 }
 
 @media (max-width: 765px) {
   .showReservations {
     width: 100%;
+  }
+  .extra-table {
+    width: 230% !important;
+  }
+  .table {
+    width: 250% !important;
+  }
+  .e-schedule .e-table-container,
+  .e-schedule-toolbar-container {
+    width: 200%;
   }
 }
 

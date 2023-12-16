@@ -649,6 +649,9 @@ tr {
   .table {
     width: 230%;
   }
+  .services .header button{
+    float: right !important;
+  }
 }
 
 .services {

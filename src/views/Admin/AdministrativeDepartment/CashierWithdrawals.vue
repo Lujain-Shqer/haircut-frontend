@@ -256,6 +256,7 @@ export default {
   margin: 0 4vh;
   margin-bottom: 3vh;
   display: flow-root;
+  width: 100%;
 }
 .cashierWithdraw .search {
   width: auto;
@@ -321,6 +322,7 @@ export default {
   margin-bottom: 0;
   border: 1px solid #3f51b5;
   text-align: center;
+  width: 100%;
 }
 .cashierWithdraw table tfoot {
   border-radius: 8px;
@@ -406,7 +408,7 @@ tfoot svg {
   }
 }
 .control_wrapper {
-    width: auto !important;
-    float: none !important;
-  }
+  width: auto !important;
+  float: none !important;
+}
 </style>

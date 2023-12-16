@@ -188,7 +188,6 @@ export default {
   margin: 0 4vh;
   margin-bottom: 3vh;
   display: flow-root;
-  width: 120%;
 }
 .fundMovement .search {
   width: auto;
@@ -227,20 +226,19 @@ export default {
   text-align: start;
 }
 .fundMovement .extra-table button {
-  width: auto;
   float: left;
+  width: auto;
 }
-.fundMovement .extra-table button:first-of-type {
+.fundMovement .extra-table button:last-of-type {
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
 }
-.fundMovement .extra-table button:last-of-type {
+.fundMovement .extra-table button:first-of-type {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
   margin-right: 5px;
-  margin-left: 2vh;
 }
 .fundMovement .all-table {
   margin-top: 5vh;
@@ -253,7 +251,6 @@ export default {
 .fundMovement table {
   margin-bottom: 0;
   border: 1px solid #3f51b5;
-  width: 130%;
   text-align: center;
 }
 .fundMovement table tfoot {
@@ -344,7 +341,7 @@ tfoot svg {
 }
 @media (max-width: 991px) {
   .extra-table {
-    width: 200% !important;
+    width: 210% !important;
   }
   .table {
     width: 220% !important;
@@ -361,10 +358,16 @@ tfoot svg {
     width: auto !important;
     float: none !important;
   }
+  .extra-table {
+    width: 260% !important;
+  }
+  .table {
+    width: 270% !important;
+  }
 }
 @media (max-width: 540px) {
   .extra-table {
-    width: 280% !important;
+    width: 285% !important;
   }
   .table {
     width: 300% !important;

@@ -260,7 +260,7 @@ tfoot svg {
   }
 }
 .control_wrapper {
-    width: auto !important;
-    float: none !important;
-  }
+  width: auto !important;
+  float: none !important;
+}
 </style>

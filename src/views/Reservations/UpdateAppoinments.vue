@@ -252,8 +252,8 @@ export default {
   padding: 1vh 4vh;
 }
 .updateAppoinments input {
-    margin-bottom: 2vh;
-  }
+  margin-bottom: 2vh;
+}
 
 @media (max-width: 991px) {
   .updateAppoinments input {
