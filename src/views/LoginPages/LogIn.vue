@@ -86,7 +86,7 @@ export default {
       event.preventDefault();
       this.isLoading = true;
       // const hostName = inject("hostName");
-      fetch("http://127.0.0.1:8001/api/login", {
+      fetch("https://www.setrex.net/haircut/backend/public/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -101,7 +101,6 @@ export default {
           if (response.ok) {
             return response.json();
           } else {
-            // console.log(this.hostName);
             throw new Error("فشل تسجيل الدخول (المعلومات المدخلة خاطئة)");
           }
         })
@@ -121,6 +120,7 @@ export default {
           setTimeout(() => {
             this.errorMessage = "";
           }, 5000);
+          this.isLoading = false;
         });
     },
   },

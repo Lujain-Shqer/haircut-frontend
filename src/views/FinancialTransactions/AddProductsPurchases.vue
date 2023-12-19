@@ -41,7 +41,7 @@
               >
                 <img
                   :src="
-                    'http://127.0.0.1:8001/storage/product_images/' +
+                    'https://www.setrex.net/haircut/backend/public/storage/product_images/' +
                     product.image
                   "
                   alt="product"
@@ -85,7 +85,8 @@ export default {
   },
   mounted() {
     fetch(
-      "http://127.0.0.1:8001/api/supplier/" + localStorage.getItem("branch_id"),
+      "https://www.setrex.net/haircut/backend/public/api/supplier/" +
+        localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -98,7 +99,8 @@ export default {
       .then((data) => (this.allSuppliers = data))
       .catch((err) => console.log(err.message));
     fetch(
-      "http://127.0.0.1:8001/api/product/" + localStorage.getItem("branch_id"),
+      "https://www.setrex.net/haircut/backend/public/api/product/" +
+        localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -126,7 +128,7 @@ export default {
           this.errorMessage = "";
         }, 5000);
       } else {
-        fetch("http://127.0.0.1:8001/api/purchase", {
+        fetch("https://www.setrex.net/haircut/backend/public/api/purchase", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -210,14 +212,17 @@ export default {
   direction: rtl;
   width: 77%;
 }
+
 .AddProductsPurchases h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
+
 .AddProductsPurchases p {
   color: #1a2669;
   font-weight: 400;
 }
+
 .AddProductsPurchases .update-info-client {
   margin-top: 5vh 0;
   border: 1px solid #3f51b5;
@@ -225,17 +230,20 @@ export default {
   border-radius: 8px;
   padding: 5vh;
 }
+
 .AddProductsPurchases h6 {
   color: #3f51b5;
   font-weight: 700px;
   margin-bottom: 3vh;
 }
+
 .AddProductsPurchases label {
   display: block;
   margin-bottom: 2vh;
   margin-top: 2vh;
   color: #1a2669;
 }
+
 .AddProductsPurchases input,
 .AddProductsPurchases .form-selec {
   border: 1px solid #c8c9cc;
@@ -247,10 +255,12 @@ export default {
   color: #3f51b5;
   margin-top: 0;
 }
+
 .AddProductsPurchases input::placeholder,
 .AddProductsPurchases .form-select::placeholder {
   color: #c8c9cc;
 }
+
 .AddProductsPurchases button {
   background: #3f51b5;
   color: #fff;
@@ -258,32 +268,38 @@ export default {
   margin-right: 2vh;
   font-size: 2vh;
 }
+
 .AddProductsPurchases button.add {
   margin: auto;
   width: auto;
   margin-top: 5vh;
   padding: 1vh 4vh;
 }
+
 .error-message {
   display: block;
   padding: 1vh;
   text-align: start;
   color: red;
 }
+
 @media (max-width: 991px) {
   .AddProductsPurchases input,
   .AddProductsPurchases .form-selec {
     width: 100%;
   }
+
   .AddProductsPurchases button,
   .AddProductsPurchases button.add {
     width: auto;
     margin: 2vh auto;
   }
+
   .AddProductsPurchases {
     width: 70%;
   }
 }
+
 @media (max-width: 765px) {
   .AddProductsPurchases {
     width: 100%;
@@ -326,6 +342,7 @@ export default {
   text-align: center;
   color: #3f51b5;
 }
+
 .card:hover {
   border: 1px solid #1a2669;
   background: #ebedf7;
@@ -346,11 +363,13 @@ input {
     width: 16%;
   }
 }
+
 @media (max-width: 768px) {
   .card {
     width: 32%;
   }
 }
+
 @media (max-width: 580px) {
   .card {
     width: 40%;

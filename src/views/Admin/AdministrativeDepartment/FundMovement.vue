@@ -97,19 +97,29 @@
         <fa icon="coins" />
         <h6>تغذية صندوق الكاشير</h6>
         <p>
-          يمكنك إيداع مبلع في رصيد صندوق الكاشير بدون إقفال الحسابات وسيتم خصمه
+          يمكنك إيداع مبلغ في رصيد صندوق الكاشير بدون إقفال الحسابات وسيتم خصمه
           من رصيد صندوق الفرع
         </p>
-        <form class="row">
+        <form @submit="addFeed" class="row">
           <div class="col-lg-6 col-md-12">
             <label>مبلغ الإيداع </label>
-            <input type="text" placeholder="المبلغ " />
+            <input
+              type="text"
+              placeholder="المبلغ "
+              required
+              v-model="feed_info.amount"
+            />
           </div>
           <div class="col-lg-6 col-md-12">
             <label>البيان الإيداع </label>
-            <input type="text" placeholder="ادخل البيان" />
+            <input
+              type="text"
+              placeholder="ادخل البيان"
+              required
+              v-model="feed_info.state"
+            />
           </div>
-          <button class="btn">أضف المبلغ</button>
+          <button :disabled="isLoading1" class="btn">أضف المبلغ</button>
         </form>
       </div>
       <div class="feed-the-box">
@@ -119,16 +129,26 @@
           يمكنك سحب مبلغ من رصيد صدوق الكاشير بدون إقفال الحسابات وسيتم إضافته
           إلى رصيد صندوق الفرع
         </p>
-        <form class="row">
+        <form @submit="addDrawal" class="row">
           <div class="col-lg-6 col-md-12">
             <label>مبلغ الإيداع </label>
-            <input type="text" placeholder="المبلغ " />
+            <input
+              type="text"
+              placeholder="المبلغ "
+              required
+              v-model="drawal_info.amount"
+            />
           </div>
           <div class="col-lg-6 col-md-12">
             <label>البيان الإيداع </label>
-            <input type="text" placeholder="ادخل البيان" />
+            <input
+              type="text"
+              placeholder="ادخل البيان"
+              required
+              v-model="drawal_info.state"
+            />
           </div>
-          <button class="btn">سحب المبلغ</button>
+          <button :disabled="isLoading2" class="btn">سحب المبلغ</button>
         </form>
       </div>
     </div>
@@ -145,6 +165,16 @@ export default {
   data() {
     return {
       isComponentVisible: false,
+      isLoading1: false,
+      isLoading2: false,
+      feed_info: {
+        amount: "",
+        state: "",
+      },
+      drawal_info: {
+        amount: "",
+        state: "",
+      },
     };
   },
   methods: {
@@ -154,6 +184,50 @@ export default {
       } else {
         this.isComponentVisible = true;
       }
+    },
+    addFeed(event) {
+      event.preventDefault();
+      this.isLoading1 = true;
+      fetch("https://www.setrex.net/haircut/backend/public/api/deposit", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          branch_id: localStorage.getItem("branch_id"),
+          amount: this.feed_info.amount,
+          statement: this.feed_info.state,
+        }),
+      }).then((response) => {
+        this.isLoading1 = false;
+        if (response.ok) {
+          this.$router.push({ name: "CashierFeed" });
+          return response.json();
+        }
+      });
+    },
+    addDrawal(event) {
+      event.preventDefault();
+      this.isLoading2 = true;
+      fetch("https://www.setrex.net/haircut/backend/public/api/withdraw", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          branch_id: localStorage.getItem("branch_id"),
+          amount: this.drawal_info.amount,
+          statement: this.drawal_info.state,
+        }),
+      }).then((response) => {
+        this.isLoading2 = false;
+        if (response.ok) {
+          this.$router.push({ name: "CashierWithdrawals" });
+          return response.json();
+        }
+      });
     },
   },
 };

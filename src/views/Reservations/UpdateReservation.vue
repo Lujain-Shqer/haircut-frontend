@@ -28,12 +28,7 @@
       </div>
       <h6 class="first-step">الخطوة الثالثة:</h6>
       <span>اضغط على تاريخ الحجز ليتعدل ضمن الفاتورة . </span>
-      <div class="control_wrapper">
-        <ejs-calendar
-          :isMultiSelection="isMultiSelection"
-          @change="handleDateChange"
-        ></ejs-calendar>
-      </div>
+      <ejs-calendar @change="handleDateChange"></ejs-calendar>
       <h6 class="first-step">الخطوة الرابعة:</h6>
       <span>ادخل ساعة الحجز لتتعدل ضمن الفاتورة . </span>
       <div class="row times">
@@ -95,7 +90,6 @@ export default {
   params: ["id"],
   data() {
     return {
-      isMultiSelection: true,
       employees: [],
       allClients: [],
       hour: "",
@@ -113,7 +107,8 @@ export default {
   },
   mounted() {
     fetch(
-      "http://127.0.0.1:8001/api/employee/" + localStorage.getItem("branch_id"),
+      "https://www.setrex.net/haircut/backend/public/api/employee/" +
+        localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -126,7 +121,8 @@ export default {
       .then((data) => (this.employees = data))
       .catch((err) => console.log(err.message));
     fetch(
-      "http://127.0.0.1:8001/api/customer/" + localStorage.getItem("branch_id"),
+      "https://www.setrex.net/haircut/backend/public/api/customer/" +
+        localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -155,14 +151,18 @@ export default {
           delete this.reserv_info[key];
         }
       });
-      fetch("http://127.0.0.1:8001/api/reservation/" + this.$route.params.id, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(this.reserv_info),
-      }).then((response) => {
+      fetch(
+        "https://www.setrex.net/haircut/backend/public/api/reservation/" +
+          this.$route.params.id,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(this.reserv_info),
+        }
+      ).then((response) => {
         if (response.ok) {
           this.$router.push({ name: "NewReservation" });
           return response.json();
@@ -235,7 +235,6 @@ export default {
 .row {
   margin: 0;
 }
-
 .updateReservation {
   direction: rtl;
   width: 77%;
@@ -360,6 +359,13 @@ export default {
   width: 100%;
   text-align: center;
 }
+.e-calendar .e-header .e-title {
+  color: #757de8;
+  text-align: center;
+  width: 100%;
+  text-transform: uppercase;
+  margin-bottom: -10vh;
+}
 @media (max-width: 991px) {
   .updateReservation {
     width: 70%;
@@ -375,10 +381,6 @@ export default {
 @media (max-width: 540px) {
 }
 
-.control_wrapper {
-  width: 400px;
-  margin: 2vh auto;
-}
 .services {
   box-shadow: 0px 0px 15px 0px #00000040;
   border: 1.5px solid #3f51b5;

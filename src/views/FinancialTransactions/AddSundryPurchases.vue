@@ -65,7 +65,8 @@ export default {
   },
   mounted() {
     fetch(
-      "http://127.0.0.1:8001/api/supplier/" + localStorage.getItem("branch_id"),
+      "https://www.setrex.net/haircut/backend/public/api/supplier/" +
+        localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -78,7 +79,8 @@ export default {
       .then((data) => (this.allSuppliers = data))
       .catch((err) => console.log(err.message));
     fetch(
-      "http://127.0.0.1:8001/api/sundry/" + localStorage.getItem("branch_id"),
+      "https://www.setrex.net/haircut/backend/public/api/sundry/" +
+        localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -95,8 +97,7 @@ export default {
     AddSundryPurchases(event) {
       event.preventDefault();
       this.isLoading = true;
-      console.log(this.purchase_info.selectedProducts);
-      fetch("http://127.0.0.1:8001/api/purchase", {
+      fetch("https://www.setrex.net/haircut/backend/public/api/purchase", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -136,18 +137,22 @@ export default {
 .row {
   margin: 0;
 }
+
 .AddSundryPurchases {
   direction: rtl;
   width: 77%;
 }
+
 .AddSundryPurchases h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
+
 .AddSundryPurchases p {
   color: #1a2669;
   font-weight: 400;
 }
+
 .AddSundryPurchases .update-info-client {
   margin-top: 5vh 0;
   border: 1px solid #3f51b5;
@@ -155,17 +160,20 @@ export default {
   border-radius: 8px;
   padding: 5vh;
 }
+
 .AddSundryPurchases h6 {
   color: #3f51b5;
   font-weight: 700px;
   margin-bottom: 3vh;
 }
+
 .AddSundryPurchases label {
   display: block;
   margin-bottom: 2vh;
   margin-top: 2vh;
   color: #1a2669;
 }
+
 .AddSundryPurchases input,
 .AddSundryPurchases .form-selec {
   border: 1px solid #c8c9cc;
@@ -176,10 +184,12 @@ export default {
   outline: none;
   color: #3f51b5;
 }
+
 .AddSundryPurchases input::placeholder,
 .AddSundryPurchases .form-select::placeholder {
   color: #c8c9cc;
 }
+
 .AddSundryPurchases button {
   background: #3f51b5;
   color: #fff;
@@ -187,6 +197,7 @@ export default {
   margin-right: 2vh;
   font-size: 2vh;
 }
+
 .AddSundryPurchases button.add {
   margin: auto;
   width: auto;
@@ -199,15 +210,18 @@ export default {
   .AddSundryPurchases .form-selec {
     width: 100%;
   }
+
   .AddSundryPurchases button,
   .AddSundryPurchases button.add {
     width: auto;
     margin: 2vh auto;
   }
+
   .AddSundryPurchases {
     width: 70%;
   }
 }
+
 @media (max-width: 765px) {
   .AddSundryPurchases {
     width: 100%;

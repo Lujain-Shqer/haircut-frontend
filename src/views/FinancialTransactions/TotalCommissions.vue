@@ -145,7 +145,7 @@ export default {
   methods: {
     fetchAllCommissions() {
       fetch(
-        "http://127.0.0.1:8001/api/employee-info/" +
+        "https://www.setrex.net/haircut/backend/public/api/employee-info/" +
           localStorage.getItem("branch_id"),
         {
           method: "GET",
@@ -179,7 +179,7 @@ export default {
     search(event) {
       event.preventDefault();
       fetch(
-        "http://127.0.0.1:8001/api/employee-info/" +
+        "https://www.setrex.net/haircut/backend/public/api/employee-info/" +
           localStorage.getItem("branch_id"),
         {
           method: "POST",

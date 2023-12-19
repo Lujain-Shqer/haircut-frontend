@@ -11,11 +11,11 @@
         والمبلغ المستحق للدفع.
       </p>
       <div class="sched" v-if="showReserve">
-        <!-- <ejs-schedule
+        <ejs-schedule
           height="550px"
           :eventSettings="appointmentData"
-        ></ejs-schedule> -->
-        <ejs-schedule height="550px"></ejs-schedule>
+        ></ejs-schedule>
+        <!-- <ejs-schedule height="550px"></ejs-schedule> -->
       </div>
     </div>
   </div>
@@ -34,19 +34,19 @@ export default {
     return {
       appointmentData: {
         dataSource: [
-          {
-            Subject: "Abd: الاسم",
-            StartTime: new Date(2023, 11, 26, 10, 30),
-            EndTime: new Date(2023, 11, 26, 11, 30),
-          },
+          // {
+          //   Subject: "Abd: الاسم",
+          //   StartTime: new Date(2023, 11, 26, 10, 30),
+          //   EndTime: new Date(2023, 11, 26, 11, 30),
+          // },
         ],
       },
-      showReserve: true,
+      showReserve: false,
     };
   },
   mounted() {
     fetch(
-      "http://127.0.0.1:8001/api/reservation/" +
+      "https://www.setrex.net/haircut/backend/public/api/reservation/" +
         localStorage.getItem("branch_id"),
       {
         method: "GET",

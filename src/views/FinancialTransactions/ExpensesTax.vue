@@ -115,7 +115,7 @@ export default {
   methods: {
     fetchAllExpensesTaxes() {
       fetch(
-        "http://127.0.0.1:8001/api/general-taxedservice/" +
+        "https://www.setrex.net/haircut/backend/public/api/general-taxedservice/" +
           localStorage.getItem("branch_id"),
         {
           method: "GET",
@@ -133,13 +133,17 @@ export default {
       this.currentPage = currentPage;
     },
     deleteExpensesTax(ExpensesTaxId) {
-      fetch("http://127.0.0.1:8001/api/general-service/" + ExpensesTaxId, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-      })
+      fetch(
+        "https://www.setrex.net/haircut/backend/public/api/general-service/" +
+          ExpensesTaxId,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
         .then((response) => {
           if (response.ok) {
             this.ExpensesTaxes = this.ExpensesTaxes.filter(
@@ -154,7 +158,7 @@ export default {
     search(event) {
       event.preventDefault();
       fetch(
-        "http://127.0.0.1:8001/api/general-taxedservice/" +
+        "https://www.setrex.net/haircut/backend/public/api/general-taxedservice/" +
           localStorage.getItem("branch_id"),
         {
           method: "POST",
@@ -185,18 +189,22 @@ export default {
 .row {
   margin: 0;
 }
+
 .expensesTax {
   direction: rtl;
   width: 77%;
 }
+
 .expensesTax h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
+
 .expensesTax p {
   color: #1a2669;
   font-weight: 400;
 }
+
 .expensesTax .control-table {
   margin-top: 5vh;
   border: 1px solid #3f51b5;
@@ -204,6 +212,7 @@ export default {
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
 }
+
 .expensesTax .extra-table {
   margin: 0 4vh;
   margin-bottom: 3vh;
@@ -211,6 +220,7 @@ export default {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
 .expensesTax .input-container {
   border: 1px solid #c8c9cc;
   box-shadow: 0px 0px 4px 0px #6e49cb33;
@@ -222,14 +232,17 @@ export default {
   color: #3f51b5;
   padding: 1vh;
 }
+
 .expensesTax input {
   border: 0;
   outline: none;
   color: #3f51b5;
 }
+
 .expensesTax input::placeholder {
   color: #3f51b5;
 }
+
 .expensesTax .input-container svg {
   padding-left: 0.2vh;
 }
@@ -240,16 +253,19 @@ export default {
   background: #3f51b5;
   color: #fff;
 }
+
 .expensesTax table {
   margin-bottom: 0;
   border-collapse: collapse;
   border-spacing: 0;
   text-align: center;
 }
+
 .expensesTax table tr td,
 .expensesTax table tr th {
   color: #1a2669;
 }
+
 .expensesTax table .delete {
   background: #fff;
   color: #3f51b5;
@@ -257,6 +273,7 @@ export default {
   margin-right: 2px;
   margin-bottom: 1vh;
 }
+
 .expensesTax table .show {
   background: #3f51b5;
   color: #fff;
@@ -264,6 +281,7 @@ export default {
   margin-left: 5px;
   margin-bottom: 1vh;
 }
+
 .expensesTax table thead tr th,
 .expensesTax table tfoot tr th {
   background: #3f51b5;
@@ -279,10 +297,12 @@ export default {
   color: #fff;
   font-weight: 300;
 }
+
 .expensesTax table tfoot td:last-of-type {
   text-align: end;
   padding-left: 5vh;
 }
+
 tfoot svg {
   background: transparent;
   padding: 0 10px;
@@ -294,6 +314,7 @@ tfoot svg {
   .expensesTax {
     width: 70%;
   }
+
   /* .extra-table {
     width: 130%;
   }
@@ -301,10 +322,12 @@ tfoot svg {
     width: 140%;
   } */
 }
+
 @media (max-width: 765px) {
   .expensesTax {
     width: 100%;
   }
+
   /* .extra-table {
     width: 170%;
   }
@@ -312,6 +335,7 @@ tfoot svg {
     width: 182%;
   } */
 }
+
 @media (max-width: 540px) {
   /* .extra-table {
     width: 210%;

@@ -79,7 +79,8 @@ export default {
   },
   mounted() {
     fetch(
-      "http://127.0.0.1:8001/api/employee/" + localStorage.getItem("branch_id"),
+      "https://www.setrex.net/haircut/backend/public/api/employee/" +
+        localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -106,18 +107,21 @@ export default {
           this.errorMessage = "";
         }, 5000);
       } else {
-        fetch("http://127.0.0.1:8001/api/stoped-reservation", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            branch_id: localStorage.getItem("branch_id"),
-            employee_id: this.offDay_info.employee,
-            date: this.offDay_info.selectedDay,
-          }),
-        }).then((response) => {
+        fetch(
+          "https://www.setrex.net/haircut/backend/public/api/stoped-reservation",
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              branch_id: localStorage.getItem("branch_id"),
+              employee_id: this.offDay_info.employee,
+              date: this.offDay_info.selectedDay,
+            }),
+          }
+        ).then((response) => {
           this.isLoading = false;
           if (response.ok) {
             this.$router.push({ name: "ShowDisabledAppoinments" });

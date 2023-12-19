@@ -8,7 +8,10 @@
       :class="{ red: isProductSelected(product) }"
     >
       <img
-        :src="'http://127.0.0.1:8001/storage/product_images/' + product.image"
+        :src="
+          'https://www.setrex.net/haircut/backend/public/storage/product_images/' +
+          product.image
+        "
         alt="product"
       />
       <h6>{{ product.name }}</h6>
@@ -142,7 +145,8 @@ export default {
   },
   mounted() {
     fetch(
-      "http://127.0.0.1:8001/api/product/" + localStorage.getItem("branch_id"),
+      "https://www.setrex.net/haircut/backend/public/api/product/" +
+        localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {

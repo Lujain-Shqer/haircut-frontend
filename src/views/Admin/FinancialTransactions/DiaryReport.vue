@@ -112,7 +112,7 @@ export default {
   },
   mounted() {
     fetch(
-      "http://127.0.0.1:8001/api/daily-report/" +
+      "https://www.setrex.net/haircut/backend/public/api/daily-report/" +
         localStorage.getItem("branch_id"),
       {
         method: "GET",
@@ -155,7 +155,7 @@ export default {
         this.diaryReports = [];
       } else {
         fetch(
-          "http://127.0.0.1:8001/api/filter-daily-report/" +
+          "https://www.setrex.net/haircut/backend/public/api/filter-daily-report/" +
             localStorage.getItem("branch_id"),
           {
             method: "POST",

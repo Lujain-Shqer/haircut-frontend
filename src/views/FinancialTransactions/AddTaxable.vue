@@ -83,7 +83,7 @@ export default {
   },
   mounted() {
     fetch(
-      "http://127.0.0.1:8001/api/taxedterm/" +
+      "https://www.setrex.net/haircut/backend/public/api/taxedterm/" +
         localStorage.getItem("branch_id"),
       {
         method: "GET",
@@ -97,7 +97,7 @@ export default {
       .then((data) => (this.allGeneralExpenses = data))
       .catch((err) => console.log(err.message));
     fetch(
-      "http://127.0.0.1:8001/api/taxedprovider/" +
+      "https://www.setrex.net/haircut/backend/public/api/taxedprovider/" +
         localStorage.getItem("branch_id"),
       {
         method: "GET",
@@ -115,20 +115,23 @@ export default {
     addTax(event) {
       event.preventDefault();
       this.isLoading = true;
-      fetch("http://127.0.0.1:8001/api/general-service", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          branch_id: localStorage.getItem("branch_id"),
-          provider_id: this.taxes_info.providerId,
-          term_id: this.taxes_info.termId,
-          amount: this.taxes_info.amount,
-          tax_state: this.taxes_info.taxState,
-        }),
-      }).then((response) => {
+      fetch(
+        "https://www.setrex.net/haircut/backend/public/api/general-service",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            branch_id: localStorage.getItem("branch_id"),
+            provider_id: this.taxes_info.providerId,
+            term_id: this.taxes_info.termId,
+            amount: this.taxes_info.amount,
+            tax_state: this.taxes_info.taxState,
+          }),
+        }
+      ).then((response) => {
         this.isLoading = false;
         if (response.ok) {
           this.$router.push({ name: "ExpensesTax" });
@@ -143,18 +146,22 @@ export default {
 .row {
   margin: 0;
 }
+
 .AddTaxable {
   direction: rtl;
   width: 77%;
 }
+
 .AddTaxable h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
+
 .AddTaxable p {
   color: #1a2669;
   font-weight: 400;
 }
+
 .AddTaxable .update-info-client {
   margin-top: 5vh 0;
   border: 1px solid #3f51b5;
@@ -162,17 +169,20 @@ export default {
   border-radius: 8px;
   padding: 5vh;
 }
+
 .AddTaxable h6 {
   color: #3f51b5;
   font-weight: 700px;
   margin-bottom: 3vh;
 }
+
 .AddTaxable label {
   display: block;
   margin-bottom: 2vh;
   margin-top: 2vh;
   color: #1a2669;
 }
+
 .AddTaxable input,
 .AddTaxable .form-selec {
   border: 1px solid #c8c9cc;
@@ -182,10 +192,12 @@ export default {
   width: 50%;
   outline: none;
 }
+
 .AddTaxable input::placeholder,
 .AddTaxable .form-select::placeholder {
   color: #c8c9cc;
 }
+
 .AddTaxable button {
   background: #3f51b5;
   color: #fff;
@@ -193,6 +205,7 @@ export default {
   margin-right: 2vh;
   font-size: 2vh;
 }
+
 .AddTaxable button.add {
   margin: auto;
   width: auto;
@@ -205,15 +218,18 @@ export default {
   .AddTaxable .form-selec {
     width: 100%;
   }
+
   .AddTaxable button,
   .AddTaxable button.add {
     width: auto;
     margin: 2vh auto;
   }
+
   .AddTaxable {
     width: 70%;
   }
 }
+
 @media (max-width: 765px) {
   .AddTaxable {
     width: 100%;

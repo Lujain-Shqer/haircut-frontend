@@ -7,11 +7,17 @@
       <div class="all-table" style="overflow-x: auto">
         <div class="row extra-table">
           <div class="input-container">
-            <fa icon="coins" />
-            <span>تقرير الضريبة (مبيعات)</span>
+            <fa icon="search" />
+            <input
+              class="input-field"
+              type="text"
+              placeholder="البحث عن..."
+              v-model="searchQuery"
+              @keyup.enter="search"
+            />
           </div>
           <button class="btn">EXCEL</button>
-          <button class="btn">بحث بالتاريخ</button>
+          <button class="btn" @click="searchByDate">بحث بالتاريخ</button>
           <button class="btn" @click="showComponent">
             من الفترة -> إلى الفترة
           </button>
@@ -25,16 +31,55 @@
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
             <tr>
-              <th scope="col">تاريخ الحركة</th>
               <th scope="col">رقم الفاتورة</th>
-              <th scope="col">اسم العميل</th>
+              <th scope="col">الموظف</th>
+              <th scope="col">طريقة الدفع</th>
               <th scope="col">القيمة</th>
-              <th scope="col">الضريبة</th>
+              <th scope="col">مبلغ الخصم</th>
+              <th scope="col">القيمة المضافة</th>
+              <th scope="col">مكافأة من العميل</th>
+              <th scope="col">طريقة دفع المكافأة</th>
+              <th scope="col">المجموع</th>
+              <th scope="col">موظف</th>
+              <th scope="col">مدير الفرع</th>
+              <th scope="col">مندوب</th>
+              <th scope="col">تاريخ الإنشاء</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody v-if="deletedBillsToDisplay.length > 0">
+            <tr
+              v-for="deletedBill in deletedBillsToDisplay"
+              :key="deletedBill.id"
+            >
+              <td>{{ deletedBill.id }}</td>
+              <td>{{ deletedBill.employee.name }}</td>
+              <td>{{ deletedBill.amount_pay_type }}</td>
+              <td>{{ deletedBill.amount }}</td>
+              <td>
+                {{ deletedBill.discount === 0 ? "-" : deletedBill.discount }}
+              </td>
+              <td>{{ deletedBill.tax }}</td>
+              <td>{{ deletedBill.tip === 0 ? "-" : deletedBill.tip }}</td>
+              <td>
+                {{
+                  deletedBill.tip_pay_type === null
+                    ? "-"
+                    : deletedBill.tip_pay_type
+                }}
+              </td>
+              <td>{{ deletedBill.amount_after_discount }}</td>
+              <td>{{ deletedBill.employee_commission }}</td>
+              <td>{{ deletedBill.manager_commission }}</td>
+              <td>{{ deletedBill.representative_commission }}</td>
+              <td>
+                <p>{{ deletedBill.created_at.split("T")[0] }}|</p>
+                <p>{{ deletedBill.created_at.split("T")[1].split(".")[0] }}</p>
+              </td>
+            </tr>
+          </tbody>
+          <tbody v-else>
             <tr>
-              <td colspan="5">لا يوجد ضرائب مبيعات لعرضها</td>
+              <td colspan="13">{{ info }}</td>
             </tr>
           </tbody>
           <tfoot>
@@ -42,7 +87,20 @@
             <td></td>
             <td></td>
             <td></td>
-            <paginationFoot></paginationFoot>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <paginationFoot
+              :current-page="currentPage"
+              :total-pages="pageNumber"
+              :total-data="deletedBills.length"
+              @page-change="changePage"
+            ></paginationFoot>
           </tfoot>
         </table>
       </div>
@@ -52,8 +110,9 @@
 <script>
 import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
 import PaginationFoot from "/src/components/PaginationFoot.vue";
+import { format } from "date-fns";
 export default {
-  name: "SalesTax",
+  name: "DeletedBills",
   components: {
     PaginationFoot,
     "ejs-calendar": CalendarComponent,
@@ -61,14 +120,130 @@ export default {
   data() {
     return {
       isComponentVisible: false,
+      isMultiSelection: true,
+      info: "لا يوجد فواتير محذوفة لعرضها",
+      selectedDate: [],
+      deletedBills: [],
+      searchQuery: "",
+      deletedBillsPerPage: 7,
+      currentPage: 1,
     };
   },
+  computed: {
+    deletedBillsToDisplay() {
+      const startIndex = (this.currentPage - 1) * this.deletedBillsPerPage;
+      const endIndex = startIndex + this.deletedBillsPerPage;
+      return this.deletedBills.slice(startIndex, endIndex);
+    },
+    pageNumber() {
+      return Math.ceil(this.deletedBills.length / this.deletedBillsPerPage);
+    },
+  },
+  mounted() {
+    this.fetchAllDeletedBills();
+  },
   methods: {
+    fetchAllDeletedBills() {
+      fetch(
+        "https://www.setrex.net/haircut/backend/public/api/deleted-order/" +
+          localStorage.getItem("branch_id"),
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => (this.deletedBills = data))
+        .catch((err) => console.log(err.message));
+    },
+    handleDateChange(args) {
+      const dateString = format(args.value, "yyyy-MM-dd");
+
+      if (!this.selectedDate.includes(dateString)) {
+        this.selectedDate.push(dateString);
+
+        if (this.selectedDate.length > 2) {
+          this.selectedDate.shift();
+        }
+      }
+    },
+    search(event) {
+      event.preventDefault();
+      fetch(
+        "https://www.setrex.net/haircut/backend/public/api/deleted-order/" +
+          localStorage.getItem("branch_id"),
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            query: this.searchQuery,
+          }),
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => (this.deletedBills = data))
+        .catch((err) => console.log(err.message));
+    },
+    searchByDate(event) {
+      event.preventDefault();
+      if (this.selectedDate.length < 2) {
+        this.info = " أرجو إدخال تاريخ بداية الفترة ونهايتها";
+        this.deletedBills = [];
+      } else {
+        fetch(
+          "https://www.setrex.net/haircut/backend/public/api/filter-deleted-order/" +
+            localStorage.getItem("branch_id"),
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              start_date: this.selectedDate[0],
+              end_date: this.selectedDate[1],
+            }),
+          }
+        )
+          .then((res) => {
+            if (res.ok) {
+              return res.json();
+            } else {
+              throw new Error(
+                "يجب أن يكون تاريخ بداية الفترة أصغر من تاريخ نهاية الفترة "
+              );
+            }
+          })
+          .then((data) => {
+            this.deletedBills = data;
+            if (this.deletedBills.length === 0) {
+              this.info = "لا يوجد في الفترة المحددة فواتير محذوفة لعرضها";
+            }
+          })
+          .catch((err) => {
+            this.deletedBills = [];
+            this.info = err.message;
+          });
+      }
+    },
     showComponent() {
       if (this.isComponentVisible) {
         this.isComponentVisible = false;
       } else {
         this.isComponentVisible = true;
+      }
+    },
+  },
+  watch: {
+    searchQuery(newValue) {
+      if (newValue.trim() === "") {
+        this.fetchAllDeletedBills();
       }
     },
   },
@@ -107,7 +282,7 @@ h5 {
   margin-bottom: 3vh;
   display: flow-root;
 }
-.deletedBills .input-container {
+/* .deletedBills .input-container {
   width: auto;
   float: right;
   display: inline;
@@ -115,12 +290,26 @@ h5 {
   color: #3f51b5;
   font-weight: 500;
   margin: 0;
+} */
+.deletedBills .input-container {
+  border: 1px solid #c8c9cc;
+  box-shadow: 0px 0px 4px 0px #6e49cb33;
+  border-radius: 8px;
+  width: auto;
+  float: right;
+  display: inline;
+  float: right;
+  color: #3f51b5;
+  padding: 1vh;
 }
-
 .deletedBills .input-container svg {
   padding-left: 2vh;
 }
-
+.deletedBills input {
+  border: 0;
+  outline: none;
+  color: #3f51b5;
+}
 .deletedBills .extra-table button {
   width: auto;
   margin-right: 10px;

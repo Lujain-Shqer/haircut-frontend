@@ -122,7 +122,7 @@ export default {
   methods: {
     fetchAllProductsPurchases() {
       fetch(
-        "http://127.0.0.1:8001/api/product-purchase/" +
+        "https://www.setrex.net/haircut/backend/public/api/product-purchase/" +
           localStorage.getItem("branch_id"),
         {
           method: "GET",
@@ -137,13 +137,17 @@ export default {
         .catch((err) => console.log(err.message));
     },
     deleteProductsPurchase(productsPurchaseId) {
-      fetch("http://127.0.0.1:8001/api/purchase/" + productsPurchaseId, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-      })
+      fetch(
+        "https://www.setrex.net/haircut/backend/public/api/purchase/" +
+          productsPurchaseId,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
         .then((response) => {
           if (response.ok) {
             this.productsPurchases = this.productsPurchases.filter(
@@ -160,9 +164,8 @@ export default {
     },
     search(event) {
       event.preventDefault();
-      console.log("hiiiiiii");
       fetch(
-        "http://127.0.0.1:8001/api/product-purchase/" +
+        "https://www.setrex.net/haircut/backend/public/api/product-purchase/" +
           localStorage.getItem("branch_id"),
         {
           method: "POST",

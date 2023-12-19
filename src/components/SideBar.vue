@@ -76,10 +76,10 @@ export default {
               href: "/UsersPage",
               title: "المستخدمين",
             },
-            {
-              href: "/PowersPage",
-              title: "الصلاحيات",
-            },
+            // {
+            //   href: "/PowersPage",
+            //   title: "الصلاحيات",
+            // },
           ],
         },
         {
@@ -120,38 +120,38 @@ export default {
               href: "/ListOfEmployees",
               title: "قائمة الموظفين",
             },
-            {
-              href: "/EmployeesSalary",
-              title: "رصيد الموظف",
-            },
-            {
-              href: "/SalaryPage",
-              title: "الرواتب",
-            },
-            {
-              href: "/LiquidationEmployee",
-              title: "سجل التصفيات",
-            },
-            {
-              href: "/EmployeeCommissions",
-              title: "عمولات الموظفين ",
-            },
-            {
-              href: "/EmployeeReport2",
-              title: "تقرير الموظف (مفصل)",
-            },
-            {
-              href: "/TotalEmployee",
-              title: "تقرير الموظف (الإجمالي)",
-            },
-            {
-              href: "/SalafiyatDiscounts",
-              title: "تقرير الخصومات والسلفيات",
-            },
-            {
-              href: "/EmployeeSalary",
-              title: "تقرير مسير الرواتب",
-            },
+            // {
+            //   href: "/EmployeesSalary",
+            //   title: "رصيد الموظف",
+            // },
+            // {
+            //   href: "/SalaryPage",
+            //   title: "الرواتب",
+            // },
+            // {
+            //   href: "/LiquidationEmployee",
+            //   title: "سجل التصفيات",
+            // },
+            // {
+            //   href: "/EmployeeCommissions",
+            //   title: "عمولات الموظفين ",
+            // },
+            // {
+            //   href: "/EmployeeReport2",
+            //   title: "تقرير الموظف (مفصل)",
+            // },
+            // {
+            //   href: "/TotalEmployee",
+            //   title: "تقرير الموظف (الإجمالي)",
+            // },
+            // {
+            //   href: "/SalafiyatDiscounts",
+            //   title: "تقرير الخصومات والسلفيات",
+            // },
+            // {
+            //   href: "/EmployeeSalary",
+            //   title: "تقرير مسير الرواتب",
+            // },
           ],
         },
         {
@@ -248,18 +248,18 @@ export default {
               href: "",
               title: "الحسابات المالية",
               child: [
-                {
-                  href: "/CashierBox",
-                  title: "صندوق الكاشير",
-                },
+                // {
+                //   href: "/CashierBox",
+                //   title: "صندوق الكاشير",
+                // },
                 {
                   href: "/TotalCommissions",
                   title: "تقرير إجمالي العمولات",
                 },
-                {
-                  href: "/ClosingAccounts",
-                  title: "تقرير إقفال الحسابات",
-                },
+                // {
+                //   href: "/ClosingAccounts",
+                //   title: "تقرير إقفال الحسابات",
+                // },
                 {
                   href: "/ClearingCommissions",
                   title: "تقرير تصفية العمولات",

@@ -92,7 +92,7 @@ export default {
   methods: {
     fetchAllServicesReports() {
       fetch(
-        "http://127.0.0.1:8001/api/frequency-service/" +
+        "https://www.setrex.net/haircut/backend/public/api/frequency-service/" +
           localStorage.getItem("branch_id"),
         {
           method: "GET",
@@ -113,7 +113,7 @@ export default {
       event.preventDefault();
       console.log("hiiiiiii");
       fetch(
-        "http://127.0.0.1:8001/api/frequency-service/" +
+        "https://www.setrex.net/haircut/backend/public/api/frequency-service/" +
           localStorage.getItem("branch_id"),
         {
           method: "POST",

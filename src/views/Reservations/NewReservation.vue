@@ -13,10 +13,16 @@
       <div class="all-table" style="overflow-x: auto">
         <div class="row extra-table">
           <div class="input-container">
-            <fa icon="coins" />
-            <span>الحجوزات الجديدة</span>
+            <fa icon="search" />
+            <input
+              class="input-field"
+              type="text"
+              placeholder="البحث عن..."
+              v-model="searchQuery"
+              @keyup.enter="search"
+            />
           </div>
-          <button class="btn">بحث بالتاريخ</button>
+          <button class="btn" @click="searchByDate">بحث بالتاريخ</button>
 
           <button class="btn" @click="showComponent">
             من الفترة -> إلى الفترة
@@ -79,7 +85,7 @@
           </tbody>
           <tbody v-else>
             <tr>
-              <td colspan="7">لا يوجد حجوزات لعرضها</td>
+              <td colspan="7">{{ info }}</td>
             </tr>
           </tbody>
           <tfoot>
@@ -104,6 +110,7 @@
 <script>
 import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
 import PaginationFoot from "/src/components/PaginationFoot.vue";
+import { format } from "date-fns";
 export default {
   name: "NewReservation",
   components: {
@@ -113,9 +120,13 @@ export default {
   data() {
     return {
       isComponentVisible: false,
+      isMultiSelection: true,
+      info: "لا يوجد حجوزات لعرضها",
+      searchQuery: "",
       appointmentsPerPage: 7,
       currentPage: 1,
       appointments: [],
+      selectedDate: [],
     };
   },
   computed: {
@@ -129,34 +140,118 @@ export default {
     },
   },
   mounted() {
-    fetch(
-      "http://127.0.0.1:8001/api/reservation/" +
-        localStorage.getItem("branch_id"),
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        this.appointments = data.map((obj) => {
-          return this.proccessReservation(obj);
-        });
-      })
-      .catch((err) => console.log(err.message));
+    this.fetchAllAppointments();
   },
   methods: {
+    fetchAllAppointments() {
+      fetch(
+        "https://www.setrex.net/haircut/backend/public/api/reservation/" +
+          localStorage.getItem("branch_id"),
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          this.appointments = data.map((obj) => {
+            return this.proccessReservation(obj);
+          });
+        })
+        .catch((err) => console.log(err.message));
+    },
+    handleDateChange(args) {
+      const dateString = format(args.value, "yyyy-MM-dd");
+
+      if (!this.selectedDate.includes(dateString)) {
+        this.selectedDate.push(dateString);
+
+        if (this.selectedDate.length > 2) {
+          this.selectedDate.shift();
+        }
+      }
+    },
+    search(event) {
+      event.preventDefault();
+      fetch(
+        "https://www.setrex.net/haircut/backend/public/api/reservation/" +
+          localStorage.getItem("branch_id"),
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            query: this.searchQuery,
+          }),
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          this.appointments = data.map((obj) => {
+            return this.proccessReservation(obj);
+          });
+        })
+        .catch((err) => console.log(err.message));
+    },
+    searchByDate(event) {
+      event.preventDefault();
+      if (this.selectedDate.length < 2) {
+        this.info = " أرجو إدخال تاريخ بداية الفترة ونهايتها";
+        this.appointments = [];
+      } else {
+        fetch(
+          "https://www.setrex.net/haircut/backend/public/api/filter-reservation/" +
+            localStorage.getItem("branch_id"),
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              start_date: this.selectedDate[0],
+              end_date: this.selectedDate[1],
+            }),
+          }
+        )
+          .then((res) => {
+            if (res.ok) {
+              return res.json();
+            } else {
+              throw new Error(
+                "يجب أن يكون تاريخ بداية الفترة أصغر من تاريخ نهاية الفترة "
+              );
+            }
+          })
+          .then((data) => {
+            this.appointments = data;
+            if (this.appointments.length === 0) {
+              this.info = "لا يوجد في الفترة المحددة حجوزات لعرضها";
+            }
+          })
+          .catch((err) => {
+            this.appointments = [];
+            this.info = err.message;
+          });
+      }
+    },
     deleteAppointment(appointmentId) {
-      fetch("http://127.0.0.1:8001/api/reservation/" + appointmentId, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-      })
+      fetch(
+        "https://www.setrex.net/haircut/backend/public/api/reservation/" +
+          appointmentId,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
         .then((response) => {
           if (response.ok) {
             this.appointments = this.appointments.filter(
@@ -234,6 +329,13 @@ export default {
       this.currentPage = currentPage;
     },
   },
+  watch: {
+    searchQuery(newValue) {
+      if (newValue.trim() === "") {
+        this.fetchAllAppointments();
+      }
+    },
+  },
 };
 </script>
 <style>
@@ -278,17 +380,24 @@ h5 {
   display: flow-root;
 }
 .NewReservation .input-container {
+  border: 1px solid #c8c9cc;
+  box-shadow: 0px 0px 4px 0px #6e49cb33;
+  border-radius: 8px;
+  width: auto;
   float: right;
-  display: contents;
+  display: inline;
   float: right;
   color: #3f51b5;
   padding: 1vh;
-  font-weight: 500;
 }
 .NewReservation .input-container svg {
   padding-left: 2vh;
 }
-
+.NewReservation input {
+  border: 0;
+  outline: none;
+  color: #3f51b5;
+}
 .NewReservation .extra-table button {
   width: auto;
   margin-right: 10px;

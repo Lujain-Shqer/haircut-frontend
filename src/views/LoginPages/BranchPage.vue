@@ -45,7 +45,7 @@ export default {
     };
   },
   mounted() {
-    fetch("http://127.0.0.1:8001/api/branch", {
+    fetch("https://www.setrex.net/haircut/backend/public/api/branch", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,

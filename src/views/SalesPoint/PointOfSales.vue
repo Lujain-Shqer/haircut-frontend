@@ -208,6 +208,13 @@
         <button :disabled="isLoading" @click="submitBill" class="btn bill">
           إصدار فاتورة
         </button>
+        <div class="error-message" v-if="errors.length > 0">
+          <ul>
+            <li dir="rtl" v-for="(error, index) in errors" :key="index">
+              {{ error }}
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -226,7 +233,8 @@ export default {
   mixins: [orderMixin],
   mounted() {
     fetch(
-      "http://127.0.0.1:8001/api/customer/" + localStorage.getItem("branch_id"),
+      "https://www.setrex.net/haircut/backend/public/api/customer/" +
+        localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -239,7 +247,8 @@ export default {
       .then((data) => (this.allClients = data))
       .catch((err) => console.log(err.message));
     fetch(
-      "http://127.0.0.1:8001/api/employee/" + localStorage.getItem("branch_id"),
+      "https://www.setrex.net/haircut/backend/public/api/employee/" +
+        localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -265,7 +274,6 @@ export default {
       const siblings = Array.from(event.target.parentNode.children).filter(
         (child) => child !== event.target
       );
-      console.log(siblings);
       siblings.forEach((sibling) => {
         sibling.classList.remove("blue");
       });
@@ -355,6 +363,7 @@ export default {
         setTimeout(() => {
           this.errorMessage = "";
         }, 5000);
+        this.isLoading = false;
       } else {
         const requestBody = {
           branch_id: localStorage.getItem("branch_id"),
@@ -381,31 +390,53 @@ export default {
             delete requestBody[key];
           }
         });
-        fetch("http://127.0.0.1:8001/api/order", {
+        fetch("https://www.setrex.net/haircut/backend/public/api/order", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify(requestBody),
-        })
-          .then((response) => {
-            this.isLoading = false;
-            if (response.ok) {
-              // this.$store.commit("clearOrderData");
-              // this.resetData();
-              window.location.reload();
-              return response.json();
-            }
-          })
-          .catch((error) => {
-            if (error.response.status === 400) {
-              // Log the error details sent by the API
-              console.error("Validation error:", error.response.data);
-            } else {
-              console.error("Failed to add a new bill:", error);
-            }
-          });
+        }).then((response) => {
+          this.isLoading = false;
+          if (response.ok) {
+            // this.$store.commit("clearOrderData");
+            // this.resetData();
+            window.location.reload();
+            return response.json();
+          } else if (response.status === 400) {
+            response.json().then((data) => {
+              const errors = data.errors;
+              if (errors) {
+                Object.values(errors).forEach((errorMessages) => {
+                  errorMessages.forEach((errorMessage) => {
+                    this.errors.push(errorMessage);
+                  });
+                });
+                setTimeout(() => {
+                  this.errors = [];
+                }, 5000);
+              }
+            });
+
+            // const errorEntries = Object.entries(response.errors);
+
+            // errorEntries.forEach(([fieldName, errorMessages]) => {
+            //   console.log(`Field: ${fieldName}`);
+            //   errorMessages.forEach((errorMessage) => {
+            //     console.log(`Error: ${errorMessage}`);
+            //   });
+            // });
+          }
+        });
+        // .catch((error) => {
+        //   if (error.response.status === 400) {
+        //     // Log the error details sent by the API
+        //     console.error("Validation error:", error.response.data);
+        //   } else {
+        //     console.error("Failed to add a new bill:", error);
+        //   }
+        // });
       }
     },
   },
@@ -447,6 +478,7 @@ export default {
       component: "ServicesPage",
       allClients: [],
       allEmployees: [],
+      errors: [],
       order_info: {
         tip: null,
         discount: null,
@@ -615,6 +647,17 @@ tr {
   padding: 1vh;
   text-align: start;
   color: red;
+}
+.error-message ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 10 0 0 0px;
+  float: left;
+}
+
+.error-message li {
+  color: red;
+  text-align: right;
 }
 @media (max-width: 991px) {
   .pointOfSales {

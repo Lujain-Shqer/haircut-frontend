@@ -125,7 +125,7 @@ export default {
   methods: {
     fetchAllAdvances() {
       fetch(
-        "http://127.0.0.1:8001/api/advance/" +
+        "https://www.setrex.net/haircut/backend/public/api/advance/" +
           localStorage.getItem("branch_id"),
         {
           method: "GET",
@@ -140,13 +140,17 @@ export default {
         .catch((err) => console.log(err.message));
     },
     deleteAdvance(advanceId) {
-      fetch("http://127.0.0.1:8001/api/advance/" + advanceId, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-      })
+      fetch(
+        "https://www.setrex.net/haircut/backend/public/api/advance/" +
+          advanceId,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
         .then((response) => {
           if (response.ok) {
             this.advances = this.advances.filter(
@@ -171,7 +175,7 @@ export default {
     search(event) {
       event.preventDefault();
       fetch(
-        "http://127.0.0.1:8001/api/advance/" +
+        "https://www.setrex.net/haircut/backend/public/api/advance/" +
           localStorage.getItem("branch_id"),
         {
           method: "POST",
@@ -206,7 +210,7 @@ export default {
         this.advances = [];
       } else {
         fetch(
-          "http://127.0.0.1:8001/api/filter-advance/" +
+          "https://www.setrex.net/haircut/backend/public/api/filter-advance/" +
             localStorage.getItem("branch_id"),
           {
             method: "POST",

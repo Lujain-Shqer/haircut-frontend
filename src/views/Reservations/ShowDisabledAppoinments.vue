@@ -111,7 +111,7 @@ export default {
   },
   mounted() {
     fetch(
-      "http://127.0.0.1:8001/api/stoped-reservation/" +
+      "https://www.setrex.net/haircut/backend/public/api/stoped-reservation/" +
         localStorage.getItem("branch_id"),
       {
         method: "GET",
@@ -128,7 +128,8 @@ export default {
   methods: {
     deleteDisabledAppoinment(disabledAppoinmentId) {
       fetch(
-        "http://127.0.0.1:8001/api/stoped-reservation/" + disabledAppoinmentId,
+        "https://www.setrex.net/haircut/backend/public/api/stoped-reservation/" +
+          disabledAppoinmentId,
         {
           method: "DELETE",
           headers: {
