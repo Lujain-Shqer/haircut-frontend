@@ -205,16 +205,21 @@
         <div class="error-message" v-if="errorMessage">
           {{ errorMessage }}
         </div>
-        <button :disabled="isLoading" @click="submitBill" class="btn bill">
-          إصدار فاتورة
-        </button>
-        <div class="error-message" v-if="errors.length > 0">
+        <div v-if="errors.length > 0">
           <ul>
-            <li dir="rtl" v-for="(error, index) in errors" :key="index">
+            <li
+              class="error-message"
+              dir="rtl"
+              v-for="(error, index) in errors"
+              :key="index"
+            >
               {{ error }}
             </li>
           </ul>
         </div>
+        <button :disabled="isLoading" @click="submitBill" class="btn bill">
+          إصدار فاتورة
+        </button>
       </div>
     </div>
   </div>
@@ -233,8 +238,7 @@ export default {
   mixins: [orderMixin],
   mounted() {
     fetch(
-      "https://www.setrex.net/haircut/backend/public/api/customer/" +
-        localStorage.getItem("branch_id"),
+      "http://127.0.0.1:8001/api/customer/" + localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -247,8 +251,7 @@ export default {
       .then((data) => (this.allClients = data))
       .catch((err) => console.log(err.message));
     fetch(
-      "https://www.setrex.net/haircut/backend/public/api/employee/" +
-        localStorage.getItem("branch_id"),
+      "http://127.0.0.1:8001/api/employee/" + localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -362,7 +365,7 @@ export default {
         this.errorMessage = "أرجو إدخال كافة المعلومات المطلوبة للفاتورة.";
         setTimeout(() => {
           this.errorMessage = "";
-        }, 5000);
+        }, 10000);
         this.isLoading = false;
       } else {
         const requestBody = {
@@ -390,7 +393,7 @@ export default {
             delete requestBody[key];
           }
         });
-        fetch("https://www.setrex.net/haircut/backend/public/api/order", {
+        fetch("http://127.0.0.1:8001/api/order", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -408,14 +411,21 @@ export default {
             response.json().then((data) => {
               const errors = data.errors;
               if (errors) {
-                Object.values(errors).forEach((errorMessages) => {
-                  errorMessages.forEach((errorMessage) => {
-                    this.errors.push(errorMessage);
+                if (this.errors.length > 0) {
+                  this.errors = [];
+                }
+                if (typeof errors === "string") {
+                  this.errors.push(errors);
+                } else {
+                  Object.values(errors).forEach((errorMessages) => {
+                    errorMessages.forEach((errorMessage) => {
+                      this.errors.push(errorMessage);
+                    });
                   });
-                });
+                }
                 setTimeout(() => {
                   this.errors = [];
-                }, 5000);
+                }, 10000);
               }
             });
 
@@ -643,21 +653,13 @@ tr {
   font-size: 1.5vmin;
 }
 .error-message {
-  display: block;
-  padding: 1vh;
-  text-align: start;
+  padding: 10px;
   color: red;
-}
-.error-message ul {
+  display: inline-flex;
   list-style-type: none;
-  margin: 0;
-  padding: 10 0 0 0px;
-  float: left;
 }
-
-.error-message li {
-  color: red;
-  text-align: right;
+ul {
+  margin-top: 30px;
 }
 @media (max-width: 991px) {
   .pointOfSales {

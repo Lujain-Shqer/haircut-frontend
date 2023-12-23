@@ -19,7 +19,7 @@
             min="0"
             max="59"
             v-model="minute"
-            type="text"
+            type="number"
             @input="validateMinute"
           />
           <span>:</span>
@@ -27,7 +27,7 @@
             min="0"
             max="23"
             v-model="hour"
-            type="text"
+            type="number"
             @input="validateHour"
           />
         </div>
@@ -103,6 +103,18 @@
       <div class="error-message" v-if="errorMessage">
         {{ errorMessage }}
       </div>
+      <div v-if="errors.length > 0">
+        <ul style="margin-top: 30px">
+          <li
+            class="error-mes"
+            dir="rtl"
+            v-for="(error, index) in errors"
+            :key="index"
+          >
+            {{ error }}
+          </li>
+        </ul>
+      </div>
       <div class="button-container">
         <router-link to="/NewReservation3">
           <button class="btn">رجوع</button>
@@ -127,12 +139,12 @@ export default {
       minute: "",
       errorMessage: "",
       isLoading: false,
+      errors: [],
     };
   },
   mounted() {
     fetch(
-      "https://www.setrex.net/haircut/backend/public/api/customer/" +
-        localStorage.getItem("branch_id"),
+      "http://127.0.0.1:8001/api/customer/" + localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -185,9 +197,9 @@ export default {
         this.errorMessage = "أرجو إدخال كافة المعلومات المطلوبة للحجز.";
         setTimeout(() => {
           this.errorMessage = "";
-        }, 5000);
+        }, 10000);
       } else {
-        fetch("https://www.setrex.net/haircut/backend/public/api/reservation", {
+        fetch("http://127.0.0.1:8001/api/reservation", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -208,6 +220,27 @@ export default {
             if (response.ok) {
               this.$router.push({ name: "ShowReservations" });
               return response.json();
+            } else if (response.status === 400) {
+              response.json().then((data) => {
+                const errors = data.errors;
+                if (errors) {
+                  if (this.errors.length > 0) {
+                    this.errors = [];
+                  }
+                  if (typeof errors === "string") {
+                    this.errors.push(errors);
+                  } else {
+                    Object.values(errors).forEach((errorMessages) => {
+                      errorMessages.forEach((errorMessage) => {
+                        this.errors.push(errorMessage);
+                      });
+                    });
+                  }
+                  setTimeout(() => {
+                    this.errors = [];
+                  }, 10000);
+                }
+              });
             }
           })
           .catch((error) => {
@@ -229,16 +262,14 @@ export default {
       return value.toString().padStart(2, "0");
     },
     validateMinute() {
-      // Ensure minute is within the valid range
       if (this.minute < 0 || this.minute > 59) {
-        this.minute = ""; // Or any default value or error handling
+        this.minute = "";
       }
       this.selectDate();
     },
     validateHour() {
-      // Ensure hour is within the valid range
       if (this.hour < 0 || this.hour > 23) {
-        this.hour = ""; // Or any default value or error handling
+        this.hour = "";
       }
       this.selectDate();
     },
@@ -389,6 +420,14 @@ export default {
   text-align: start;
   color: red;
 }
+
+.error-mes {
+  padding: 10px;
+  color: red;
+  display: inline-flex;
+  list-style-type: none;
+}
+
 @media (max-width: 991px) {
   .newReservation4 {
     width: 70%;

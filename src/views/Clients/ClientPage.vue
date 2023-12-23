@@ -53,24 +53,9 @@
           </tbody>
           <tbody v-else>
             <tr>
-              <td colspan="4">لا يوجد عملاء لعرضهم</td>
+              <td colspan="4">{{ message }}</td>
             </tr>
           </tbody>
-          <!-- <tbody>
-            <tr>
-              <td>3451</td>
-              <td>علي الأحد</td>
-              <td>096367364</td>
-              <td class="text-center">
-                <router-link to="/updateClient">
-                  <button class="btn update">
-                    <fa icon="pencil" /> تعديل
-                  </button></router-link
-                >
-                <button class="btn delete"><fa icon="trash" /> حذف</button>
-              </td>
-            </tr>
-          </tbody> -->
           <tfoot>
             <td>صفوف لكل الصفحة</td>
             <td></td>
@@ -82,18 +67,6 @@
               @page-change="changePage"
             ></paginationFoot>
           </tfoot>
-
-          <!-- <tfoot>
-            <td>صفوف لكل الصفحة</td>
-            <td></td>
-            <td></td>
-            <td>
-              <fa @click="prevPage" icon="	fas fa-angle-right" />
-              <fa @click="nextPage" icon="	fas fa-angle-left" />{{
-                currentPage
-              }}-{{ pageNumber }} من {{ clients.length }} عنصر
-            </td>
-          </tfoot> -->
         </table>
       </div>
     </div>
@@ -101,6 +74,7 @@
 </template>
 <script>
 import PaginationFoot from "/src/components/PaginationFoot.vue";
+// import { ref, onBeforeMount } from "vue";
 export default {
   components: {
     PaginationFoot,
@@ -112,6 +86,7 @@ export default {
       clientsPerPage: 7,
       currentPage: 1,
       searchQuery: "",
+      message: "يتم التحميل .......",
     };
   },
   computed: {
@@ -125,37 +100,43 @@ export default {
     },
   },
   mounted() {
-    this.fetchAllClients();
+    this.fetchAllClients().then(() => {
+      this.updateMessage();
+    });
   },
   methods: {
     fetchAllClients() {
-      fetch(
-        "https://www.setrex.net/haircut/backend/public/api/customer/" +
-          localStorage.getItem("branch_id"),
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((res) => res.json())
-        .then((data) => (this.clients = data))
-        .catch((err) => console.log(err.message));
+      return new Promise((resolve, reject) => {
+        fetch(
+          "http://127.0.0.1:8001/api/customer/" +
+            localStorage.getItem("branch_id"),
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            this.clients = data;
+            resolve();
+          })
+          .catch((err) => {
+            console.log(err.message);
+            reject(err);
+          });
+      });
     },
     deleteClient(clientId) {
-      fetch(
-        "https://www.setrex.net/haircut/backend/public/api/customer/" +
-          clientId,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      fetch("http://127.0.0.1:8001/api/customer/" + clientId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
         .then((response) => {
           if (response.ok) {
             this.clients = this.clients.filter(
@@ -170,11 +151,17 @@ export default {
     changePage(currentPage) {
       this.currentPage = currentPage;
     },
-
+    updateMessage() {
+      if (this.clients.length > 0) {
+        this.message = "";
+      } else {
+        this.message = "لا يوجد عملاء لعرضهم";
+      }
+    },
     search(event) {
       event.preventDefault();
       fetch(
-        "https://www.setrex.net/haircut/backend/public/api/customer/" +
+        "http://127.0.0.1:8001/api/customer/" +
           localStorage.getItem("branch_id"),
         {
           method: "POST",
@@ -188,14 +175,16 @@ export default {
         }
       )
         .then((res) => res.json())
-        .then((data) => (this.clients = data))
+        .then((data) => ((this.clients = data), this.updateMessage()))
         .catch((err) => console.log(err.message));
     },
   },
   watch: {
     searchQuery(newValue) {
       if (newValue.trim() === "") {
-        this.fetchAllClients();
+        this.fetchAllClients().then(() => {
+          this.updateMessage();
+        });
       }
     },
   },

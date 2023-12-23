@@ -56,21 +56,17 @@ export default {
           delete this.expense_info[key];
         }
       });
-      fetch(
-        "https://www.setrex.net/haircut/backend/public/api/term/" +
-          this.$route.params.id,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: this.expense_info.name,
-            tax_state: this.expense_info.tax_state,
-          }),
-        }
-      )
+      fetch("http://127.0.0.1:8001/api/term/" + this.$route.params.id, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: this.expense_info.name,
+          tax_state: this.expense_info.tax_state,
+        }),
+      })
         .then((response) => {
           this.isLoading = false;
           if (response.ok) {

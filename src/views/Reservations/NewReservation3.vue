@@ -9,10 +9,7 @@
       <h6 class="first-step">الخطوة الثالثة:</h6>
       <span>اضغط على تاريخ الحجز لتكون بالفاتورة من حيث المواعيد . </span>
       <div class="control_wrapper cont">
-        <ejs-calendar
-          :isMultiSelection="isMultiSelection"
-          @change="handleDateChange"
-        ></ejs-calendar>
+        <ejs-calendar @change="handleDateChange"></ejs-calendar>
       </div>
       <h6 class="first-step">تفاصيل حجز الجديد</h6>
       <div class="control-table">
@@ -99,12 +96,6 @@ export default {
     "ejs-calendar": CalendarComponent,
   },
   mixins: [reservationMixin],
-  data() {
-    return {
-      isMultiSelection: true,
-      // selectedDate: null,
-    };
-  },
   computed: {
     selectedServices() {
       return this.$store.state.selectedServices;

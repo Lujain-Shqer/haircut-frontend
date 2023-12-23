@@ -68,8 +68,7 @@ export default {
   },
   mounted() {
     fetch(
-      "https://www.setrex.net/haircut/backend/public/api/employee/" +
-        localStorage.getItem("branch_id"),
+      "http://127.0.0.1:8001/api/employee/" + localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -92,8 +91,7 @@ export default {
       });
       console.log(this.offDay_info);
       fetch(
-        "https://www.setrex.net/haircut/backend/public/api/stoped-reservation/" +
-          this.$route.params.id,
+        "http://127.0.0.1:8001/api/stoped-reservation/" + this.$route.params.id,
         {
           method: "PUT",
           headers: {

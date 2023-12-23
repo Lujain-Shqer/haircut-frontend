@@ -65,8 +65,7 @@ export default {
   },
   mounted() {
     fetch(
-      "https://www.setrex.net/haircut/backend/public/api/supplier/" +
-        localStorage.getItem("branch_id"),
+      "http://127.0.0.1:8001/api/supplier/" + localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -79,8 +78,7 @@ export default {
       .then((data) => (this.allSuppliers = data))
       .catch((err) => console.log(err.message));
     fetch(
-      "https://www.setrex.net/haircut/backend/public/api/sundry/" +
-        localStorage.getItem("branch_id"),
+      "http://127.0.0.1:8001/api/sundry/" + localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -97,7 +95,7 @@ export default {
     AddSundryPurchases(event) {
       event.preventDefault();
       this.isLoading = true;
-      fetch("https://www.setrex.net/haircut/backend/public/api/purchase", {
+      fetch("http://127.0.0.1:8001/api/purchase", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,

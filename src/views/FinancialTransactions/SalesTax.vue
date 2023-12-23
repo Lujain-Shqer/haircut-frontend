@@ -100,8 +100,7 @@ export default {
   },
   mounted() {
     fetch(
-      "https://www.setrex.net/haircut/backend/public/api/order/" +
-        localStorage.getItem("branch_id"),
+      "http://127.0.0.1:8001/api/order/" + localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -143,7 +142,7 @@ export default {
         this.salesTaxes = [];
       } else {
         fetch(
-          "https://www.setrex.net/haircut/backend/public/api/filter-order/" +
+          "http://127.0.0.1:8001/api/filter-order/" +
             localStorage.getItem("branch_id"),
           {
             method: "POST",

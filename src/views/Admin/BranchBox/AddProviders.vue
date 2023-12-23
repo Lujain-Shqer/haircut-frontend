@@ -38,6 +38,18 @@
               v-model="provider_info.taxNumber"
             />
           </div>
+          <div v-if="errors.length > 0">
+            <ul>
+              <li
+                class="error-message"
+                dir="rtl"
+                v-for="(error, index) in errors"
+                :key="index"
+              >
+                {{ error }}
+              </li>
+            </ul>
+          </div>
           <button :disabled="isLoading" class="btn">
             إضافة مقدم خدمة جديد
           </button>
@@ -58,6 +70,7 @@ export default {
         taxNumber: "",
       },
       isLoading: false,
+      errors: [],
     };
   },
   computed: {
@@ -84,8 +97,7 @@ export default {
           delete this.provider_info[key];
         }
       });
-      console.log(this.provider_info);
-      fetch("https://www.setrex.net/haircut/backend/public/api/provider", {
+      fetch("http://127.0.0.1:8001/api/provider", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -121,6 +133,27 @@ export default {
           }
 
           return response.json();
+        } else if (response.status === 400) {
+          response.json().then((data) => {
+            const errors = data.errors;
+            if (errors) {
+              if (this.errors.length > 0) {
+                this.errors = [];
+              }
+              if (typeof errors === "string") {
+                this.errors.push(errors);
+              } else {
+                Object.values(errors).forEach((errorMessages) => {
+                  errorMessages.forEach((errorMessage) => {
+                    this.errors.push(errorMessage);
+                  });
+                });
+              }
+              setTimeout(() => {
+                this.errors = [];
+              }, 10000);
+            }
+          });
         }
       });
     },
@@ -195,6 +228,15 @@ export default {
   padding: 1vh 2vh;
   margin: auto;
   margin-top: 5vh;
+}
+.error-message {
+  padding: 10px;
+  color: red;
+  display: inline-flex;
+  list-style-type: none;
+}
+ul {
+  margin-top: 30px;
 }
 
 @media (max-width: 991px) {

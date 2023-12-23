@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div v-if="services.length > 0" class="row">
     <div
       v-for="service in services"
       class="card"
@@ -12,6 +12,7 @@
       <span>{{ service.price }} SAR</span>
     </div>
   </div>
+  <div v-else class="row info">لا يوجد خدمات لعرضها</div>
 </template>
 
 <script>
@@ -24,8 +25,7 @@ export default {
   },
   mounted() {
     fetch(
-      "https://www.setrex.net/haircut/backend/public/api/service/" +
-        localStorage.getItem("branch_id"),
+      "http://127.0.0.1:8001/api/service/" + localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -67,6 +67,9 @@ export default {
 <style scoped>
 .row {
   justify-content: space-around;
+}
+.info {
+  color: #1a2669;
 }
 .card {
   border: 1px solid #1a2669;

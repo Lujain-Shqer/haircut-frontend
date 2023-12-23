@@ -145,7 +145,7 @@ export default {
   methods: {
     fetchAllAppointments() {
       fetch(
-        "https://www.setrex.net/haircut/backend/public/api/reservation/" +
+        "http://127.0.0.1:8001/api/reservation/" +
           localStorage.getItem("branch_id"),
         {
           method: "GET",
@@ -177,7 +177,7 @@ export default {
     search(event) {
       event.preventDefault();
       fetch(
-        "https://www.setrex.net/haircut/backend/public/api/reservation/" +
+        "http://127.0.0.1:8001/api/reservation/" +
           localStorage.getItem("branch_id"),
         {
           method: "POST",
@@ -205,7 +205,7 @@ export default {
         this.appointments = [];
       } else {
         fetch(
-          "https://www.setrex.net/haircut/backend/public/api/filter-reservation/" +
+          "http://127.0.0.1:8001/api/filter-reservation/" +
             localStorage.getItem("branch_id"),
           {
             method: "POST",
@@ -241,17 +241,13 @@ export default {
       }
     },
     deleteAppointment(appointmentId) {
-      fetch(
-        "https://www.setrex.net/haircut/backend/public/api/reservation/" +
-          appointmentId,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      fetch("http://127.0.0.1:8001/api/reservation/" + appointmentId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
         .then((response) => {
           if (response.ok) {
             this.appointments = this.appointments.filter(

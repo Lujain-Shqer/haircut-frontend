@@ -116,6 +116,18 @@
           </ul>
           <input type="text" /> <span>:</span> <input type="text" />
         </div> -->
+      <div v-if="errors.length > 0">
+        <ul>
+          <li
+            class="error-message"
+            dir="rtl"
+            v-for="(error, index) in errors"
+            :key="index"
+          >
+            {{ error }}
+          </li>
+        </ul>
+      </div>
       <div class="row">
         <button :disabled="isLoading" @click="addService" class="btn bill">
           إضافة خدمة جديدة
@@ -135,6 +147,7 @@ export default {
       component: "ServicesPage",
       isLoading: false,
       selectedItems: null,
+      errors: [],
       service_info: {
         image: "",
         name: "",
@@ -164,8 +177,7 @@ export default {
     addService(event) {
       event.preventDefault();
       this.isLoading = true;
-      console.log(localStorage.getItem("access_token"));
-      fetch("https://www.setrex.net/haircut/backend/public/api/service", {
+      fetch("http://127.0.0.1:8001/api/service", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -183,6 +195,27 @@ export default {
         if (response.ok) {
           this.$router.push({ name: "ServicesPage" });
           return response.json();
+        } else if (response.status === 400) {
+          response.json().then((data) => {
+            const errors = data.errors;
+            if (errors) {
+              if (this.errors.length > 0) {
+                this.errors = [];
+              }
+              if (typeof errors === "string") {
+                this.errors.push(errors);
+              } else {
+                Object.values(errors).forEach((errorMessages) => {
+                  errorMessages.forEach((errorMessage) => {
+                    this.errors.push(errorMessage);
+                  });
+                });
+              }
+              setTimeout(() => {
+                this.errors = [];
+              }, 10000);
+            }
+          });
         }
       });
     },
@@ -302,6 +335,15 @@ export default {
 .active {
   background-color: #8590d1;
   color: white;
+}
+.error-message {
+  padding: 10px;
+  color: red;
+  display: inline-flex;
+  list-style-type: none;
+}
+ul {
+  margin-top: 30px;
 }
 @media (max-width: 991px) {
   .addServices {

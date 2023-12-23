@@ -93,6 +93,18 @@
             {{ errorMessage }}
           </div>
         </div>
+        <div v-if="errors.length > 0">
+          <ul>
+            <li
+              class="error-message"
+              dir="rtl"
+              v-for="(error, index) in errors"
+              :key="index"
+            >
+              {{ error }}
+            </li>
+          </ul>
+        </div>
         <button :disabled="isLoading" @click="submitForm" class="btn">
           إضافة منتج جديد
         </button>
@@ -114,6 +126,7 @@ export default {
         image: "",
       },
       errorMessage: "",
+      errors: [],
       isDragging: false,
       isDropped: false,
       isLoading: false,
@@ -121,8 +134,7 @@ export default {
   },
   mounted() {
     fetch(
-      "https://www.setrex.net/haircut/backend/public/api/employee/" +
-        localStorage.getItem("branch_id"),
+      "http://127.0.0.1:8001/api/employee/" + localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -146,7 +158,7 @@ export default {
       formData.append("selling_price", this.product_info.selling_price);
       formData.append("quantity", this.product_info.quantity);
       formData.append("image", this.product_info.image);
-      fetch("https://www.setrex.net/haircut/backend/public/api/product", {
+      fetch("http://127.0.0.1:8001/api/product", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -157,6 +169,27 @@ export default {
         if (response.ok) {
           this.$router.push({ name: "ProductsPage" });
           return response.json();
+        } else if (response.status === 400) {
+          response.json().then((data) => {
+            const errors = data.errors;
+            if (errors) {
+              if (this.errors.length > 0) {
+                this.errors = [];
+              }
+              if (typeof errors === "string") {
+                this.errors.push(errors);
+              } else {
+                Object.values(errors).forEach((errorMessages) => {
+                  errorMessages.forEach((errorMessage) => {
+                    this.errors.push(errorMessage);
+                  });
+                });
+              }
+              setTimeout(() => {
+                this.errors = [];
+              }, 10000);
+            }
+          });
         }
       });
     },
@@ -185,14 +218,14 @@ export default {
             this.errorMessage = "لاحقة ملف غير صحيحة.";
             setTimeout(() => {
               this.errorMessage = "";
-            }, 5000);
+            }, 10000);
           }
         } else {
           // File size exceeds 10MB
           this.errorMessage += "اختر ملف أصغر حجماً.";
           setTimeout(() => {
             this.errorMessage = "";
-          }, 5000);
+          }, 10000);
         }
       }
     },
@@ -238,18 +271,22 @@ export default {
 .row {
   margin: 0;
 }
+
 .addProducts {
   direction: rtl;
   width: 77%;
 }
+
 .addProducts h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
+
 .addProducts p {
   color: #1a2669;
   font-weight: 400;
 }
+
 .addProducts .update-info-client {
   margin: 5vh 0;
   border: 1px solid #3f51b5;
@@ -257,11 +294,13 @@ export default {
   border-radius: 8px;
   padding: 5vh;
 }
+
 .addProducts h6 {
   color: #3f51b5;
   font-weight: 700px;
   margin: 3vh 0;
 }
+
 .addProducts label {
   display: block;
   margin-bottom: 2vh;
@@ -278,15 +317,18 @@ export default {
   width: 70%;
   outline: none;
 }
+
 .addProducts input[type="checkbox"] {
   border: 1px solid #1a2669;
   margin-right: 1vh;
   width: 3vh;
   height: 3vh;
 }
+
 .addProducts input[type="text"]:focus {
   border: 1px solid #1a2669;
 }
+
 .addProducts form span {
   font-weight: 600;
   color: #1a2669;
@@ -300,15 +342,18 @@ export default {
   margin: auto;
   margin-top: 5vh;
 }
+
 .addProducts .downloaded {
   text-align: center;
   border: 1px dashed #00000040;
   border-radius: 8px;
   padding: 3vh 1vh;
 }
+
 .addProducts .downloaded img {
   margin: 1vh 0;
 }
+
 .addProducts .downloaded button {
   border: 1px solid #1a2669;
   background: #fff;
@@ -316,25 +361,32 @@ export default {
 }
 
 .error-message {
-  display: block;
-  padding: 1vh;
-  text-align: start;
+  padding: 10px;
   color: red;
+  display: inline-flex;
+  list-style-type: none;
 }
+ul {
+  margin-top: 30px;
+}
+
 @media (max-width: 991px) {
   .addProducts input[type="text"],
   .addProducts select {
     width: 100% !important;
   }
+
   .addProducts button {
     width: 95%;
     margin-right: 2vh;
     margin-top: 2vh;
   }
+
   .addProducts {
     width: 70%;
   }
 }
+
 @media (max-width: 765px) {
   .addProducts {
     width: 100%;

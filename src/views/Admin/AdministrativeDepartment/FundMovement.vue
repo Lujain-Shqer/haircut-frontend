@@ -119,6 +119,18 @@
               v-model="feed_info.state"
             />
           </div>
+          <div v-if="errors1.length > 0">
+            <ul>
+              <li
+                class="error-message"
+                dir="rtl"
+                v-for="(error, index) in errors1"
+                :key="index"
+              >
+                {{ error }}
+              </li>
+            </ul>
+          </div>
           <button :disabled="isLoading1" class="btn">أضف المبلغ</button>
         </form>
       </div>
@@ -148,6 +160,18 @@
               v-model="drawal_info.state"
             />
           </div>
+          <div v-if="errors2.length > 0">
+            <ul>
+              <li
+                class="error-message"
+                dir="rtl"
+                v-for="(error, index) in errors2"
+                :key="index"
+              >
+                {{ error }}
+              </li>
+            </ul>
+          </div>
           <button :disabled="isLoading2" class="btn">سحب المبلغ</button>
         </form>
       </div>
@@ -167,6 +191,8 @@ export default {
       isComponentVisible: false,
       isLoading1: false,
       isLoading2: false,
+      errors1: [],
+      errors2: [],
       feed_info: {
         amount: "",
         state: "",
@@ -188,7 +214,7 @@ export default {
     addFeed(event) {
       event.preventDefault();
       this.isLoading1 = true;
-      fetch("https://www.setrex.net/haircut/backend/public/api/deposit", {
+      fetch("http://127.0.0.1:8001/api/deposit", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -204,13 +230,34 @@ export default {
         if (response.ok) {
           this.$router.push({ name: "CashierFeed" });
           return response.json();
+        } else if (response.status === 400) {
+          response.json().then((data) => {
+            const errors = data.errors;
+            if (errors) {
+              if (this.errors1.length > 0) {
+                this.errors1 = [];
+              }
+              if (typeof errors === "string") {
+                this.errors2.push(errors);
+              } else {
+                Object.values(errors).forEach((errorMessages) => {
+                  errorMessages.forEach((errorMessage) => {
+                    this.errors2.push(errorMessage);
+                  });
+                });
+              }
+              setTimeout(() => {
+                this.errors1 = [];
+              }, 10000);
+            }
+          });
         }
       });
     },
     addDrawal(event) {
       event.preventDefault();
       this.isLoading2 = true;
-      fetch("https://www.setrex.net/haircut/backend/public/api/withdraw", {
+      fetch("http://127.0.0.1:8001/api/withdraw", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -226,6 +273,27 @@ export default {
         if (response.ok) {
           this.$router.push({ name: "CashierWithdrawals" });
           return response.json();
+        } else if (response.status === 400) {
+          response.json().then((data) => {
+            const errors = data.errors;
+            if (errors) {
+              if (this.errors2.length > 0) {
+                this.errors2 = [];
+              }
+              if (typeof errors === "string") {
+                this.errors2.push(errors);
+              } else {
+                Object.values(errors).forEach((errorMessages) => {
+                  errorMessages.forEach((errorMessage) => {
+                    this.errors2.push(errorMessage);
+                  });
+                });
+              }
+              setTimeout(() => {
+                this.errors2 = [];
+              }, 10000);
+            }
+          });
         }
       });
     },
@@ -413,6 +481,15 @@ tfoot svg {
 .control_wrapper {
   width: auto !important;
   float: none !important;
+}
+.error-message {
+  padding: 10px;
+  color: red;
+  display: inline-flex;
+  list-style-type: none;
+}
+ul {
+  margin-top: 30px;
 }
 @media (max-width: 1300px) {
   .table {

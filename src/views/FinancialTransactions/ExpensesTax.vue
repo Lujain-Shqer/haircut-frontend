@@ -115,7 +115,7 @@ export default {
   methods: {
     fetchAllExpensesTaxes() {
       fetch(
-        "https://www.setrex.net/haircut/backend/public/api/general-taxedservice/" +
+        "http://127.0.0.1:8001/api/general-taxedservice/" +
           localStorage.getItem("branch_id"),
         {
           method: "GET",
@@ -133,17 +133,13 @@ export default {
       this.currentPage = currentPage;
     },
     deleteExpensesTax(ExpensesTaxId) {
-      fetch(
-        "https://www.setrex.net/haircut/backend/public/api/general-service/" +
-          ExpensesTaxId,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      fetch("http://127.0.0.1:8001/api/general-service/" + ExpensesTaxId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
         .then((response) => {
           if (response.ok) {
             this.ExpensesTaxes = this.ExpensesTaxes.filter(
@@ -158,7 +154,7 @@ export default {
     search(event) {
       event.preventDefault();
       fetch(
-        "https://www.setrex.net/haircut/backend/public/api/general-taxedservice/" +
+        "http://127.0.0.1:8001/api/general-taxedservice/" +
           localStorage.getItem("branch_id"),
         {
           method: "POST",

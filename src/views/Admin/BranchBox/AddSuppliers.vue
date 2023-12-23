@@ -27,6 +27,18 @@
               v-model="supplier_info.taxNumber"
             />
           </div>
+          <div v-if="errors.length > 0">
+            <ul>
+              <li
+                class="error-message"
+                dir="rtl"
+                v-for="(error, index) in errors"
+                :key="index"
+              >
+                {{ error }}
+              </li>
+            </ul>
+          </div>
           <button :disabled="isLoading" class="btn">إضافة مورد جديد</button>
         </form>
       </div>
@@ -39,6 +51,7 @@ export default {
   data() {
     return {
       isLoading: false,
+      errors: [],
       supplier_info: {
         name: "",
         taxNumber: "",
@@ -49,7 +62,7 @@ export default {
     addSupplier(event) {
       event.preventDefault();
       this.isLoading = true;
-      fetch("https://www.setrex.net/haircut/backend/public/api/supplier", {
+      fetch("http://127.0.0.1:8001/api/supplier", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -65,6 +78,27 @@ export default {
         if (response.ok) {
           this.$router.push({ name: "SuppliersPage" });
           return response.json();
+        } else if (response.status === 400) {
+          response.json().then((data) => {
+            const errors = data.errors;
+            if (errors) {
+              if (this.errors.length > 0) {
+                this.errors = [];
+              }
+              if (typeof errors === "string") {
+                this.errors.push(errors);
+              } else {
+                Object.values(errors).forEach((errorMessages) => {
+                  errorMessages.forEach((errorMessage) => {
+                    this.errors.push(errorMessage);
+                  });
+                });
+              }
+              setTimeout(() => {
+                this.errors = [];
+              }, 10000);
+            }
+          });
         }
       });
     },
@@ -132,7 +166,15 @@ export default {
   margin-top: 5vh;
   padding: 1vh 2vh;
 }
-
+.error-message {
+  padding: 10px;
+  color: red;
+  display: inline-flex;
+  list-style-type: none;
+}
+ul {
+  margin-top: 30px;
+}
 @media (max-width: 991px) {
   .addSuppliers input[type="text"] {
     width: 100%;

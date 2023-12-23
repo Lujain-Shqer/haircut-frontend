@@ -89,8 +89,7 @@ export default {
   methods: {
     fetchAllUsers() {
       fetch(
-        "https://www.setrex.net/haircut/backend/public/api/user/" +
-          localStorage.getItem("branch_id"),
+        "http://127.0.0.1:8001/api/user/" + localStorage.getItem("branch_id"),
         {
           method: "GET",
           headers: {
@@ -104,16 +103,13 @@ export default {
         .catch((err) => console.log(err.message));
     },
     deleteUser(userId) {
-      fetch(
-        "https://www.setrex.net/haircut/backend/public/api/user/" + userId,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      fetch("http://127.0.0.1:8001/api/user/" + userId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
         .then((response) => {
           if (response.ok) {
             this.users = this.users.filter((user) => user.id !== userId);
@@ -129,8 +125,7 @@ export default {
     search(event) {
       event.preventDefault();
       fetch(
-        "https://www.setrex.net/haircut/backend/public/api/user/" +
-          localStorage.getItem("branch_id"),
+        "http://127.0.0.1:8001/api/user/" + localStorage.getItem("branch_id"),
         {
           method: "POST",
           headers: {
@@ -160,18 +155,22 @@ export default {
 .row {
   margin: 0;
 }
+
 .usersPage {
   direction: rtl;
   width: 77%;
 }
+
 .usersPage h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
+
 .usersPage p {
   color: #1a2669;
   font-weight: 400;
 }
+
 .usersPage .control-table {
   margin-top: 5vh;
   border: 1px solid #3f51b5;
@@ -179,6 +178,7 @@ export default {
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
 }
+
 .usersPage .extra-table {
   margin: 0 4vh;
   margin-bottom: 3vh;
@@ -186,6 +186,7 @@ export default {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
 .usersPage .input-container {
   border: 1px solid #c8c9cc;
   box-shadow: 0px 0px 4px 0px #6e49cb33;
@@ -197,14 +198,17 @@ export default {
   color: #3f51b5;
   padding: 1vh;
 }
+
 .usersPage input {
   border: 0;
   outline: none;
   color: #3f51b5;
 }
+
 .usersPage input::placeholder {
   color: #3f51b5;
 }
+
 .usersPage .input-container svg {
   padding-left: 0.2vh;
 }
@@ -213,11 +217,13 @@ export default {
   width: auto;
   float: left;
 }
+
 .usersPage .extra-table button:first-of-type {
   float: left;
   background: #3f51b5;
   color: #fff;
 }
+
 .usersPage .extra-table button {
   float: left;
   background: #fff;
@@ -225,16 +231,19 @@ export default {
   border: 1px solid #3f51b5;
   margin: 0 2px;
 }
+
 .usersPage table {
   margin-bottom: 0;
   border-collapse: collapse;
   border-spacing: 0;
   text-align: center;
 }
+
 .usersPage table tr td,
 .usersPage table tr th {
   color: #1a2669;
 }
+
 .usersPage table .show {
   background: #3f51b5;
   color: #fff;
@@ -242,6 +251,7 @@ export default {
   margin-left: 5px;
   margin-bottom: 1vh;
 }
+
 .usersPage table thead tr th,
 .usersPage table tfoot tr th {
   background: #3f51b5;
@@ -249,6 +259,7 @@ export default {
   height: 5vh;
   font-weight: 400;
 }
+
 .usersPage table tfoot {
   border-radius: 8px;
   background: #3f51b5;
@@ -256,10 +267,12 @@ export default {
   color: #fff;
   font-weight: 300;
 }
+
 .usersPage table tfoot td:last-of-type {
   text-align: end;
   padding-left: 5vh;
 }
+
 tfoot svg {
   background: transparent;
   padding: 0 10px;
@@ -271,6 +284,7 @@ tfoot svg {
   .usersPage {
     width: 70%;
   }
+
   /* .extra-table {
     width: 130%;
   }
@@ -278,10 +292,12 @@ tfoot svg {
     width: 140%;
   } */
 }
+
 @media (max-width: 765px) {
   .usersPage {
     width: 100%;
   }
+
   /* .extra-table {
     width: 170%;
   }
@@ -289,6 +305,7 @@ tfoot svg {
     width: 182%;
   } */
 }
+
 @media (max-width: 540px) {
   /* .extra-table {
     width: 210%;

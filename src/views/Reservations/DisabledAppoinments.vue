@@ -45,6 +45,18 @@
           <div class="error-message" v-if="errorMessage">
             {{ errorMessage }}
           </div>
+          <div v-if="errors.length > 0">
+            <ul style="margin-top: 30px">
+              <li
+                class="error-mes"
+                dir="rtl"
+                v-for="(error, index) in errors"
+                :key="index"
+              >
+                {{ error }}
+              </li>
+            </ul>
+          </div>
           <button
             :disabled="isLoading"
             @click="addDisabledAppointment"
@@ -70,6 +82,7 @@ export default {
       isComponentVisible: false,
       allEmployees: [],
       errorMessage: "",
+      errors: [],
       isLoading: false,
       offDay_info: {
         selectedDay: "",
@@ -79,8 +92,7 @@ export default {
   },
   mounted() {
     fetch(
-      "https://www.setrex.net/haircut/backend/public/api/employee/" +
-        localStorage.getItem("branch_id"),
+      "http://127.0.0.1:8001/api/employee/" + localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -105,27 +117,45 @@ export default {
           "أرجو إدخال كافة المعلومات المطلوبة لحجز موعد عطلة.";
         setTimeout(() => {
           this.errorMessage = "";
-        }, 5000);
+        }, 10000);
       } else {
-        fetch(
-          "https://www.setrex.net/haircut/backend/public/api/stoped-reservation",
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              branch_id: localStorage.getItem("branch_id"),
-              employee_id: this.offDay_info.employee,
-              date: this.offDay_info.selectedDay,
-            }),
-          }
-        ).then((response) => {
+        fetch("http://127.0.0.1:8001/api/stoped-reservation", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            branch_id: localStorage.getItem("branch_id"),
+            employee_id: this.offDay_info.employee,
+            date: this.offDay_info.selectedDay,
+          }),
+        }).then((response) => {
           this.isLoading = false;
           if (response.ok) {
             this.$router.push({ name: "ShowDisabledAppoinments" });
             return response.json();
+          } else if (response.status === 400) {
+            response.json().then((data) => {
+              const errors = data.errors;
+              if (errors) {
+                if (this.errors.length > 0) {
+                  this.errors = [];
+                }
+                if (typeof errors === "string") {
+                  this.errors.push(errors);
+                } else {
+                  Object.values(errors).forEach((errorMessages) => {
+                    errorMessages.forEach((errorMessage) => {
+                      this.errors.push(errorMessage);
+                    });
+                  });
+                }
+                setTimeout(() => {
+                  this.errors = [];
+                }, 10000);
+              }
+            });
           }
         });
       }
@@ -225,6 +255,12 @@ export default {
   padding: 1vh;
   text-align: start;
   color: red;
+}
+.error-mes {
+  padding: 10px;
+  color: red;
+  display: inline-flex;
+  list-style-type: none;
 }
 
 @media (max-width: 991px) {

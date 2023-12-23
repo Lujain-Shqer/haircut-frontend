@@ -126,8 +126,7 @@ export default {
   },
   mounted() {
     fetch(
-      "https://www.setrex.net/haircut/backend/public/api/withdraw/" +
-        localStorage.getItem("branch_id"),
+      "http://127.0.0.1:8001/api/withdraw/" + localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -142,17 +141,13 @@ export default {
   },
   methods: {
     deleteCashierWithdrawal(cashierWithdrawalId) {
-      fetch(
-        "https://www.setrex.net/haircut/backend/public/api/withdraw/" +
-          cashierWithdrawalId,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      fetch("http://127.0.0.1:8001/api/withdraw/" + cashierWithdrawalId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
         .then((response) => {
           if (response.ok) {
             this.cashierWithdrawals = this.cashierWithdrawals.filter(
@@ -193,7 +188,7 @@ export default {
         this.cashierWithdrawals = [];
       } else {
         fetch(
-          "https://www.setrex.net/haircut/backend/public/api/filter-withdraw/" +
+          "http://127.0.0.1:8001/api/filter-withdraw/" +
             localStorage.getItem("branch_id"),
           {
             method: "POST",
@@ -238,48 +233,60 @@ export default {
   margin: auto;
   width: 100%;
 }
+
 .e-calendar {
   margin: 0 auto;
 }
+
 .row {
   margin: 0;
 }
+
 .cashierWithdraw {
   direction: rtl;
   width: 77%;
 }
+
 .cashierWithdraw h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
+
 .cashierWithdraw p {
   color: #1a2669;
   font-weight: 400;
   padding: 2vh;
 }
+
 .cashierWithdraw .extra-table {
   margin: 0 4vh;
   margin-bottom: 3vh;
   display: flow-root;
 }
+
 .cashierWithdraw .search {
   width: auto;
   float: right;
 }
+
 .cashierWithdraw .search span {
   padding-left: 2vh;
   color: #3f51b5;
 }
+
 .cashierWithdraw .search svg {
   color: #3f51b5;
   padding-left: 0.7vh;
 }
+
 .cashierWithdraw .search span:first-of-type {
   font-weight: 500;
 }
+
 .cashierWithdraw .search span:last-of-type {
   font-weight: 400;
 }
+
 .cashierWithdraw .input-container {
   border: 1px solid #c8c9cc;
   box-shadow: 0px 0px 4px 0px #6e49cb33;
@@ -289,31 +296,37 @@ export default {
   color: #3f51b5;
   padding: 1vh;
 }
+
 .cashierWithdraw input {
   border: 0;
   outline: none;
 
   color: #3f51b5;
 }
+
 .cashierWithdraw input::placeholder {
   color: #757575;
   text-align: start;
 }
+
 .cashierWithdraw .extra-table button {
   width: auto;
   float: left;
 }
+
 .cashierWithdraw .extra-table button:last-of-type {
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
 }
+
 .cashierWithdraw .extra-table button:first-of-type {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
   margin-right: 5px;
 }
+
 .cashierWithdraw .all-table {
   margin-top: 5vh;
   border: 1px solid #3f51b5;
@@ -322,15 +335,18 @@ export default {
   border-radius: 8px;
   font-weight: 700;
 }
+
 .cashierWithdraw table {
   margin-bottom: 0;
   border: 1px solid #3f51b5;
   text-align: center;
   width: 100%;
 }
+
 .cashierWithdraw table tfoot {
   border-radius: 8px;
 }
+
 tbody,
 td,
 tfoot,
@@ -339,12 +355,14 @@ thead,
 tr {
   border-bottom: 1px solid #d9d5ec;
 }
+
 .cashierWithdraw table thead tr th,
 .cashierWithdraw table tfoot tr th {
   background: #3f51b5;
   color: #e3e3e3;
   height: 5vh;
 }
+
 .cashierWithdraw table tr td,
 .cashierWithdraw table tr th {
   color: #1a2669;
@@ -358,22 +376,26 @@ tr {
   color: #fff;
   font-weight: 300;
 }
+
 .cashierWithdraw table tfoot td:last-of-type {
   text-align: end;
   padding-left: 5vh;
 }
+
 .cashierWithdraw table .delete {
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
   margin-right: 2px;
 }
+
 .cashierWithdraw table .show {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
   margin-left: 2px;
 }
+
 tfoot svg {
   background: transparent;
   padding: 0 10px;
@@ -392,6 +414,7 @@ tfoot svg {
     width: 70%;
   }
 }
+
 @media (max-width: 765px) {
   /* .extra-table {
     width: 180%;
@@ -403,6 +426,7 @@ tfoot svg {
     width: 100%;
   }
 }
+
 @media (max-width: 540px) {
   /* .extra-table {
     width: 220%;
@@ -411,6 +435,7 @@ tfoot svg {
     width: 250%;
   } */
 }
+
 .control_wrapper {
   width: auto !important;
   float: none !important;

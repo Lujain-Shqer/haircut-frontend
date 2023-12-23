@@ -136,8 +136,7 @@ export default {
   methods: {
     fetchAllSalesBills() {
       fetch(
-        "https://www.setrex.net/haircut/backend/public/api/order/" +
-          localStorage.getItem("branch_id"),
+        "http://127.0.0.1:8001/api/order/" + localStorage.getItem("branch_id"),
         {
           method: "GET",
           headers: {
@@ -151,17 +150,13 @@ export default {
         .catch((err) => console.log(err.message));
     },
     deleteSalesBill(salesBillId) {
-      fetch(
-        "https://www.setrex.net/haircut/backend/public/api/order/" +
-          salesBillId,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      fetch("http://127.0.0.1:8001/api/order/" + salesBillId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
         .then((response) => {
           if (response.ok) {
             this.salesBills = this.salesBills.filter(
@@ -179,8 +174,7 @@ export default {
     search(event) {
       event.preventDefault();
       fetch(
-        "https://www.setrex.net/haircut/backend/public/api/order/" +
-          localStorage.getItem("branch_id"),
+        "http://127.0.0.1:8001/api/order/" + localStorage.getItem("branch_id"),
         {
           method: "POST",
           headers: {

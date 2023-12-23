@@ -145,7 +145,7 @@ export default {
   methods: {
     fetchAllDeletedBills() {
       fetch(
-        "https://www.setrex.net/haircut/backend/public/api/deleted-order/" +
+        "http://127.0.0.1:8001/api/deleted-order/" +
           localStorage.getItem("branch_id"),
         {
           method: "GET",
@@ -173,7 +173,7 @@ export default {
     search(event) {
       event.preventDefault();
       fetch(
-        "https://www.setrex.net/haircut/backend/public/api/deleted-order/" +
+        "http://127.0.0.1:8001/api/deleted-order/" +
           localStorage.getItem("branch_id"),
         {
           method: "POST",
@@ -197,7 +197,7 @@ export default {
         this.deletedBills = [];
       } else {
         fetch(
-          "https://www.setrex.net/haircut/backend/public/api/filter-deleted-order/" +
+          "http://127.0.0.1:8001/api/filter-deleted-order/" +
             localStorage.getItem("branch_id"),
           {
             method: "POST",

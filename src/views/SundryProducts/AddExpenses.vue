@@ -29,6 +29,18 @@
               v-model="expenses_info.taxState"
             />
           </div>
+          <div v-if="errors.length > 0">
+            <ul style="margin-top: 30px">
+              <li
+                class="error-mes"
+                dir="rtl"
+                v-for="(error, index) in errors"
+                :key="index"
+              >
+                {{ error }}
+              </li>
+            </ul>
+          </div>
           <button :disabled="isLoading" class="btn">إضافة</button>
         </form>
       </div>
@@ -45,13 +57,14 @@ export default {
         taxState: 0,
       },
       isLoading: false,
+      errors: [],
     };
   },
   methods: {
     addExpense(event) {
       event.preventDefault();
       this.isLoading = true;
-      fetch("https://www.setrex.net/haircut/backend/public/api/term", {
+      fetch("http://127.0.0.1:8001/api/term", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -67,6 +80,27 @@ export default {
         if (response.ok) {
           this.$router.push({ name: "GeneralExpenses" });
           return response.json();
+        } else if (response.status === 400) {
+          response.json().then((data) => {
+            const errors = data.errors;
+            if (errors) {
+              if (this.errors.length > 0) {
+                this.errors = [];
+              }
+              if (typeof errors === "string") {
+                this.errors.push(errors);
+              } else {
+                Object.values(errors).forEach((errorMessages) => {
+                  errorMessages.forEach((errorMessage) => {
+                    this.errors.push(errorMessage);
+                  });
+                });
+              }
+              setTimeout(() => {
+                this.errors = [];
+              }, 10000);
+            }
+          });
         }
       });
     },
@@ -138,6 +172,12 @@ export default {
   margin: auto;
   margin-top: 5vh;
   padding: 1vh 4vh;
+}
+.error-mes {
+  padding: 10px;
+  color: red;
+  display: inline-flex;
+  list-style-type: none;
 }
 
 @media (max-width: 991px) {

@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div v-if="products.length > 0" class="row">
     <div
       v-for="product in products"
       class="card"
@@ -8,10 +8,7 @@
       :class="{ red: isProductSelected(product) }"
     >
       <img
-        :src="
-          'https://www.setrex.net/haircut/backend/public/storage/product_images/' +
-          product.image
-        "
+        :src="'http://127.0.0.1:8001/storage/product_images/' + product.image"
         alt="product"
       />
       <h6>{{ product.name }}</h6>
@@ -133,6 +130,7 @@
       <span>30.00 SAR</span>
     </div> -->
   </div>
+  <div v-else class="row info">لا يوجد منتجات لعرضها</div>
 </template>
 <script>
 export default {
@@ -145,8 +143,7 @@ export default {
   },
   mounted() {
     fetch(
-      "https://www.setrex.net/haircut/backend/public/api/product/" +
-        localStorage.getItem("branch_id"),
+      "http://127.0.0.1:8001/api/product/" + localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -202,7 +199,9 @@ export default {
 .row {
   justify-content: space-around;
 }
-
+.info {
+  color: #1a2669;
+}
 .card {
   border: 1px solid #1a2669;
   width: 10%;

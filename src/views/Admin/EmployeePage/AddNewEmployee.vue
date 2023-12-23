@@ -28,7 +28,7 @@
             <label> تاريخ الانتهاء الإقامة </label>
             <input
               type="text"
-              placeholder="  تاريخ الانتهاء الإقامة  "
+              placeholder="YYYY-MM-DD"
               v-model="employee_info.residence_expire_date"
               required
             />
@@ -46,7 +46,7 @@
             <label> تاريخ الانتهاء الكرت الصحي</label>
             <input
               type="text"
-              placeholder="   تاريخ الانتهاء الكرت الصحي  "
+              placeholder="YYYY-MM-DD"
               v-model="employee_info.health_expire_date"
               required
             />
@@ -121,7 +121,7 @@
               required
             />
           </div>
-          <div class="col-md-6 col-sm-12">
+          <div class="col-md-12">
             <label> المسؤول عن التكاليف</label>
             <input
               type="text"
@@ -130,9 +130,21 @@
               required
             />
           </div>
-          <div class="col-md-6 col-sm-12">
+          <!-- <div class="col-md-6 col-sm-12">
             <label>الحالة</label>
             <input type="text" placeholder="  مفعل " />
+          </div> -->
+          <div v-if="errors.length > 0">
+            <ul>
+              <li
+                class="error-message"
+                dir="rtl"
+                v-for="(error, index) in errors"
+                :key="index"
+              >
+                {{ error }}
+              </li>
+            </ul>
           </div>
           <button :disabled="isLoading" type="submit" class="btn">
             إضافة الموظف
@@ -164,13 +176,14 @@ export default {
         costs_responsible: "",
       },
       isLoading: false,
+      errors: [],
     };
   },
   methods: {
     addEmployee(event) {
       event.preventDefault();
       this.isLoading = true;
-      fetch("https://www.setrex.net/haircut/backend/public/api/employee", {
+      fetch("http://127.0.0.1:8001/api/employee", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -199,6 +212,27 @@ export default {
           if (response.ok) {
             this.$router.push({ name: "ListOfEmployees" });
             return response.json();
+          } else if (response.status === 400) {
+            response.json().then((data) => {
+              const errors = data.errors;
+              if (errors) {
+                if (this.errors.length > 0) {
+                  this.errors = [];
+                }
+                if (typeof errors === "string") {
+                  this.errors.push(errors);
+                } else {
+                  Object.values(errors).forEach((errorMessages) => {
+                    errorMessages.forEach((errorMessage) => {
+                      this.errors.push(errorMessage);
+                    });
+                  });
+                }
+                setTimeout(() => {
+                  this.errors = [];
+                }, 10000);
+              }
+            });
           }
         })
         .catch((error) => {
@@ -275,6 +309,15 @@ export default {
   width: auto;
   margin: auto;
   margin-top: 5vh;
+}
+.error-message {
+  padding: 10px;
+  color: red;
+  display: inline-flex;
+  list-style-type: none;
+}
+ul {
+  margin-top: 30px;
 }
 
 @media (max-width: 991px) {

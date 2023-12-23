@@ -83,7 +83,7 @@ export default {
   },
   mounted() {
     fetch(
-      "https://www.setrex.net/haircut/backend/public/api/untaxedterm/" +
+      "http://127.0.0.1:8001/api/untaxedterm/" +
         localStorage.getItem("branch_id"),
       {
         method: "GET",
@@ -97,7 +97,7 @@ export default {
       .then((data) => (this.allGeneralExpenses = data))
       .catch((err) => console.log(err.message));
     fetch(
-      "https://www.setrex.net/haircut/backend/public/api/untaxedprovider/" +
+      "http://127.0.0.1:8001/api/untaxedprovider/" +
         localStorage.getItem("branch_id"),
       {
         method: "GET",
@@ -122,8 +122,7 @@ export default {
       });
       console.log(this.NoTaxes_info);
       fetch(
-        "https://www.setrex.net/haircut/backend/public/api/general-service/" +
-          this.$route.params.id,
+        "http://127.0.0.1:8001/api/general-service/" + this.$route.params.id,
         {
           method: "PUT",
           headers: {

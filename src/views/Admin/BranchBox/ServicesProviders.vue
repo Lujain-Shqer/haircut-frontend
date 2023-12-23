@@ -107,7 +107,7 @@ export default {
   methods: {
     fetchGeneralProviders() {
       fetch(
-        "https://www.setrex.net/haircut/backend/public/api/provider/" +
+        "http://127.0.0.1:8001/api/provider/" +
           localStorage.getItem("branch_id"),
         {
           method: "GET",
@@ -122,17 +122,13 @@ export default {
         .catch((err) => console.log(err.message));
     },
     deleteGeneralProvider(generalProviderId) {
-      fetch(
-        "https://www.setrex.net/haircut/backend/public/api/provider/" +
-          generalProviderId,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      fetch("http://127.0.0.1:8001/api/provider/" + generalProviderId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
         .then((response) => {
           if (response.ok) {
             this.generalProviders = this.generalProviders.filter(
@@ -156,7 +152,7 @@ export default {
     search(event) {
       event.preventDefault();
       fetch(
-        "https://www.setrex.net/haircut/backend/public/api/provider/" +
+        "http://127.0.0.1:8001/api/provider/" +
           localStorage.getItem("branch_id"),
         {
           method: "POST",

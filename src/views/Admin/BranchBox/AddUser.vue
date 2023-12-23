@@ -51,6 +51,18 @@
               v-model="user_info.confirmPassword"
             />
           </div>
+          <div v-if="errors.length > 0">
+            <ul>
+              <li
+                class="error-message"
+                dir="rtl"
+                v-for="(error, index) in errors"
+                :key="index"
+              >
+                {{ error }}
+              </li>
+            </ul>
+          </div>
           <button :disabled="isLoading" class="btn">إضافة مستخدم جديد</button>
         </form>
       </div>
@@ -70,13 +82,14 @@ export default {
         confirmPassword: "",
       },
       isLoading: false,
+      errors: [],
     };
   },
   methods: {
     addUser(event) {
       event.preventDefault();
       this.isLoading = true;
-      fetch("https://www.setrex.net/haircut/backend/public/api/barber", {
+      fetch("http://127.0.0.1:8001/api/barber", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -95,6 +108,27 @@ export default {
         if (response.ok) {
           this.$router.push({ name: "UsersPage" });
           return response.json();
+        } else if (response.status === 400) {
+          response.json().then((data) => {
+            const errors = data.errors;
+            if (errors) {
+              if (this.errors.length > 0) {
+                this.errors = [];
+              }
+              if (typeof errors === "string") {
+                this.errors.push(errors);
+              } else {
+                Object.values(errors).forEach((errorMessages) => {
+                  errorMessages.forEach((errorMessage) => {
+                    this.errors.push(errorMessage);
+                  });
+                });
+              }
+              setTimeout(() => {
+                this.errors = [];
+              }, 10000);
+            }
+          });
         }
       });
     },
@@ -162,6 +196,15 @@ export default {
   width: auto;
   margin: 5vh auto;
   padding: 1vh 4vh;
+}
+.error-message {
+  padding: 10px;
+  color: red;
+  display: inline-flex;
+  list-style-type: none;
+}
+ul {
+  margin-top: 30px;
 }
 
 @media (max-width: 991px) {
