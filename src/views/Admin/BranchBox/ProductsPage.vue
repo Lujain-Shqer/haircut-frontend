@@ -45,7 +45,13 @@
               <td>{{ product.selling_price }}</td>
               <td>{{ product.branch_id }}</td>
               <td class="text-center">
-                <button class="btn show"><fa icon="pen" /> تعديل</button>
+                <router-link
+                  :to="{ name: 'UpdateProducts', params: { id: product.id } }"
+                >
+                  <button class="btn show">
+                    <fa icon="pen" /> تعديل
+                  </button></router-link
+                >
                 <button @click="deleteProduct(product.id)" class="btn delete">
                   <fa icon="trash" /> حذف
                 </button>

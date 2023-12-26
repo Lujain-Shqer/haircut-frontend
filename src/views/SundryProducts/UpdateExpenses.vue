@@ -51,11 +51,7 @@ export default {
     updateExpense(event) {
       event.preventDefault();
       this.isLoading = true;
-      Object.keys(this.expense_info).forEach((key) => {
-        if (this.expense_info[key] === "") {
-          delete this.expense_info[key];
-        }
-      });
+      this.deleteUnwantedInfo();
       fetch("http://127.0.0.1:8001/api/term/" + this.$route.params.id, {
         method: "PUT",
         headers: {
@@ -84,6 +80,13 @@ export default {
     },
     toggleTaxState() {
       this.expense_info.tax_state = this.expense_info.tax_state === 1 ? 0 : 1;
+    },
+    deleteUnwantedInfo() {
+      Object.keys(this.expense_info).forEach((key) => {
+        if (this.expense_info[key] === "") {
+          delete this.expense_info[key];
+        }
+      });
     },
   },
 };

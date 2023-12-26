@@ -116,11 +116,7 @@ export default {
     updateTax(event) {
       event.preventDefault();
       this.isLoading = true;
-      Object.keys(this.taxes_info).forEach((key) => {
-        if (this.taxes_info[key] === "") {
-          delete this.taxes_info[key];
-        }
-      });
+      this.deleteUnwantedInfo();
       fetch(
         "http://127.0.0.1:8001/api/general-service/" + this.$route.params.id,
         {
@@ -136,6 +132,13 @@ export default {
         if (response.ok) {
           this.$router.push({ name: "ExpensesTax" });
           return response.json();
+        }
+      });
+    },
+    deleteUnwantedInfo() {
+      Object.keys(this.taxes_info).forEach((key) => {
+        if (this.taxes_info[key] === "") {
+          delete this.taxes_info[key];
         }
       });
     },

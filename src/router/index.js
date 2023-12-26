@@ -73,6 +73,9 @@ import AddSuppliers from "../views/Admin/BranchBox/AddSuppliers.vue";
 import AddUser from "../views/Admin/BranchBox/AddUser.vue";
 import AddServices from "../views/Admin/BranchBox/AddServices.vue";
 import AddNewEmployee from "../views/Admin/EmployeePage/AddNewEmployee.vue";
+import UpdateUsers from "../views/Admin/BranchBox/UpdateUsers.vue";
+import UpdateProducts from "../views/Admin/BranchBox/UpdateProducts.vue";
+import UpdateProviders from "../views/Admin/BranchBox/UpdateProviders.vue";
 import ListOfEmployees from "../views/Admin/EmployeePage/ListOfEmployees.vue";
 import EmployeesSalary from "../views/Admin/EmployeePage/EmployeesSalary.vue";
 import UpdateEmployee from "../views/Admin/EmployeePage/UpdateEmployee.vue";
@@ -390,6 +393,11 @@ const routes = [
     component: ServicesProviders,
   },
   {
+    path: "/UpdateProviders/:id",
+    name: "UpdateProviders",
+    component: UpdateProviders,
+  },
+  {
     path: "/ProductsPage",
     name: "ProductsPage",
     component: ProductsPage,
@@ -410,6 +418,11 @@ const routes = [
     component: UsersPage,
   },
   {
+    path: "/UpdateUsers/:id",
+    name: "UpdateUsers",
+    component: UpdateUsers,
+  },
+  {
     path: "/PowersPage",
     name: "PowersPage",
     component: PowersPage,
@@ -423,6 +436,11 @@ const routes = [
     path: "/AddProducts",
     name: "AddProducts",
     component: AddProducts,
+  },
+  {
+    path: "/UpdateProducts/:id",
+    name: "UpdateProducts",
+    component: UpdateProducts,
   },
   {
     path: "/AddSuppliers",

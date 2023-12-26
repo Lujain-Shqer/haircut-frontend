@@ -48,11 +48,16 @@
           </div>
           <div class="col-md-6 col-sm-12">
             <label> الوظيفة</label>
-            <input
-              type="text"
-              placeholder="  الوظيفة "
-              v-model="employee_info.job"
-            />
+            <select
+              v-model="employee_info.pay_type"
+              class="form-selec"
+              aria-label="Default select example"
+            >
+              <option disabled selected>اختر نوع الأجر</option>
+              <option value="salary">الراتب</option>
+              <option value="commission">الأجر</option>
+              <option value="both">أجر و راتب</option>
+            </select>
           </div>
           <div class="col-md-6 col-sm-12">
             <label>نوع الأجر </label>
@@ -112,15 +117,23 @@
           </div>
           <div class="col-md-6 col-sm-12">
             <label> المسؤول عن التكاليف</label>
-            <input
-              type="text"
-              placeholder="   الصالون مسؤول من دفع قيمة التجديد للإقامة، الكرت الصحي والتامين "
+            <select
               v-model="employee_info.costs_responsible"
-            />
+              class="form-selec"
+              aria-label="Default select example"
+            >
+              <option disabled selected>اختر المسؤول عن التكاليف</option>
+              <option value="salon">الصالون</option>
+              <option value="self">نفسه</option>
+            </select>
           </div>
           <div class="col-md-6 col-sm-12">
             <label>الحالة</label>
-            <input type="text" placeholder="  مفعل " />
+            <input
+              v-model="employee_info.state"
+              type="text"
+              placeholder="  مفعل "
+            />
           </div>
           <button :disabled="isLoading" type="submit" class="btn">
             تحديث بيانات الموظف
@@ -137,6 +150,7 @@ export default {
   data() {
     return {
       employee_info: {
+        branch_id: localStorage.getItem("branch_id"),
         name: "",
         residence_number: "",
         residence_expire_date: "",
@@ -145,28 +159,23 @@ export default {
         job: "",
         pay_type: "",
         salary: "",
-        income_limit: "-1",
+        income_limit: "",
         commission: "",
         residence_cost: "",
         health_cost: "",
         insurance_cost: "",
         costs_responsible: "",
+        state: "",
       },
       isLoading: false,
+      errors: [],
     };
   },
   methods: {
     updateEmployee(event) {
       event.preventDefault();
       this.isLoading = true;
-      Object.keys(this.employee_info).forEach((key) => {
-        if (
-          this.employee_info[key] === "" ||
-          this.employee_info[key] === "-1"
-        ) {
-          delete this.employee_info[key];
-        }
-      });
+      this.deleteUnwantedInfo();
       fetch("http://127.0.0.1:8001/api/employee/" + this.$route.params.id, {
         method: "PUT",
         headers: {
@@ -180,6 +189,27 @@ export default {
           if (response.ok) {
             this.$router.push({ name: "ListOfEmployees" });
             return response.json();
+          } else if (response.status === 400) {
+            response.json().then((data) => {
+              const errors = data.errors;
+              if (errors) {
+                if (this.errors.length > 0) {
+                  this.errors = [];
+                }
+                if (typeof errors === "string") {
+                  this.errors.push(errors);
+                } else {
+                  Object.values(errors).forEach((errorMessages) => {
+                    errorMessages.forEach((errorMessage) => {
+                      this.errors.push(errorMessage);
+                    });
+                  });
+                }
+                setTimeout(() => {
+                  this.errors = [];
+                }, 10000);
+              }
+            });
           }
         })
         .catch((error) => {
@@ -190,6 +220,13 @@ export default {
             console.error("Failed to update employee:", error);
           }
         });
+    },
+    deleteUnwantedInfo() {
+      Object.keys(this.employee_info).forEach((key) => {
+        if (this.employee_info[key] === "") {
+          delete this.employee_info[key];
+        }
+      });
     },
   },
 };
@@ -238,6 +275,15 @@ export default {
   margin-bottom: 3vh;
   border: 1px solid #c8c9cc;
 }
+.updateEmployee select {
+  color: #3f51b5;
+  border-radius: 8px;
+  padding: 1vh;
+  width: 70%;
+  outline: none;
+  margin-bottom: 3vh;
+  border: 1px solid #c8c9cc;
+}
 .col-md-12 input {
   width: 35%;
 }
@@ -257,7 +303,6 @@ export default {
   margin: auto;
   margin-top: 5vh;
 }
-
 @media (max-width: 991px) {
   .updateEmployee input {
     width: 100%;

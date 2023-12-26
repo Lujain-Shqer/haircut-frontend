@@ -84,11 +84,7 @@ export default {
   methods: {
     updateDisabledAppointment(event) {
       event.preventDefault();
-      Object.keys(this.offDay_info).forEach((key) => {
-        if (this.offDay_info[key] === "") {
-          delete this.offDay_info[key];
-        }
-      });
+      this.deleteUnwantedInfo();
       console.log(this.offDay_info);
       fetch(
         "http://127.0.0.1:8001/api/stoped-reservation/" + this.$route.params.id,
@@ -117,6 +113,13 @@ export default {
     },
     handleDateChange(args) {
       this.offDay_info.date = format(args.value, "yyyy-MM-dd");
+    },
+    deleteUnwantedInfo() {
+      Object.keys(this.offDay_info).forEach((key) => {
+        if (this.offDay_info[key] === "") {
+          delete this.offDay_info[key];
+        }
+      });
     },
   },
 };

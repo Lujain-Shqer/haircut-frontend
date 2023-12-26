@@ -115,11 +115,7 @@ export default {
     updateNoTax(event) {
       event.preventDefault();
       this.isLoading = true;
-      Object.keys(this.NoTaxes_info).forEach((key) => {
-        if (this.NoTaxes_info[key] === "") {
-          delete this.NoTaxes_info[key];
-        }
-      });
+      this.deleteUnwantedInfo();
       console.log(this.NoTaxes_info);
       fetch(
         "http://127.0.0.1:8001/api/general-service/" + this.$route.params.id,
@@ -136,6 +132,13 @@ export default {
         if (response.ok) {
           this.$router.push({ name: "ExpensesNotTax" });
           return response.json();
+        }
+      });
+    },
+    deleteUnwantedInfo() {
+      Object.keys(this.NoTaxes_info).forEach((key) => {
+        if (this.NoTaxes_info[key] === "") {
+          delete this.NoTaxes_info[key];
         }
       });
     },

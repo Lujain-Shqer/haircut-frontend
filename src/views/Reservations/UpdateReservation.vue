@@ -42,7 +42,7 @@
             min="0"
             max="59"
             v-model="minute"
-            type="text"
+            type="number"
             @input="validateMinute"
           />
           <span>:</span>
@@ -50,7 +50,7 @@
             min="0"
             max="23"
             v-model="hour"
-            type="text"
+            type="number"
             @input="validateHour"
           />
         </div>
@@ -69,6 +69,18 @@
           {{ client.name }}
         </option>
       </select>
+      <div v-if="errors.length > 0">
+        <ul style="margin-top: 30px">
+          <li
+            class="error-mes"
+            dir="rtl"
+            v-for="(error, index) in errors"
+            :key="index"
+          >
+            {{ error }}
+          </li>
+        </ul>
+      </div>
       <div class="button-container">
         <button @click="updateReservation" class="btn">إنهاء الطلب</button>
       </div>
@@ -92,6 +104,8 @@ export default {
     return {
       employees: [],
       allClients: [],
+      errors: [],
+      isLoading: false,
       hour: "",
       minute: "",
       selectedDate: "",
@@ -136,19 +150,13 @@ export default {
   methods: {
     updateReservation(event) {
       event.preventDefault();
+      this.isLoading = true;
       this.totalAmount();
       this.totalDuration();
       this.reserv_info.services = this.selectedServices.map(
         (service) => service.id
       );
-      Object.keys(this.reserv_info).forEach((key) => {
-        if (
-          this.reserv_info[key] === "" ||
-          this.reserv_info[key].length === 0
-        ) {
-          delete this.reserv_info[key];
-        }
-      });
+      this.deleteUnwantedInfo();
       fetch("http://127.0.0.1:8001/api/reservation/" + this.$route.params.id, {
         method: "PUT",
         headers: {
@@ -157,9 +165,31 @@ export default {
         },
         body: JSON.stringify(this.reserv_info),
       }).then((response) => {
+        this.isLoading = false;
         if (response.ok) {
           this.$router.push({ name: "NewReservation" });
           return response.json();
+        } else if (response.status === 400) {
+          response.json().then((data) => {
+            const errors = data.errors;
+            if (errors) {
+              if (this.errors.length > 0) {
+                this.errors = [];
+              }
+              if (typeof errors === "string") {
+                this.errors.push(errors);
+              } else {
+                Object.values(errors).forEach((errorMessages) => {
+                  errorMessages.forEach((errorMessage) => {
+                    this.errors.push(errorMessage);
+                  });
+                });
+              }
+              setTimeout(() => {
+                this.errors = [];
+              }, 10000);
+            }
+          });
         }
       });
     },
@@ -182,14 +212,14 @@ export default {
       if (this.minute < 0 || this.minute > 59) {
         this.minute = ""; // Or any default value or error handling
       }
-      this.reserv_info.date = this.selectDate() + " " + this.selectedDate;
+      this.reserv_info.date = this.selectedDate + " " + this.selectDate();
     },
     validateHour() {
       // Ensure hour is within the valid range
       if (this.hour < 0 || this.hour > 23) {
         this.hour = ""; // Or any default value or error handling
       }
-      this.reserv_info.date = this.selectDate() + " " + this.selectedDate;
+      this.reserv_info.date = this.selectedDate + " " + this.selectDate();
     },
     totalAmount() {
       this.reserv_info.total_amount = this.selectedServices.reduce(
@@ -202,6 +232,18 @@ export default {
         (total, obj) => total + obj.duration,
         0
       );
+    },
+    deleteUnwantedInfo() {
+      Object.keys(this.reserv_info).forEach((key) => {
+        if (
+          this.reserv_info[key] === "" ||
+          this.reserv_info[key].length === 0 ||
+          this.reserv_info[key] === 0
+        ) {
+          delete this.reserv_info[key];
+          console.log(key);
+        }
+      });
     },
   },
   computed: {
@@ -359,6 +401,12 @@ export default {
   width: 100%;
   text-transform: uppercase;
   margin-bottom: -10vh;
+}
+.error-mes {
+  padding: 10px;
+  color: red;
+  display: inline-flex;
+  list-style-type: none;
 }
 @media (max-width: 991px) {
   .updateReservation {

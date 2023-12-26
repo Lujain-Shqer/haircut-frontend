@@ -81,11 +81,7 @@ export default {
   methods: {
     updateAdvance(event) {
       event.preventDefault();
-      Object.keys(this.advance_info).forEach((key) => {
-        if (this.advance_info[key] === "") {
-          delete this.advance_info[key];
-        }
-      });
+      this.deleteUnwantedInfo();
       fetch("http://127.0.0.1:8001/api/advance/" + this.$route.params.id, {
         method: "PUT",
         headers: {
@@ -97,6 +93,13 @@ export default {
         if (response.ok) {
           this.$router.push({ name: "AdvancesPage" });
           return response.json();
+        }
+      });
+    },
+    deleteUnwantedInfo() {
+      Object.keys(this.advance_info).forEach((key) => {
+        if (this.advance_info[key] === "") {
+          delete this.advance_info[key];
         }
       });
     },

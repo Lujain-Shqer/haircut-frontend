@@ -81,11 +81,7 @@ export default {
   methods: {
     updateDiscount(event) {
       event.preventDefault();
-      Object.keys(this.discount_info).forEach((key) => {
-        if (this.discount_info[key] === "") {
-          delete this.discount_info[key];
-        }
-      });
+      this.deleteUnwantedInfo();
       fetch("http://127.0.0.1:8001/api/rival/" + this.$route.params.id, {
         method: "PUT",
         headers: {
@@ -108,6 +104,13 @@ export default {
             console.error("Failed to update discount:", error);
           }
         });
+    },
+    deleteUnwantedInfo() {
+      Object.keys(this.discount_info).forEach((key) => {
+        if (this.discount_info[key] === "") {
+          delete this.discount_info[key];
+        }
+      });
     },
   },
 };

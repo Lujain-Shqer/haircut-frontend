@@ -1,5 +1,5 @@
 <template>
-  <div class="addProviders">
+  <div class="updateProviders">
     <div class="container">
       <h4>مقدمو الخدمات العامة</h4>
       <p>
@@ -8,14 +8,13 @@
         متنوعة من القطاعات
       </p>
       <div class="update-info-client">
-        <h6>مقدم خدمة جديد</h6>
-        <form @submit="addProvider" class="row">
+        <h6>تعديل بيانات مقدم الخدمة</h6>
+        <form @submit="updateProvider" class="row">
           <div class="col-md-12">
             <label>الاسم</label>
             <input
               type="text"
               placeholder=" اسم "
-              required
               v-model="provider_info.name"
             />
           </div>
@@ -26,7 +25,7 @@
               type="checkbox"
               value=""
               id="flexCheckDefault"
-              v-model="provider_info.taxState"
+              v-model="provider_info.tax_state"
             />
           </div>
           <div class="col-md-12">
@@ -35,7 +34,7 @@
               type="text"
               placeholder=" الرقم الضريبي "
               :disabled="isDisabled"
-              v-model="provider_info.taxNumber"
+              v-model="provider_info.tax_number"
             />
           </div>
           <div v-if="errors.length > 0">
@@ -51,7 +50,7 @@
             </ul>
           </div>
           <button :disabled="isLoading" class="btn">
-            إضافة مقدم خدمة جديد
+            تعديل بيانات مقدم الخدمة
           </button>
         </form>
       </div>
@@ -66,8 +65,8 @@ export default {
     return {
       provider_info: {
         name: "",
-        taxState: 0,
-        taxNumber: "",
+        tax_state: 0,
+        tax_number: "",
       },
       isLoading: false,
       errors: [],
@@ -76,35 +75,30 @@ export default {
   computed: {
     isDisabled() {
       return (
-        this.provider_info.taxState === 0 ||
-        this.provider_info.taxState === false
+        this.provider_info.tax_state === 0 ||
+        this.provider_info.tax_state === false
       );
     },
   },
   watch: {
     isDisabled(newVal) {
       if (newVal) {
-        this.provider_info.taxNumber = "";
+        this.provider_info.tax_number = "";
       }
     },
   },
   methods: {
-    addProvider(event) {
+    updateProvider(event) {
       event.preventDefault();
       this.isLoading = true;
       this.deleteUnwantedInfo();
-      fetch("http://127.0.0.1:8001/api/provider", {
-        method: "POST",
+      fetch("http://127.0.0.1:8001/api/provider/" + this.$route.params.id, {
+        method: "PUT",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          branch_id: localStorage.getItem("branch_id"),
-          name: this.provider_info.name,
-          tax_state: this.provider_info.taxState,
-          tax_number: this.provider_info.taxNumber,
-        }),
+        body: JSON.stringify(this.provider_info),
       }).then((response) => {
         this.isLoading = false;
         if (response.ok) {
@@ -167,40 +161,40 @@ export default {
 .row {
   margin: 0;
 }
-.addProviders {
+.updateProviders {
   direction: rtl;
   width: 77%;
 }
-.addProviders h4 {
+.updateProviders h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
-.addProviders p {
+.updateProviders p {
   color: #1a2669;
   font-weight: 400;
 }
-.addProviders .update-info-client {
+.updateProviders .update-info-client {
   margin: 5vh 0;
   border: 1px solid #3f51b5;
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
   padding: 5vh;
 }
-.addProviders .update-info-client form div:nth-child(2) {
+.updateProviders .update-info-client form div:nth-child(2) {
   margin: 3vh 0;
 }
-.addProviders h6 {
+.updateProviders h6 {
   color: #3f51b5;
   font-weight: 700px;
   margin-bottom: 3vh;
 }
-.addProviders label {
+.updateProviders label {
   display: block;
   margin-bottom: 2vh;
   margin-top: 2vh;
   font-weight: 400;
 }
-.addProviders input[type="text"] {
+.updateProviders input[type="text"] {
   color: #3f51b5;
   border-radius: 8px;
   padding: 1vh;
@@ -209,21 +203,21 @@ export default {
   margin-bottom: 3vh;
   border: 1px solid #c8c9cc;
 }
-.addProviders input[type="checkbox"] {
+.updateProviders input[type="checkbox"] {
   border: 1px solid #1a2669;
   margin-right: 1vh;
   width: 3vh;
   height: 3vh;
 }
-.addProviders input[type="text"]:focus {
+.updateProviders input[type="text"]:focus {
   border: 1px solid #1a2669;
 }
-.addProviders form span {
+.updateProviders form span {
   font-weight: 600;
   color: #1a2669;
 }
 
-.addProviders button {
+.updateProviders button {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
@@ -243,15 +237,15 @@ ul {
 }
 
 @media (max-width: 991px) {
-  .addProviders input[type="text"] {
+  .updateProviders input[type="text"] {
     width: 100%;
   }
-  .addProviders {
+  .updateProviders {
     width: 70%;
   }
 }
 @media (max-width: 765px) {
-  .addProviders {
+  .updateProviders {
     width: 100%;
   }
 }

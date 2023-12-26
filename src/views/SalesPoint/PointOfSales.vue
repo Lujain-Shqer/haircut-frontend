@@ -295,13 +295,13 @@ export default {
         this.order_info.paymentType = "cash";
       }
       if (value === "paymentNetwork") {
-        this.order_info.paymentType = "network";
+        this.order_info.paymentType = "online";
       }
       if (value === "tipCash") {
         this.order_info.tipType = "cash";
       }
       if (value === "tipNetwork") {
-        this.order_info.tipType = "network";
+        this.order_info.tipType = "online";
       }
     },
     showComponent(event) {
@@ -388,11 +388,7 @@ export default {
           tip: this.order_info.tip,
           tip_pay_type: this.order_info.tipType,
         };
-        Object.keys(requestBody).forEach((key) => {
-          if (requestBody[key] === null) {
-            delete requestBody[key];
-          }
-        });
+        this.deleteUnwantedInfo(requestBody);
         fetch("http://127.0.0.1:8001/api/order", {
           method: "POST",
           headers: {
@@ -405,7 +401,8 @@ export default {
           if (response.ok) {
             // this.$store.commit("clearOrderData");
             // this.resetData();
-            window.location.reload();
+            // window.location.reload();
+            this.$router.push({ name: "SallesBills" });
             return response.json();
           } else if (response.status === 400) {
             response.json().then((data) => {
@@ -448,6 +445,13 @@ export default {
         //   }
         // });
       }
+    },
+    deleteUnwantedInfo(requestBody) {
+      Object.keys(requestBody).forEach((key) => {
+        if (requestBody[key] === null) {
+          delete requestBody[key];
+        }
+      });
     },
   },
   computed: {

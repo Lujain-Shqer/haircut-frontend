@@ -18,6 +18,18 @@
             <label>هاتف العميل</label>
             <input type="text" v-model="client_info.phone_number" />
           </div>
+          <div v-if="errors.length > 0">
+            <ul style="margin-top: 30px">
+              <li
+                class="error-mes"
+                dir="rtl"
+                v-for="(error, index) in errors"
+                :key="index"
+              >
+                {{ error }}
+              </li>
+            </ul>
+          </div>
           <button :disabled="isLoading" type="submit" class="btn">
             تحديث البيانات
           </button>
@@ -37,17 +49,14 @@ export default {
         phone_number: "",
       },
       isLoading: false,
+      errors: [],
     };
   },
   methods: {
     updateClient(event) {
       event.preventDefault();
       this.isLoading = true;
-      Object.keys(this.client_info).forEach((key) => {
-        if (this.client_info[key] === "") {
-          delete this.client_info[key];
-        }
-      });
+      this.deleteUnwantedInfo();
       fetch("http://127.0.0.1:8001/api/customer/" + this.$route.params.id, {
         method: "PUT",
         headers: {
@@ -62,11 +71,39 @@ export default {
             this.$router.push({ name: "ClientPage" });
             // console.log(this.id);
             return response.json();
+          } else if (response.status === 400) {
+            response.json().then((data) => {
+              const errors = data.errors;
+              if (errors) {
+                if (this.errors.length > 0) {
+                  this.errors = [];
+                }
+                if (typeof errors === "string") {
+                  this.errors.push(errors);
+                } else {
+                  Object.values(errors).forEach((errorMessages) => {
+                    errorMessages.forEach((errorMessage) => {
+                      this.errors.push(errorMessage);
+                    });
+                  });
+                }
+                setTimeout(() => {
+                  this.errors = [];
+                }, 10000);
+              }
+            });
           }
         })
         .catch((error) => {
           console.error("Error updating client:", error);
         });
+    },
+    deleteUnwantedInfo() {
+      Object.keys(this.client_info).forEach((key) => {
+        if (this.client_info[key] === "") {
+          delete this.client_info[key];
+        }
+      });
     },
   },
 };
@@ -124,7 +161,12 @@ export default {
   margin: auto;
   margin-top: 5vh;
 }
-
+.error-mes {
+  padding: 10px;
+  color: red;
+  display: inline-flex;
+  list-style-type: none;
+}
 @media (max-width: 991px) {
   .updateClient input {
     width: 100%;

@@ -41,9 +41,13 @@
               <td>{{ showTaxSate(provider.tax_state) }}</td>
               <td>{{ showTaxNumber(provider.tax_number) }}</td>
               <td class="text-center">
-                <button class="btn show">
-                  <fa icon="fa-file-pdf" /> عرض الفاتورة
-                </button>
+                <router-link
+                  :to="{ name: 'UpdateProviders', params: { id: provider.id } }"
+                >
+                  <button class="btn show">
+                    <fa icon="pen" /> تعديل
+                  </button></router-link
+                >
                 <button
                   @click="deleteGeneralProvider(provider.id)"
                   class="btn delete"

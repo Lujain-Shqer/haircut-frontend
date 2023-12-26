@@ -48,13 +48,7 @@ export default {
     updateSundry(event) {
       event.preventDefault();
       this.isLoading = true;
-      console.log(this.$route.params.id);
-      Object.keys(this.sundry_info).forEach((key) => {
-        if (this.sundry_info[key] === "") {
-          delete this.sundry_info[key];
-        }
-      });
-      console.log(this.sundry_info);
+      this.deleteUnwantedInfo();
       fetch("http://127.0.0.1:8001/api/sundry/" + this.$route.params.id, {
         method: "PUT",
         headers: {
@@ -73,6 +67,13 @@ export default {
         .catch((error) => {
           console.error("Error updating sundry:", error);
         });
+    },
+    deleteUnwantedInfo() {
+      Object.keys(this.sundry_info).forEach((key) => {
+        if (this.sundry_info[key] === "") {
+          delete this.sundry_info[key];
+        }
+      });
     },
   },
 };

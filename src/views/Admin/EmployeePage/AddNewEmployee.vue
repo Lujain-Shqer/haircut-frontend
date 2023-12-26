@@ -62,12 +62,16 @@
           </div>
           <div class="col-md-6 col-sm-12">
             <label>نوع الأجر </label>
-            <input
-              type="text"
-              placeholder="  نوع الأجر  "
+            <select
               v-model="employee_info.pay_type"
-              required
-            />
+              class="form-selec"
+              aria-label="Default select example"
+            >
+              <option disabled selected>اختر نوع الأجر</option>
+              <option value="salary">الراتب</option>
+              <option value="commission">الأجر</option>
+              <option value="both">أجر و راتب</option>
+            </select>
           </div>
           <div class="col-md-6 col-sm-12">
             <label>الراتب </label>
@@ -123,12 +127,15 @@
           </div>
           <div class="col-md-12">
             <label> المسؤول عن التكاليف</label>
-            <input
-              type="text"
-              placeholder="   الصالون مسؤول من دفع قيمة التجديد للإقامة، الكرت الصحي والتامين "
+            <select
               v-model="employee_info.costs_responsible"
-              required
-            />
+              class="form-selec"
+              aria-label="Default select example"
+            >
+              <option disabled selected>اختر المسؤول عن التكاليف</option>
+              <option value="salon">الصالون</option>
+              <option value="self">نفسه</option>
+            </select>
           </div>
           <!-- <div class="col-md-6 col-sm-12">
             <label>الحالة</label>
@@ -160,6 +167,7 @@ export default {
   data() {
     return {
       employee_info: {
+        branch_id: localStorage.getItem("branch_id"),
         name: "",
         residence_number: "",
         residence_expire_date: "",
@@ -168,8 +176,8 @@ export default {
         job: "",
         pay_type: "",
         salary: "",
-        income_limit: "-1",
-        commission: "1",
+        income_limit: "",
+        commission: "",
         residence_cost: "",
         health_cost: "",
         insurance_cost: "",
@@ -183,29 +191,14 @@ export default {
     addEmployee(event) {
       event.preventDefault();
       this.isLoading = true;
+      this.deleteUnwantedInfo();
       fetch("http://127.0.0.1:8001/api/employee", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          branch_id: localStorage.getItem("branch_id"),
-          name: this.employee_info.name,
-          residence_number: this.employee_info.residence_number,
-          residence_expire_date: this.employee_info.residence_expire_date,
-          health_number: this.employee_info.health_number,
-          health_expire_date: this.employee_info.health_expire_date,
-          job: this.employee_info.job,
-          pay_type: this.employee_info.pay_type,
-          salary: this.employee_info.salary,
-          income_limit: this.employee_info.income_limit,
-          commission: this.employee_info.commission,
-          residence_cost: this.employee_info.residence_cost,
-          health_cost: this.employee_info.health_cost,
-          insurance_cost: this.employee_info.insurance_cost,
-          costs_responsible: this.employee_info.costs_responsible,
-        }),
+        body: JSON.stringify(this.employee_info),
       })
         .then((response) => {
           this.isLoading = false;
@@ -244,6 +237,13 @@ export default {
           }
         });
     },
+  },
+  deleteUnwantedInfo() {
+    Object.keys(this.employee_info).forEach((key) => {
+      if (this.employee_info[key] === "") {
+        delete this.employee_info[key];
+      }
+    });
   },
 };
 </script>
@@ -291,7 +291,20 @@ export default {
   margin-bottom: 3vh;
   border: 1px solid #c8c9cc;
 }
+.addNewEmployee select {
+  color: #3f51b5;
+  border-radius: 8px;
+  padding: 1vh;
+  width: 70%;
+  outline: none;
+  margin-bottom: 3vh;
+  border: 1px solid #c8c9cc;
+}
+
 .col-md-12 input {
+  width: 35%;
+}
+.col-md-12 select {
   width: 35%;
 }
 .addNewEmployee input:focus {

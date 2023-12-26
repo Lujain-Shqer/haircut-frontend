@@ -43,6 +43,18 @@
             </tr>
           </tbody>
         </table>
+        <div v-if="errors.length > 0">
+          <ul style="margin-top: 30px">
+            <li
+              class="error-mes"
+              dir="rtl"
+              v-for="(error, index) in errors"
+              :key="index"
+            >
+              {{ error }}
+            </li>
+          </ul>
+        </div>
         <button :disabled="isLoading" @click="clearCommissions" class="btn">
           حفظ تصفية العمولات
         </button>
@@ -61,6 +73,7 @@ export default {
       payments: [],
       isComponentVisible: false,
       isLoading: false,
+      errors: [],
     };
   },
   computed: {
@@ -99,34 +112,70 @@ export default {
     clearCommissions(event) {
       event.preventDefault();
       this.isLoading = true;
-      this.payments.forEach((payment, index) => {
-        console.log(this.cleaningCommissions[index - 1]);
-        fetch("http://127.0.0.1:8001/api/pay-commission", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            employee_id:
-              this.cleaningCommissions[index - 1]["info"]["employee_id"],
-            amount: payment,
-          }),
-        }).then((response) => {
+      this.errors = [];
+      this.deleteUnwantedInfo();
+      Promise.all(
+        this.payments.map((payment, index) =>
+          fetch("http://127.0.0.1:8001/api/pay-commission", {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              employee_id:
+                this.cleaningCommissions[index - 1]["info"]["employee_id"],
+              amount: payment,
+            }),
+          }).then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else if (response.status === 400) {
+              return response.json().then((data) => {
+                const errors = data.errors;
+                if (errors) {
+                  if (typeof errors === "string") {
+                    this.errors.push(errors);
+                  } else {
+                    Object.values(errors).forEach((errorMessages) => {
+                      errorMessages.forEach((errorMessage) => {
+                        this.errors.push(errorMessage);
+                      });
+                    });
+                  }
+                }
+              });
+            }
+          })
+        )
+      )
+        .then(() => {
           this.isLoading = false;
-          if (response.ok) {
+          // Check if there are no errors
+          if (this.errors.length === 0) {
+            // Navigate to the other page
             this.$router.push({ name: "TotalCommissions" });
-            return response.json();
           }
+        })
+        .catch((error) => {
+          console.error("Error during fetch:", error);
+          this.isLoading = false;
         });
-      });
     },
+
     showComponent() {
       if (this.isComponentVisible) {
         this.isComponentVisible = false;
       } else {
         this.isComponentVisible = true;
       }
+    },
+    deleteUnwantedInfo() {
+      Object.keys(this.payments).forEach((key) => {
+        if (this.payments[key] === "") {
+          delete this.payments[key];
+        }
+      });
     },
   },
 };
@@ -260,6 +309,12 @@ tr {
   color: #fff;
   margin-top: 5vh;
   margin-bottom: 2vh;
+}
+.error-mes {
+  padding: 10px;
+  color: red;
+  display: inline-flex;
+  list-style-type: none;
 }
 
 @media (max-width: 991px) {

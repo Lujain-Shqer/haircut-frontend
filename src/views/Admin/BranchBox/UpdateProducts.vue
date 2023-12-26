@@ -1,21 +1,20 @@
 <template>
-  <div class="addProducts">
+  <div class="updateProducts">
     <div class="container">
       <h4>المنتجات</h4>
       <p>
         التي تشمل الخدمات والمنتجات التي تعزز تجربة العميل وتجعلها فاخرة ومريحة
       </p>
       <div class="update-info-client row">
-        <h6>أنشاء منتج جديد</h6>
+        <h6>تعديل بيانات منتج</h6>
         <div class="col-lg-7 col-sm-12">
-          <form @submit.prevent="addProduct" id="my-form" class="row">
+          <form @submit.prevent="updateProduct" id="my-form" class="row">
             <div class="col-md-12">
               <label>الاسم</label>
               <input
                 type="text"
                 placeholder=" اسم "
                 v-model="product_info.name"
-                required
               />
             </div>
             <div class="col-md-12">
@@ -24,7 +23,6 @@
                 type="text"
                 placeholder=" سعر الشراء "
                 v-model="product_info.purchasing_price"
-                required
               />
             </div>
             <div class="col-md-12">
@@ -33,7 +31,6 @@
                 type="text"
                 placeholder="  سعر البيع "
                 v-model="product_info.selling_price"
-                required
               />
             </div>
           </form>
@@ -85,14 +82,15 @@
 </template>
 <script>
 export default {
-  name: "AddProducts",
+  name: "UpdateProducts",
+  params: ["id"],
   data() {
     return {
       product_info: {
         name: "",
         purchasing_price: "",
         selling_price: "",
-        image: "",
+        image: null,
       },
       errorMessage: "",
       errors: [],
@@ -102,47 +100,80 @@ export default {
     };
   },
   methods: {
-    addProduct() {
+    async updateProduct() {
       this.isLoading = true;
-      let formData = new FormData();
-      // Append form fields to the FormData
-      formData.append("branch_id", localStorage.getItem("branch_id"));
-      formData.append("name", this.product_info.name);
-      formData.append("purchasing_price", this.product_info.purchasing_price);
-      formData.append("selling_price", this.product_info.selling_price);
-      formData.append("image", this.product_info.image);
-      fetch("http://127.0.0.1:8001/api/product", {
-        method: "POST",
-        headers: {
+      this.deleteUnwantedInfo();
+      let requestBody = this.checkNeedForm();
+      let headers, method;
+      if (typeof requestBody === "string") {
+        headers = {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-        body: formData,
-      }).then((response) => {
+          "Content-Type": "application/json",
+        };
+        method = "PUT";
+      } else {
+        headers = {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        };
+        method = "POST";
+      }
+      console.log(...requestBody);
+      try {
+        const response = await fetch(
+          "http://127.0.0.1:8001/api/product/" + this.$route.params.id,
+          {
+            method: method,
+            headers: headers,
+            body: requestBody,
+          }
+        );
+
+        const responseBody = await response.json(); // or response.text() if the response is not JSON
+
+        console.log("Response Body:", responseBody);
+
         this.isLoading = false;
+
         if (response.ok) {
+          console.log("Response:", response);
           this.$router.push({ name: "ProductsPage" });
-          return response.json();
+          return responseBody;
         } else if (response.status === 400) {
-          response.json().then((data) => {
-            const errors = data.errors;
-            if (errors) {
-              if (this.errors.length > 0) {
-                this.errors = [];
-              }
-              if (typeof errors === "string") {
-                this.errors.push(errors);
-              } else {
-                Object.values(errors).forEach((errorMessages) => {
-                  errorMessages.forEach((errorMessage) => {
-                    this.errors.push(errorMessage);
-                  });
-                });
-              }
-              setTimeout(() => {
-                this.errors = [];
-              }, 10000);
+          // Handle error response
+          const errors = responseBody.errors;
+          if (errors) {
+            if (this.errors.length > 0) {
+              this.errors = [];
             }
-          });
+            if (typeof errors === "string") {
+              this.errors.push(errors);
+            } else {
+              Object.values(errors).forEach((errorMessages) => {
+                errorMessages.forEach((errorMessage) => {
+                  this.errors.push(errorMessage);
+                });
+              });
+            }
+            setTimeout(() => {
+              this.errors = [];
+            }, 10000);
+          }
+        }
+      } catch (error) {
+        console.error("Error during fetch:", error);
+      }
+    },
+    async handleFileChange() {
+      return new Promise((resolve) => {
+        // Handle the selected file
+        const selectedFile = this.$refs.fileInput.files[0];
+
+        if (selectedFile) {
+          this.checkValidImage(selectedFile);
+          resolve();
+        } else {
+          console.log("no files");
+          resolve();
         }
       });
     },
@@ -162,8 +193,6 @@ export default {
           // File has a valid size
           if (allowedExtensions.includes(fileExtension)) {
             // File has a valid extension
-            console.log("Selected file:", selectedFile);
-            console.log("type:", typeof selectedFile);
             this.product_info.image = selectedFile;
             this.isDropped = true;
           } else {
@@ -182,11 +211,11 @@ export default {
         }
       }
     },
-    handleFileChange(event) {
-      // Handle the selected file
-      const selectedFile = event.target.files[0];
-      this.checkValidImage(selectedFile);
-    },
+    // handleFileChange(event) {
+    //   // Handle the selected file
+    //   const selectedFile = event.target.files[0];
+    //   this.checkValidImage(selectedFile);
+    // },
     onDragOver(event) {
       this.isDragging = true;
       event.dataTransfer.dropEffect = "copy";
@@ -205,17 +234,42 @@ export default {
       }
     },
     submitForm() {
-      // Get the form by its id
       const form = document.getElementById("my-form");
-
-      // Check if the form exists before submitting
       if (form) {
-        this.addProduct();
-        // form.submit();
-        console.log("submit");
-      } else {
-        console.error("Form not found!");
+        this.updateProduct();
       }
+    },
+    checkNeedForm() {
+      if (this.product_info.image === null) {
+        delete this.product_info.image;
+        return JSON.stringify(this.product_info);
+      } else {
+        let formData = new FormData();
+        this.createFormData(formData);
+        return formData;
+      }
+    },
+    createFormData(formData) {
+      Object.entries(this.product_info).forEach(([key, value]) => {
+        if (key === "image" && value instanceof File) {
+          formData.append(key, value, value.name);
+          console.log("1111");
+        } else {
+          formData.append(key, value);
+          console.log("2222");
+        }
+      });
+      formData.append("_method", "PUT");
+      // Object.entries(this.product_info).forEach(([key, value]) => {
+      //   formData.append(key, value);
+      // });
+    },
+    deleteUnwantedInfo() {
+      Object.keys(this.product_info).forEach((key) => {
+        if (this.product_info[key] === "") {
+          delete this.product_info[key];
+        }
+      });
     },
   },
 };
@@ -225,22 +279,22 @@ export default {
   margin: 0;
 }
 
-.addProducts {
+.updateProducts {
   direction: rtl;
   width: 77%;
 }
 
-.addProducts h4 {
+.updateProducts h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
 
-.addProducts p {
+.updateProducts p {
   color: #1a2669;
   font-weight: 400;
 }
 
-.addProducts .update-info-client {
+.updateProducts .update-info-client {
   margin: 5vh 0;
   border: 1px solid #3f51b5;
   box-shadow: 0px 0px 15px 0px #00000040;
@@ -248,21 +302,21 @@ export default {
   padding: 5vh;
 }
 
-.addProducts h6 {
+.updateProducts h6 {
   color: #3f51b5;
   font-weight: 700px;
   margin: 3vh 0;
 }
 
-.addProducts label {
+.updateProducts label {
   display: block;
   margin-bottom: 2vh;
   margin-top: 2vh;
   font-weight: 400;
 }
 
-.addProducts input,
-.addProducts .form-selec {
+.updateProducts input,
+.updateProducts .form-selec {
   border: 1px solid #c8c9cc;
   color: #3f51b5;
   border-radius: 8px;
@@ -271,23 +325,23 @@ export default {
   outline: none;
 }
 
-.addProducts input[type="checkbox"] {
+.updateProducts input[type="checkbox"] {
   border: 1px solid #1a2669;
   margin-right: 1vh;
   width: 3vh;
   height: 3vh;
 }
 
-.addProducts input[type="text"]:focus {
+.updateProducts input[type="text"]:focus {
   border: 1px solid #1a2669;
 }
 
-.addProducts form span {
+.updateProducts form span {
   font-weight: 600;
   color: #1a2669;
 }
 
-.addProducts button {
+.updateProducts button {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
@@ -296,18 +350,18 @@ export default {
   margin-top: 5vh;
 }
 
-.addProducts .downloaded {
+.updateProducts .downloaded {
   text-align: center;
   border: 1px dashed #00000040;
   border-radius: 8px;
   padding: 3vh 1vh;
 }
 
-.addProducts .downloaded img {
+.updateProducts .downloaded img {
   margin: 1vh 0;
 }
 
-.addProducts .downloaded button {
+.updateProducts .downloaded button {
   border: 1px solid #1a2669;
   background: #fff;
   color: #0f91d2;
@@ -324,24 +378,24 @@ ul {
 }
 
 @media (max-width: 991px) {
-  .addProducts input[type="text"],
-  .addProducts select {
+  .updateProducts input[type="text"],
+  .updateProducts select {
     width: 100% !important;
   }
 
-  .addProducts button {
+  .updateProducts button {
     width: 95%;
     margin-right: 2vh;
     margin-top: 2vh;
   }
 
-  .addProducts {
+  .updateProducts {
     width: 70%;
   }
 }
 
 @media (max-width: 765px) {
-  .addProducts {
+  .updateProducts {
     width: 100%;
   }
 }

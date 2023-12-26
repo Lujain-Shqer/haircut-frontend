@@ -60,6 +60,18 @@
             <div class="error-message" v-if="errorMessage">
               {{ errorMessage }}
             </div>
+            <div v-if="errors.length > 0">
+              <ul style="margin-top: 30px">
+                <li
+                  class="error-mes"
+                  dir="rtl"
+                  v-for="(error, index) in errors"
+                  :key="index"
+                >
+                  {{ error }}
+                </li>
+              </ul>
+            </div>
           </div>
           <button :disabled="isLoading" class="btn add">إضافة الفاتورة</button>
         </form>
@@ -75,6 +87,7 @@ export default {
       allSuppliers: [],
       allProducts: [],
       errorMessage: "",
+      errors: [],
       isLoading: false,
       purchase_info: {
         supplierId: "",
@@ -125,6 +138,7 @@ export default {
         setTimeout(() => {
           this.errorMessage = "";
         }, 10000);
+        this.isLoading = false;
       } else {
         fetch("http://127.0.0.1:8001/api/purchase", {
           method: "POST",
@@ -152,6 +166,27 @@ export default {
           if (response.ok) {
             this.$router.push({ name: "ProductsPurchases" });
             return response.json();
+          } else if (response.status === 400) {
+            response.json().then((data) => {
+              const errors = data.errors;
+              if (errors) {
+                if (this.errors.length > 0) {
+                  this.errors = [];
+                }
+                if (typeof errors === "string") {
+                  this.errors.push(errors);
+                } else {
+                  Object.values(errors).forEach((errorMessages) => {
+                    errorMessages.forEach((errorMessage) => {
+                      this.errors.push(errorMessage);
+                    });
+                  });
+                }
+                setTimeout(() => {
+                  this.errors = [];
+                }, 10000);
+              }
+            });
           }
         });
       }
@@ -280,7 +315,12 @@ export default {
   text-align: start;
   color: red;
 }
-
+.error-mes {
+  padding: 10px;
+  color: red;
+  display: inline-flex;
+  list-style-type: none;
+}
 @media (max-width: 991px) {
   .AddProductsPurchases input,
   .AddProductsPurchases .form-selec {
