@@ -106,7 +106,7 @@ export default {
       isComponentVisible: false,
       isMultiSelection: true,
       selectedDate: [],
-      info: "لا يوجد سلفيات لعرضها",
+      info: "يتم التحميل .......",
     };
   },
   computed: {
@@ -124,20 +124,29 @@ export default {
   },
   methods: {
     fetchAllAdvances() {
-      fetch(
-        "http://127.0.0.1:8001/api/advance/" +
-          localStorage.getItem("branch_id"),
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((res) => res.json())
-        .then((data) => (this.advances = data))
-        .catch((err) => console.log(err.message));
+      return new Promise((resolve, reject) => {
+        fetch(
+          "http://127.0.0.1:8001/api/advance/" +
+            localStorage.getItem("branch_id"),
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            this.advances = data;
+            this.updateMessage();
+            resolve();
+          })
+          .catch((err) => {
+            console.log(err.message);
+            reject(err);
+          });
+      });
     },
     deleteAdvance(advanceId) {
       fetch("http://127.0.0.1:8001/api/advance/" + advanceId, {
@@ -152,6 +161,7 @@ export default {
             this.advances = this.advances.filter(
               (advance) => advance.id !== advanceId
             );
+            this.updateMessage();
           }
         })
         .catch((error) => {
@@ -166,6 +176,13 @@ export default {
         this.isComponentVisible = false;
       } else {
         this.isComponentVisible = true;
+      }
+    },
+    updateMessage() {
+      if (this.advances.length > 0) {
+        this.info = "";
+      } else {
+        this.info = "لا يوجد سلفيات لعرضها";
       }
     },
     search(event) {
@@ -185,7 +202,7 @@ export default {
         }
       )
         .then((res) => res.json())
-        .then((data) => (this.advances = data))
+        .then((data) => ((this.advances = data), this.updateMessage()))
         .catch((err) => console.log(err.message));
     },
     handleDateChange(args) {
@@ -231,9 +248,10 @@ export default {
           })
           .then((data) => {
             this.advances = data;
-            if (this.advances.length === 0) {
-              this.info = "لا يوجد في الفترة المحددة سحوبات لعرضها";
-            }
+            // if (this.advances.length === 0) {
+            //   this.info = "لا يوجد في الفترة المحددة سحوبات لعرضها";
+            // }
+            this.updateMessage();
           })
           .catch((err) => {
             this.advances = [];
@@ -245,7 +263,9 @@ export default {
   watch: {
     searchQuery(newValue) {
       if (newValue.trim() === "") {
-        this.fetchAllAdvances();
+        this.fetchAllAdvances().then(() => {
+          this.updateMessage();
+        });
       }
     },
   },

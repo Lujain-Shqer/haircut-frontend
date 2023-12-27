@@ -9,7 +9,7 @@
       </p>
       <div class="all-table" style="overflow-x: auto">
         <div class="row extra-table">
-          <div class="search">
+          <!-- <div class="search">
             <div class="input-container">
               <fa icon="search" />
               <input
@@ -18,7 +18,7 @@
                 placeholder="البحث عن..."
               />
             </div>
-          </div>
+          </div> -->
           <button class="btn" @click="search">بحث بالتاريخ</button>
           <button class="btn" @click="showComponent">
             من الفترة -> إلى الفترة
@@ -108,7 +108,7 @@ export default {
       isComponentVisible: false,
       isMultiSelection: true,
       selectedDate: [],
-      info: "لا يوجد سجلات تغذية لعرضها",
+      info: "يتم التحميل .......",
     };
   },
   computed: {
@@ -122,19 +122,29 @@ export default {
     },
   },
   mounted() {
-    fetch(
-      "http://127.0.0.1:8001/api/deposit/" + localStorage.getItem("branch_id"),
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => (this.cashierFeeds = data))
-      .catch((err) => console.log(err.message));
+    return new Promise((resolve, reject) => {
+      fetch(
+        "http://127.0.0.1:8001/api/deposit/" +
+          localStorage.getItem("branch_id"),
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          this.cashierFeeds = data;
+          this.updateMessage();
+          resolve();
+        })
+        .catch((err) => {
+          console.log(err.message);
+          reject(err);
+        });
+    });
   },
   methods: {
     deleteCashierFeed(cashierFeedId) {
@@ -150,6 +160,7 @@ export default {
             this.cashierFeeds = this.cashierFeeds.filter(
               (cashierFeed) => cashierFeed.id !== cashierFeedId
             );
+            this.updateMessage();
           }
         })
         .catch((error) => {
@@ -175,6 +186,13 @@ export default {
         if (this.selectedDate.length > 2) {
           this.selectedDate.shift();
         }
+      }
+    },
+    updateMessage() {
+      if (this.cashierFeeds.length > 0) {
+        this.info = "";
+      } else {
+        this.info = " لا يوجد سجلات تغذية لعرضها";
       }
     },
     search(event) {
@@ -209,9 +227,10 @@ export default {
           })
           .then((data) => {
             this.cashierFeeds = data;
-            if (this.cashierFeeds.length === 0) {
-              this.info = "لا يوجد في الفترة المحددة سجلات تغذية لعرضها";
-            }
+            this.updateMessage();
+            // if (this.cashierFeeds.length === 0) {
+            //   this.info = "لا يوجد في الفترة المحددة سجلات تغذية لعرضها";
+            // }
           })
           .catch((err) => {
             this.cashierFeeds = [];

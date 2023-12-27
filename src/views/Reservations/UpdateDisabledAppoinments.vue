@@ -25,7 +25,7 @@
           <div class="col-lg-12">
             <label>اسم الموظف</label>
             <select
-              v-model="offDay_info.employee"
+              v-model="offDay_info.employee_id"
               class="form-selec"
               aria-label="Default select example"
             >
@@ -39,7 +39,23 @@
               </option>
             </select>
           </div>
-          <button @click="updateDisabledAppointment" class="btn add">
+          <div v-if="errors.length > 0">
+            <ul style="margin-top: 30px">
+              <li
+                class="error-mes"
+                dir="rtl"
+                v-for="(error, index) in errors"
+                :key="index"
+              >
+                {{ error }}
+              </li>
+            </ul>
+          </div>
+          <button
+            :disabled="isLoading"
+            @click="updateDisabledAppointment"
+            class="btn add"
+          >
             تأكيد
           </button>
         </div>
@@ -60,6 +76,8 @@ export default {
     return {
       isComponentVisible: false,
       allEmployees: [],
+      isLoading: false,
+      errors: [],
       offDay_info: {
         date: "",
         employee_id: "",
@@ -84,6 +102,7 @@ export default {
   methods: {
     updateDisabledAppointment(event) {
       event.preventDefault();
+      this.isLoading = true;
       this.deleteUnwantedInfo();
       console.log(this.offDay_info);
       fetch(
@@ -97,9 +116,31 @@ export default {
           body: JSON.stringify(this.offDay_info),
         }
       ).then((response) => {
+        this.isLoading = false;
         if (response.ok) {
           this.$router.push({ name: "ShowDisabledAppoinments" });
           return response.json();
+        } else if (response.status === 400) {
+          response.json().then((data) => {
+            const errors = data.errors;
+            if (errors) {
+              if (this.errors.length > 0) {
+                this.errors = [];
+              }
+              if (typeof errors === "string") {
+                this.errors.push(errors);
+              } else {
+                Object.values(errors).forEach((errorMessages) => {
+                  errorMessages.forEach((errorMessage) => {
+                    this.errors.push(errorMessage);
+                  });
+                });
+              }
+              setTimeout(() => {
+                this.errors = [];
+              }, 10000);
+            }
+          });
         }
       });
     },
@@ -206,7 +247,12 @@ export default {
   text-align: start;
   color: red;
 }
-
+.error-mes {
+  padding: 10px;
+  color: red;
+  display: inline-flex;
+  list-style-type: none;
+}
 @media (max-width: 991px) {
   .updateDisabledAppoinments {
     width: 70%;

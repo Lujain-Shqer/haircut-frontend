@@ -106,7 +106,7 @@ export default {
       isComponentVisible: false,
       isMultiSelection: true,
       selectedDate: [],
-      info: "لا يوجد خصومات لعرضها",
+      info: "يتم التحميل .......",
     };
   },
   computed: {
@@ -124,19 +124,29 @@ export default {
   },
   methods: {
     fetchAllDiscounts() {
-      fetch(
-        "http://127.0.0.1:8001/api/rival/" + localStorage.getItem("branch_id"),
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((res) => res.json())
-        .then((data) => (this.discounts = data))
-        .catch((err) => console.log(err.message));
+      return new Promise((resolve, reject) => {
+        fetch(
+          "http://127.0.0.1:8001/api/rival/" +
+            localStorage.getItem("branch_id"),
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            this.discounts = data;
+            this.updateMessage();
+            resolve();
+          })
+          .catch((err) => {
+            console.log(err.message);
+            reject(err);
+          });
+      });
     },
     deleteDiscount(discountId) {
       fetch("http://127.0.0.1:8001/api/rival/" + discountId, {
@@ -151,6 +161,7 @@ export default {
             this.discounts = this.discounts.filter(
               (discount) => discount.id !== discountId
             );
+            this.updateMessage();
           }
         })
         .catch((error) => {
@@ -165,6 +176,13 @@ export default {
         this.isComponentVisible = false;
       } else {
         this.isComponentVisible = true;
+      }
+    },
+    updateMessage() {
+      if (this.discounts.length > 0) {
+        this.info = "";
+      } else {
+        this.info = "لا يوجد خصومات لعرضها";
       }
     },
     search(event) {
@@ -183,7 +201,7 @@ export default {
         }
       )
         .then((res) => res.json())
-        .then((data) => (this.discounts = data))
+        .then((data) => ((this.discounts = data), this.updateMessage()))
         .catch((err) => console.log(err.message));
     },
     handleDateChange(args) {
@@ -229,9 +247,10 @@ export default {
           })
           .then((data) => {
             this.discounts = data;
-            if (this.discounts.length === 0) {
-              this.info = "لا يوجد في الفترة المحددة خصومات لعرضها";
-            }
+            // if (this.discounts.length === 0) {
+            //   this.info = "لا يوجد في الفترة المحددة خصومات لعرضها";
+            // }
+            this.updateMessage();
           })
           .catch((err) => {
             this.discounts = [];
@@ -243,7 +262,9 @@ export default {
   watch: {
     searchQuery(newValue) {
       if (newValue.trim() === "") {
-        this.fetchAllDiscounts();
+        this.fetchAllDiscounts().then(() => {
+          this.updateMessage();
+        });
       }
     },
   },

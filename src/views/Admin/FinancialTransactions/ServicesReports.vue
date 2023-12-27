@@ -41,7 +41,7 @@
           </tbody>
           <tbody v-else>
             <tr>
-              <td colspan="3">لا يوجد تقارير لعرضها</td>
+              <td colspan="3">{{ message }}</td>
             </tr>
           </tbody>
           <tfoot>
@@ -72,6 +72,7 @@ export default {
       servicesReportsPerPage: 7,
       currentPage: 1,
       searchQuery: "",
+      message: "يتم التحميل .......",
     };
   },
   computed: {
@@ -91,27 +92,42 @@ export default {
   },
   methods: {
     fetchAllServicesReports() {
-      fetch(
-        "http://127.0.0.1:8001/api/frequency-service/" +
-          localStorage.getItem("branch_id"),
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((res) => res.json())
-        .then((data) => (this.servicesReports = data))
-        .catch((err) => console.log(err.message));
+      return new Promise((resolve, reject) => {
+        fetch(
+          "http://127.0.0.1:8001/api/frequency-service/" +
+            localStorage.getItem("branch_id"),
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            this.servicesReports = data;
+            this.updateMessage();
+            resolve();
+          })
+          .catch((err) => {
+            console.log(err.message);
+            reject(err);
+          });
+      });
     },
     changePage(currentPage) {
       this.currentPage = currentPage;
     },
+    updateMessage() {
+      if (this.servicesReports.length > 0) {
+        this.message = "";
+      } else {
+        this.message = "لا يوجد تقارير لعرضها";
+      }
+    },
     search(event) {
       event.preventDefault();
-      console.log("hiiiiiii");
       fetch(
         "http://127.0.0.1:8001/api/frequency-service/" +
           localStorage.getItem("branch_id"),
@@ -127,14 +143,16 @@ export default {
         }
       )
         .then((res) => res.json())
-        .then((data) => (this.servicesReports = data))
+        .then((data) => ((this.servicesReports = data), this.updateMessage()))
         .catch((err) => console.log(err.message));
     },
   },
   watch: {
     searchQuery(newValue) {
       if (newValue.trim() === "") {
-        this.fetchAllServicesReports();
+        this.fetchAllServicesReports().then(() => {
+          this.updateMessage();
+        });
       }
     },
   },

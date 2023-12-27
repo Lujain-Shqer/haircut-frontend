@@ -67,7 +67,7 @@
           </tbody>
           <tbody v-else>
             <tr>
-              <td colspan="7">لا يوجد مشتريات نثرية لعرضها</td>
+              <td colspan="7">{{ message }}</td>
             </tr>
           </tbody>
           <tfoot>
@@ -101,6 +101,7 @@ export default {
       sundryPurchasesPerPage: 7,
       currentPage: 1,
       searchQuery: "",
+      message: "يتم التحميل .......",
     };
   },
   computed: {
@@ -120,20 +121,29 @@ export default {
   },
   methods: {
     fetchAllSundryPurchase() {
-      fetch(
-        "http://127.0.0.1:8001/api/sundry-purchase/" +
-          localStorage.getItem("branch_id"),
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((res) => res.json())
-        .then((data) => (this.sundryPurchases = data))
-        .catch((err) => console.log(err.message));
+      return new Promise((resolve, reject) => {
+        fetch(
+          "http://127.0.0.1:8001/api/sundry-purchase/" +
+            localStorage.getItem("branch_id"),
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            this.sundryPurchases = data;
+            this.updateMessage();
+            resolve();
+          })
+          .catch((err) => {
+            console.log(err.message);
+            reject(err);
+          });
+      });
     },
     deleteSundryPurchase(sundryPurchaseId) {
       fetch("http://127.0.0.1:8001/api/purchase/" + sundryPurchaseId, {
@@ -157,6 +167,14 @@ export default {
     changePage(currentPage) {
       this.currentPage = currentPage;
     },
+    updateMessage() {
+      if (this.sundryPurchases.length > 0) {
+        this.message = "";
+      } else {
+        this.message = "لا يوجد مشتريات نثرية لعرضها";
+      }
+    },
+
     search(event) {
       event.preventDefault();
       fetch(
@@ -174,14 +192,16 @@ export default {
         }
       )
         .then((res) => res.json())
-        .then((data) => (this.sundryPurchases = data))
+        .then((data) => ((this.sundryPurchases = data), this.updateMessage()))
         .catch((err) => console.log(err.message));
     },
   },
   watch: {
     searchQuery(newValue) {
       if (newValue.trim() === "") {
-        this.fetchAllSundryPurchase();
+        this.fetchAllSundryPurchase().then(() => {
+          this.updateMessage();
+        });
       }
     },
   },

@@ -88,7 +88,7 @@
           </tbody>
           <tbody v-else>
             <tr>
-              <td colspan="6">لا يوجد عمولات لعرضها</td>
+              <td colspan="6">{{ message }}</td>
             </tr>
           </tbody>
           <tfoot>
@@ -125,6 +125,7 @@ export default {
       currentPage: 1,
       isComponentVisible: false,
       searchQuery: "",
+      message: "يتم التحميل .......",
     };
   },
   computed: {
@@ -144,20 +145,29 @@ export default {
   },
   methods: {
     fetchAllCommissions() {
-      fetch(
-        "http://127.0.0.1:8001/api/employee-info/" +
-          localStorage.getItem("branch_id"),
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((res) => res.json())
-        .then((data) => (this.totalCommissions = data))
-        .catch((err) => console.log(err.message));
+      return new Promise((resolve, reject) => {
+        fetch(
+          "http://127.0.0.1:8001/api/employee-info/" +
+            localStorage.getItem("branch_id"),
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            this.totalCommissions = data;
+            this.updateMessage();
+            resolve();
+          })
+          .catch((err) => {
+            console.log(err.message);
+            reject(err);
+          });
+      });
     },
     changePage(currentPage) {
       this.currentPage = currentPage;
@@ -174,6 +184,13 @@ export default {
         this.isComponentVisible = false;
       } else {
         this.isComponentVisible = true;
+      }
+    },
+    updateMessage() {
+      if (this.totalCommissions.length > 0) {
+        this.message = "";
+      } else {
+        this.message = "لا يوجد عمولات لعرضها";
       }
     },
     search(event) {
@@ -193,14 +210,16 @@ export default {
         }
       )
         .then((res) => res.json())
-        .then((data) => (this.totalCommissions = data))
+        .then((data) => ((this.totalCommissions = data), this.updateMessage()))
         .catch((err) => console.log(err.message));
     },
   },
   watch: {
     searchQuery(newValue) {
       if (newValue.trim() === "") {
-        this.fetchAllCommissions();
+        this.fetchAllCommissions().then(() => {
+          this.updateMessage();
+        });
       }
     },
   },

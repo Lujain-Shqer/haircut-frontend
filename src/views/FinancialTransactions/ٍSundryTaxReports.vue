@@ -84,7 +84,7 @@ export default {
       isComponentVisible: false,
       isMultiSelection: true,
       selectedDate: [],
-      info: "لا يوجد ضرائب مبيعات لعرضها",
+      info: "يتم التحميل .......",
     };
   },
   computed: {
@@ -100,20 +100,29 @@ export default {
     },
   },
   mounted() {
-    fetch(
-      "http://127.0.0.1:8001/api/sundry-purchase/" +
-        localStorage.getItem("branch_id"),
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => (this.SundryTaxReports = data))
-      .catch((err) => console.log(err.message));
+    return new Promise((resolve, reject) => {
+      fetch(
+        "http://127.0.0.1:8001/api/sundry-purchase/" +
+          localStorage.getItem("branch_id"),
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          this.SundryTaxReports = data;
+          this.updateMessage();
+          resolve();
+        })
+        .catch((err) => {
+          console.log(err.message);
+          reject(err);
+        });
+    });
   },
   methods: {
     changePage(currentPage) {
@@ -135,6 +144,13 @@ export default {
         if (this.selectedDate.length > 2) {
           this.selectedDate.shift();
         }
+      }
+    },
+    updateMessage() {
+      if (this.SundryTaxReports.length > 0) {
+        this.info = "";
+      } else {
+        this.info = "لا يوجد ضرائب مبيعات نثرية لعرضها";
       }
     },
     search(event) {
@@ -169,9 +185,10 @@ export default {
           })
           .then((data) => {
             this.SundryTaxReports = data;
-            if (this.SundryTaxReports.length === 0) {
-              this.info = "لا يوجد في الفترة المحددة ضرائب مبيعات لعرضها";
-            }
+            // if (this.SundryTaxReports.length === 0) {
+            //   this.info = "لا يوجد في الفترة المحددة ضرائب مبيعات لعرضها";
+            // }
+            this.updateMessage();
           })
           .catch((err) => {
             this.SundryTaxReports = [];

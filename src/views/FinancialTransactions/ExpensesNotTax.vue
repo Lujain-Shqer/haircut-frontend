@@ -67,7 +67,7 @@
           <tbody v-else>
             <tr>
               <td colspan="5">
-                لا يوجد مصاريف عمومية غير خاضعة للضريبة لعرضها
+                {{ message }}
               </td>
             </tr>
           </tbody>
@@ -101,6 +101,7 @@ export default {
       ExpensesNotTaxesPerPage: 7,
       currentPage: 1,
       searchQuery: "",
+      message: "يتم التحميل .......",
     };
   },
   computed: {
@@ -120,23 +121,39 @@ export default {
   },
   methods: {
     fetchAllExpensesNotTaxes() {
-      fetch(
-        "http://127.0.0.1:8001/api/general-untaxedservice/" +
-          localStorage.getItem("branch_id"),
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((res) => res.json())
-        .then((data) => (this.ExpensesNotTaxes = data))
-        .catch((err) => console.log(err.message));
+      return new Promise((resolve, reject) => {
+        fetch(
+          "http://127.0.0.1:8001/api/general-untaxedservice/" +
+            localStorage.getItem("branch_id"),
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            this.ExpensesNotTaxes = data;
+            this.updateMessage();
+            resolve();
+          })
+          .catch((err) => {
+            console.log(err.message);
+            reject(err);
+          });
+      });
     },
     changePage(currentPage) {
       this.currentPage = currentPage;
+    },
+    updateMessage() {
+      if (this.ExpensesNotTaxes.length > 0) {
+        this.message = "";
+      } else {
+        this.message = "لا يوجد مصاريف عمومية غير خاضعة للضريبة لعرضها";
+      }
     },
     deleteExpensesNotTax(ExpensesNotTaxId) {
       fetch("http://127.0.0.1:8001/api/general-service/" + ExpensesNotTaxId, {
@@ -151,6 +168,7 @@ export default {
             this.ExpensesNotTaxes = this.ExpensesNotTaxes.filter(
               (ExpensesNotTax) => ExpensesNotTax.id !== ExpensesNotTaxId
             );
+            this.updateMessage();
           }
         })
         .catch((error) => {
@@ -174,14 +192,16 @@ export default {
         }
       )
         .then((res) => res.json())
-        .then((data) => (this.ExpensesNotTaxes = data))
+        .then((data) => ((this.ExpensesNotTaxes = data), this.updateMessage()))
         .catch((err) => console.log(err.message));
     },
   },
   watch: {
     searchQuery(newValue) {
       if (newValue.trim() === "") {
-        this.fetchAllExpensesNotTaxes();
+        this.fetchAllExpensesNotTaxes().then(() => {
+          this.updateMessage();
+        });
       }
     },
   },

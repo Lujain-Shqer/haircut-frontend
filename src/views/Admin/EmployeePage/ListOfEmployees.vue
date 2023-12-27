@@ -64,7 +64,7 @@
           </tbody>
           <tbody v-else>
             <tr>
-              <td colspan="8">لا يوجد موظفون لعرضهم</td>
+              <td colspan="8">{{ message }}</td>
             </tr>
           </tbody>
           <tfoot>
@@ -100,6 +100,7 @@ export default {
       employeesPerPage: 7,
       currentPage: 1,
       searchQuery: "",
+      message: "يتم التحميل .......",
     };
   },
   computed: {
@@ -117,20 +118,29 @@ export default {
   },
   methods: {
     fetchAllEmployees() {
-      fetch(
-        "http://127.0.0.1:8001/api/employee/" +
-          localStorage.getItem("branch_id"),
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((res) => res.json())
-        .then((data) => (this.employees = data))
-        .catch((err) => console.log(err.message));
+      return new Promise((resolve, reject) => {
+        fetch(
+          "http://127.0.0.1:8001/api/employee/" +
+            localStorage.getItem("branch_id"),
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            this.employees = data;
+            this.updateMessage();
+            resolve();
+          })
+          .catch((err) => {
+            console.log(err.message);
+            reject(err);
+          });
+      });
     },
     deleteEmployee(employeeId) {
       fetch("http://127.0.0.1:8001/api/employee/" + employeeId, {
@@ -145,6 +155,7 @@ export default {
             this.employees = this.employees.filter(
               (employee) => employee.id !== employeeId
             );
+            this.updateMessage();
           }
         })
         .catch((error) => {
@@ -153,6 +164,13 @@ export default {
     },
     changePage(currentPage) {
       this.currentPage = currentPage;
+    },
+    updateMessage() {
+      if (this.employees.length > 0) {
+        this.message = "";
+      } else {
+        this.message = " لا يوجد موظفون لعرضهم";
+      }
     },
     search(event) {
       event.preventDefault();
@@ -171,14 +189,16 @@ export default {
         }
       )
         .then((res) => res.json())
-        .then((data) => (this.employees = data))
+        .then((data) => ((this.employees = data), this.updateMessage()))
         .catch((err) => console.log(err.message));
     },
   },
   watch: {
     searchQuery(newValue) {
       if (newValue.trim() === "") {
-        this.fetchAllEmployees();
+        this.fetchAllEmployees().then(() => {
+          this.updateMessage();
+        });
       }
     },
   },

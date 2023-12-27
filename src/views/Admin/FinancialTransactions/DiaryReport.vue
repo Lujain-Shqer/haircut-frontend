@@ -9,16 +9,6 @@
 
       <div class="all-table" style="overflow-x: auto">
         <div class="row extra-table">
-          <div class="input-container">
-            <fa icon="search" />
-            <input
-              class="input-field"
-              type="text"
-              placeholder="البحث عن..."
-              v-model="searchQuery"
-              @keyup.enter="search"
-            />
-          </div>
           <button class="btn">EXCEL</button>
           <button class="btn" @click="search">بحث بالتاريخ</button>
           <button class="btn" @click="showComponent">
@@ -97,7 +87,7 @@ export default {
       isComponentVisible: false,
       isMultiSelection: true,
       selectedDate: [],
-      info: "لا يوجد تقارير يومية لعرضها",
+      info: "يتم التحميل .......",
     };
   },
   computed: {
@@ -111,20 +101,29 @@ export default {
     },
   },
   mounted() {
-    fetch(
-      "http://127.0.0.1:8001/api/daily-report/" +
-        localStorage.getItem("branch_id"),
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => (this.diaryReports = data))
-      .catch((err) => console.log(err.message));
+    return new Promise((resolve, reject) => {
+      fetch(
+        "http://127.0.0.1:8001/api/daily-report/" +
+          localStorage.getItem("branch_id"),
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          this.diaryReports = data;
+          this.updateMessage();
+          resolve();
+        })
+        .catch((err) => {
+          console.log(err.message);
+          reject(err);
+        });
+    });
   },
   methods: {
     changePage(currentPage) {
@@ -146,6 +145,13 @@ export default {
         if (this.selectedDate.length > 2) {
           this.selectedDate.shift();
         }
+      }
+    },
+    updateMessage() {
+      if (this.diaryReports.length > 0) {
+        this.info = "";
+      } else {
+        this.info = "لا يوجد تقارير يومية لعرضها";
       }
     },
     search(event) {
@@ -180,9 +186,10 @@ export default {
           })
           .then((data) => {
             this.diaryReports = data;
-            if (this.diaryReports.length === 0) {
-              this.info = "لا يوجد في الفترة المحددة تقارير يومية لعرضها";
-            }
+            // if (this.diaryReports.length === 0) {
+            //   this.info = "لا يوجد في الفترة المحددة تقارير يومية لعرضها";
+            // }
+            this.updateMessage();
           })
           .catch((err) => {
             this.diaryReports = [];

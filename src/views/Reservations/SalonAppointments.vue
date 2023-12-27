@@ -46,7 +46,7 @@
           </tbody>
           <tbody v-else>
             <tr>
-              <td colspan="4">لا يوجد مواعيد دوام لعرضها</td>
+              <td colspan="4">{{ message }}</td>
             </tr>
           </tbody>
         </table>
@@ -60,6 +60,7 @@ export default {
   data() {
     return {
       dates: [],
+      message: "يتم التحميل .......",
     };
   },
   mounted() {
@@ -74,7 +75,7 @@ export default {
       }
     )
       .then((res) => res.json())
-      .then((data) => (this.dates = data))
+      .then((data) => ((this.dates = data), this.updateMessage()))
       .catch((err) => console.log(err.message));
   },
   methods: {
@@ -89,11 +90,19 @@ export default {
         .then((response) => {
           if (response.ok) {
             this.dates = this.dates.filter((date) => date.id !== dateId);
+            this.updateMessage();
           }
         })
         .catch((error) => {
           console.error("Error deleting date:", error);
         });
+    },
+    updateMessage() {
+      if (this.dates.length > 0) {
+        this.message = "";
+      } else {
+        this.message = "لا يوجد مواعيد دوام لعرضها";
+      }
     },
   },
 };

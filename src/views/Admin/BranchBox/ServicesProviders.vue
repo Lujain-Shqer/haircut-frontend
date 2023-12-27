@@ -111,20 +111,29 @@ export default {
   },
   methods: {
     fetchGeneralProviders() {
-      fetch(
-        "http://127.0.0.1:8001/api/provider/" +
-          localStorage.getItem("branch_id"),
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((res) => res.json())
-        .then((data) => (this.generalProviders = data))
-        .catch((err) => console.log(err.message));
+      return new Promise((resolve, reject) => {
+        fetch(
+          "http://127.0.0.1:8001/api/provider/" +
+            localStorage.getItem("branch_id"),
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            this.generalProviders = data;
+            this.updateMessage();
+            resolve();
+          })
+          .catch((err) => {
+            console.log(err.message);
+            reject(err);
+          });
+      });
     },
     deleteGeneralProvider(generalProviderId) {
       fetch("http://127.0.0.1:8001/api/provider/" + generalProviderId, {
@@ -139,6 +148,7 @@ export default {
             this.generalProviders = this.generalProviders.filter(
               (generaProvider) => generaProvider.id !== generalProviderId
             );
+            this.updateMessage();
           }
         })
         .catch((error) => {

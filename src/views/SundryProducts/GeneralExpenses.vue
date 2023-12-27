@@ -96,7 +96,7 @@
           </tbody>
           <tbody v-else>
             <tr>
-              <td colspan="4">لا يوجد بنود مصارف عمومية لعرضها</td>
+              <td colspan="4">{{ message }}</td>
             </tr>
           </tbody>
           <tfoot>
@@ -128,6 +128,7 @@ export default {
       generalExpensesPerPage: 7,
       currentPage: 1,
       searchQuery: "",
+      message: "يتم التحميل .......",
     };
   },
   computed: {
@@ -147,19 +148,28 @@ export default {
   },
   methods: {
     fetchAllGeneralExpenses() {
-      fetch(
-        "http://127.0.0.1:8001/api/term/" + localStorage.getItem("branch_id"),
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((res) => res.json())
-        .then((data) => (this.generalExpenses = data))
-        .catch((err) => console.log(err.message));
+      return new Promise((resolve, reject) => {
+        fetch(
+          "http://127.0.0.1:8001/api/term/" + localStorage.getItem("branch_id"),
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            this.generalExpenses = data;
+            this.updateMessage();
+            resolve();
+          })
+          .catch((err) => {
+            console.log(err.message);
+            reject(err);
+          });
+      });
     },
     deleteGeneralExpense(generalExpenseId) {
       fetch("http://127.0.0.1:8001/api/term/" + generalExpenseId, {
@@ -174,6 +184,7 @@ export default {
             this.generalExpenses = this.generalExpenses.filter(
               (generalExpense) => generalExpense.id !== generalExpenseId
             );
+            this.updateMessage();
           }
         })
         .catch((error) => {
@@ -185,6 +196,13 @@ export default {
     },
     showTaxState(taxState) {
       return taxState === 1 ? "مفعلة" : " غير مفعلة";
+    },
+    updateMessage() {
+      if (this.generalExpenses.length > 0) {
+        this.message = "";
+      } else {
+        this.message = "لا يوجد بنود مصارف عمومية لعرضها";
+      }
     },
     search(event) {
       event.preventDefault();
@@ -202,14 +220,16 @@ export default {
         }
       )
         .then((res) => res.json())
-        .then((data) => (this.generalExpenses = data))
+        .then((data) => ((this.generalExpenses = data), this.updateMessage()))
         .catch((err) => console.log(err.message));
     },
   },
   watch: {
     searchQuery(newValue) {
       if (newValue.trim() === "") {
-        this.fetchAllGeneralExpenses();
+        this.fetchAllGeneralExpenses().then(() => {
+          this.updateMessage();
+        });
       }
     },
   },

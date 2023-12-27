@@ -76,7 +76,7 @@
           </tbody>
           <tbody v-else>
             <tr>
-              <td colspan="13">لا يوجد فواتير لعرضها</td>
+              <td colspan="14">{{ message }}</td>
             </tr>
           </tbody>
           <tfoot>
@@ -118,6 +118,7 @@ export default {
       salesBillsPerPage: 7,
       currentPage: 1,
       searchQuery: "",
+      message: "يتم التحميل .......",
     };
   },
   computed: {
@@ -135,19 +136,29 @@ export default {
   },
   methods: {
     fetchAllSalesBills() {
-      fetch(
-        "http://127.0.0.1:8001/api/order/" + localStorage.getItem("branch_id"),
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((res) => res.json())
-        .then((data) => (this.salesBills = data))
-        .catch((err) => console.log(err.message));
+      return new Promise((resolve, reject) => {
+        fetch(
+          "http://127.0.0.1:8001/api/order/" +
+            localStorage.getItem("branch_id"),
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            this.salesBills = data;
+            this.updateMessage();
+            resolve();
+          })
+          .catch((err) => {
+            console.log(err.message);
+            reject(err);
+          });
+      });
     },
     deleteSalesBill(salesBillId) {
       fetch("http://127.0.0.1:8001/api/order/" + salesBillId, {
@@ -171,6 +182,13 @@ export default {
     changePage(currentPage) {
       this.currentPage = currentPage;
     },
+    updateMessage() {
+      if (this.salesBills.length > 0) {
+        this.message = "";
+      } else {
+        this.message = "لا يوجد فواتير لعرضها";
+      }
+    },
     search(event) {
       event.preventDefault();
       fetch(
@@ -187,14 +205,16 @@ export default {
         }
       )
         .then((res) => res.json())
-        .then((data) => (this.salesBills = data))
+        .then((data) => ((this.salesBills = data), this.updateMessage()))
         .catch((err) => console.log(err.message));
     },
   },
   watch: {
     searchQuery(newValue) {
       if (newValue.trim() === "") {
-        this.fetchAllSalesBills();
+        this.fetchAllSalesBills().then(() => {
+          this.updateMessage();
+        });
       }
     },
   },

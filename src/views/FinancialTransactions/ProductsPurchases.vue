@@ -68,7 +68,7 @@
           </tbody>
           <tbody v-else>
             <tr>
-              <td colspan="7">لا يوجد مشتريات منتجات لعرضها</td>
+              <td colspan="7">{{ message }}</td>
             </tr>
           </tbody>
           <tfoot>
@@ -102,6 +102,7 @@ export default {
       productsPurchasesPerPage: 7,
       currentPage: 1,
       searchQuery: "",
+      message: "يتم التحميل .......",
     };
   },
   computed: {
@@ -121,20 +122,29 @@ export default {
   },
   methods: {
     fetchAllProductsPurchases() {
-      fetch(
-        "http://127.0.0.1:8001/api/product-purchase/" +
-          localStorage.getItem("branch_id"),
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((res) => res.json())
-        .then((data) => (this.productsPurchases = data))
-        .catch((err) => console.log(err.message));
+      return new Promise((resolve, reject) => {
+        fetch(
+          "http://127.0.0.1:8001/api/product-purchase/" +
+            localStorage.getItem("branch_id"),
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            this.productsPurchases = data;
+            this.updateMessage();
+            resolve();
+          })
+          .catch((err) => {
+            console.log(err.message);
+            reject(err);
+          });
+      });
     },
     deleteProductsPurchase(productsPurchaseId) {
       fetch("http://127.0.0.1:8001/api/purchase/" + productsPurchaseId, {
@@ -158,6 +168,13 @@ export default {
     changePage(currentPage) {
       this.currentPage = currentPage;
     },
+    updateMessage() {
+      if (this.productsPurchases.length > 0) {
+        this.message = "";
+      } else {
+        this.message = "لا يوجد مشتريات منتجات لعرضها";
+      }
+    },
     search(event) {
       event.preventDefault();
       fetch(
@@ -175,14 +192,16 @@ export default {
         }
       )
         .then((res) => res.json())
-        .then((data) => (this.productsPurchases = data))
+        .then((data) => ((this.productsPurchases = data), this.updateMessage()))
         .catch((err) => console.log(err.message));
     },
   },
   watch: {
     searchQuery(newValue) {
       if (newValue.trim() === "") {
-        this.fetchAllProductsPurchases();
+        this.fetchAllProductsPurchases().then(() => {
+          this.updateMessage();
+        });
       }
     },
   },

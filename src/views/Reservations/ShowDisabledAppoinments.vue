@@ -60,7 +60,7 @@
           </tbody>
           <tbody v-else>
             <tr>
-              <td colspan="4">لا يوجد مواعيد عطلة لعرضها</td>
+              <td colspan="4">{{ message }}</td>
             </tr>
           </tbody>
           <tfoot>
@@ -94,6 +94,7 @@ export default {
       disabledAppoinments: [],
       disabledAppoinmentsPerPage: 7,
       currentPage: 1,
+      message: "يتم التحميل .......",
     };
   },
   computed: {
@@ -110,20 +111,29 @@ export default {
     },
   },
   mounted() {
-    fetch(
-      "http://127.0.0.1:8001/api/stoped-reservation/" +
-        localStorage.getItem("branch_id"),
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => (this.disabledAppoinments = data))
-      .catch((err) => console.log(err.message));
+    return new Promise((resolve, reject) => {
+      fetch(
+        "http://127.0.0.1:8001/api/stoped-reservation/" +
+          localStorage.getItem("branch_id"),
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          this.disabledAppoinments = data;
+          this.updateMessage();
+          resolve();
+        })
+        .catch((err) => {
+          console.log(err.message);
+          reject(err);
+        });
+    });
   },
   methods: {
     deleteDisabledAppoinment(disabledAppoinmentId) {
@@ -143,6 +153,7 @@ export default {
               (disabledAppoinment) =>
                 disabledAppoinment.id !== disabledAppoinmentId
             );
+            this.updateMessage();
           }
         })
         .catch((error) => {
@@ -157,6 +168,13 @@ export default {
         this.isComponentVisible = false;
       } else {
         this.isComponentVisible = true;
+      }
+    },
+    updateMessage() {
+      if (this.disabledAppoinments.length > 0) {
+        this.message = "";
+      } else {
+        this.message = "لا يوجد مواعيد عطلة لعرضها";
       }
     },
   },

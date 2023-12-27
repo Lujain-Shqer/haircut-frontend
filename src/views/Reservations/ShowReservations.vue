@@ -17,6 +17,7 @@
         ></ejs-schedule>
         <!-- <ejs-schedule height="550px"></ejs-schedule> -->
       </div>
+      <div v-else class="message">يتم التحميل .......</div>
     </div>
   </div>
 </template>
@@ -204,6 +205,13 @@ h5 {
 }
 .e-schedule {
   overflow-x: auto;
+}
+.message {
+  color: #1a2669;
+  font-weight: 400;
+  font-size: larger;
+  text-align: center;
+  margin-top: 25%;
 }
 
 @media (max-width: 991px) {

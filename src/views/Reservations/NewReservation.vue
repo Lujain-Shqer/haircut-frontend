@@ -121,7 +121,7 @@ export default {
     return {
       isComponentVisible: false,
       isMultiSelection: true,
-      info: "لا يوجد حجوزات لعرضها",
+      info: "يتم التحميل .......",
       searchQuery: "",
       appointmentsPerPage: 7,
       currentPage: 1,
@@ -144,24 +144,31 @@ export default {
   },
   methods: {
     fetchAllAppointments() {
-      fetch(
-        "http://127.0.0.1:8001/api/reservation/" +
-          localStorage.getItem("branch_id"),
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          this.appointments = data.map((obj) => {
-            return this.proccessReservation(obj);
+      return new Promise((resolve, reject) => {
+        fetch(
+          "http://127.0.0.1:8001/api/reservation/" +
+            localStorage.getItem("branch_id"),
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            this.appointments = data.map((obj) => {
+              return this.proccessReservation(obj);
+            });
+            this.updateMessage();
+            resolve();
+          })
+          .catch((err) => {
+            console.log(err.message);
+            reject(err);
           });
-        })
-        .catch((err) => console.log(err.message));
+      });
     },
     handleDateChange(args) {
       const dateString = format(args.value, "yyyy-MM-dd");
@@ -172,6 +179,13 @@ export default {
         if (this.selectedDate.length > 2) {
           this.selectedDate.shift();
         }
+      }
+    },
+    updateMessage() {
+      if (this.appointments.length > 0) {
+        this.info = "";
+      } else {
+        this.info = "لا يوجد حجوزات لعرضها";
       }
     },
     search(event) {
@@ -195,6 +209,7 @@ export default {
           this.appointments = data.map((obj) => {
             return this.proccessReservation(obj);
           });
+          this.updateMessage();
         })
         .catch((err) => console.log(err.message));
     },
@@ -230,9 +245,10 @@ export default {
           })
           .then((data) => {
             this.appointments = data;
-            if (this.appointments.length === 0) {
-              this.info = "لا يوجد في الفترة المحددة حجوزات لعرضها";
-            }
+            this.updateMessage();
+            // if (this.appointments.length === 0) {
+            //   this.info = "لا يوجد في الفترة المحددة حجوزات لعرضها";
+            // }
           })
           .catch((err) => {
             this.appointments = [];
@@ -253,6 +269,7 @@ export default {
             this.appointments = this.appointments.filter(
               (appointment) => appointment.id !== appointmentId
             );
+            this.updateMessage();
           }
         })
         .catch((error) => {
@@ -328,7 +345,9 @@ export default {
   watch: {
     searchQuery(newValue) {
       if (newValue.trim() === "") {
-        this.fetchAllAppointments();
+        this.fetchAllAppointments().then(() => {
+          this.updateMessage();
+        });
       }
     },
   },

@@ -81,7 +81,7 @@ export default {
       isComponentVisible: false,
       isMultiSelection: true,
       selectedDate: [],
-      info: "لا يوجد ضرائب مبيعات لعرضها",
+      info: "يتم التحميل .......",
     };
   },
   computed: {
@@ -95,20 +95,29 @@ export default {
     },
   },
   mounted() {
-    fetch(
-      "http://127.0.0.1:8001/api/product-purchase/" +
-        localStorage.getItem("branch_id"),
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => (this.taxReports = data))
-      .catch((err) => console.log(err.message));
+    return new Promise((resolve, reject) => {
+      fetch(
+        "http://127.0.0.1:8001/api/product-purchase/" +
+          localStorage.getItem("branch_id"),
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          this.taxReports = data;
+          this.updateMessage();
+          resolve();
+        })
+        .catch((err) => {
+          console.log(err.message);
+          reject(err);
+        });
+    });
   },
   methods: {
     changePage(currentPage) {
@@ -119,6 +128,13 @@ export default {
         this.isComponentVisible = false;
       } else {
         this.isComponentVisible = true;
+      }
+    },
+    updateMessage() {
+      if (this.taxReports.length > 0) {
+        this.info = "";
+      } else {
+        this.info = "لا يوجد ضرائب مبيعات لعرضها";
       }
     },
     handleDateChange(args) {
@@ -164,9 +180,10 @@ export default {
           })
           .then((data) => {
             this.taxReports = data;
-            if (this.taxReports.length === 0) {
-              this.info = "لا يوجد في الفترة المحددة ضرائب مبيعات لعرضها";
-            }
+            // if (this.taxReports.length === 0) {
+            //   this.info = "لا يوجد في الفترة المحددة ضرائب مبيعات لعرضها";
+            // }
+            this.updateMessage();
           })
           .catch((err) => {
             this.taxReports = [];

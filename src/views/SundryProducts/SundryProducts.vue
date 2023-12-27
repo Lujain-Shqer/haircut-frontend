@@ -52,7 +52,7 @@
           </tbody>
           <tbody v-else>
             <tr>
-              <td colspan="4">لا يوجد منتجات نثرية لعرضها</td>
+              <td colspan="4">{{ message }}</td>
             </tr>
           </tbody>
           <tfoot>
@@ -84,6 +84,7 @@ export default {
       sundriesPerPage: 7,
       currentPage: 1,
       searchQuery: "",
+      message: "يتم التحميل .......",
     };
   },
   computed: {
@@ -101,19 +102,29 @@ export default {
   },
   methods: {
     fetchAllSundry() {
-      fetch(
-        "http://127.0.0.1:8001/api/sundry/" + localStorage.getItem("branch_id"),
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((res) => res.json())
-        .then((data) => (this.sundries = data))
-        .catch((err) => console.log(err.message));
+      return new Promise((resolve, reject) => {
+        fetch(
+          "http://127.0.0.1:8001/api/sundry/" +
+            localStorage.getItem("branch_id"),
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            this.sundries = data;
+            this.updateMessage();
+            resolve();
+          })
+          .catch((err) => {
+            console.log(err.message);
+            reject(err);
+          });
+      });
     },
     deleteSundry(sundryId) {
       fetch("http://127.0.0.1:8001/api/sundry/" + sundryId, {
@@ -128,6 +139,7 @@ export default {
             this.sundries = this.sundries.filter(
               (sundry) => sundry.id !== sundryId
             );
+            this.updateMessage();
           }
         })
         .catch((error) => {
@@ -136,6 +148,13 @@ export default {
     },
     changePage(currentPage) {
       this.currentPage = currentPage;
+    },
+    updateMessage() {
+      if (this.sundries.length > 0) {
+        this.message = "";
+      } else {
+        this.message = "لا يوجد منتجات نثرية لعرضها";
+      }
     },
     search(event) {
       event.preventDefault();
@@ -153,14 +172,16 @@ export default {
         }
       )
         .then((res) => res.json())
-        .then((data) => (this.sundries = data))
+        .then((data) => ((this.sundries = data), this.updateMessage()))
         .catch((err) => console.log(err.message));
     },
   },
   watch: {
     searchQuery(newValue) {
       if (newValue.trim() === "") {
-        this.fetchAllSundry();
+        this.fetchAllSundry().then(() => {
+          this.updateMessage();
+        });
       }
     },
   },
