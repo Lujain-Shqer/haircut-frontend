@@ -35,7 +35,13 @@
               <td>{{ supplier.name }}</td>
               <td>{{ supplier.tax_number }}</td>
               <td class="text-center">
-                <button class="btn show"><fa icon="pen" /> تعديل</button>
+                <router-link
+                  :to="{ name: 'UpdateSuppliers', params: { id: supplier.id } }"
+                >
+                  <button class="btn show">
+                    <fa icon="pen" /> تعديل
+                  </button></router-link
+                >
                 <button @click="deleteSupplier(supplier.id)" class="btn delete">
                   <fa icon="trash" /> حذف
                 </button>

@@ -36,7 +36,13 @@
               <td>{{ service.duration }}</td>
               <td>{{ service.branch_id }}</td>
               <td class="text-center">
-                <button class="btn show"><fa icon="pen" /> تعديل</button>
+                <router-link
+                  :to="{ name: 'UpdateServices', params: { id: service.id } }"
+                >
+                  <button class="btn show">
+                    <fa icon="pen" /> تعديل
+                  </button></router-link
+                >
                 <button @click="deleteProduct(service.id)" class="btn delete">
                   <fa icon="trash" /> حذف
                 </button>

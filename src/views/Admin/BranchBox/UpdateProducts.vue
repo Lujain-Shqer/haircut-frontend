@@ -100,7 +100,7 @@ export default {
     };
   },
   methods: {
-    async updateProduct() {
+    updateProduct() {
       this.isLoading = true;
       this.deleteUnwantedInfo();
       let requestBody = this.checkNeedForm();
@@ -117,51 +117,38 @@ export default {
         };
         method = "POST";
       }
-      console.log(...requestBody);
-      try {
-        const response = await fetch(
-          "http://127.0.0.1:8001/api/product/" + this.$route.params.id,
-          {
-            method: method,
-            headers: headers,
-            body: requestBody,
-          }
-        );
-
-        const responseBody = await response.json(); // or response.text() if the response is not JSON
-
-        console.log("Response Body:", responseBody);
-
+      fetch("http://127.0.0.1:8001/api/product/" + this.$route.params.id, {
+        method: method,
+        headers: headers,
+        body: requestBody,
+      }).then((response) => {
         this.isLoading = false;
-
         if (response.ok) {
-          console.log("Response:", response);
           this.$router.push({ name: "ProductsPage" });
-          return responseBody;
+          return response.json();
         } else if (response.status === 400) {
-          // Handle error response
-          const errors = responseBody.errors;
-          if (errors) {
-            if (this.errors.length > 0) {
-              this.errors = [];
-            }
-            if (typeof errors === "string") {
-              this.errors.push(errors);
-            } else {
-              Object.values(errors).forEach((errorMessages) => {
-                errorMessages.forEach((errorMessage) => {
-                  this.errors.push(errorMessage);
+          response.json().then((data) => {
+            const errors = data.errors;
+            if (errors) {
+              if (this.errors.length > 0) {
+                this.errors = [];
+              }
+              if (typeof errors === "string") {
+                this.errors.push(errors);
+              } else {
+                Object.values(errors).forEach((errorMessages) => {
+                  errorMessages.forEach((errorMessage) => {
+                    this.errors.push(errorMessage);
+                  });
                 });
-              });
+              }
+              setTimeout(() => {
+                this.errors = [];
+              }, 10000);
             }
-            setTimeout(() => {
-              this.errors = [];
-            }, 10000);
-          }
+          });
         }
-      } catch (error) {
-        console.error("Error during fetch:", error);
-      }
+      });
     },
     async handleFileChange() {
       return new Promise((resolve) => {

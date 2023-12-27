@@ -76,6 +76,8 @@ import AddNewEmployee from "../views/Admin/EmployeePage/AddNewEmployee.vue";
 import UpdateUsers from "../views/Admin/BranchBox/UpdateUsers.vue";
 import UpdateProducts from "../views/Admin/BranchBox/UpdateProducts.vue";
 import UpdateProviders from "../views/Admin/BranchBox/UpdateProviders.vue";
+import UpdateSuppliers from "../views/Admin/BranchBox/UpdateSuppliers.vue";
+import UpdateServices from "../views/Admin/BranchBox/UpdateServices.vue";
 import ListOfEmployees from "../views/Admin/EmployeePage/ListOfEmployees.vue";
 import EmployeesSalary from "../views/Admin/EmployeePage/EmployeesSalary.vue";
 import UpdateEmployee from "../views/Admin/EmployeePage/UpdateEmployee.vue";
@@ -408,9 +410,19 @@ const routes = [
     component: SuppliersPage,
   },
   {
+    path: "/UpdateSuppliers/:id",
+    name: "UpdateSuppliers",
+    component: UpdateSuppliers,
+  },
+  {
     path: "/ServicesPage",
     name: "ServicesPage",
     component: ServicesPage,
+  },
+  {
+    path: "/UpdateServices/:id",
+    name: "UpdateServices",
+    component: UpdateServices,
   },
   {
     path: "/UsersPage",

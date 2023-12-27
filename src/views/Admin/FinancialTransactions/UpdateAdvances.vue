@@ -43,6 +43,18 @@
               v-model="advance_info.source"
             />
           </div>
+          <div v-if="errors.length > 0">
+            <ul style="margin-top: 30px">
+              <li
+                class="error-mes"
+                dir="rtl"
+                v-for="(error, index) in errors"
+                :key="index"
+              >
+                {{ error }}
+              </li>
+            </ul>
+          </div>
           <button class="btn add">تعديل السلفة</button>
         </form>
       </div>
@@ -61,6 +73,7 @@ export default {
         amount: "",
         source: "",
       },
+      errors: [],
     };
   },
   mounted() {
@@ -93,6 +106,27 @@ export default {
         if (response.ok) {
           this.$router.push({ name: "AdvancesPage" });
           return response.json();
+        } else if (response.status === 400) {
+          response.json().then((data) => {
+            const errors = data.errors;
+            if (errors) {
+              if (this.errors.length > 0) {
+                this.errors = [];
+              }
+              if (typeof errors === "string") {
+                this.errors.push(errors);
+              } else {
+                Object.values(errors).forEach((errorMessages) => {
+                  errorMessages.forEach((errorMessage) => {
+                    this.errors.push(errorMessage);
+                  });
+                });
+              }
+              setTimeout(() => {
+                this.errors = [];
+              }, 10000);
+            }
+          });
         }
       });
     },
@@ -174,6 +208,12 @@ export default {
   margin: auto;
   width: 25%;
   margin-top: 5vh;
+}
+.error-mes {
+  padding: 10px;
+  color: red;
+  display: inline-flex;
+  list-style-type: none;
 }
 /* .AddTaxable button:first-of-type {
       margin: auto;

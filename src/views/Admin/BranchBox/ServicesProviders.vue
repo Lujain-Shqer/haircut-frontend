@@ -59,7 +59,7 @@
           </tbody>
           <tbody v-else>
             <tr>
-              <td colspan="4">لا يوجد مقدمي خدمة لعرضهم</td>
+              <td colspan="4">{{ message }}</td>
             </tr>
           </tbody>
           <tfoot>
@@ -91,6 +91,7 @@ export default {
       generalProvidersPerPage: 7,
       currentPage: 1,
       searchQuery: "",
+      message: "يتم التحميل .......",
     };
   },
   computed: {
@@ -153,6 +154,13 @@ export default {
     showTaxNumber(taxNumber) {
       return taxNumber === -1 ? "-" : taxNumber;
     },
+    updateMessage() {
+      if (this.generalProviders.length > 0) {
+        this.message = "";
+      } else {
+        this.message = "لا يوجد مقدمي خدمة لعرضهم";
+      }
+    },
     search(event) {
       event.preventDefault();
       fetch(
@@ -170,14 +178,16 @@ export default {
         }
       )
         .then((res) => res.json())
-        .then((data) => (this.generalProviders = data))
+        .then((data) => ((this.generalProviders = data), this.updateMessage()))
         .catch((err) => console.log(err.message));
     },
   },
   watch: {
     searchQuery(newValue) {
       if (newValue.trim() === "") {
-        this.fetchGeneralProviders();
+        this.fetchGeneralProviders().then(() => {
+          this.updateMessage();
+        });
       }
     },
   },

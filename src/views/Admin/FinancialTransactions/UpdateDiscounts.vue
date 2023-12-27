@@ -43,6 +43,18 @@
               v-model="discount_info.reason"
             />
           </div>
+          <div v-if="errors.length > 0">
+            <ul style="margin-top: 30px">
+              <li
+                class="error-mes"
+                dir="rtl"
+                v-for="(error, index) in errors"
+                :key="index"
+              >
+                {{ error }}
+              </li>
+            </ul>
+          </div>
           <button class="btn add">تعديل خصم</button>
         </form>
       </div>
@@ -61,6 +73,7 @@ export default {
         amount: "",
         reason: "",
       },
+      errors: [],
     };
   },
   mounted() {
@@ -89,21 +102,33 @@ export default {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(this.discount_info),
-      })
-        .then((response) => {
-          if (response.ok) {
-            this.$router.push({ name: "DiscountsPage" });
-            return response.json();
-          }
-        })
-        .catch((error) => {
-          if (error.response.status === 400) {
-            // Log the error details sent by the API
-            console.error("Validation error:", error.response.data);
-          } else {
-            console.error("Failed to update discount:", error);
-          }
-        });
+      }).then((response) => {
+        if (response.ok) {
+          this.$router.push({ name: "DiscountsPage" });
+          return response.json();
+        } else if (response.status === 400) {
+          response.json().then((data) => {
+            const errors = data.errors;
+            if (errors) {
+              if (this.errors.length > 0) {
+                this.errors = [];
+              }
+              if (typeof errors === "string") {
+                this.errors.push(errors);
+              } else {
+                Object.values(errors).forEach((errorMessages) => {
+                  errorMessages.forEach((errorMessage) => {
+                    this.errors.push(errorMessage);
+                  });
+                });
+              }
+              setTimeout(() => {
+                this.errors = [];
+              }, 10000);
+            }
+          });
+        }
+      });
     },
     deleteUnwantedInfo() {
       Object.keys(this.discount_info).forEach((key) => {
@@ -179,6 +204,12 @@ export default {
   padding: 1vh;
   text-align: start;
   color: red;
+}
+.error-mes {
+  padding: 10px;
+  color: red;
+  display: inline-flex;
+  list-style-type: none;
 }
 /* .AddTaxable button:first-of-type {
     margin: auto;

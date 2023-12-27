@@ -28,6 +28,18 @@
               v-model="expense_info.tax_state"
             />
           </div>
+          <div v-if="errors.length > 0">
+            <ul style="margin-top: 30px">
+              <li
+                class="error-mes"
+                dir="rtl"
+                v-for="(error, index) in errors"
+                :key="index"
+              >
+                {{ error }}
+              </li>
+            </ul>
+          </div>
           <button :disabled="isLoading" class="btn">تحديث</button>
         </form>
       </div>
@@ -45,6 +57,7 @@ export default {
         tax_state: "0",
       },
       isLoading: false,
+      errors: [],
     };
   },
   methods: {
@@ -68,6 +81,27 @@ export default {
           if (response.ok) {
             this.$router.push({ name: "GeneralExpenses" });
             return response.json();
+          } else if (response.status === 400) {
+            response.json().then((data) => {
+              const errors = data.errors;
+              if (errors) {
+                if (this.errors.length > 0) {
+                  this.errors = [];
+                }
+                if (typeof errors === "string") {
+                  this.errors.push(errors);
+                } else {
+                  Object.values(errors).forEach((errorMessages) => {
+                    errorMessages.forEach((errorMessage) => {
+                      this.errors.push(errorMessage);
+                    });
+                  });
+                }
+                setTimeout(() => {
+                  this.errors = [];
+                }, 10000);
+              }
+            });
           }
         })
         .then((data) => {
@@ -156,6 +190,12 @@ export default {
   padding: 1vh 4vh;
   margin: auto;
   margin-top: 5vh;
+}
+.error-mes {
+  padding: 10px;
+  color: red;
+  display: inline-flex;
+  list-style-type: none;
 }
 
 @media (max-width: 991px) {
