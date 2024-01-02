@@ -53,7 +53,7 @@
                 }}
               </td>
               <td class="text-center">
-                <button class="btn show">
+                <button class="btn show" @click="elementPdf(sundryPurchase.id)">
                   <fa icon="fa-file-pdf" /> عرض الفاتورة
                 </button>
                 <button
@@ -90,6 +90,18 @@
 </template>
 <script>
 import PaginationFoot from "/src/components/PaginationFoot.vue";
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+const Fonts = {
+  arabic: {
+    normal: "Amiri-Regular.ttf",
+    bold: "Amiri-Bold.ttf",
+    italics: "Amiri-Slanted.ttf",
+    bolditalics: "Amiri-BoldSlanted.ttf",
+  },
+};
+pdfMake.fonts = Fonts;
 export default {
   name: "SundryPurchases",
   components: {
@@ -194,6 +206,57 @@ export default {
         .then((res) => res.json())
         .then((data) => ((this.sundryPurchases = data), this.updateMessage()))
         .catch((err) => console.log(err.message));
+    },
+    reverseTextToRtl(text) {
+      return text.split(" ").reverse().join(" ");
+    },
+    elementPdf(id) {
+      const purchase = this.sundryPurchases.find(
+        (purchase) => purchase.id === id
+      );
+      const content = [
+        {
+          text: this.reverseTextToRtl("فاتورة  مشتريات نثرية"),
+          style: "header",
+        },
+        {
+          text: purchase.tax + " :الضريبة",
+          style: "paragraph",
+        },
+        {
+          text: "Another paragraph with a different style.",
+          style: "anotherParagraph",
+        },
+      ];
+
+      const styles = {
+        header: {
+          fontSize: 18,
+          bold: true,
+          margin: [0, 0, 0, 10],
+          alignment: "center",
+        },
+        paragraph: {
+          fontSize: 14,
+          margin: [0, 0, 0, 10],
+          alignment: "center",
+        },
+        anotherParagraph: {
+          fontSize: 14,
+          italic: true,
+          margin: [0, 0, 0, 10],
+        },
+      };
+
+      const docDefinition = {
+        content,
+        styles,
+        defaultStyle: {
+          font: "arabic",
+        },
+      };
+
+      pdfMake.createPdf(docDefinition, null, Fonts).open();
     },
   },
   watch: {

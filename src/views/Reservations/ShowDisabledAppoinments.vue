@@ -8,10 +8,16 @@
       <div class="all-table" style="overflow-x: auto">
         <div class="row extra-table">
           <div class="input-container">
-            <fa icon="calendar" />
-            <span>المواعيد المعطلة</span>
+            <fa icon="search" />
+            <input
+              class="input-field"
+              type="text"
+              placeholder="البحث عن..."
+              v-model="searchQuery"
+              @keyup.enter="search"
+            />
           </div>
-          <button class="btn">بحث بالتاريخ</button>
+          <button class="btn" @click="searchByDate">بحث بالتاريخ</button>
 
           <button class="btn" @click="showComponent">
             من الفترة -> إلى الفترة
@@ -82,6 +88,7 @@
 <script>
 import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
 import PaginationFoot from "/src/components/PaginationFoot.vue";
+import { format } from "date-fns";
 export default {
   name: "ShowDisabledAppoinments",
   components: {
@@ -91,9 +98,12 @@ export default {
   data() {
     return {
       isComponentVisible: false,
+      isMultiSelection: true,
       disabledAppoinments: [],
       disabledAppoinmentsPerPage: 7,
+      selectedDate: [],
       currentPage: 1,
+      searchQuery: "",
       message: "يتم التحميل .......",
     };
   },
@@ -111,31 +121,34 @@ export default {
     },
   },
   mounted() {
-    return new Promise((resolve, reject) => {
-      fetch(
-        "http://127.0.0.1:8001/api/stoped-reservation/" +
-          localStorage.getItem("branch_id"),
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          this.disabledAppoinments = data;
-          this.updateMessage();
-          resolve();
-        })
-        .catch((err) => {
-          console.log(err.message);
-          reject(err);
-        });
-    });
+    this.fetchAllDisabledAppointments();
   },
   methods: {
+    fetchAllDisabledAppointments() {
+      return new Promise((resolve, reject) => {
+        fetch(
+          "http://127.0.0.1:8001/api/stoped-reservation/" +
+            localStorage.getItem("branch_id"),
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            this.disabledAppoinments = data;
+            this.updateMessage();
+            resolve();
+          })
+          .catch((err) => {
+            console.log(err.message);
+            reject(err);
+          });
+      });
+    },
     deleteDisabledAppoinment(disabledAppoinmentId) {
       fetch(
         "http://127.0.0.1:8001/api/stoped-reservation/" + disabledAppoinmentId,
@@ -170,11 +183,96 @@ export default {
         this.isComponentVisible = true;
       }
     },
+    handleDateChange(args) {
+      const dateString = format(args.value, "yyyy-MM-dd");
+
+      if (!this.selectedDate.includes(dateString)) {
+        this.selectedDate.push(dateString);
+
+        if (this.selectedDate.length > 2) {
+          this.selectedDate.shift();
+        }
+      }
+    },
     updateMessage() {
       if (this.disabledAppoinments.length > 0) {
         this.message = "";
       } else {
         this.message = "لا يوجد مواعيد عطلة لعرضها";
+      }
+    },
+    search(event) {
+      event.preventDefault();
+      fetch(
+        "http://127.0.0.1:8001/api/stoped-reservation/" +
+          localStorage.getItem("branch_id"),
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            query: this.searchQuery,
+          }),
+        }
+      )
+        .then((res) => res.json())
+        .then(
+          (data) => ((this.disabledAppoinments = data), this.updateMessage())
+        )
+        .catch((err) => console.log(err.message));
+    },
+    searchByDate(event) {
+      event.preventDefault();
+      if (this.selectedDate.length < 2) {
+        this.message = " أرجو إدخال تاريخ بداية الفترة ونهايتها";
+        this.disabledAppoinments = [];
+      } else {
+        fetch(
+          "http://127.0.0.1:8001/api/filter-stoped-reservation/" +
+            localStorage.getItem("branch_id"),
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              start_date: this.selectedDate[0],
+              end_date: this.selectedDate[1],
+            }),
+          }
+        )
+          .then((res) => {
+            if (res.ok) {
+              return res.json();
+            } else {
+              throw new Error(
+                "يجب أن يكون تاريخ بداية الفترة أصغر من تاريخ نهاية الفترة "
+              );
+            }
+          })
+          .then((data) => {
+            this.disabledAppoinments = data;
+            this.updateMessage();
+            // if (this.appointments.length === 0) {
+            //   this.info = "لا يوجد في الفترة المحددة حجوزات لعرضها";
+            // }
+          })
+          .catch((err) => {
+            this.disabledAppoinments = [];
+            this.message = err.message;
+          });
+      }
+    },
+  },
+  watch: {
+    searchQuery(newValue) {
+      if (newValue.trim() === "") {
+        this.fetchAllDisabledAppointments().then(() => {
+          this.updateMessage();
+        });
       }
     },
   },
@@ -222,6 +320,28 @@ h5 {
   display: flow-root;
 }
 .ShowDisabledAppoinments .input-container {
+  border: 1px solid #c8c9cc;
+  box-shadow: 0px 0px 4px 0px #6e49cb33;
+  border-radius: 8px;
+  width: auto;
+  float: right;
+  display: inline;
+  float: right;
+  color: #3f51b5;
+  padding: 1vh;
+}
+.ShowDisabledAppoinments input {
+  border: 0;
+  outline: none;
+  color: #3f51b5;
+}
+.ShowDisabledAppoinments input::placeholder {
+  color: #3f51b5;
+}
+.ShowDisabledAppoinments .input-container svg {
+  padding-left: 0.2vh;
+}
+/* .ShowDisabledAppoinments .input-container {
   float: right;
   display: contents;
   float: right;
@@ -231,7 +351,7 @@ h5 {
 }
 .ShowDisabledAppoinments .input-container svg {
   padding-left: 2vh;
-}
+} */
 
 .ShowDisabledAppoinments .extra-table button {
   width: auto;

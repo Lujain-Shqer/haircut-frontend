@@ -19,9 +19,15 @@
             <button class="btn">إنشاء جديد</button>
           </router-link>
           <button class="btn">Excel</button>
-          <button class="btn">PDF</button>
+          <button class="btn" @click="toPdf">PDF</button>
         </div>
-        <table class="table" cellpadding="5" border="1" cellspacing="0">
+        <table
+          id="my-table"
+          class="table"
+          cellpadding="5"
+          border="1"
+          cellspacing="0"
+        >
           <thead>
             <tr>
               <th scope="col">الاسم</th>
@@ -49,7 +55,7 @@
               <td colspan="3">{{ message }}</td>
             </tr>
           </tbody>
-          <tfoot>
+          <tfoot v-if="!pdfGenerationMode">
             <td>صفوف لكل الصفحة</td>
             <td></td>
             <paginationFoot
@@ -66,6 +72,7 @@
 </template>
 <script>
 import PaginationFoot from "/src/components/PaginationFoot.vue";
+//import html2pdf from "html2pdf.js";
 export default {
   name: "UsersPage",
   components: {
@@ -78,13 +85,17 @@ export default {
       currentPage: 1,
       searchQuery: "",
       message: "يتم التحميل .......",
+      pdfGenerationMode: false,
     };
   },
   computed: {
     usersToDisplay() {
       const startIndex = (this.currentPage - 1) * this.usersPerPage;
       const endIndex = startIndex + this.usersPerPage;
-      return this.users.slice(startIndex, endIndex);
+      // return this.users.slice(startIndex, endIndex);
+      return this.pdfGenerationMode
+        ? this.users
+        : this.users.slice(startIndex, endIndex);
     },
     pageNumber() {
       return Math.ceil(this.users.length / this.usersPerPage);
@@ -165,6 +176,47 @@ export default {
         .then((res) => res.json())
         .then((data) => ((this.users = data), this.updateMessage()))
         .catch((err) => console.log(err.message));
+    },
+
+    toPdf() {
+      this.pdfGenerationMode = true;
+
+      this.$nextTick(() => {
+        document.getElementById("my-table").style.direction = "rtl";
+        const element = document.getElementById("my-table");
+        let header = document.getElementsByTagName("head");
+
+        var nWindow = window.open();
+        nWindow.document.write("<html>");
+        nWindow.document.write("<head>");
+
+        for (let headItem of header) {
+          nWindow.document.write(headItem.outerHTML);
+        }
+
+        nWindow.document.write("</head>");
+        nWindow.document.write("<body >");
+        nWindow.document.write(element.outerHTML);
+        nWindow.document.write("</body></html>");
+        nWindow.document.title = "مستخدمون سرب";
+        nWindow.document.close();
+
+        setTimeout(() => {
+          nWindow.print();
+          nWindow.close();
+          this.pdfGenerationMode = false;
+        }, 200);
+      });
+    },
+    generatePDF() {
+      this.pdfGenerationMode = true;
+      document.getElementById("my-table").style.direction = "rtl";
+      //const element = document.getElementById("my-table");
+      // html2pdf(element);
+      window.print();
+      setTimeout(() => {
+        this.pdfGenerationMode = false;
+      }, 500);
     },
   },
   watch: {
@@ -259,19 +311,19 @@ export default {
   margin: 0 2px;
 }
 
-.usersPage table {
+#my-table {
   margin-bottom: 0;
   border-collapse: collapse;
   border-spacing: 0;
   text-align: center;
 }
 
-.usersPage table tr td,
-.usersPage table tr th {
+#my-table tr td,
+#my-table tr th {
   color: #1a2669;
 }
 
-.usersPage table .show {
+#my-table .show {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
@@ -279,15 +331,15 @@ export default {
   margin-bottom: 1vh;
 }
 
-.usersPage table thead tr th,
-.usersPage table tfoot tr th {
+#my-table thead tr th,
+#my-table tfoot tr th {
   background: #3f51b5;
   color: #e3e3e3;
   height: 5vh;
   font-weight: 400;
 }
 
-.usersPage table tfoot {
+#my-table tfoot {
   border-radius: 8px;
   background: #3f51b5;
   width: 100%;
@@ -295,7 +347,7 @@ export default {
   font-weight: 300;
 }
 
-.usersPage table tfoot td:last-of-type {
+#my-table tfoot td:last-of-type {
   text-align: end;
   padding-left: 5vh;
 }

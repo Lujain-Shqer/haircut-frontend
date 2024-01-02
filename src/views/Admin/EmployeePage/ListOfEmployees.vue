@@ -15,7 +15,7 @@
               @keyup.enter="search"
             />
           </div>
-          <button class="btn">PDF</button>
+          <button class="btn" @click="toPdf">PDF</button>
 
           <button class="btn">EXCEL</button>
 
@@ -23,7 +23,13 @@
             ><button class="btn">أنشاء جديد</button>
           </router-link>
         </div>
-        <table class="table" cellpadding="5" border="1" cellspacing="0">
+        <table
+          id="my-table"
+          class="table"
+          cellpadding="5"
+          border="1"
+          cellspacing="0"
+        >
           <thead>
             <tr>
               <th scope="col">كود الموظف</th>
@@ -67,7 +73,7 @@
               <td colspan="8">{{ message }}</td>
             </tr>
           </tbody>
-          <tfoot>
+          <tfoot v-if="!pdfGenerationMode">
             <td>صفوف لكل الصفحة</td>
             <td></td>
             <td></td>
@@ -101,13 +107,17 @@ export default {
       currentPage: 1,
       searchQuery: "",
       message: "يتم التحميل .......",
+      pdfGenerationMode: false,
     };
   },
   computed: {
     employeesToDisplay() {
       const startIndex = (this.currentPage - 1) * this.employeesPerPage;
       const endIndex = startIndex + this.employeesPerPage;
-      return this.employees.slice(startIndex, endIndex);
+      // return this.employees.slice(startIndex, endIndex);
+      return this.pdfGenerationMode
+        ? this.employees
+        : this.employees.slice(startIndex, endIndex);
     },
     pageNumber() {
       return Math.ceil(this.employees.length / this.employeesPerPage);
@@ -192,6 +202,36 @@ export default {
         .then((data) => ((this.employees = data), this.updateMessage()))
         .catch((err) => console.log(err.message));
     },
+    toPdf() {
+      this.pdfGenerationMode = true;
+
+      this.$nextTick(() => {
+        document.getElementById("my-table").style.direction = "rtl";
+        const element = document.getElementById("my-table");
+        let header = document.getElementsByTagName("head");
+
+        var nWindow = window.open();
+        nWindow.document.write("<html>");
+        nWindow.document.write("<head>");
+
+        for (let headItem of header) {
+          nWindow.document.write(headItem.outerHTML);
+        }
+
+        nWindow.document.write("</head>");
+        nWindow.document.write("<body >");
+        nWindow.document.write(element.outerHTML);
+        nWindow.document.write("</body></html>");
+        nWindow.document.title = "موظفون سرب";
+        nWindow.document.close();
+
+        setTimeout(() => {
+          nWindow.print();
+          nWindow.close();
+          this.pdfGenerationMode = false;
+        }, 200);
+      });
+    },
   },
   watch: {
     searchQuery(newValue) {
@@ -269,43 +309,43 @@ export default {
   background: #3f51b5;
   color: #fff;
 }
-.listOfEmployee table {
+#my-table {
   margin-bottom: 0;
   border-collapse: collapse;
   border-spacing: 0;
   text-align: center;
 }
-.listOfEmployee table tr td,
-.listOfEmployee table tr th {
+#my-table tr td,
+#my-table tr th {
   color: #1a2669;
 }
-.listOfEmployee table tr td.row div:nth-child(odd) {
+#my-table tr td.row div:nth-child(odd) {
   color: #3f51b5;
   font-weight: 600;
 }
 
-.listOfEmployee table .show {
+#my-table .show {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
   margin-left: 5px;
   margin-bottom: 1vh;
 }
-.listOfEmployee table thead tr th,
-.listOfEmployee table tfoot tr th {
+#my-table thead tr th,
+#my-table tfoot tr th {
   background: #3f51b5;
   color: #e3e3e3;
   height: 5vh;
   font-weight: 400;
 }
-.listOfEmployee table tfoot {
+#my-table tfoot {
   border-radius: 8px;
   background: #3f51b5;
   width: 100%;
   color: #fff;
   font-weight: 300;
 }
-.listOfEmployee table .delete {
+#my-table .delete {
   background: #fff;
   color: #3f51b5;
   border: 1px solid #3f51b5;
