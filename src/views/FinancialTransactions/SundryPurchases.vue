@@ -214,48 +214,194 @@ export default {
       const purchase = this.sundryPurchases.find(
         (purchase) => purchase.id === id
       );
-      const content = [
-        {
-          text: this.reverseTextToRtl("فاتورة  مشتريات نثرية"),
-          style: "header",
-        },
-        {
-          text: purchase.tax + " :الضريبة",
-          style: "paragraph",
-        },
-        {
-          text: "Another paragraph with a different style.",
-          style: "anotherParagraph",
-        },
+      let productsRows = [
+        [
+          { text: this.reverseTextToRtl("Price/السعر"), alignment: "center" },
+          { text: this.reverseTextToRtl("Item/الصنف"), alignment: "center" },
+        ],
       ];
-
-      const styles = {
-        header: {
-          fontSize: 18,
-          bold: true,
-          margin: [0, 0, 0, 10],
-          alignment: "center",
-        },
-        paragraph: {
-          fontSize: 14,
-          margin: [0, 0, 0, 10],
-          alignment: "center",
-        },
-        anotherParagraph: {
-          fontSize: 14,
-          italic: true,
-          margin: [0, 0, 0, 10],
-        },
-      };
-
+      for (let i = 0; i < purchase.sundry_products.length; i += 1) {
+        productsRows.push([
+          { text: purchase.sundry_products[i].price, alignment: "center" },
+          {
+            text: this.reverseTextToRtl(purchase.sundry_products[i].name),
+            alignment: "center",
+          },
+        ]);
+      }
       const docDefinition = {
-        content,
-        styles,
+        content: [
+          {
+            text: this.reverseTextToRtl("فاتورة  مشتريات نثرية"),
+            style: "header",
+          },
+          {
+            style: "tableExample",
+            table: {
+              widths: ["*", "*", "*"],
+              body: [
+                [
+                  { text: "Purchase id", alignment: "center" },
+                  { text: purchase.id, alignment: "center" },
+                  {
+                    text: this.reverseTextToRtl("رقم الطلب"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  { text: "Invoice issue date", alignment: "center" },
+                  {
+                    text:
+                      purchase.created_at.split("T")[0] +
+                      "|" +
+                      purchase.created_at.split("T")[1].split(".")[0],
+                    alignment: "center",
+                  },
+                  {
+                    text: this.reverseTextToRtl("تاريخ إصدار الفاتورة"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  { text: "Supplier name", alignment: "center" },
+                  { text: purchase.supplier.name, alignment: "center" },
+                  {
+                    text: this.reverseTextToRtl("اسم المورد"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  { text: "Supplier tax number", alignment: "center" },
+                  { text: purchase.supplier.tax_number, alignment: "center" },
+                  {
+                    text: this.reverseTextToRtl("الرقم الضريبي المورد"),
+                    alignment: "center",
+                  },
+                ],
+              ],
+            },
+            layout: {
+              hLineWidth: function (i, node) {
+                return i === 0 || i === node.table.body.length ? 1 : 0;
+              },
+              // vLineWidth: function (i, node) {
+              //   return i === 0 || i === node.table.widths.length ? 2 : 1;
+              // },
+              hLineColor: function (i, node) {
+                return i === 0 || i === node.table.body.length
+                  ? "gray"
+                  : "white";
+              },
+              vLineColor: function () {
+                return "white";
+              },
+              // hLineStyle: function (i, node) { return {dash: { length: 10, space: 4 }}; },
+              // vLineStyle: function (i, node) { return {dash: { length: 10, space: 4 }}; },
+              // paddingLeft: function(i, node) { return 4; },
+              // paddingRight: function(i, node) { return 4; },
+              // paddingTop: function(i, node) { return 2; },
+              // paddingBottom: function(i, node) { return 2; },
+              // fillColor: function (rowIndex, node, columnIndex) { return null; }
+            },
+          },
+          { text: "", margin: [0, 20, 0, 8] },
+          {
+            style: "tableExample",
+            table: {
+              widths: ["*", "*"],
+              body: productsRows,
+              headerRows: 1,
+            },
+            layout: {
+              fillColor: function (rowIndex) {
+                return rowIndex === 0 ? "#CCCCCC" : null;
+              },
+              hLineColor: function (i, node) {
+                return i === 0 || i === node.table.body.length
+                  ? "#CCCCCC"
+                  : "white";
+              },
+              vLineColor: function () {
+                return "white";
+              },
+            },
+          },
+          { text: "", margin: [0, 20, 0, 8] },
+          {
+            style: "tableExample",
+            table: {
+              widths: ["*", "*"],
+              body: [
+                [
+                  { text: purchase.amount, alignment: "center" },
+                  {
+                    text: this.reverseTextToRtl("المجموع/ Sub total"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  {
+                    text: purchase.tax,
+                    alignment: "center",
+                  },
+                  {
+                    text: this.reverseTextToRtl("ضريبة القيمة المضافة/ VAT"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  { text: purchase.discount, alignment: "center" },
+                  {
+                    text: this.reverseTextToRtl("مبلغ الخصم/ Discount"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  {
+                    text: purchase.tax + purchase.amount_after_discount,
+                    alignment: "center",
+                  },
+                  {
+                    text: this.reverseTextToRtl("المجموع النهائي/ Total"),
+                    alignment: "center",
+                  },
+                ],
+              ],
+            },
+            layout: {
+              hLineWidth: function (i, node) {
+                return i === 0 || i === node.table.body.length ? 1 : 0;
+              },
+              // vLineWidth: function (i, node) {
+              //   return i === 0 || i === node.table.widths.length ? 2 : 1;
+              // },
+              hLineColor: function (i, node) {
+                return i === 0 || i === node.table.body.length
+                  ? "gray"
+                  : "white";
+              },
+              vLineColor: function () {
+                return "white";
+              },
+            },
+          },
+        ],
+        styles: {
+          tableHeader: {
+            color: "#D3D3D3",
+            bold: true,
+          },
+          header: {
+            fontSize: 18,
+            bold: true,
+            margin: [0, 0, 0, 10],
+            alignment: "center",
+          },
+        },
         defaultStyle: {
           font: "arabic",
         },
       };
-
       pdfMake.createPdf(docDefinition, null, Fonts).open();
     },
   },
@@ -274,18 +420,22 @@ export default {
 .row {
   margin: 0;
 }
+
 .sundryPurchases {
   direction: rtl;
   width: 77%;
 }
+
 .sundryPurchases h4 {
   color: #3f51b5;
   font-weight: 700px;
 }
+
 .sundryPurchases p {
   color: #1a2669;
   font-weight: 400;
 }
+
 .sundryPurchases .control-table {
   margin-top: 5vh;
   border: 1px solid #3f51b5;
@@ -293,6 +443,7 @@ export default {
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
 }
+
 .sundryPurchases .extra-table {
   margin: 0 4vh;
   margin-bottom: 3vh;
@@ -300,6 +451,7 @@ export default {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
 .sundryPurchases .input-container {
   border: 1px solid #c8c9cc;
   box-shadow: 0px 0px 4px 0px #6e49cb33;
@@ -311,14 +463,17 @@ export default {
   color: #3f51b5;
   padding: 1vh;
 }
+
 .sundryPurchases input {
   border: 0;
   outline: none;
   color: #3f51b5;
 }
+
 .sundryPurchases input::placeholder {
   color: #3f51b5;
 }
+
 .sundryPurchases .input-container svg {
   padding-left: 0.2vh;
 }
@@ -329,16 +484,19 @@ export default {
   background: #3f51b5;
   color: #fff;
 }
+
 .sundryPurchases table {
   margin-bottom: 0;
   border-collapse: collapse;
   border-spacing: 0;
   text-align: center;
 }
+
 .sundryPurchases table tr td,
 .sundryPurchases table tr th {
   color: #1a2669;
 }
+
 .sundryPurchases table .delete {
   background: #fff;
   color: #3f51b5;
@@ -346,6 +504,7 @@ export default {
   margin-right: 5px;
   margin-bottom: 1vh;
 }
+
 .sundryPurchases table .show {
   background: #3f51b5;
   color: #fff;
@@ -353,6 +512,7 @@ export default {
   margin-left: 5px;
   margin-bottom: 1vh;
 }
+
 .sundryPurchases table thead tr th,
 .sundryPurchases table tfoot tr th {
   background: #3f51b5;
@@ -360,6 +520,7 @@ export default {
   height: 5vh;
   font-weight: 400;
 }
+
 .sundryPurchases table tfoot {
   border-radius: 8px;
   background: #3f51b5;
@@ -367,10 +528,12 @@ export default {
   color: #fff;
   font-weight: 300;
 }
+
 .sundryPurchases table tfoot td:last-of-type {
   text-align: end;
   padding-left: 5vh;
 }
+
 tfoot svg {
   background: transparent;
   padding: 0 10px;
@@ -382,6 +545,7 @@ tfoot svg {
   .sundryPurchases {
     width: 70%;
   }
+
   /* .extra-table {
     width: 130%;
   }
@@ -389,10 +553,12 @@ tfoot svg {
     width: 140%;
   } */
 }
+
 @media (max-width: 765px) {
   .sundryPurchases {
     width: 100%;
   }
+
   /* .extra-table {
     width: 170%;
   }
@@ -400,6 +566,7 @@ tfoot svg {
     width: 182%;
   } */
 }
+
 @media (max-width: 540px) {
   /* .extra-table {
     width: 210%;
