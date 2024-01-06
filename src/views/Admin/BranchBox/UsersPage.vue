@@ -18,7 +18,7 @@
           <router-link to="/AddUser">
             <button class="btn">إنشاء جديد</button>
           </router-link>
-          <button class="btn">Excel</button>
+          <button class="btn" @click="exportToExcel">Excel</button>
           <button class="btn" @click="toPdf">PDF</button>
         </div>
         <table
@@ -72,6 +72,7 @@
 </template>
 <script>
 import PaginationFoot from "/src/components/PaginationFoot.vue";
+import * as XLSX from "xlsx";
 //import html2pdf from "html2pdf.js";
 export default {
   name: "UsersPage",
@@ -150,7 +151,6 @@ export default {
     changePage(currentPage) {
       this.currentPage = currentPage;
     },
-
     updateMessage() {
       if (this.users.length > 0) {
         this.message = "";
@@ -217,6 +217,22 @@ export default {
       setTimeout(() => {
         this.pdfGenerationMode = false;
       }, 500);
+    },
+    exportToExcel() {
+      const ws = XLSX.utils.table_to_sheet(document.querySelector("table"));
+      const columnOptions = [
+        { wch: 15, alignment: { horizontal: "center" } },
+        { wch: 20, alignment: { horizontal: "center" } },
+        { wch: 10, alignment: { horizontal: "center" } },
+      ];
+      columnOptions.forEach((option, index) => {
+        ws["!cols"][index] = option;
+      });
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+      // Save the workbook
+      XLSX.writeFile(wb, "المستخدمين.xlsx");
     },
   },
   watch: {

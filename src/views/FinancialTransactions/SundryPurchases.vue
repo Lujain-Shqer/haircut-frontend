@@ -210,6 +210,10 @@ export default {
     reverseTextToRtl(text) {
       return text.split(" ").reverse().join(" ");
     },
+    containsArabic(text) {
+      const arabicRegex = /[\u0600-\u06FF]/;
+      return arabicRegex.test(text);
+    },
     elementPdf(id) {
       const purchase = this.sundryPurchases.find(
         (purchase) => purchase.id === id
@@ -224,7 +228,9 @@ export default {
         productsRows.push([
           { text: purchase.sundry_products[i].price, alignment: "center" },
           {
-            text: this.reverseTextToRtl(purchase.sundry_products[i].name),
+            text: this.containsArabic(purchase.sundry_products[i].name)
+              ? this.reverseTextToRtl(purchase.sundry_products[i].name)
+              : purchase.sundry_products[i].name,
             alignment: "center",
           },
         ]);
@@ -264,7 +270,12 @@ export default {
                 ],
                 [
                   { text: "Supplier name", alignment: "center" },
-                  { text: purchase.supplier.name, alignment: "center" },
+                  {
+                    text: this.containsArabic(purchase.supplier.name)
+                      ? this.reverseTextToRtl(purchase.supplier.name)
+                      : purchase.supplier.name,
+                    alignment: "center",
+                  },
                   {
                     text: this.reverseTextToRtl("اسم المورد"),
                     alignment: "center",

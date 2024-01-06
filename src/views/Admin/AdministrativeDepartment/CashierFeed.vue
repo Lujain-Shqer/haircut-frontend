@@ -54,7 +54,7 @@
               <td>{{ cashierFeed.statement }}</td>
               <td>{{ cashierFeed.closing_balance }}</td>
               <td class="text-center">
-                <button class="btn show">
+                <button class="btn show" @click="elementPdf(cashierFeed.id)">
                   <fa icon="fa-file-pdf" /> طباعة
                 </button>
                 <button
@@ -94,6 +94,18 @@
 import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
 import PaginationFoot from "/src/components/PaginationFoot.vue";
 import { format } from "date-fns";
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+const Fonts = {
+  arabic: {
+    normal: "Amiri-Regular.ttf",
+    bold: "Amiri-Bold.ttf",
+    italics: "Amiri-Slanted.ttf",
+    bolditalics: "Amiri-BoldSlanted.ttf",
+  },
+};
+pdfMake.fonts = Fonts;
 export default {
   name: "CashierFeed",
   components: {
@@ -237,6 +249,131 @@ export default {
             this.info = err.message;
           });
       }
+    },
+    reverseTextToRtl(text) {
+      return text.split(" ").reverse().join(" ");
+    },
+    containsArabic(text) {
+      const arabicRegex = /[\u0600-\u06FF]/;
+      return arabicRegex.test(text);
+    },
+    elementPdf(id) {
+      const feed = this.cashierFeeds.find((feed) => feed.id === id);
+      const docDefinition = {
+        content: [
+          {
+            text: this.reverseTextToRtl("سجل التغذية"),
+            style: "header",
+          },
+          {
+            style: "tableExample",
+            table: {
+              widths: ["*", "*", "*"],
+              body: [
+                [
+                  { text: "Feed id", alignment: "center" },
+                  { text: feed.id, alignment: "center" },
+                  {
+                    text: this.reverseTextToRtl("رقم سجل التغذية"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  { text: "Feed issue date", alignment: "center" },
+                  {
+                    text:
+                      feed.created_at.split("T")[0] +
+                      "|" +
+                      feed.created_at.split("T")[1].split(".")[0],
+                    alignment: "center",
+                  },
+                  {
+                    text: this.reverseTextToRtl("تاريخ سجل التغذية"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  { text: "Feed statement", alignment: "center" },
+                  {
+                    text: this.containsArabic(feed.statement)
+                      ? this.reverseTextToRtl(feed.statement)
+                      : feed.statement,
+                    alignment: "center",
+                  },
+                  {
+                    text: this.reverseTextToRtl("البيان"),
+                    alignment: "center",
+                  },
+                ],
+
+                [
+                  { text: "Opening balance", alignment: "center" },
+                  { text: feed.opening_balance, alignment: "center" },
+                  {
+                    text: this.reverseTextToRtl("الرصيد الافتتاحي"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  { text: "Amount", alignment: "center" },
+                  { text: feed.amount, alignment: "center" },
+                  {
+                    text: this.reverseTextToRtl("الرصيد"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  { text: "Closing balance", alignment: "center" },
+                  { text: feed.closing_balance, alignment: "center" },
+                  {
+                    text: this.reverseTextToRtl("رصيد الإغلاق"),
+                    alignment: "center",
+                  },
+                ],
+              ],
+            },
+            layout: {
+              hLineWidth: function (i, node) {
+                return i === 0 || i === node.table.body.length ? 1 : 0;
+              },
+              // vLineWidth: function (i, node) {
+              //   return i === 0 || i === node.table.widths.length ? 2 : 1;
+              // },
+              hLineColor: function (i, node) {
+                return i === 0 || i === node.table.body.length
+                  ? "gray"
+                  : "white";
+              },
+              vLineColor: function () {
+                return "white";
+              },
+              // hLineStyle: function (i, node) { return {dash: { length: 10, space: 4 }}; },
+              // vLineStyle: function (i, node) { return {dash: { length: 10, space: 4 }}; },
+              // paddingLeft: function(i, node) { return 4; },
+              // paddingRight: function(i, node) { return 4; },
+              // paddingTop: function(i, node) { return 2; },
+              // paddingBottom: function(i, node) { return 2; },
+              // fillColor: function (rowIndex, node, columnIndex) { return null; }
+            },
+          },
+        ],
+        styles: {
+          tableHeader: {
+            color: "#D3D3D3",
+            bold: true,
+          },
+          header: {
+            fontSize: 18,
+            bold: true,
+            margin: [0, 0, 0, 10],
+            alignment: "center",
+          },
+        },
+        defaultStyle: {
+          font: "arabic",
+        },
+      };
+      pdfMake.createPdf(docDefinition, null, Fonts).open();
     },
   },
 };

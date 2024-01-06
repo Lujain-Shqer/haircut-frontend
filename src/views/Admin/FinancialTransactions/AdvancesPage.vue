@@ -51,7 +51,7 @@
               <td>{{ advance.amount }}</td>
               <td>{{ advance.source }}</td>
               <td class="text-center">
-                <button class="btn show">
+                <button class="btn show" @click="elementPdf(advance.id)">
                   <fa icon="fa-file-pdf" /> عرض الفاتورة
                 </button>
                 <router-link
@@ -91,6 +91,17 @@
 import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
 import PaginationFoot from "/src/components/PaginationFoot.vue";
 import { format } from "date-fns";
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+const Fonts = {
+  arabic: {
+    normal: "Amiri-Regular.ttf",
+    bold: "Amiri-Bold.ttf",
+    italics: "Amiri-Slanted.ttf",
+    bolditalics: "Amiri-BoldSlanted.ttf",
+  },
+};
 export default {
   name: "AdvancesPage",
   components: {
@@ -258,6 +269,119 @@ export default {
             this.info = err.message;
           });
       }
+    },
+    reverseTextToRtl(text) {
+      return text.split(" ").reverse().join(" ");
+    },
+    containsArabic(text) {
+      const arabicRegex = /[\u0600-\u06FF]/;
+      return arabicRegex.test(text);
+    },
+    elementPdf(id) {
+      const advance = this.advances.find((advance) => advance.id === id);
+      const docDefinition = {
+        content: [
+          {
+            text: this.reverseTextToRtl("السلفيات"),
+            style: "header",
+          },
+          {
+            style: "tableExample",
+            table: {
+              widths: ["*", "*", "*"],
+              body: [
+                [
+                  { text: "Advance date", alignment: "center" },
+                  {
+                    text: advance.created_at.split("T")[0],
+                    alignment: "center",
+                  },
+                  {
+                    text: this.reverseTextToRtl("تاريخ السلفة"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  { text: "Employee name", alignment: "center" },
+                  {
+                    text: this.containsArabic(advance.employee.name)
+                      ? this.reverseTextToRtl(advance.employee.name)
+                      : advance.employee.name,
+                    alignment: "center",
+                  },
+                  {
+                    text: this.reverseTextToRtl("اسم الموظف"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  { text: "Advance value", alignment: "center" },
+                  {
+                    text: advance.amount,
+                    alignment: "center",
+                  },
+                  {
+                    text: this.reverseTextToRtl("قيمة السلفة"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  { text: "Advance statement", alignment: "center" },
+                  {
+                    text: this.containsArabic(advance.source)
+                      ? this.reverseTextToRtl(advance.source)
+                      : advance.source,
+                    alignment: "center",
+                  },
+                  {
+                    text: this.reverseTextToRtl("البيان"),
+                    alignment: "center",
+                  },
+                ],
+              ],
+            },
+            layout: {
+              hLineWidth: function (i, node) {
+                return i === 0 || i === node.table.body.length ? 1 : 0;
+              },
+              // vLineWidth: function (i, node) {
+              //   return i === 0 || i === node.table.widths.length ? 2 : 1;
+              // },
+              hLineColor: function (i, node) {
+                return i === 0 || i === node.table.body.length
+                  ? "gray"
+                  : "white";
+              },
+              vLineColor: function () {
+                return "white";
+              },
+              // hLineStyle: function (i, node) { return {dash: { length: 10, space: 4 }}; },
+              // vLineStyle: function (i, node) { return {dash: { length: 10, space: 4 }}; },
+              // paddingLeft: function(i, node) { return 4; },
+              // paddingRight: function(i, node) { return 4; },
+              // paddingTop: function(i, node) { return 2; },
+              // paddingBottom: function(i, node) { return 2; },
+              // fillColor: function (rowIndex, node, columnIndex) { return null; }
+            },
+          },
+        ],
+        styles: {
+          tableHeader: {
+            color: "#D3D3D3",
+            bold: true,
+          },
+          header: {
+            fontSize: 18,
+            bold: true,
+            margin: [0, 0, 0, 10],
+            alignment: "center",
+          },
+        },
+        defaultStyle: {
+          font: "arabic",
+        },
+      };
+      pdfMake.createPdf(docDefinition, null, Fonts).open();
     },
   },
   watch: {

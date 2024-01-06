@@ -638,7 +638,6 @@ router.beforeEach((to, from, next) => {
   }
 });
 function checkAuthentication() {
-  console.log(localStorage.getItem("access_token"));
   return localStorage.getItem("access_token") !== null;
 }
 export default router;

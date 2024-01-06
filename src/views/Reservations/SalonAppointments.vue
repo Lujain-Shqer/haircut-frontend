@@ -35,9 +35,6 @@
                 <span>{{ date.end_time }}</span>
               </td>
               <td class="text-center">
-                <button class="btn update">
-                  <fa icon="fa-file-pdf" /> عرض الفاتورة
-                </button>
                 <button @click="deleteDate(date.id)" class="btn delete">
                   <fa icon="trash" /> حذف
                 </button>

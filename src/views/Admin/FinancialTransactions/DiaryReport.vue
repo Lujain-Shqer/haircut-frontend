@@ -41,7 +41,7 @@
               <td>{{ diaryReport.Total_Revenues }}</td>
               <td>{{ diaryReport.Total_Commissions }}</td>
               <td class="text-center">
-                <button class="btn show">
+                <button class="btn show" @click="elementPdf(diaryReport.id)">
                   <fa icon="fa-file-pdf" /> عرض الفاتورة
                 </button>
               </td>
@@ -73,6 +73,17 @@
 import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
 import PaginationFoot from "/src/components/PaginationFoot.vue";
 import { format } from "date-fns";
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+const Fonts = {
+  arabic: {
+    normal: "Amiri-Regular.ttf",
+    bold: "Amiri-Bold.ttf",
+    italics: "Amiri-Slanted.ttf",
+    bolditalics: "Amiri-BoldSlanted.ttf",
+  },
+};
 export default {
   name: "DiaryReport",
   components: {
@@ -196,6 +207,118 @@ export default {
             this.info = err.message;
           });
       }
+    },
+    reverseTextToRtl(text) {
+      return text.split(" ").reverse().join(" ");
+    },
+    containsArabic(text) {
+      const arabicRegex = /[\u0600-\u06FF]/;
+      return arabicRegex.test(text);
+    },
+    elementPdf(id) {
+      const diaryReport = this.diaryReports.find(
+        (diaryReport) => diaryReport.id === id
+      );
+      const docDefinition = {
+        content: [
+          {
+            text: this.reverseTextToRtl("تقرير اليوميات"),
+            style: "header",
+          },
+          {
+            style: "tableExample",
+            table: {
+              widths: ["*", "*", "*"],
+              body: [
+                [
+                  { text: "Diary report date", alignment: "center" },
+                  { text: diaryReport.day, alignment: "center" },
+                  {
+                    text: this.reverseTextToRtl("التاريخ"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  { text: "Total orders", alignment: "center" },
+                  {
+                    text: diaryReport.Total_Orders,
+                    alignment: "center",
+                  },
+                  {
+                    text: this.reverseTextToRtl("إجمالي الفواتير"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  { text: "Total revenues", alignment: "center" },
+                  {
+                    text: diaryReport.Total_Revenues,
+                    alignment: "center",
+                  },
+                  {
+                    text: this.reverseTextToRtl("إجمالي الإيراد"),
+                    alignment: "center",
+                  },
+                ],
+
+                [
+                  {
+                    text: "Total commissions",
+                    alignment: "center",
+                  },
+                  {
+                    text: diaryReport.Total_Commissions,
+                    alignment: "center",
+                  },
+                  {
+                    text: this.reverseTextToRtl(" العمولات"),
+                    alignment: "center",
+                  },
+                ],
+              ],
+            },
+            layout: {
+              hLineWidth: function (i, node) {
+                return i === 0 || i === node.table.body.length ? 1 : 0;
+              },
+              // vLineWidth: function (i, node) {
+              //   return i === 0 || i === node.table.widths.length ? 2 : 1;
+              // },
+              hLineColor: function (i, node) {
+                return i === 0 || i === node.table.body.length
+                  ? "gray"
+                  : "white";
+              },
+              vLineColor: function () {
+                return "white";
+              },
+              // hLineStyle: function (i, node) { return {dash: { length: 10, space: 4 }}; },
+              // vLineStyle: function (i, node) { return {dash: { length: 10, space: 4 }}; },
+              // paddingLeft: function(i, node) { return 4; },
+              // paddingRight: function(i, node) { return 4; },
+              // paddingTop: function(i, node) { return 2; },
+              // paddingBottom: function(i, node) { return 2; },
+              // fillColor: function (rowIndex, node, columnIndex) { return null; }
+            },
+          },
+        ],
+        styles: {
+          tableHeader: {
+            color: "#D3D3D3",
+            bold: true,
+          },
+          header: {
+            fontSize: 18,
+            bold: true,
+            margin: [0, 0, 0, 10],
+            alignment: "center",
+          },
+        },
+        defaultStyle: {
+          font: "arabic",
+        },
+      };
+      pdfMake.createPdf(docDefinition, null, Fonts).open();
     },
   },
 };

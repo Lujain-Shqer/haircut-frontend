@@ -54,7 +54,10 @@
                 }}
               </td>
               <td class="text-center">
-                <button class="btn show">
+                <button
+                  class="btn show"
+                  @click="elementPdf(productsPurchase.id)"
+                >
                   <fa icon="fa-file-pdf" /> عرض الفاتورة
                 </button>
                 <button
@@ -91,6 +94,17 @@
 </template>
 <script>
 import PaginationFoot from "/src/components/PaginationFoot.vue";
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+const Fonts = {
+  arabic: {
+    normal: "Amiri-Regular.ttf",
+    bold: "Amiri-Bold.ttf",
+    italics: "Amiri-Slanted.ttf",
+    bolditalics: "Amiri-BoldSlanted.ttf",
+  },
+};
 export default {
   name: "ProductsPurchases",
   components: {
@@ -195,6 +209,219 @@ export default {
         .then((data) => ((this.productsPurchases = data), this.updateMessage()))
         .catch((err) => console.log(err.message));
     },
+    reverseTextToRtl(text) {
+      return text.split(" ").reverse().join(" ");
+    },
+    containsArabic(text) {
+      const arabicRegex = /[\u0600-\u06FF]/;
+      return arabicRegex.test(text);
+    },
+    elementPdf(id) {
+      const purchase = this.productsPurchases.find(
+        (purchase) => purchase.id === id
+      );
+      let productsRows = [
+        [
+          { text: this.reverseTextToRtl("Price/السعر"), alignment: "center" },
+          {
+            text: this.reverseTextToRtl("quantity/الكمية"),
+            alignment: "center",
+          },
+          { text: this.reverseTextToRtl("Item/الصنف"), alignment: "center" },
+        ],
+      ];
+      for (let i = 0; i < purchase.products.length; i += 1) {
+        productsRows.push([
+          { text: purchase.products[i].purchasing_price, alignment: "center" },
+          { text: purchase.products[i].pivot.quantity, alignment: "center" },
+          {
+            text: this.containsArabic(purchase.products[i].name)
+              ? this.reverseTextToRtl(purchase.products[i].name)
+              : purchase.products[i].name,
+            alignment: "center",
+          },
+        ]);
+      }
+      const docDefinition = {
+        content: [
+          {
+            text: this.reverseTextToRtl("فاتورة  المشتريات"),
+            style: "header",
+          },
+          {
+            style: "tableExample",
+            table: {
+              widths: ["*", "*", "*"],
+              body: [
+                [
+                  { text: "Purchase id", alignment: "center" },
+                  { text: purchase.id, alignment: "center" },
+                  {
+                    text: this.reverseTextToRtl("رقم الطلب"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  { text: "Invoice issue date", alignment: "center" },
+                  {
+                    text:
+                      purchase.created_at.split("T")[0] +
+                      "|" +
+                      purchase.created_at.split("T")[1].split(".")[0],
+                    alignment: "center",
+                  },
+                  {
+                    text: this.reverseTextToRtl("تاريخ إصدار الفاتورة"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  { text: "Supplier name", alignment: "center" },
+                  {
+                    text: this.containsArabic(purchase.supplier.name)
+                      ? this.reverseTextToRtl(purchase.supplier.name)
+                      : purchase.supplier.name,
+                    alignment: "center",
+                  },
+                  {
+                    text: this.reverseTextToRtl("اسم المورد"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  { text: "Supplier tax number", alignment: "center" },
+                  { text: purchase.supplier.tax_number, alignment: "center" },
+                  {
+                    text: this.reverseTextToRtl("الرقم الضريبي المورد"),
+                    alignment: "center",
+                  },
+                ],
+              ],
+            },
+            layout: {
+              hLineWidth: function (i, node) {
+                return i === 0 || i === node.table.body.length ? 1 : 0;
+              },
+              // vLineWidth: function (i, node) {
+              //   return i === 0 || i === node.table.widths.length ? 2 : 1;
+              // },
+              hLineColor: function (i, node) {
+                return i === 0 || i === node.table.body.length
+                  ? "gray"
+                  : "white";
+              },
+              vLineColor: function () {
+                return "white";
+              },
+              // hLineStyle: function (i, node) { return {dash: { length: 10, space: 4 }}; },
+              // vLineStyle: function (i, node) { return {dash: { length: 10, space: 4 }}; },
+              // paddingLeft: function(i, node) { return 4; },
+              // paddingRight: function(i, node) { return 4; },
+              // paddingTop: function(i, node) { return 2; },
+              // paddingBottom: function(i, node) { return 2; },
+              // fillColor: function (rowIndex, node, columnIndex) { return null; }
+            },
+          },
+          { text: "", margin: [0, 20, 0, 8] },
+          {
+            style: "tableExample",
+            table: {
+              widths: ["*", "*", "*"],
+              body: productsRows,
+              headerRows: 1,
+            },
+            layout: {
+              fillColor: function (rowIndex) {
+                return rowIndex === 0 ? "#CCCCCC" : null;
+              },
+              hLineColor: function (i, node) {
+                return i === 0 || i === node.table.body.length
+                  ? "#CCCCCC"
+                  : "white";
+              },
+              vLineColor: function () {
+                return "white";
+              },
+            },
+          },
+          { text: "", margin: [0, 20, 0, 8] },
+          {
+            style: "tableExample",
+            table: {
+              widths: ["*", "*"],
+              body: [
+                [
+                  { text: purchase.amount, alignment: "center" },
+                  {
+                    text: this.reverseTextToRtl("المجموع/ Sub total"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  {
+                    text: purchase.tax,
+                    alignment: "center",
+                  },
+                  {
+                    text: this.reverseTextToRtl("ضريبة القيمة المضافة/ VAT"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  { text: purchase.discount, alignment: "center" },
+                  {
+                    text: this.reverseTextToRtl("مبلغ الخصم/ Discount"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  {
+                    text: purchase.tax + purchase.amount_after_discount,
+                    alignment: "center",
+                  },
+                  {
+                    text: this.reverseTextToRtl("المجموع النهائي/ Total"),
+                    alignment: "center",
+                  },
+                ],
+              ],
+            },
+            layout: {
+              hLineWidth: function (i, node) {
+                return i === 0 || i === node.table.body.length ? 1 : 0;
+              },
+              // vLineWidth: function (i, node) {
+              //   return i === 0 || i === node.table.widths.length ? 2 : 1;
+              // },
+              hLineColor: function (i, node) {
+                return i === 0 || i === node.table.body.length
+                  ? "gray"
+                  : "white";
+              },
+              vLineColor: function () {
+                return "white";
+              },
+            },
+          },
+        ],
+        styles: {
+          tableHeader: {
+            color: "#D3D3D3",
+            bold: true,
+          },
+          header: {
+            fontSize: 18,
+            bold: true,
+            margin: [0, 0, 0, 10],
+            alignment: "center",
+          },
+        },
+        defaultStyle: {
+          font: "arabic",
+        },
+      };
+      pdfMake.createPdf(docDefinition, null, Fonts).open();
+    },
   },
   watch: {
     searchQuery(newValue) {
@@ -282,6 +509,7 @@ export default {
   color: #3f51b5;
   border: 1px solid #3f51b5;
   margin-right: 5px;
+  margin-bottom: 1vh;
 }
 .productsPurchases table .show {
   background: #3f51b5;

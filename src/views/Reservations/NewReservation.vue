@@ -77,7 +77,7 @@
                   <button class="btn show"><fa icon="pen" /> تعديل</button>
                 </router-link>
 
-                <button class="btn show">
+                <button class="btn show" @click="elementPdf(reserve.id)">
                   <fa icon="fa-file-pdf" /> عرض الفاتورة
                 </button>
               </td>
@@ -111,6 +111,17 @@
 import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
 import PaginationFoot from "/src/components/PaginationFoot.vue";
 import { format } from "date-fns";
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+const Fonts = {
+  arabic: {
+    normal: "Amiri-Regular.ttf",
+    bold: "Amiri-Bold.ttf",
+    italics: "Amiri-Slanted.ttf",
+    bolditalics: "Amiri-BoldSlanted.ttf",
+  },
+};
 export default {
   name: "NewReservation",
   components: {
@@ -336,10 +347,182 @@ export default {
       new_reserv.customerPhoneNumber = reservation.customer.phone_number;
       new_reserv.time = this.showTime(reservation);
       new_reserv.date = this.showDate(reservation);
+      new_reserv.totalDuration = reservation.total_duration;
+      new_reserv.totalAmount = reservation.total_amount;
       return new_reserv;
     },
     changePage(currentPage) {
       this.currentPage = currentPage;
+    },
+    reverseTextToRtl(text) {
+      return text.split(" ").reverse().join(" ");
+    },
+    containsArabic(text) {
+      const arabicRegex = /[\u0600-\u06FF]/;
+      return arabicRegex.test(text);
+    },
+    elementPdf(id) {
+      const reserve = this.appointments.find((reserve) => reserve.id === id);
+      const reserveServices = reserve.services.map((service) => ({
+        text: this.containsArabic(service.name)
+          ? this.reverseTextToRtl(service.name)
+          : service.name,
+        alignment: "center",
+      }));
+      const docDefinition = {
+        content: [
+          {
+            text: this.reverseTextToRtl("حجز  في الصالون"),
+            style: "header",
+          },
+          {
+            style: "tableExample",
+            table: {
+              widths: ["*", "*", "*"],
+              body: [
+                [
+                  { text: "Reserveation id", alignment: "center" },
+                  { text: reserve.id, alignment: "center" },
+                  {
+                    text: this.reverseTextToRtl("رقم الحجز"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  { text: "Reservation issue date", alignment: "center" },
+                  {
+                    text: reserve.date,
+                    alignment: "center",
+                  },
+                  {
+                    text: this.reverseTextToRtl("تاريخ الحجز"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  { text: "Reservation time", alignment: "center" },
+                  {
+                    text: reserve.time,
+                    alignment: "center",
+                  },
+                  {
+                    text: this.reverseTextToRtl("التوقيت"),
+                    alignment: "center",
+                  },
+                ],
+
+                [
+                  { text: "Total duration", alignment: "center" },
+                  {
+                    text: "دقيقة " + reserve.totalDuration,
+                    alignment: "center",
+                  },
+                  {
+                    text: this.reverseTextToRtl("مدة الحجز الكلية"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  { text: "Total amount", alignment: "center" },
+                  { text: reserve.totalAmount, alignment: "center" },
+                  {
+                    text: this.reverseTextToRtl("المبلغ الكلي"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  { text: "Employee name", alignment: "center" },
+                  {
+                    text: this.containsArabic(reserve.employee)
+                      ? this.reverseTextToRtl(reserve.employee)
+                      : reserve.employee,
+                    alignment: "center",
+                  },
+                  {
+                    text: this.reverseTextToRtl("اسم الموظف"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  { text: "Customer name", alignment: "center" },
+                  {
+                    text: this.containsArabic(reserve.customerName)
+                      ? this.reverseTextToRtl(reserve.customerName)
+                      : reserve.customerName,
+                    alignment: "center",
+                  },
+                  {
+                    text: this.reverseTextToRtl("اسم الزبون"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  { text: "Customer phone number", alignment: "center" },
+                  {
+                    text: this.containsArabic(reserve.customerPhoneNumber)
+                      ? this.reverseTextToRtl(reserve.customerPhoneNumber)
+                      : reserve.customerPhoneNumber,
+                    alignment: "center",
+                  },
+                  {
+                    text: this.reverseTextToRtl("رقم الزبون"),
+                    alignment: "center",
+                  },
+                ],
+                [
+                  { text: "Services", alignment: "center" },
+                  {
+                    stack: reserveServices,
+                  },
+                  {
+                    text: this.reverseTextToRtl("الخدمات"),
+                    alignment: "center",
+                  },
+                ],
+              ],
+            },
+            layout: {
+              hLineWidth: function (i, node) {
+                return i === 0 || i === node.table.body.length ? 1 : 0;
+              },
+              // vLineWidth: function (i, node) {
+              //   return i === 0 || i === node.table.widths.length ? 2 : 1;
+              // },
+              hLineColor: function (i, node) {
+                return i === 0 || i === node.table.body.length
+                  ? "gray"
+                  : "white";
+              },
+              vLineColor: function () {
+                return "white";
+              },
+              // hLineStyle: function (i, node) { return {dash: { length: 10, space: 4 }}; },
+              // vLineStyle: function (i, node) { return {dash: { length: 10, space: 4 }}; },
+              // paddingLeft: function(i, node) { return 4; },
+              // paddingRight: function(i, node) { return 4; },
+              // paddingTop: function(i, node) { return 2; },
+              // paddingBottom: function(i, node) { return 2; },
+              // fillColor: function (rowIndex, node, columnIndex) { return null; }
+            },
+          },
+        ],
+        styles: {
+          tableHeader: {
+            color: "#D3D3D3",
+            bold: true,
+          },
+          header: {
+            fontSize: 18,
+            bold: true,
+            margin: [0, 0, 0, 10],
+            alignment: "center",
+          },
+        },
+        defaultStyle: {
+          font: "arabic",
+        },
+      };
+      pdfMake.createPdf(docDefinition, null, Fonts).open();
     },
   },
   watch: {
