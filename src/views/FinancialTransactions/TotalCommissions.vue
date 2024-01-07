@@ -19,7 +19,7 @@
               @keyup.enter="search"
             />
           </div>
-          <button class="btn">EXCEL</button>
+          <button class="btn" @click="exportToExcel">EXCEL</button>
         </div>
         <div class="control_wrapper" v-show="isComponentVisible">
           <ejs-calendar></ejs-calendar>
@@ -112,6 +112,7 @@
 <script>
 import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
 import PaginationFoot from "/src/components/PaginationFoot.vue";
+import * as ExcelJS from "exceljs";
 export default {
   name: "TotalCommissions",
   components: {
@@ -147,7 +148,7 @@ export default {
     fetchAllCommissions() {
       return new Promise((resolve, reject) => {
         fetch(
-          "http://127.0.0.1:8001/api/employee-info/" +
+          "https://www.setrex.net/haircut/backend/public/api/employee-info/" +
             localStorage.getItem("branch_id"),
           {
             method: "GET",
@@ -196,7 +197,7 @@ export default {
     search(event) {
       event.preventDefault();
       fetch(
-        "http://127.0.0.1:8001/api/employee-info/" +
+        "https://www.setrex.net/haircut/backend/public/api/employee-info/" +
           localStorage.getItem("branch_id"),
         {
           method: "POST",
@@ -212,6 +213,71 @@ export default {
         .then((res) => res.json())
         .then((data) => ((this.totalCommissions = data), this.updateMessage()))
         .catch((err) => console.log(err.message));
+    },
+    async exportToExcel() {
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet("Sheet1");
+
+      const headerRow = worksheet.addRow([
+        "الاسم",
+        "إجمالي الفواتير",
+        "إجمالي الإيراد",
+        "العمولات",
+        "المدفوع",
+        "المتبقي",
+      ]);
+      headerRow.font = { bold: true };
+      worksheet.columns = [
+        { width: 20 },
+        { width: 20 },
+        { width: 20 },
+        { width: 20 },
+        { width: 20 },
+        { width: 20 },
+      ];
+      this.totalCommissions.forEach((totalCommission) => {
+        const dataRow = worksheet.addRow([
+          totalCommission.name,
+          totalCommission.info.total_order,
+          totalCommission.info.total_revenue.toFixed(2),
+          totalCommission.info.total_commission.toFixed(2),
+          totalCommission.info.payed_commission.toFixed(2),
+          (
+            totalCommission.info.total_commission -
+            totalCommission.info.payed_commission
+          ).toFixed(2),
+        ]);
+        dataRow.eachCell((cell) => {
+          cell.font = { size: 13 };
+        });
+      });
+      const lastRow = worksheet.addRow([
+        "الاحصائيات",
+        this.sumProperty(this.totalCommissions, "total_order"),
+        this.sumProperty(this.totalCommissions, "total_revenue").toFixed(2),
+        this.sumProperty(this.totalCommissions, "total_commission").toFixed(2),
+        this.sumProperty(this.totalCommissions, "payed_commission").toFixed(2),
+        (
+          this.sumProperty(this.totalCommissions, "total_commission") -
+          this.sumProperty(this.totalCommissions, "payed_commission")
+        ).toFixed(2),
+      ]);
+      lastRow.font = { bold: true, size: 13 };
+      worksheet.columns.forEach((column) => {
+        column.alignment = { horizontal: "center" };
+      });
+
+      const buffer = await workbook.xlsx.writeBuffer();
+      const blob = new Blob([buffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+      const fileName = "تقرير_إجمالي_العمولات.xlsx";
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     },
   },
   watch: {

@@ -136,7 +136,7 @@ export default {
   mounted() {
     return new Promise((resolve, reject) => {
       fetch(
-        "http://127.0.0.1:8001/api/deposit/" +
+        "https://www.setrex.net/haircut/backend/public/api/deposit/" +
           localStorage.getItem("branch_id"),
         {
           method: "GET",
@@ -160,13 +160,17 @@ export default {
   },
   methods: {
     deleteCashierFeed(cashierFeedId) {
-      fetch("http://127.0.0.1:8001/api/deposit/" + cashierFeedId, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-      })
+      fetch(
+        "https://www.setrex.net/haircut/backend/public/api/deposit/" +
+          cashierFeedId,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
         .then((response) => {
           if (response.ok) {
             this.cashierFeeds = this.cashierFeeds.filter(
@@ -214,7 +218,7 @@ export default {
         this.cashierFeeds = [];
       } else {
         fetch(
-          "http://127.0.0.1:8001/api/filter-deposit/" +
+          "https://www.setrex.net/haircut/backend/public/api/filter-deposit/" +
             localStorage.getItem("branch_id"),
           {
             method: "POST",

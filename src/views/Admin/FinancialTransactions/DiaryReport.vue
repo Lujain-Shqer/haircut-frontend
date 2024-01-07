@@ -9,7 +9,7 @@
 
       <div class="all-table" style="overflow-x: auto">
         <div class="row extra-table">
-          <button class="btn">EXCEL</button>
+          <button class="btn" @click="exportToExcel">EXCEL</button>
           <button class="btn" @click="search">بحث بالتاريخ</button>
           <button class="btn" @click="showComponent">
             من الفترة -> إلى الفترة
@@ -73,6 +73,7 @@
 import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
 import PaginationFoot from "/src/components/PaginationFoot.vue";
 import { format } from "date-fns";
+import * as ExcelJS from "exceljs";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -114,7 +115,7 @@ export default {
   mounted() {
     return new Promise((resolve, reject) => {
       fetch(
-        "http://127.0.0.1:8001/api/daily-report/" +
+        "https://www.setrex.net/haircut/backend/public/api/daily-report/" +
           localStorage.getItem("branch_id"),
         {
           method: "GET",
@@ -172,7 +173,7 @@ export default {
         this.diaryReports = [];
       } else {
         fetch(
-          "http://127.0.0.1:8001/api/filter-daily-report/" +
+          "https://www.setrex.net/haircut/backend/public/api/filter-daily-report/" +
             localStorage.getItem("branch_id"),
           {
             method: "POST",
@@ -319,6 +320,52 @@ export default {
         },
       };
       pdfMake.createPdf(docDefinition, null, Fonts).open();
+    },
+    async exportToExcel() {
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet("Sheet1");
+
+      const headerRow = worksheet.addRow([
+        "التاريخ",
+        "إجمالي الفواتير",
+        "إجمالي الإيراد",
+        "العمولات",
+      ]);
+      headerRow.font = { bold: true };
+      worksheet.columns = [
+        { width: 20 },
+        { width: 20 },
+        { width: 20 },
+        { width: 20 },
+      ];
+      this.diaryReports.forEach((diaryReport) => {
+        const dataRow = worksheet.addRow([
+          diaryReport.day,
+          diaryReport.Total_Orders,
+          diaryReport.Total_Revenues,
+          diaryReport.Total_Commissions,
+        ]);
+        dataRow.eachCell((cell) => {
+          cell.font = { size: 13 };
+        });
+      });
+
+      worksheet.columns.forEach((column) => {
+        column.alignment = { horizontal: "center" };
+      });
+
+      const buffer = await workbook.xlsx.writeBuffer();
+      const blob = new Blob([buffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+      const fileName = "تقرير_اليوميات.xlsx";
+
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     },
   },
 };

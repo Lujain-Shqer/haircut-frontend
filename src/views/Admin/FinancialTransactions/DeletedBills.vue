@@ -16,7 +16,7 @@
               @keyup.enter="search"
             />
           </div>
-          <button class="btn">EXCEL</button>
+          <button class="btn" @click="exportToExcel">EXCEL</button>
           <button class="btn" @click="searchByDate">بحث بالتاريخ</button>
           <button class="btn" @click="showComponent">
             من الفترة -> إلى الفترة
@@ -111,6 +111,7 @@
 import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
 import PaginationFoot from "/src/components/PaginationFoot.vue";
 import { format } from "date-fns";
+import * as ExcelJS from "exceljs";
 export default {
   name: "DeletedBills",
   components: {
@@ -146,7 +147,7 @@ export default {
     fetchAllDeletedBills() {
       return new Promise((resolve, reject) => {
         fetch(
-          "http://127.0.0.1:8001/api/deleted-order/" +
+          "https://www.setrex.net/haircut/backend/public/api/deleted-order/" +
             localStorage.getItem("branch_id"),
           {
             method: "GET",
@@ -189,7 +190,7 @@ export default {
     search(event) {
       event.preventDefault();
       fetch(
-        "http://127.0.0.1:8001/api/deleted-order/" +
+        "https://www.setrex.net/haircut/backend/public/api/deleted-order/" +
           localStorage.getItem("branch_id"),
         {
           method: "POST",
@@ -213,7 +214,7 @@ export default {
         this.deletedBills = [];
       } else {
         fetch(
-          "http://127.0.0.1:8001/api/filter-deleted-order/" +
+          "https://www.setrex.net/haircut/backend/public/api/filter-deleted-order/" +
             localStorage.getItem("branch_id"),
           {
             method: "POST",
@@ -255,6 +256,81 @@ export default {
       } else {
         this.isComponentVisible = true;
       }
+    },
+    async exportToExcel() {
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet("Sheet1");
+
+      const headerRow = worksheet.addRow([
+        "رقم الفاتورة",
+        "الموظف",
+        "طريقة الدفع",
+        "القيمة",
+        "مبلغ الخصم",
+        "القيمة المضافة",
+        "مكافأة من العميل",
+        "طريقة دفع المكافأة",
+        "المجموع",
+        "عمولة موظف",
+        "عمولة مدير فرع",
+        "عمولة مندوب",
+        "تاريخ الإنشاء",
+      ]);
+      headerRow.font = { bold: true };
+      worksheet.columns = [
+        { width: 20 },
+        { width: 20 },
+        { width: 20 },
+        { width: 20 },
+        { width: 20 },
+        { width: 20 },
+        { width: 20 },
+        { width: 20 },
+        { width: 20 },
+        { width: 20 },
+        { width: 20 },
+        { width: 20 },
+        { width: 30 },
+      ];
+      this.deletedBills.forEach((deletedBill) => {
+        const dataRow = worksheet.addRow([
+          deletedBill.id,
+          deletedBill.employee.name,
+          deletedBill.amount_pay_type,
+          deletedBill.amount,
+          deletedBill.discount === 0 ? "-" : deletedBill.discount,
+          deletedBill.tax,
+          deletedBill.tip === 0 ? "-" : deletedBill.tip,
+          deletedBill.tip_pay_type === null ? "-" : deletedBill.tip_pay_type,
+          deletedBill.amount_after_discount,
+          deletedBill.employee_commission,
+          deletedBill.manager_commission,
+          deletedBill.representative_commission,
+          deletedBill.created_at.split("T")[0] +
+            "|" +
+            deletedBill.created_at.split("T")[1].split(".")[0],
+        ]);
+        dataRow.eachCell((cell) => {
+          cell.font = { size: 13 };
+        });
+      });
+
+      worksheet.columns.forEach((column) => {
+        column.alignment = { horizontal: "center" };
+      });
+
+      const buffer = await workbook.xlsx.writeBuffer();
+      const blob = new Blob([buffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+      const fileName = "الفواتير_المحذوفة.xlsx";
+
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     },
   },
   watch: {

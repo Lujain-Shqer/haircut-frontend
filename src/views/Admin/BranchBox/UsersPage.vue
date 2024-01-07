@@ -72,7 +72,7 @@
 </template>
 <script>
 import PaginationFoot from "/src/components/PaginationFoot.vue";
-import * as XLSX from "xlsx";
+import * as ExcelJS from "exceljs";
 //import html2pdf from "html2pdf.js";
 export default {
   name: "UsersPage",
@@ -109,7 +109,8 @@ export default {
     fetchAllUsers() {
       return new Promise((resolve, reject) => {
         fetch(
-          "http://127.0.0.1:8001/api/user/" + localStorage.getItem("branch_id"),
+          "https://www.setrex.net/haircut/backend/public/api/user/" +
+            localStorage.getItem("branch_id"),
           {
             method: "GET",
             headers: {
@@ -131,13 +132,16 @@ export default {
       });
     },
     deleteUser(userId) {
-      fetch("http://127.0.0.1:8001/api/user/" + userId, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-      })
+      fetch(
+        "https://www.setrex.net/haircut/backend/public/api/user/" + userId,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
         .then((response) => {
           if (response.ok) {
             this.users = this.users.filter((user) => user.id !== userId);
@@ -161,7 +165,8 @@ export default {
     search(event) {
       event.preventDefault();
       fetch(
-        "http://127.0.0.1:8001/api/user/" + localStorage.getItem("branch_id"),
+        "https://www.setrex.net/haircut/backend/public/api/user/" +
+          localStorage.getItem("branch_id"),
         {
           method: "POST",
           headers: {
@@ -218,21 +223,40 @@ export default {
         this.pdfGenerationMode = false;
       }, 500);
     },
-    exportToExcel() {
-      const ws = XLSX.utils.table_to_sheet(document.querySelector("table"));
-      const columnOptions = [
-        { wch: 15, alignment: { horizontal: "center" } },
-        { wch: 20, alignment: { horizontal: "center" } },
-        { wch: 10, alignment: { horizontal: "center" } },
-      ];
-      columnOptions.forEach((option, index) => {
-        ws["!cols"][index] = option;
-      });
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    async exportToExcel() {
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet("Sheet1");
 
-      // Save the workbook
-      XLSX.writeFile(wb, "المستخدمين.xlsx");
+      const headerRow = worksheet.addRow(["الاسم", "رقم الجوال"]);
+      headerRow.font = { bold: true };
+      worksheet.columns = [{ width: 20 }, { width: 30 }];
+
+      this.users.forEach((user) => {
+        const dataRow = worksheet.addRow([
+          user.first_name + " " + user.last_name,
+          user.phone_number,
+        ]);
+        dataRow.eachCell((cell) => {
+          cell.font = { size: 13 };
+        });
+      });
+
+      worksheet.columns.forEach((column) => {
+        column.alignment = { horizontal: "center" };
+      });
+
+      const buffer = await workbook.xlsx.writeBuffer();
+      const blob = new Blob([buffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+      const fileName = "المستخدمين.xlsx";
+
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     },
   },
   watch: {

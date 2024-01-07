@@ -19,14 +19,14 @@
               @keyup.enter="search"
             />
           </div>
-          <button class="btn">EXCEL</button>
+          <button class="btn" @click="exportToExcel">EXCEL</button>
         </div>
         <table class="table" cellpadding="5" border="1" cellspacing="0">
           <thead>
             <tr>
               <th scope="col">الاسم</th>
-              <th scope="col">أجمالي المبيعات</th>
-              <th scope="col">عدد مرات البيع الخدمة</th>
+              <th scope="col">إجمالي المبيعات</th>
+              <th scope="col">عدد مرات بيع الخدمة</th>
             </tr>
           </thead>
           <tbody v-if="servicesReportsToDisplay.length > 0">
@@ -61,6 +61,7 @@
 </template>
 <script>
 import PaginationFoot from "/src/components/PaginationFoot.vue";
+import * as ExcelJS from "exceljs";
 export default {
   name: "ServicesReports",
   components: {
@@ -94,7 +95,7 @@ export default {
     fetchAllServicesReports() {
       return new Promise((resolve, reject) => {
         fetch(
-          "http://127.0.0.1:8001/api/frequency-service/" +
+          "https://www.setrex.net/haircut/backend/public/api/frequency-service/" +
             localStorage.getItem("branch_id"),
           {
             method: "GET",
@@ -129,7 +130,7 @@ export default {
     search(event) {
       event.preventDefault();
       fetch(
-        "http://127.0.0.1:8001/api/frequency-service/" +
+        "https://www.setrex.net/haircut/backend/public/api/frequency-service/" +
           localStorage.getItem("branch_id"),
         {
           method: "POST",
@@ -145,6 +146,45 @@ export default {
         .then((res) => res.json())
         .then((data) => ((this.servicesReports = data), this.updateMessage()))
         .catch((err) => console.log(err.message));
+    },
+    async exportToExcel() {
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet("Sheet1");
+
+      const headerRow = worksheet.addRow([
+        "الاسم",
+        "إجمالي المبيعات",
+        "عدد مرات بيع الخدمة",
+      ]);
+      headerRow.font = { bold: true };
+      worksheet.columns = [{ width: 20 }, { width: 20 }, { width: 20 }];
+      this.servicesReports.forEach((servicesReport) => {
+        const dataRow = worksheet.addRow([
+          servicesReport.name,
+          servicesReport.total_revenue,
+          servicesReport.orders_count,
+        ]);
+        dataRow.eachCell((cell) => {
+          cell.font = { size: 13 };
+        });
+      });
+
+      worksheet.columns.forEach((column) => {
+        column.alignment = { horizontal: "center" };
+      });
+
+      const buffer = await workbook.xlsx.writeBuffer();
+      const blob = new Blob([buffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+      const fileName = "تقرير_الخدمات.xlsx";
+
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     },
   },
   watch: {

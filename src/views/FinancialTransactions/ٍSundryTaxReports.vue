@@ -102,7 +102,7 @@ export default {
   mounted() {
     return new Promise((resolve, reject) => {
       fetch(
-        "http://127.0.0.1:8001/api/sundry-purchase/" +
+        "https://www.setrex.net/haircut/backend/public/api/sundry-purchase/" +
           localStorage.getItem("branch_id"),
         {
           method: "GET",
@@ -160,7 +160,7 @@ export default {
         this.SundryTaxReports = [];
       } else {
         fetch(
-          "http://127.0.0.1:8001/api/filter-sundry-purchase/" +
+          "https://www.setrex.net/haircut/backend/public/api/filter-sundry-purchase/" +
             localStorage.getItem("branch_id"),
           {
             method: "POST",

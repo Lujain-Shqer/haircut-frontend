@@ -214,7 +214,7 @@ export default {
     addFeed(event) {
       event.preventDefault();
       this.isLoading1 = true;
-      fetch("http://127.0.0.1:8001/api/deposit", {
+      fetch("https://www.setrex.net/haircut/backend/public/api/deposit", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -257,7 +257,7 @@ export default {
     addDrawal(event) {
       event.preventDefault();
       this.isLoading2 = true;
-      fetch("http://127.0.0.1:8001/api/withdraw", {
+      fetch("https://www.setrex.net/haircut/backend/public/api/withdraw", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,

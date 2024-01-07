@@ -14,7 +14,7 @@
             <fa icon="coins" />
             <span>تقرير الضريبة (مبيعات)</span>
           </div>
-          <button class="btn">EXCEL</button>
+          <button class="btn" @click="exportToExcel">EXCEL</button>
           <button class="btn" @click="search">بحث بالتاريخ</button>
           <button class="btn" @click="showComponent">
             من الفترة -> إلى الفترة
@@ -71,6 +71,7 @@
 import { CalendarComponent } from "@syncfusion/ej2-vue-calendars";
 import PaginationFoot from "/src/components/PaginationFoot.vue";
 import { format } from "date-fns";
+import * as ExcelJS from "exceljs";
 export default {
   name: "SalesTax",
   components: {
@@ -101,7 +102,8 @@ export default {
   mounted() {
     return new Promise((resolve, reject) => {
       fetch(
-        "http://127.0.0.1:8001/api/order/" + localStorage.getItem("branch_id"),
+        "https://www.setrex.net/haircut/backend/public/api/order/" +
+          localStorage.getItem("branch_id"),
         {
           method: "GET",
           headers: {
@@ -159,7 +161,7 @@ export default {
         this.salesTaxes = [];
       } else {
         fetch(
-          "http://127.0.0.1:8001/api/filter-order/" +
+          "https://www.setrex.net/haircut/backend/public/api/filter-order/" +
             localStorage.getItem("branch_id"),
           {
             method: "POST",
@@ -194,6 +196,56 @@ export default {
             this.info = err.message;
           });
       }
+    },
+    async exportToExcel() {
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet("Sheet1");
+
+      const headerRow = worksheet.addRow([
+        "تاريخ الحركة",
+        "رقم الفاتورة",
+        "اسم العميل",
+        "القيمة",
+        "الضريبة",
+      ]);
+      headerRow.font = { bold: true };
+      worksheet.columns = [
+        { width: 25 },
+        { width: 10 },
+        { width: 20 },
+        { width: 20 },
+        { width: 20 },
+      ];
+
+      this.salesTaxes.forEach((salesTax) => {
+        const dataRow = worksheet.addRow([
+          salesTax.created_at.split("T")[0],
+          salesTax.id,
+          salesTax.customer.name,
+          salesTax.amount_after_discount,
+          salesTax.tax,
+        ]);
+        dataRow.eachCell((cell) => {
+          cell.font = { size: 13 };
+        });
+      });
+
+      worksheet.columns.forEach((column) => {
+        column.alignment = { horizontal: "center" };
+      });
+
+      const buffer = await workbook.xlsx.writeBuffer();
+      const blob = new Blob([buffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+      const fileName = "ضرائب_المبيعات.xlsx";
+
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     },
   },
 };

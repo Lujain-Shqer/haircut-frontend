@@ -17,7 +17,7 @@
           </div>
           <button class="btn" @click="toPdf">PDF</button>
 
-          <button class="btn">EXCEL</button>
+          <button class="btn" @click="exportToExcel">EXCEL</button>
 
           <router-link to="/AddNewEmployee"
             ><button class="btn">أنشاء جديد</button>
@@ -95,6 +95,7 @@
 </template>
 <script>
 import PaginationFoot from "/src/components/PaginationFoot.vue";
+import * as ExcelJS from "exceljs";
 export default {
   components: {
     PaginationFoot,
@@ -130,7 +131,7 @@ export default {
     fetchAllEmployees() {
       return new Promise((resolve, reject) => {
         fetch(
-          "http://127.0.0.1:8001/api/employee/" +
+          "https://www.setrex.net/haircut/backend/public/api/employee/" +
             localStorage.getItem("branch_id"),
           {
             method: "GET",
@@ -153,13 +154,17 @@ export default {
       });
     },
     deleteEmployee(employeeId) {
-      fetch("http://127.0.0.1:8001/api/employee/" + employeeId, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-      })
+      fetch(
+        "https://www.setrex.net/haircut/backend/public/api/employee/" +
+          employeeId,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
         .then((response) => {
           if (response.ok) {
             this.employees = this.employees.filter(
@@ -185,7 +190,7 @@ export default {
     search(event) {
       event.preventDefault();
       fetch(
-        "http://127.0.0.1:8001/api/employee/" +
+        "https://www.setrex.net/haircut/backend/public/api/employee/" +
           localStorage.getItem("branch_id"),
         {
           method: "POST",
@@ -231,6 +236,67 @@ export default {
           this.pdfGenerationMode = false;
         }, 200);
       });
+    },
+    async exportToExcel() {
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet("Sheet1");
+
+      const headerRow = worksheet.addRow([
+        "كود الموظف",
+        "الموظف",
+        "المهنة",
+        "الأجر",
+        "التاريخ",
+        "رقم الإقامة",
+        "الحالة",
+      ]);
+      headerRow.font = { bold: true };
+      worksheet.columns = [
+        { width: 20 },
+        { width: 20 },
+        { width: 20 },
+        { width: 40 },
+        { width: 20 },
+        { width: 20 },
+        { width: 20 },
+      ];
+
+      this.employees.forEach((employee) => {
+        const dataRow = worksheet.addRow([
+          employee.id,
+          employee.name,
+          employee.job,
+          "الراتب: " +
+            employee.salary +
+            "         " +
+            "العمولة: " +
+            "%" +
+            employee.commission,
+          employee.created_at.split("T")[0],
+          employee.residence_number,
+          employee.state,
+        ]);
+        dataRow.eachCell((cell) => {
+          cell.font = { size: 13 };
+        });
+      });
+
+      worksheet.columns.forEach((column) => {
+        column.alignment = { horizontal: "center" };
+      });
+
+      const buffer = await workbook.xlsx.writeBuffer();
+      const blob = new Blob([buffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+      const fileName = "الموظفون.xlsx";
+
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     },
   },
   watch: {

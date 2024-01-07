@@ -41,7 +41,7 @@
               >
                 <img
                   :src="
-                    'http://127.0.0.1:8001/storage/product_images/' +
+                    'https://www.setrex.net/haircut/backend/public/storage/product_images/' +
                     product.image
                   "
                   alt="product"
@@ -98,7 +98,8 @@ export default {
   },
   mounted() {
     fetch(
-      "http://127.0.0.1:8001/api/supplier/" + localStorage.getItem("branch_id"),
+      "https://www.setrex.net/haircut/backend/public/api/supplier/" +
+        localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -111,7 +112,8 @@ export default {
       .then((data) => (this.allSuppliers = data))
       .catch((err) => console.log(err.message));
     fetch(
-      "http://127.0.0.1:8001/api/product/" + localStorage.getItem("branch_id"),
+      "https://www.setrex.net/haircut/backend/public/api/product/" +
+        localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -140,7 +142,7 @@ export default {
         }, 10000);
         this.isLoading = false;
       } else {
-        fetch("http://127.0.0.1:8001/api/purchase", {
+        fetch("https://www.setrex.net/haircut/backend/public/api/purchase", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
