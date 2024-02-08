@@ -28,13 +28,20 @@
 
       <span>زبون</span>
     </div>
-    <div class="col-xl-3 col-lg-6 col-md-12">
-      <h6>موظف يوم (الأربعاء)</h6>
+    <div
+      v-if="this.employee_revenues.employees.length > 0"
+      class="col-xl-3 col-lg-6 col-md-12"
+    >
+      <h6>موظف يوم ({{ day }})</h6>
       <h5>السيد/ة {{ bestEmployee.name }}</h5>
       <span
         >بقيمة مبيعات :{{ bestEmployee.revenues }}
         SAR
       </span>
+    </div>
+    <div v-else class="col-xl-3 col-lg-6 col-md-12">
+      <h6>موظف يوم ({{ day }})</h6>
+      <h5>لا يوجد</h5>
     </div>
   </div>
 </template>
@@ -42,7 +49,7 @@
 <script>
 export default {
   name: "StatisticsDay",
-  props: ["statistics", "employee_revenues"],
+  props: ["statistics", "employee_revenues", "day"],
   computed: {
     bestEmployee() {
       var bestIndex = this.employee_revenues.top_employee_index;

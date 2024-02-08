@@ -10,9 +10,9 @@
             v-on:click="makeActive('StatisticsDay', $event)"
             class="btn blue"
           >
-            اليوم الأربعاء
+            اليوم {{ currentDay }}
           </button>
-          <button
+          <!-- <button
             v-on:click="makeActive('StatisticsMonth', $event)"
             class="btn"
           >
@@ -23,22 +23,23 @@
             class="btn"
           >
             الإجمالي
-          </button>
+          </button> -->
         </div>
         <component
           v-bind:is="component"
           :statistics="statistics"
           :employee_revenues="employee_revenues"
+          :day="currentDay"
         ></component>
         <div class="row info-works">
           <div class="col-md-8">
             <div class="row info-work">
               <h6>حالة فترة العمل</h6>
               <div class="col-lg-4 col-md-6 col-sm-12">
-                <fa icon="calendar" /><span>11-2-4034</span>
+                <fa icon="calendar" /><span>{{ currentDate }}</span>
               </div>
               <div class="col-lg-3 col-md-6 col-sm-12">
-                <fa icon="clock" /><span>3:30Am</span>
+                <fa icon="clock" /><span>{{ currentTime }}</span>
               </div>
               <div class="col-lg-2 col-md-6 col-sm-12">
                 <fa icon="fa-store-alt" />
@@ -52,48 +53,48 @@
             <img src="../../assets/dashBourd/one.png" />
           </div>
         </div>
-        <h3 class="">تقرير الإجمالي ( الأربعاء )</h3>
+        <h3 class="">تقرير الإجمالي ({{ currentDay }} )</h3>
         <div class="row info-sales">
           <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
             <div class="card">
               <img src="../../assets/dashBourd/5.png" />
               <span>المبيعات</span>
-              <h6>345</h6>
+              <h6>{{ global_report.total_revenues }}</h6>
             </div>
           </div>
           <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
             <div class="card">
               <img src="../../assets/dashBourd/1.png" />
               <span>المبيعات(شبكة)</span>
-              <h6>345</h6>
+              <h6>{{ global_report.online_total_revenues }}</h6>
             </div>
           </div>
           <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
             <div class="card">
               <img src="../../assets/dashBourd/2.png" />
               <span>المبيعات (الكاش)</span>
-              <h6>345</h6>
+              <h6>{{ global_report.cash_total_revenues }}</h6>
             </div>
           </div>
           <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
             <div class="card">
               <img src="../../assets/dashBourd/3.png" />
               <span>عدد فواتير المبيعات</span>
-              <h6>345</h6>
+              <h6>{{ global_report.total_orders }}</h6>
             </div>
           </div>
           <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
             <div class="card">
               <img src="../../assets/dashBourd/4.png" />
               <span>المشتريات</span>
-              <h6>345</h6>
+              <h6>{{ global_report.total_purchases }}</h6>
             </div>
           </div>
           <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
             <div class="card">
               <img src="../../assets/dashBourd/9.png" />
               <span>المشتريات النثرية</span>
-              <h6>345</h6>
+              <h6>{{ global_report.sundry_total_purchases }}</h6>
             </div>
           </div>
 
@@ -101,32 +102,32 @@
             <div class="card">
               <img src="../../assets/dashBourd/6.png" />
               <span>المصاريف العمومية</span>
-              <h6>345</h6>
+              <h6>{{ global_report.general_services }}</h6>
             </div>
           </div>
           <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
             <div class="card">
               <img src="../../assets/dashBourd/4.png" />
               <span>العمولات</span>
-              <h6>345</h6>
+              <h6>{{ global_report.total_commissions }}</h6>
             </div>
           </div>
           <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
             <div class="card">
               <img src="../../assets/dashBourd/7.png" />
               <span>المدفوع من العمولات</span>
-              <h6>345</h6>
+              <h6>{{ global_report.payed_commissions }}</h6>
             </div>
           </div>
           <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
             <div class="card">
               <img src="../../assets/dashBourd/8.png" />
               <span>المتبقي من العمولات</span>
-              <h6>345</h6>
+              <h6>{{ global_report.remaining_commissions }}</h6>
             </div>
           </div>
         </div>
-        <h3 class="">مبيعات حسب الموظف ( الأربعاء )</h3>
+        <h3 class="">مبيعات حسب الموظف ( {{ currentDay }} )</h3>
         <div v-if="employee_revenues.employees" class="row info-employ">
           <div
             v-for="employee in employee_revenues.employees"
@@ -224,7 +225,6 @@
 import StatisticsDay from "@/components/StatisticsDay.vue";
 import StatisticsMonth from "@/components/StatisticsMonth.vue";
 import StatisticsTotal from "@/components/StatisticsTotal.vue";
-
 export default {
   name: "ControlBoard",
   components: {
@@ -238,10 +238,14 @@ export default {
       statistics: "",
       employee_revenues: "",
       global_report: "",
+      currentDate: "",
+      currentTime: "",
+      currentDay: "",
     };
   },
   mounted() {
     this.fetchAllStatistics();
+    this.setCurrentDateTime();
   },
   methods: {
     fetchAllStatistics() {
@@ -282,6 +286,38 @@ export default {
       });
       event.target.classList.add("blue");
     },
+    setCurrentDateTime() {
+      const now = new Date();
+      this.currentDate = now.toLocaleDateString();
+      this.currentTime = now.toLocaleTimeString();
+      const timeParts = this.currentTime.split(":");
+      this.currentTime = `${timeParts[0]}:${timeParts[1]}`;
+      // Get the name of the day
+      const days = [
+        "الأحد",
+        "الاثنين",
+        "الثلاثاء",
+        "الأربعاء",
+        "الخميس",
+        "الجمعة",
+        "السبت",
+      ];
+      const dayIndex = now.getDay();
+      this.currentDay = days[dayIndex];
+    },
+    // setCurrentDate() {
+    //   const currentDate = new Date().toLocaleDateString();
+    //   this.currentDate = currentDate;
+    // },
+    // setCurrentTime() {
+    //   const currentTime = new Date().toLocaleTimeString();
+    //   this.currentTime = currentTime;
+    // },
+    // setCurrentDay() {
+    //   const options = { weekday: "long" }; // Specify that we want the full name of the day
+    //   const currentDay = new Date().toLocaleDateString(undefined, options);
+    //   this.currentDay = currentDay;
+    // },
   },
 };
 </script>
