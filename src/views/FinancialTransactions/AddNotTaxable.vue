@@ -96,7 +96,7 @@ export default {
   },
   mounted() {
     fetch(
-      "https://www.setrex.net/haircut/backend/public/api/untaxedterm/" +
+      "http://127.0.0.1:8001/api/untaxedterm/" +
         localStorage.getItem("branch_id"),
       {
         method: "GET",
@@ -110,7 +110,7 @@ export default {
       .then((data) => (this.allGeneralExpenses = data))
       .catch((err) => console.log(err.message));
     fetch(
-      "https://www.setrex.net/haircut/backend/public/api/untaxedprovider/" +
+      "http://127.0.0.1:8001/api/untaxedprovider/" +
         localStorage.getItem("branch_id"),
       {
         method: "GET",
@@ -128,23 +128,20 @@ export default {
     addNoTax(event) {
       event.preventDefault();
       this.isLoading = true;
-      fetch(
-        "https://www.setrex.net/haircut/backend/public/api/general-service",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            branch_id: localStorage.getItem("branch_id"),
-            provider_id: this.NoTaxes_info.providerId,
-            term_id: this.NoTaxes_info.termId,
-            amount: this.NoTaxes_info.amount,
-            tax_state: this.NoTaxes_info.taxState,
-          }),
-        }
-      ).then((response) => {
+      fetch("http://127.0.0.1:8001/api/general-service", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          branch_id: localStorage.getItem("branch_id"),
+          provider_id: this.NoTaxes_info.providerId,
+          term_id: this.NoTaxes_info.termId,
+          amount: this.NoTaxes_info.amount,
+          tax_state: this.NoTaxes_info.taxState,
+        }),
+      }).then((response) => {
         this.isLoading = false;
         if (response.ok) {
           this.$router.push({ name: "ExpensesNotTax" });

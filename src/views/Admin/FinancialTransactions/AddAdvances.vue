@@ -71,8 +71,7 @@ export default {
   },
   mounted() {
     fetch(
-      "https://www.setrex.net/haircut/backend/public/api/employee/" +
-        localStorage.getItem("branch_id"),
+      "http://127.0.0.1:8001/api/employee/" + localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -95,7 +94,7 @@ export default {
           this.errorMessage = "";
         }, 10000);
       } else {
-        fetch("https://www.setrex.net/haircut/backend/public/api/advance", {
+        fetch("http://127.0.0.1:8001/api/advance", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,

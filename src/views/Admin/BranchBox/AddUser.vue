@@ -89,7 +89,7 @@ export default {
     addUser(event) {
       event.preventDefault();
       this.isLoading = true;
-      fetch("https://www.setrex.net/haircut/backend/public/api/barber", {
+      fetch("http://127.0.0.1:8001/api/barber", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,

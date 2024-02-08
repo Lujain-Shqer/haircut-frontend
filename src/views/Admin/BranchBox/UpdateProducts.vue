@@ -117,15 +117,11 @@ export default {
         };
         method = "POST";
       }
-      fetch(
-        "https://www.setrex.net/haircut/backend/public/api/product/" +
-          this.$route.params.id,
-        {
-          method: method,
-          headers: headers,
-          body: requestBody,
-        }
-      ).then((response) => {
+      fetch("http://127.0.0.1:8001/api/product/" + this.$route.params.id, {
+        method: method,
+        headers: headers,
+        body: requestBody,
+      }).then((response) => {
         this.isLoading = false;
         if (response.ok) {
           this.$router.push({ name: "ProductsPage" });

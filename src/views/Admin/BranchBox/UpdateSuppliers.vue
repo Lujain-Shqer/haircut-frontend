@@ -62,18 +62,14 @@ export default {
       event.preventDefault();
       this.isLoading = true;
       this.deleteUnwantedInfo();
-      fetch(
-        "https://www.setrex.net/haircut/backend/public/api/supplier/" +
-          this.$route.params.id,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(this.supplier_info),
-        }
-      ).then((response) => {
+      fetch("http://127.0.0.1:8001/api/supplier/" + this.$route.params.id, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(this.supplier_info),
+      }).then((response) => {
         this.isLoading = false;
         if (response.ok) {
           this.$router.push({ name: "SuppliersPage" });

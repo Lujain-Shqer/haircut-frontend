@@ -137,7 +137,7 @@ export default {
     fetchAllDiscounts() {
       return new Promise((resolve, reject) => {
         fetch(
-          "https://www.setrex.net/haircut/backend/public/api/rival/" +
+          "http://127.0.0.1:8001/api/rival/" +
             localStorage.getItem("branch_id"),
           {
             method: "GET",
@@ -160,16 +160,13 @@ export default {
       });
     },
     deleteDiscount(discountId) {
-      fetch(
-        "https://www.setrex.net/haircut/backend/public/api/rival/" + discountId,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      fetch("http://127.0.0.1:8001/api/rival/" + discountId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
         .then((response) => {
           if (response.ok) {
             this.discounts = this.discounts.filter(
@@ -202,8 +199,7 @@ export default {
     search(event) {
       event.preventDefault();
       fetch(
-        "https://www.setrex.net/haircut/backend/public/api/rival/" +
-          localStorage.getItem("branch_id"),
+        "http://127.0.0.1:8001/api/rival/" + localStorage.getItem("branch_id"),
         {
           method: "POST",
           headers: {
@@ -237,7 +233,7 @@ export default {
         this.discounts = [];
       } else {
         fetch(
-          "https://www.setrex.net/haircut/backend/public/api/filter-rival/" +
+          "http://127.0.0.1:8001/api/filter-rival/" +
             localStorage.getItem("branch_id"),
           {
             method: "POST",

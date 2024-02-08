@@ -62,8 +62,7 @@ export default {
   },
   mounted() {
     fetch(
-      "https://www.setrex.net/haircut/backend/public/api/date/" +
-        localStorage.getItem("branch_id"),
+      "http://127.0.0.1:8001/api/date/" + localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -78,16 +77,13 @@ export default {
   },
   methods: {
     deleteDate(dateId) {
-      fetch(
-        "https://www.setrex.net/haircut/backend/public/api/date/" + dateId,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      fetch("http://127.0.0.1:8001/api/date/" + dateId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
         .then((response) => {
           if (response.ok) {
             this.dates = this.dates.filter((date) => date.id !== dateId);

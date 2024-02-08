@@ -2,7 +2,7 @@
   <div class="sidebar">
     <img class="logoo" src="../assets/logoo.png" />
     <h6>صالون ذقن &amp; شعر</h6>
-    <sidebar-menu :menu="menu" :rtl="rtl" :hideToggle="hideToggle" />
+    <sidebar-menu :menu="filteredMenu" :rtl="rtl" :hideToggle="hideToggle" />
   </div>
 </template>
 <script>
@@ -299,7 +299,19 @@ export default {
       ],
       rtl: true,
       hideToggle: true,
+      titlesToRemove: ["صندوق الفرع", "قسم الإدارة"],
     };
+  },
+  computed: {
+    filteredMenu() {
+      if (localStorage.getItem("role") != 1) {
+        return this.menu.filter(
+          (item) => !this.titlesToRemove.includes(item.title)
+        );
+      } else {
+        return this.menu;
+      }
+    },
   },
 };
 </script>

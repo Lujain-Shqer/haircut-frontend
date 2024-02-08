@@ -62,7 +62,7 @@ export default {
     addSundry(event) {
       event.preventDefault();
       this.isLoading = true;
-      fetch("https://www.setrex.net/haircut/backend/public/api/sundry", {
+      fetch("http://127.0.0.1:8001/api/sundry", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,

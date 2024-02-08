@@ -127,7 +127,7 @@ export default {
     fetchAllDisabledAppointments() {
       return new Promise((resolve, reject) => {
         fetch(
-          "https://www.setrex.net/haircut/backend/public/api/stoped-reservation/" +
+          "http://127.0.0.1:8001/api/stoped-reservation/" +
             localStorage.getItem("branch_id"),
           {
             method: "GET",
@@ -151,8 +151,7 @@ export default {
     },
     deleteDisabledAppoinment(disabledAppoinmentId) {
       fetch(
-        "https://www.setrex.net/haircut/backend/public/api/stoped-reservation/" +
-          disabledAppoinmentId,
+        "http://127.0.0.1:8001/api/stoped-reservation/" + disabledAppoinmentId,
         {
           method: "DELETE",
           headers: {
@@ -205,7 +204,7 @@ export default {
     search(event) {
       event.preventDefault();
       fetch(
-        "https://www.setrex.net/haircut/backend/public/api/stoped-reservation/" +
+        "http://127.0.0.1:8001/api/stoped-reservation/" +
           localStorage.getItem("branch_id"),
         {
           method: "POST",
@@ -231,7 +230,7 @@ export default {
         this.disabledAppoinments = [];
       } else {
         fetch(
-          "https://www.setrex.net/haircut/backend/public/api/filter-stoped-reservation/" +
+          "http://127.0.0.1:8001/api/filter-stoped-reservation/" +
             localStorage.getItem("branch_id"),
           {
             method: "POST",

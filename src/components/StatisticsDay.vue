@@ -1,11 +1,11 @@
 <template>
-  <div class="row info-statistics">
+  <div v-if="statistics" class="row info-statistics">
     <div class="col-xl-3 col-lg-6 col-md-12">
       <h6>
         الإيرادات اليومي
         <span class="state"> 8.3% <fa icon="arrow-up" /></span>
       </h6>
-      <h5>3,456</h5>
+      <h5>{{ statistics.avg_daily_revenues }}</h5>
       <img src="../assets/sign.png" />
       <span>34.28 ريال متوسط الطلب</span>
     </div>
@@ -14,9 +14,9 @@
         إيرادات اسبوع
         <span class="state"> 8.3% <fa icon="arrow-up" /></span>
       </h6>
-      <h5>5,2</h5>
+      <h5>{{ statistics.avg_weekly_revenues.toFixed(2) }}</h5>
       <img src="../assets/sign.png" />
-      <span>700 زبون</span>
+      <span>{{ statistics.avg_weekly_orders.toFixed(2) }} زبون</span>
     </div>
     <div class="col-xl-3 col-lg-6 col-md-12">
       <h6>
@@ -24,14 +24,17 @@
         <span class="state"> 8.3% <fa icon="arrow-up" /></span>
       </h6>
 
-      <h5>20</h5>
+      <h5>{{ statistics.avg_daily_orders }}</h5>
 
       <span>زبون</span>
     </div>
     <div class="col-xl-3 col-lg-6 col-md-12">
       <h6>موظف يوم (الأربعاء)</h6>
-      <h5>السيد صابر</h5>
-      <span>بقيمة مبيعات :7000 SAR </span>
+      <h5>السيد/ة {{ bestEmployee.name }}</h5>
+      <span
+        >بقيمة مبيعات :{{ bestEmployee.revenues }}
+        SAR
+      </span>
     </div>
   </div>
 </template>
@@ -39,6 +42,33 @@
 <script>
 export default {
   name: "StatisticsDay",
+  props: ["statistics", "employee_revenues"],
+  computed: {
+    bestEmployee() {
+      var bestIndex = this.employee_revenues.top_employee_index;
+      var info = {};
+      info.name = this.employee_revenues.employees[bestIndex].name;
+      info.revenues =
+        this.employee_revenues.employees[bestIndex].total_revenues;
+      return info;
+    },
+  },
+  // data() {
+  //   return {
+  //     allStatisticsLoaded: false,
+  //   };
+  // },
+  // watch: {
+  //   allStatistics: {
+  //     handler() {
+  //       this.allStatisticsLoaded = true;
+  //       console.log(this.allStatistics.statistics);
+  //       console.log(this.allStatistics.employee_revenues);
+  //       console.log(this.allStatistics.global_report);
+  //     },
+  //     immediate: true,
+  //   },
+  // },
 };
 </script>
 

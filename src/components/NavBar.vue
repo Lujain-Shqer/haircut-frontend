@@ -106,7 +106,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
           <ul class="navbar-nav">
-            <sidebar-menu :menu="menu" :rtl="rtl" :hideToggle="hideToggle" />
+            <sidebar-menu
+              :menu="filteredMenu"
+              :rtl="rtl"
+              :hideToggle="hideToggle"
+            />
           </ul>
         </div>
       </div>
@@ -411,7 +415,19 @@ export default {
       ],
       rtl: true,
       hideToggle: true,
+      titlesToRemove: ["صندوق الفرع", "قسم الإدارة"],
     };
+  },
+  computed: {
+    filteredMenu() {
+      if (localStorage.getItem("role") != 1) {
+        return this.menu.filter(
+          (item) => !this.titlesToRemove.includes(item.title)
+        );
+      } else {
+        return this.menu;
+      }
+    },
   },
 };
 </script>

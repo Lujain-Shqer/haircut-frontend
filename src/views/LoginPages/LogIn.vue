@@ -86,7 +86,7 @@ export default {
       event.preventDefault();
       this.isLoading = true;
       // const hostName = inject("hostName");
-      fetch("https://www.setrex.net/haircut/backend/public/api/login", {
+      fetch("http://127.0.0.1:8001/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -106,6 +106,7 @@ export default {
         })
         .then((data) => {
           localStorage.setItem("access_token", data.access_token);
+          localStorage.setItem("role", data.role);
           if (data.role == 1) {
             this.$router.push("/branch");
           } else {

@@ -25,7 +25,11 @@
             الإجمالي
           </button>
         </div>
-        <component v-bind:is="component"></component>
+        <component
+          v-bind:is="component"
+          :statistics="statistics"
+          :employee_revenues="employee_revenues"
+        ></component>
         <div class="row info-works">
           <div class="col-md-8">
             <div class="row info-work">
@@ -123,32 +127,44 @@
           </div>
         </div>
         <h3 class="">مبيعات حسب الموظف ( الأربعاء )</h3>
-        <div class="row info-employ">
-          <div class="col-lg-4 col-md-6 col-sm-12">
+        <div v-if="employee_revenues.employees" class="row info-employ">
+          <div
+            v-for="employee in employee_revenues.employees"
+            :key="employee.id"
+            class="col-lg-4 col-md-6 col-sm-12"
+          >
             <div class="card mb-3">
               <div class="row no-gutters">
                 <div class="col-xl-3 col-lg-12 text-center person">
                   <img src="../../assets/dashBourd/person.png" />
-                  <span>السيد صابر</span>
+                  <span>السيد/ة {{ employee.name }}</span>
                 </div>
                 <div class="col-xl-9 col-lg-12">
                   <div class="card-body">
                     <div class="card-text row">
                       <span class="col-7">إجمالي المبيعات:</span>
-                      <span class="col-5">4567 SAR</span>
+                      <span class="col-5"
+                        >{{ employee.total_revenues }} SAR</span
+                      >
                       <span class="col-7">العمولات:</span>
-                      <span class="col-5">4567 SAR</span>
+                      <span class="col-5"
+                        >{{ employee.total_commissions }} SAR</span
+                      >
                       <span class="col-7">العمولات المدفوعة:</span>
-                      <span class="col-5">4567 SAR</span>
+                      <span class="col-5"
+                        >{{ employee.payed_commissions }} SAR</span
+                      >
                       <span class="col-7"> العمولات المتبقية:</span>
-                      <span class="col-5">4567 SAR</span>
+                      <span class="col-5"
+                        >{{ employee.remaining_commissions }} SAR</span
+                      >
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-lg-4 col-md-6 col-sm-12">
+          <!-- <div class="col-lg-4 col-md-6 col-sm-12">
             <div class="card mb-3">
               <div class="row no-gutters">
                 <div class="col-xl-3 col-lg-12 text-center person">
@@ -195,8 +211,9 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
+        <div v-else class="row else-info">لا يوجد إحصائيات موظفين حالياً</div>
       </div>
     </div>
   </div>
@@ -215,7 +232,40 @@ export default {
     StatisticsMonth,
     StatisticsTotal,
   },
+  data() {
+    return {
+      component: "StatisticsDay",
+      statistics: "",
+      employee_revenues: "",
+      global_report: "",
+    };
+  },
+  mounted() {
+    this.fetchAllStatistics();
+  },
   methods: {
+    fetchAllStatistics() {
+      fetch(
+        "http://127.0.0.1:8001/api/dashboard/" +
+          localStorage.getItem("branch_id"),
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          this.statistics = data.statistics;
+          this.employee_revenues = data.employee_revenues;
+          this.global_report = data.global_report;
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    },
     makeActive: function (component, event) {
       this.component = component;
       // event.target.classList.add("blue");
@@ -232,11 +282,6 @@ export default {
       });
       event.target.classList.add("blue");
     },
-  },
-  data() {
-    return {
-      component: "StatisticsDay",
-    };
   },
 };
 </script>
@@ -401,6 +446,18 @@ h3 {
   font-size: 2vmin;
   font-weight: 600;
   margin-top: 2vh;
+}
+.else-info {
+  background: hsl(230, 43%, 95%);
+  margin-bottom: 3vh;
+  border-radius: 8px;
+  margin: auto;
+  padding: 2%;
+  border: 2px solid #f5f5f5;
+  color: #3f51b5;
+  display: flex; /* Use flexbox */
+  justify-content: center; /* Center the text horizontally */
+  align-items: center; /* Center the text vertically */
 }
 @media (max-width: 1200px) {
   .info-statistics {

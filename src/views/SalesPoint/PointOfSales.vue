@@ -238,8 +238,7 @@ export default {
   mixins: [orderMixin],
   mounted() {
     fetch(
-      "https://www.setrex.net/haircut/backend/public/api/customer/" +
-        localStorage.getItem("branch_id"),
+      "http://127.0.0.1:8001/api/customer/" + localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -252,8 +251,7 @@ export default {
       .then((data) => (this.allClients = data))
       .catch((err) => console.log(err.message));
     fetch(
-      "https://www.setrex.net/haircut/backend/public/api/employee/" +
-        localStorage.getItem("branch_id"),
+      "http://127.0.0.1:8001/api/employee/" + localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -391,7 +389,7 @@ export default {
           tip_pay_type: this.order_info.tipType,
         };
         this.deleteUnwantedInfo(requestBody);
-        fetch("https://www.setrex.net/haircut/backend/public/api/order", {
+        fetch("http://127.0.0.1:8001/api/order", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,

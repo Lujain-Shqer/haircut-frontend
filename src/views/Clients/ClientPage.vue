@@ -108,7 +108,7 @@ export default {
     fetchAllClients() {
       return new Promise((resolve, reject) => {
         fetch(
-          "https://www.setrex.net/haircut/backend/public/api/customer/" +
+          "http://127.0.0.1:8001/api/customer/" +
             localStorage.getItem("branch_id"),
           {
             method: "GET",
@@ -130,17 +130,13 @@ export default {
       });
     },
     deleteClient(clientId) {
-      fetch(
-        "https://www.setrex.net/haircut/backend/public/api/customer/" +
-          clientId,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      fetch("http://127.0.0.1:8001/api/customer/" + clientId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
         .then((response) => {
           if (response.ok) {
             this.clients = this.clients.filter(
@@ -165,7 +161,7 @@ export default {
     search(event) {
       event.preventDefault();
       fetch(
-        "https://www.setrex.net/haircut/backend/public/api/customer/" +
+        "http://127.0.0.1:8001/api/customer/" +
           localStorage.getItem("branch_id"),
         {
           method: "POST",
