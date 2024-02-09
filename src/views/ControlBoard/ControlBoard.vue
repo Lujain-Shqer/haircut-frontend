@@ -5,14 +5,14 @@
     <div class="container writeBar">
       <h3 class="">أهلا و سهلا بك بعالمك !</h3>
       <div class="coiner">
-        <div class="chosse-serv">
+        <!-- <div class="chosse-serv">
           <button
             v-on:click="makeActive('StatisticsDay', $event)"
             class="btn blue"
           >
             اليوم {{ currentDay }}
           </button>
-          <!-- <button
+          <button
             v-on:click="makeActive('StatisticsMonth', $event)"
             class="btn"
           >
@@ -23,8 +23,8 @@
             class="btn"
           >
             الإجمالي
-          </button> -->
-        </div>
+          </button>
+        </div> -->
         <component
           v-bind:is="component"
           :statistics="statistics"
@@ -128,9 +128,9 @@
           </div>
         </div>
         <h3 class="">مبيعات حسب الموظف ( {{ currentDay }} )</h3>
-        <div v-if="employee_revenues.employees" class="row info-employ">
+        <div v-if="employees.length > 0" class="row info-employ">
           <div
-            v-for="employee in employee_revenues.employees"
+            v-for="employee in employees"
             :key="employee.id"
             class="col-lg-4 col-md-6 col-sm-12"
           >
@@ -241,6 +241,7 @@ export default {
       currentDate: "",
       currentTime: "",
       currentDay: "",
+      employees: [],
     };
   },
   mounted() {
@@ -250,7 +251,7 @@ export default {
   methods: {
     fetchAllStatistics() {
       fetch(
-        "http://127.0.0.1:8001/api/dashboard/" +
+        "/https://www.setrex.net/haircut/backend/public/api/dashboard/" +
           localStorage.getItem("branch_id"),
         {
           method: "GET",
@@ -264,6 +265,7 @@ export default {
         .then((data) => {
           this.statistics = data.statistics;
           this.employee_revenues = data.employee_revenues;
+          this.employees = this.employee_revenues.employees;
           this.global_report = data.global_report;
         })
         .catch((err) => {
@@ -289,10 +291,11 @@ export default {
     setCurrentDateTime() {
       const now = new Date();
       this.currentDate = now.toLocaleDateString();
+      const [month, day, year] = this.currentDate.split("/");
+      this.currentDate = `${day}/${month}/${year}`;
       this.currentTime = now.toLocaleTimeString();
       const timeParts = this.currentTime.split(":");
       this.currentTime = `${timeParts[0]}:${timeParts[1]}`;
-      // Get the name of the day
       const days = [
         "الأحد",
         "الاثنين",

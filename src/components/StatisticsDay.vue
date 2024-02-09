@@ -3,25 +3,25 @@
     <div class="col-xl-3 col-lg-6 col-md-12">
       <h6>
         الإيرادات اليومي
-        <span class="state"> 8.3% <fa icon="arrow-up" /></span>
+        <!-- <span class="state"> 8.3% <fa icon="arrow-up" /></span> -->
       </h6>
       <h5>{{ statistics.avg_daily_revenues }}</h5>
       <img src="../assets/sign.png" />
-      <span>34.28 ريال متوسط الطلب</span>
+      <!-- <span>34.28 ريال متوسط الطلب</span> -->
     </div>
     <div class="col-xl-3 col-lg-6 col-md-12">
       <h6>
         إيرادات اسبوع
-        <span class="state"> 8.3% <fa icon="arrow-up" /></span>
+        <!-- <span class="state"> 8.3% <fa icon="arrow-up" /></span> -->
       </h6>
-      <h5>{{ statistics.avg_weekly_revenues.toFixed(2) }}</h5>
+      <h5>{{ statistics.avg_weekly_revenues }}</h5>
       <img src="../assets/sign.png" />
-      <span>{{ statistics.avg_weekly_orders.toFixed(2) }} زبون</span>
+      <span>{{ statistics.avg_weekly_orders }} زبون</span>
     </div>
     <div class="col-xl-3 col-lg-6 col-md-12">
       <h6>
         جلسات اليوم
-        <span class="state"> 8.3% <fa icon="arrow-up" /></span>
+        <!-- <span class="state"> 8.3% <fa icon="arrow-up" /></span> -->
       </h6>
 
       <h5>{{ statistics.avg_daily_orders }}</h5>

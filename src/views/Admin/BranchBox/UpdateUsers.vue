@@ -88,14 +88,18 @@ export default {
       event.preventDefault();
       this.isLoading = true;
       this.deleteUnwantedInfo();
-      fetch("http://127.0.0.1:8001/api/barber/" + this.$route.params.id, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(this.user_info),
-      }).then((response) => {
+      fetch(
+        "/https://www.setrex.net/haircut/backend/public/api/barber/" +
+          this.$route.params.id,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(this.user_info),
+        }
+      ).then((response) => {
         this.isLoading = false;
         if (response.ok) {
           this.$router.push({ name: "UsersPage" });

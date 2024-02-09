@@ -150,7 +150,8 @@ export default {
     fetchAllGeneralExpenses() {
       return new Promise((resolve, reject) => {
         fetch(
-          "http://127.0.0.1:8001/api/term/" + localStorage.getItem("branch_id"),
+          "/https://www.setrex.net/haircut/backend/public/api/term/" +
+            localStorage.getItem("branch_id"),
           {
             method: "GET",
             headers: {
@@ -172,13 +173,17 @@ export default {
       });
     },
     deleteGeneralExpense(generalExpenseId) {
-      fetch("http://127.0.0.1:8001/api/term/" + generalExpenseId, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-      })
+      fetch(
+        "/https://www.setrex.net/haircut/backend/public/api/term/" +
+          generalExpenseId,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
         .then((response) => {
           if (response.ok) {
             this.generalExpenses = this.generalExpenses.filter(
@@ -207,7 +212,8 @@ export default {
     search(event) {
       event.preventDefault();
       fetch(
-        "http://127.0.0.1:8001/api/term/" + localStorage.getItem("branch_id"),
+        "/https://www.setrex.net/haircut/backend/public/api/term/" +
+          localStorage.getItem("branch_id"),
         {
           method: "POST",
           headers: {

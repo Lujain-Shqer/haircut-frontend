@@ -144,7 +144,8 @@ export default {
   },
   mounted() {
     fetch(
-      "http://127.0.0.1:8001/api/customer/" + localStorage.getItem("branch_id"),
+      "/https://www.setrex.net/haircut/backend/public/api/customer/" +
+        localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -199,22 +200,25 @@ export default {
           this.errorMessage = "";
         }, 10000);
       } else {
-        fetch("http://127.0.0.1:8001/api/reservation", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            branch_id: localStorage.getItem("branch_id"),
-            employee_id: this.selectedEmployee.id,
-            customer_id: this.selectedClient.id,
-            services: this.selectedServices.map((service) => service.id),
-            date: this.selectedDate + " " + this.selectedHour,
-            total_duration: this.totalDuration,
-            total_amount: this.totalAmount,
-          }),
-        })
+        fetch(
+          "/https://www.setrex.net/haircut/backend/public/api/reservation",
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              branch_id: localStorage.getItem("branch_id"),
+              employee_id: this.selectedEmployee.id,
+              customer_id: this.selectedClient.id,
+              services: this.selectedServices.map((service) => service.id),
+              date: this.selectedDate + " " + this.selectedHour,
+              total_duration: this.totalDuration,
+              total_amount: this.totalAmount,
+            }),
+          }
+        )
           .then((response) => {
             this.isLoading = false;
             if (response.ok) {
