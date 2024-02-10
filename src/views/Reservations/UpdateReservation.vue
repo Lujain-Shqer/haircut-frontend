@@ -121,8 +121,7 @@ export default {
   },
   mounted() {
     fetch(
-      "/https://www.setrex.net/haircut/backend/public/api/employee/" +
-        localStorage.getItem("branch_id"),
+      "http://127.0.0.1:8001/api/employee/" + localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -135,8 +134,7 @@ export default {
       .then((data) => (this.employees = data))
       .catch((err) => console.log(err.message));
     fetch(
-      "/https://www.setrex.net/haircut/backend/public/api/customer/" +
-        localStorage.getItem("branch_id"),
+      "http://127.0.0.1:8001/api/customer/" + localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -159,18 +157,14 @@ export default {
         (service) => service.id
       );
       this.deleteUnwantedInfo();
-      fetch(
-        "/https://www.setrex.net/haircut/backend/public/api/reservation/" +
-          this.$route.params.id,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(this.reserv_info),
-        }
-      ).then((response) => {
+      fetch("http://127.0.0.1:8001/api/reservation/" + this.$route.params.id, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(this.reserv_info),
+      }).then((response) => {
         this.isLoading = false;
         if (response.ok) {
           this.$router.push({ name: "NewReservation" });

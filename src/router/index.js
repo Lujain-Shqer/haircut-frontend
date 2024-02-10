@@ -612,10 +612,15 @@ const routes = [
     meta: { requiresAuth: true },
   },
 ];
+
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   base: process.env.BASE_URL,
-  routes,
+  routes: routes,
+  navigationFallback: {
+    rewrite: "/index.html",
+    exclude: ["/images/*.{png,jpg,gif}", "/css/*"],
+  },
 });
 router.beforeEach((to, from, next) => {
   reservationMixin.beforeRouteEnter.call({ $store: store }, to, next);

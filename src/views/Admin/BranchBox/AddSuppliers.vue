@@ -62,7 +62,7 @@ export default {
     addSupplier(event) {
       event.preventDefault();
       this.isLoading = true;
-      fetch("/https://www.setrex.net/haircut/backend/public/api/supplier", {
+      fetch("http://127.0.0.1:8001/api/supplier", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,

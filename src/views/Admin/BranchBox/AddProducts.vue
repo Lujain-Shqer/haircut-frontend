@@ -111,7 +111,7 @@ export default {
       formData.append("purchasing_price", this.product_info.purchasing_price);
       formData.append("selling_price", this.product_info.selling_price);
       formData.append("image", this.product_info.image);
-      fetch("/https://www.setrex.net/haircut/backend/public/api/product", {
+      fetch("http://127.0.0.1:8001/api/product", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,

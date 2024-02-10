@@ -192,7 +192,7 @@ export default {
       event.preventDefault();
       this.isLoading = true;
       this.deleteUnwantedInfo();
-      fetch("/https://www.setrex.net/haircut/backend/public/api/employee", {
+      fetch("http://127.0.0.1:8001/api/employee", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,

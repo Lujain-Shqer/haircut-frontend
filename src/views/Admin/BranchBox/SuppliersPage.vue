@@ -101,7 +101,7 @@ export default {
     fetchAllSuppliers() {
       return new Promise((resolve, reject) => {
         fetch(
-          "/https://www.setrex.net/haircut/backend/public/api/supplier/" +
+          "http://127.0.0.1:8001/api/supplier/" +
             localStorage.getItem("branch_id"),
           {
             method: "GET",
@@ -124,17 +124,13 @@ export default {
       });
     },
     deleteSupplier(supplierId) {
-      fetch(
-        "/https://www.setrex.net/haircut/backend/public/api/supplier/" +
-          supplierId,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      fetch("http://127.0.0.1:8001/api/supplier/" + supplierId, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+      })
         .then((response) => {
           if (response.ok) {
             this.suppliers = this.suppliers.filter(
@@ -160,7 +156,7 @@ export default {
     search(event) {
       event.preventDefault();
       fetch(
-        "/https://www.setrex.net/haircut/backend/public/api/supplier/" +
+        "http://127.0.0.1:8001/api/supplier/" +
           localStorage.getItem("branch_id"),
         {
           method: "POST",

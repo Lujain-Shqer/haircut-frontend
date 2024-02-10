@@ -142,7 +142,7 @@
         </div>
 
         <div class="col-lg-4 col-md-12">
-          <label>اختر طريقة الدفع</label>
+          <label>اختر طريقة الدفع ({{ this.amountAfterDiscount }} SAR)</label>
           <div class="chosse">
             <button class="btn" @click="getActive($event, 'paymentCash')">
               كاش
@@ -150,16 +150,36 @@
             <button class="btn" @click="getActive($event, 'paymentNetwork')">
               شبكة
             </button>
-            <button @click="showComponent" class="btn">معا</button>
+            <button @click="getActive($event, 'paymentBoth')" class="btn">
+              معا
+            </button>
           </div>
           <div class="row type-pay" v-show="isComponentVisible">
             <div class="col-6">
-              <label>أدخل قيمة الشبكة</label>
-              <input class="" type="text" placeholder="أدخل قيمة الكاش" />
+              <label>أدخل قيمة الكاش</label>
+              <input
+                v-model="order_info.onlineAmount"
+                :placeholder="
+                  order_info.onlineAmount !== null
+                    ? order_info.onlineAmount
+                    : 'أدخل قيمة الكاش'
+                "
+                class=""
+                type="number"
+              />
             </div>
             <div class="col-6">
-              <label>أدخل قيمة الكاش</label>
-              <input class="" type="text" placeholder="أدخل قيمة الشبكة" />
+              <label>أدخل قيمة الشبكة</label>
+              <input
+                v-model="order_info.cashAmount"
+                class=""
+                type="number"
+                :placeholder="
+                  order_info.cashAmount !== null
+                    ? order_info.cashAmount
+                    : 'أدخل قيمة الشبكة'
+                "
+              />
             </div>
           </div>
         </div>
@@ -168,7 +188,7 @@
           <label>مبلغ الخصم (إن وجد)</label>
           <input
             v-model="order_info.discount"
-            type="text"
+            type="number"
             placeholder="مبلغ الخصم"
           />
         </div>
@@ -189,9 +209,9 @@
             <button class="btn" @click="getActive($event, 'tipNetwork')">
               شبكة
             </button>
-            <button class="btn" @click="show">معا</button>
+            <!-- <button class="btn" @click="show">معا</button> -->
           </div>
-          <div class="row type-pay" v-show="isVisible">
+          <!-- <div class="row type-pay" v-show="isVisible">
             <div class="col-6">
               <label>أدخل قيمة الشبكة</label>
               <input class="" type="text" placeholder="أدخل قيمة الكاش" />
@@ -200,7 +220,7 @@
               <label>أدخل قيمة الكاش</label>
               <input class="" type="text" placeholder="أدخل قيمة الشبكة" />
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="error-message" v-if="errorMessage">
           {{ errorMessage }}
@@ -238,8 +258,7 @@ export default {
   mixins: [orderMixin],
   mounted() {
     fetch(
-      "/https://www.setrex.net/haircut/backend/public/api/customer/" +
-        localStorage.getItem("branch_id"),
+      "http://127.0.0.1:8001/api/customer/" + localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -252,8 +271,7 @@ export default {
       .then((data) => (this.allClients = data))
       .catch((err) => console.log(err.message));
     fetch(
-      "/https://www.setrex.net/haircut/backend/public/api/employee/" +
-        localStorage.getItem("branch_id"),
+      "http://127.0.0.1:8001/api/employee/" + localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -287,11 +305,18 @@ export default {
         event.target.nextElementSibling.classList.remove("blue");
       if (event.target.previousElementSibling != null)
         event.target.previousElementSibling.classList.remove("blue");
-      if (this.isComponentVisible) {
+      if (!this.isComponentVisible && value === "paymentBoth") {
+        this.isComponentVisible = true;
+      } else if (
+        this.isComponentVisible &&
+        (value === "tipCash" || value === "tipNetwork")
+      ) {
+        this.isComponentVisible = true;
+      } else {
         this.isComponentVisible = false;
       }
-      if (this.isVisible) {
-        this.isVisible = false;
+      if (value === "paymentBoth") {
+        this.order_info.paymentType = "both";
       }
       if (value === "paymentCash") {
         this.order_info.paymentType = "cash";
@@ -304,45 +329,6 @@ export default {
       }
       if (value === "tipNetwork") {
         this.order_info.tipType = "online";
-      }
-    },
-    showComponent(event) {
-      const siblings = Array.from(event.target.parentNode.children).filter(
-        (child) => child !== event.target
-      );
-      console.log(siblings);
-      siblings.forEach((sibling) => {
-        sibling.classList.remove("blue");
-      });
-      event.target.classList.add("blue");
-      if (event.target.nextElementSibling != null)
-        event.target.nextElementSibling.classList.remove("blue");
-      if (event.target.previousElementSibling != null)
-        event.target.previousElementSibling.classList.remove("blue");
-      if (this.isComponentVisible) {
-        this.isComponentVisible = false;
-      } else {
-        this.isComponentVisible = true;
-      }
-    },
-    show(event) {
-      const siblings = Array.from(event.target.parentNode.children).filter(
-        (child) => child !== event.target
-      );
-      console.log(siblings);
-      siblings.forEach((sibling) => {
-        sibling.classList.remove("blue");
-      });
-      event.target.classList.add("blue");
-
-      if (event.target.nextElementSibling != null)
-        event.target.nextElementSibling.classList.remove("blue");
-      if (event.target.previousElementSibling != null)
-        event.target.previousElementSibling.classList.remove("blue");
-      if (this.isVisible) {
-        this.isVisible = false;
-      } else {
-        this.isVisible = true;
       }
     },
     sumProperty(array, property) {
@@ -362,7 +348,10 @@ export default {
         this.order_info.employee.name === "غير محدد" ||
         this.order_info.client.name === "غير محدد" ||
         this.order_info.paymentType === null ||
-        (this.order_info.tipType === null && this.order_info.tip !== null)
+        (this.order_info.tipType === null && this.order_info.tip !== null) ||
+        (this.order_info.paymentType === "both" &&
+          (this.order_info.onlineAmount === null ||
+            this.order_info.cashAmount === null))
       ) {
         this.errorMessage = "أرجو إدخال كافة المعلومات المطلوبة للفاتورة.";
         setTimeout(() => {
@@ -389,9 +378,11 @@ export default {
           discount: this.order_info.discount,
           tip: this.order_info.tip,
           tip_pay_type: this.order_info.tipType,
+          cash_amount: this.order_info.cashAmount,
+          online_amount: this.order_info.onlineAmount,
         };
         this.deleteUnwantedInfo(requestBody);
-        fetch("/https://www.setrex.net/haircut/backend/public/api/order", {
+        fetch("http://127.0.0.1:8001/api/order", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -455,6 +446,19 @@ export default {
         }
       });
     },
+    isNumber(value) {
+      return typeof value === "number" && !isNaN(value);
+    },
+    computeOnlineAmount(cashAmount) {
+      return this.amountAfterDiscount > 0
+        ? this.amountAfterDiscount - cashAmount
+        : null;
+    },
+    computeCashAmount(onlineAmount) {
+      return this.amountAfterDiscount > 0
+        ? this.amountAfterDiscount - onlineAmount
+        : null;
+    },
   },
   computed: {
     selectedServices() {
@@ -481,15 +485,35 @@ export default {
         this.sumProperty(this.selectedProducts, "price")
       );
     },
+    amountAfterDiscount() {
+      return this.isNumber(this.order_info.discount) &&
+        this.order_info.discount !== null
+        ? ((this.amount * (100 - this.order_info.discount)) / 100).toFixed(0)
+        : this.amount;
+    },
     productCount() {
       return Array(this.selectedProducts.length).fill(1);
+    },
+  },
+  watch: {
+    "order_info.cashAmount": function (newCashAmount) {
+      if (!isNaN(newCashAmount)) {
+        // If cashAmount is a valid number, update onlineAmount
+        this.order_info.onlineAmount = this.computeOnlineAmount(newCashAmount);
+      }
+    },
+    "order_info.onlineAmount": function (newOnlineAmount) {
+      if (!isNaN(newOnlineAmount)) {
+        // If onlineAmount is a valid number, update cashAmount
+        this.order_info.cashAmount = this.computeCashAmount(newOnlineAmount);
+      }
     },
   },
   data() {
     return {
       isComponentVisible: false,
       isLoading: false,
-      isVisible: false,
+      // isVisible: false,
       errorMessage: "",
       component: "ServicesPage",
       allClients: [],
@@ -502,6 +526,8 @@ export default {
         client: { name: "غير محدد" },
         tipType: null,
         paymentType: null,
+        cashAmount: null,
+        onlineAmount: null,
       },
     };
   },

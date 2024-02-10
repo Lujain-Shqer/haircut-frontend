@@ -78,8 +78,7 @@ export default {
   },
   mounted() {
     fetch(
-      "/https://www.setrex.net/haircut/backend/public/api/employee/" +
-        localStorage.getItem("branch_id"),
+      "http://127.0.0.1:8001/api/employee/" + localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -96,18 +95,14 @@ export default {
     updateDiscount(event) {
       event.preventDefault();
       this.deleteUnwantedInfo();
-      fetch(
-        "/https://www.setrex.net/haircut/backend/public/api/rival/" +
-          this.$route.params.id,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(this.discount_info),
-        }
-      ).then((response) => {
+      fetch("http://127.0.0.1:8001/api/rival/" + this.$route.params.id, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(this.discount_info),
+      }).then((response) => {
         if (response.ok) {
           this.$router.push({ name: "DiscountsPage" });
           return response.json();

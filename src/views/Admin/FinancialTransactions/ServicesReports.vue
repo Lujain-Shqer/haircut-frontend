@@ -95,7 +95,7 @@ export default {
     fetchAllServicesReports() {
       return new Promise((resolve, reject) => {
         fetch(
-          "/https://www.setrex.net/haircut/backend/public/api/frequency-service/" +
+          "http://127.0.0.1:8001/api/frequency-service/" +
             localStorage.getItem("branch_id"),
           {
             method: "GET",
@@ -130,7 +130,7 @@ export default {
     search(event) {
       event.preventDefault();
       fetch(
-        "/https://www.setrex.net/haircut/backend/public/api/frequency-service/" +
+        "http://127.0.0.1:8001/api/frequency-service/" +
           localStorage.getItem("branch_id"),
         {
           method: "POST",

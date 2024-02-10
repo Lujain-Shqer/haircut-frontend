@@ -47,7 +47,7 @@ export default {
   },
   mounted() {
     fetch(
-      "/https://www.setrex.net/haircut/backend/public/api/reservation/" +
+      "http://127.0.0.1:8001/api/reservation/" +
         localStorage.getItem("branch_id"),
       {
         method: "GET",

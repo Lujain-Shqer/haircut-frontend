@@ -86,7 +86,7 @@ export default {
       event.preventDefault();
       this.isLoading = true;
       // const hostName = inject("hostName");
-      fetch("/https://www.setrex.net/haircut/backend/public/api/login", {
+      fetch("http://127.0.0.1:8001/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
