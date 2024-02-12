@@ -44,6 +44,7 @@
       <h5>لا يوجد</h5>
     </div>
   </div>
+  <div v-else>لا يوجد إحصائيات</div>
 </template>
 
 <script>

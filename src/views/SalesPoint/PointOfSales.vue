@@ -93,7 +93,9 @@
               خدمات
             </button>
           </div>
-          <button class="btn blue-button">إنهاء فترة العمل</button>
+          <button @click="printDailyReport" class="btn blue-button">
+            إنهاء فترة العمل
+          </button>
           <router-link to="/AddServices">
             <button class="btn white-button">
               <fa icon="plus" /> أضف خدمة جديدة
@@ -458,6 +460,9 @@ export default {
       return this.amountAfterDiscount > 0
         ? this.amountAfterDiscount - onlineAmount
         : null;
+    },
+    printDailyReport() {
+      this.$router.push({ name: "DiaryReport", query: { fromPOS: true } });
     },
   },
   computed: {

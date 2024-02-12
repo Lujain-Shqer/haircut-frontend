@@ -68,9 +68,9 @@
               aria-label="Default select example"
             >
               <option disabled selected>اختر نوع الأجر</option>
-              <option value="salary">الراتب</option>
-              <option value="commission">الأجر</option>
-              <option value="both">أجر و راتب</option>
+              <option value="salary">راتب</option>
+              <option value="commission">نسية</option>
+              <option value="both">راتب و نسبة</option>
             </select>
           </div>
           <div class="col-md-6 col-sm-12">

@@ -67,6 +67,9 @@
                 <p>{{ salesBill.created_at.split("T")[1].split(".")[0] }}</p>
               </td>
               <td class="text-center">
+                <button @click="moreInfo(salesBill.id)" class="btn show">
+                  <fa icon="plus" /> المزيد
+                </button>
                 <button
                   @click="deleteSalesBill(salesBill.id)"
                   class="btn delete"
@@ -106,14 +109,21 @@
       </div>
     </div>
   </div>
+  <SalesBillDetails
+    v-if="isModalVisible"
+    :salesBillDetails="selectedSalesBill"
+    @close="closeModal"
+  />
 </template>
 <script>
 import PaginationFoot from "/src/components/PaginationFoot.vue";
+import SalesBillDetails from "/src/components/SalesBillDetails.vue";
 import * as ExcelJS from "exceljs";
 export default {
   name: "SallesBills",
   components: {
     PaginationFoot,
+    SalesBillDetails,
   },
   data() {
     return {
@@ -122,6 +132,8 @@ export default {
       currentPage: 1,
       searchQuery: "",
       message: "يتم التحميل .......",
+      isModalVisible: false, // Flag to control the visibility of the modal
+      selectedSalesBill: null, // Data for the selected sales bill
     };
   },
   computed: {
@@ -138,6 +150,23 @@ export default {
     this.fetchAllSalesBills();
   },
   methods: {
+    moreInfo(salesBillId) {
+      // Method to handle the click event of the "المزيد" button
+      // Fetch the details of the selected sales bill based on its ID
+      // Set the selected sales bill data
+      // Show the modal
+      this.selectedSalesBill = this.salesBills.find(
+        (sb) => sb.id === salesBillId
+      );
+      this.isModalVisible = true;
+    },
+    closeModal() {
+      // Method to close the modal
+      // Reset the selected sales bill data
+      // Hide the modal
+      this.selectedSalesBill = null;
+      this.isModalVisible = false;
+    },
     fetchAllSalesBills() {
       return new Promise((resolve, reject) => {
         fetch(
@@ -390,6 +419,13 @@ export default {
   color: #3f51b5;
   border: 1px solid #3f51b5;
   margin-right: 5px;
+}
+.sallesBills table .show {
+  background: #3f51b5;
+  color: #fff;
+  border: 1px solid #3f51b5;
+  margin-left: 5px;
+  margin-bottom: 1vh;
 }
 .sallesBills table tfoot {
   border-radius: 8px;

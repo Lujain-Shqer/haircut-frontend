@@ -21,7 +21,13 @@
             @change="handleDateChange"
           ></ejs-calendar>
         </div>
-        <table class="table" cellpadding="5" border="1" cellspacing="0">
+        <table
+          id="my-table"
+          class="table"
+          cellpadding="5"
+          border="1"
+          cellspacing="0"
+        >
           <thead>
             <tr>
               <th scope="col">التاريخ</th>
@@ -52,7 +58,7 @@
               <td colspan="5">{{ info }}</td>
             </tr>
           </tbody>
-          <tfoot>
+          <tfoot v-if="!pdfGenerationMode">
             <td>صفوف لكل الصفحة</td>
             <td></td>
             <td></td>
@@ -100,44 +106,94 @@ export default {
       isMultiSelection: true,
       selectedDate: [],
       info: "يتم التحميل .......",
+      pdfGenerationMode: false,
+      fromSales: false,
     };
   },
   computed: {
     diaryReportsToDisplay() {
       const startIndex = (this.currentPage - 1) * this.diaryReportsPerPage;
       const endIndex = startIndex + this.diaryReportsPerPage;
-      return this.diaryReports.slice(startIndex, endIndex);
+      // return this.diaryReports.slice(startIndex, endIndex);
+      return this.pdfGenerationMode
+        ? this.diaryReports
+        : this.diaryReports.slice(startIndex, endIndex);
     },
     pageNumber() {
       return Math.ceil(this.diaryReports.length / this.diaryReportsPerPage);
     },
   },
-  mounted() {
-    return new Promise((resolve, reject) => {
-      fetch(
-        "http://127.0.0.1:8001/api/daily-report/" +
-          localStorage.getItem("branch_id"),
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          this.diaryReports = data;
-          this.updateMessage();
-          resolve();
-        })
-        .catch((err) => {
-          console.log(err.message);
-          reject(err);
-        });
-    });
+  async mounted() {
+    try {
+      await this.fetchAllReports(); // Wait for data to be fetched
+
+      // Check if coming from POS page
+      const fromPOS = this.$route.query.fromPOS === "true";
+      if (fromPOS) {
+        this.toPdf(); // Once data is fetched and coming from POS page, generate PDF
+      }
+    } catch (error) {
+      console.error("Failed to fetch diary reports:", error);
+    }
   },
   methods: {
+    toPdf() {
+      this.pdfGenerationMode = true;
+
+      this.$nextTick(() => {
+        document.getElementById("my-table").style.direction = "rtl";
+        const element = document.getElementById("my-table");
+        let header = document.getElementsByTagName("head");
+
+        var nWindow = window.open();
+        nWindow.document.write("<html>");
+        nWindow.document.write("<head>");
+
+        for (let headItem of header) {
+          nWindow.document.write(headItem.outerHTML);
+        }
+
+        nWindow.document.write("</head>");
+        nWindow.document.write("<body >");
+        nWindow.document.write(element.outerHTML);
+        nWindow.document.write("</body></html>");
+        nWindow.document.title = "تقرير يوميات سرب";
+        nWindow.document.close();
+
+        setTimeout(() => {
+          nWindow.print();
+          nWindow.close();
+          this.pdfGenerationMode = false;
+        }, 200);
+        this.$router.push({ name: "PointOfSales" });
+      });
+    },
+    fetchAllReports() {
+      return new Promise((resolve, reject) => {
+        fetch(
+          "http://127.0.0.1:8001/api/daily-report/" +
+            localStorage.getItem("branch_id"),
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            this.diaryReports = data;
+            this.updateMessage();
+            resolve();
+          })
+          .catch((err) => {
+            console.log(err.message);
+            reject(err);
+          });
+      });
+    },
+
     changePage(currentPage) {
       this.currentPage = currentPage;
     },
@@ -446,11 +502,11 @@ h5 {
   box-shadow: 0px 0px 15px 0px #00000040;
   border-radius: 8px;
 }
-.DiaryReport table {
+#my-table {
   margin-bottom: 0;
   text-align: center;
 }
-tbody,
+#my-table tbody,
 td,
 tfoot,
 th,
@@ -459,30 +515,30 @@ tr {
   border-bottom: 1px solid #d9d5ec;
 }
 
-.DiaryReport table thead tr th,
-.DiaryReport table tfoot tr th {
+#my-table thead tr th,
+#my-table tfoot tr th {
   background: #3f51b5;
   color: #e3e3e3;
   height: 5vh;
   font-weight: 400;
 }
-.DiaryReport table tr td,
-.DiaryReport table tr th {
+#my-table tr td,
+#my-table tr th {
   color: #1a2669;
 }
-.DiaryReport table .show {
+#my-table .show {
   background: #3f51b5;
   color: #fff;
   border: 1px solid #3f51b5;
 }
-.DiaryReport table tfoot {
+#my-table tfoot {
   border-radius: 8px;
   background: #3f51b5;
   width: 100%;
   color: #fff;
   font-weight: 300;
 }
-.DiaryReport table tfoot td:last-of-type {
+#my-table tfoot td:last-of-type {
   text-align: end;
   padding-left: 5vh;
 }

@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 // import HomeView from "../views/HomeView.vue";
 import ControlBoard from "../views/ControlBoard/ControlBoard.vue";
 import LogIn from "../views/LoginPages/LogIn.vue";
@@ -614,7 +614,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHashHistory(process.env.BASE_URL),
   base: process.env.BASE_URL,
   routes: routes,
   navigationFallback: {
