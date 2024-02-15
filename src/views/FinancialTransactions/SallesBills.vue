@@ -170,7 +170,7 @@ export default {
     fetchAllSalesBills() {
       return new Promise((resolve, reject) => {
         fetch(
-          "http://127.0.0.1:8001/api/order/" +
+          "https://www.setrex.net/haircut/backend/public/api/order/" +
             localStorage.getItem("branch_id"),
           {
             method: "GET",
@@ -193,13 +193,17 @@ export default {
       });
     },
     deleteSalesBill(salesBillId) {
-      fetch("http://127.0.0.1:8001/api/order/" + salesBillId, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          "Content-Type": "application/json",
-        },
-      })
+      fetch(
+        "https://www.setrex.net/haircut/backend/public/api/order/" +
+          salesBillId,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
         .then((response) => {
           if (response.ok) {
             this.salesBills = this.salesBills.filter(
@@ -224,7 +228,8 @@ export default {
     search(event) {
       event.preventDefault();
       fetch(
-        "http://127.0.0.1:8001/api/order/" + localStorage.getItem("branch_id"),
+        "https://www.setrex.net/haircut/backend/public/api/order/" +
+          localStorage.getItem("branch_id"),
         {
           method: "POST",
           headers: {
@@ -260,6 +265,7 @@ export default {
         "تاريخ الإنشاء",
       ]);
       headerRow.font = { bold: true };
+      headerRow.color = { color: "#fff" };
       worksheet.columns = [
         { width: 20 },
         { width: 20 },
@@ -440,6 +446,10 @@ tfoot svg {
   padding: 0 10px;
   color: #fff;
   cursor: pointer;
+}
+/* Start Model*/
+.modal-container {
+  width: 50% !important;
 }
 
 @media (max-width: 991px) {

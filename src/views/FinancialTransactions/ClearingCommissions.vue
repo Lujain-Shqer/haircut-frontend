@@ -91,7 +91,7 @@ export default {
   },
   mounted() {
     fetch(
-      "http://127.0.0.1:8001/api/employee-info/" +
+      "https://www.setrex.net/haircut/backend/public/api/employee-info/" +
         localStorage.getItem("branch_id"),
       {
         method: "GET",
@@ -116,7 +116,7 @@ export default {
       this.deleteUnwantedInfo();
       Promise.all(
         this.payments.map((payment, index) =>
-          fetch("http://127.0.0.1:8001/api/pay-commission", {
+          fetch("https://www.setrex.net/haircut/backend/public/api/pay-commission", {
             method: "POST",
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,

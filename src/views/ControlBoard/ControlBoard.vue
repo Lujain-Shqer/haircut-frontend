@@ -251,7 +251,7 @@ export default {
   methods: {
     fetchAllStatistics() {
       fetch(
-        "http://127.0.0.1:8001/api/dashboard/" +
+        "https://www.setrex.net/haircut/backend/public/api/dashboard/" +
           localStorage.getItem("branch_id"),
         {
           method: "GET",

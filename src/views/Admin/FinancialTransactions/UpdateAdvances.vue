@@ -78,7 +78,7 @@ export default {
   },
   mounted() {
     fetch(
-      "http://127.0.0.1:8001/api/employee/" + localStorage.getItem("branch_id"),
+      "https://www.setrex.net/haircut/backend/public/api/employee/" + localStorage.getItem("branch_id"),
       {
         method: "GET",
         headers: {
@@ -95,7 +95,7 @@ export default {
     updateAdvance(event) {
       event.preventDefault();
       this.deleteUnwantedInfo();
-      fetch("http://127.0.0.1:8001/api/advance/" + this.$route.params.id, {
+      fetch("https://www.setrex.net/haircut/backend/public/api/advance/" + this.$route.params.id, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,

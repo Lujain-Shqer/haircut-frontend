@@ -131,7 +131,7 @@ export default {
     fetchAllEmployees() {
       return new Promise((resolve, reject) => {
         fetch(
-          "http://127.0.0.1:8001/api/employee/" +
+          "https://www.setrex.net/haircut/backend/public/api/employee/" +
             localStorage.getItem("branch_id"),
           {
             method: "GET",
@@ -154,7 +154,7 @@ export default {
       });
     },
     deleteEmployee(employeeId) {
-      fetch("http://127.0.0.1:8001/api/employee/" + employeeId, {
+      fetch("https://www.setrex.net/haircut/backend/public/api/employee/" + employeeId, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -186,7 +186,7 @@ export default {
     search(event) {
       event.preventDefault();
       fetch(
-        "http://127.0.0.1:8001/api/employee/" +
+        "https://www.setrex.net/haircut/backend/public/api/employee/" +
           localStorage.getItem("branch_id"),
         {
           method: "POST",

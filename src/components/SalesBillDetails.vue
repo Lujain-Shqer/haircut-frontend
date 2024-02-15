@@ -3,42 +3,69 @@
     <div class="modal-container" @click.stop>
       <button @click="closeModal" class="close-button">Close</button>
       <div class="modal-content">
-        <h2>رقم الفاتورة{{ salesBillDetails.id }}</h2>
-        <p>اسم الموظف{{ salesBillDetails.employee.name }}</p>
-        <p>طريقة الدفع{{ salesBillDetails.amount_pay_type }}</p>
-        <p>القيمة{{ salesBillDetails.amount }}</p>
-        <p>قيمة الكاش{{ salesBillDetails.cash_amount }}</p>
-        <p>قيمة الشبكة{{ salesBillDetails.online_amount }}</p>
-        <p>مبلغ الخصم {{ salesBillDetails.discount }}</p>
-        <p>القيمة المضافة{{ salesBillDetails.tax }}</p>
-        <p>مكافأة من العميل{{ salesBillDetails.tip }}</p>
-        <p>طريقة دفع المكافاة {{ salesBillDetails.tip_pay_type }}</p>
-        <p>المجموع {{ salesBillDetails.amount_after_discount }}</p>
-        <p>موظف{{ salesBillDetails.employee_commission }}</p>
-        <p>مدير الفرع{{ salesBillDetails.manager_commission }}</p>
-        <p>مندوب{{ salesBillDetails.representative_commission }}</p>
-        <p>التاريخ{{ salesBillDetails.created_at.split("T")[0] }}</p>
-        <p>
-          الوقت{{ salesBillDetails.created_at.split("T")[1].split(".")[0] }}
-        </p>
-        <p>الحالة{{ salesBillDetails.state }}</p>
-        <p>اسم العميل {{ salesBillDetails.customer.name }}</p>
-        <p>رقم العميل{{ salesBillDetails.customer.phone_number }}</p>
-        <div v-if="salesBillDetails.services.length">
-          <h3>خدمات</h3>
-          <ul>
-            <li v-for="service in salesBillDetails.services" :key="service.id">
-              {{ service.name }}
-            </li>
-          </ul>
-        </div>
-        <div v-if="salesBillDetails.products.length">
-          <h3>منتجات</h3>
-          <ul>
-            <li v-for="product in salesBillDetails.products" :key="product.id">
-              {{ product.name }}
-            </li>
-          </ul>
+        <h2>{{ salesBillDetails.id }} الفاتورة رقم</h2>
+        <p></p>
+        <div class="row">
+          <h6 class="col-6">اسم الموظف</h6>
+          <p class="col-6">{{ salesBillDetails.employee.name }}</p>
+          <h6 class="col-6">طريقة الدفع</h6>
+          <p class="col-6">{{ salesBillDetails.amount_pay_type }}</p>
+          <h6 class="col-6">القيمة</h6>
+          <p class="col-6">{{ salesBillDetails.amount }}</p>
+          <h6 class="col-6">قيمة الكاش</h6>
+          <p class="col-6">{{ salesBillDetails.cash_amount }}</p>
+          <h6 class="col-6">قيمة الشبكة</h6>
+          <p class="col-6">{{ salesBillDetails.online_amount }}</p>
+          <h6 class="col-6">مبلغ الخصم</h6>
+          <p class="col-6">{{ salesBillDetails.discount }}</p>
+          <h6 class="col-6">القيمة المضافة</h6>
+          <p class="col-6">{{ salesBillDetails.tax }}</p>
+          <h6 class="col-6">مكافأة من العميل</h6>
+          <p class="col-6">{{ salesBillDetails.tip }}</p>
+          <h6 class="col-6">طريقة دفع المكافاة</h6>
+          <p class="col-6">{{ salesBillDetails.tip_pay_type }}</p>
+          <h6 class="col-6">المجموع</h6>
+          <p class="col-6">{{ salesBillDetails.amount_after_discount }}</p>
+          <h6 class="col-6">عمولة الموظف</h6>
+          <p class="col-6">{{ salesBillDetails.employee_commission }}</p>
+          <h6 class="col-6">عمولة مدير الفرع</h6>
+          <p class="col-6">{{ salesBillDetails.manager_commission }}</p>
+          <h6 class="col-6">عمولة مندوب</h6>
+          <p class="col-6">{{ salesBillDetails.representative_commission }}</p>
+          <h6 class="col-6">التاريخ</h6>
+          <p class="col-6">{{ salesBillDetails.created_at.split("T")[0] }}</p>
+          <h6 class="col-6">الوقت</h6>
+          <p class="col-6">
+            {{ salesBillDetails.created_at.split("T")[1].split(".")[0] }}
+          </p>
+          <h6 class="col-6">الحالة</h6>
+          <p class="col-6">{{ salesBillDetails.state }}</p>
+          <h6 class="col-6">اسم العميل</h6>
+          <p class="col-6">{{ salesBillDetails.customer.name }}</p>
+          <h6 class="col-6">رقم العميل</h6>
+          <p class="col-6">{{ salesBillDetails.customer.phone_number }}</p>
+          <div v-if="salesBillDetails.services.length">
+            <h3>خدمات</h3>
+            <ul>
+              <li
+                v-for="service in salesBillDetails.services"
+                :key="service.id"
+              >
+                {{ service.name }}
+              </li>
+            </ul>
+          </div>
+          <div v-if="salesBillDetails.products.length">
+            <h3>منتجات</h3>
+            <ul>
+              <li
+                v-for="product in salesBillDetails.products"
+                :key="product.id"
+              >
+                {{ product.name }}
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -82,17 +109,36 @@ export default {
 /* Modal content */
 .modal-content {
   background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
-  border: 1px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
 }
 
-/* Close button */
-.close {
-  color: #aaa;
+/* Start Model*/
+.modal-container {
+  width: 50%;
+}
+.modal-content {
+  margin: auto !important;
+  border: none !important;
+}
+.modal-content h2 {
+  color: #3f51b5;
+  text-align: center;
+}
+.modal-container button {
+  color: #fff;
+  background: red;
+  border: 1px solid red;
+  padding: 1vh;
+  border-radius: 5px;
   float: right;
-  font-size: 28px;
-  font-weight: bold;
+}
+.modal-content h6 {
+  color: cornflowerblue;
+}
+@media (max-width: 765px) {
+  .modal-container {
+    width: 85%;
+  }
 }
 </style>

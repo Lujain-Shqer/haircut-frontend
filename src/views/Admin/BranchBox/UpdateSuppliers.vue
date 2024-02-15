@@ -62,7 +62,7 @@ export default {
       event.preventDefault();
       this.isLoading = true;
       this.deleteUnwantedInfo();
-      fetch("http://127.0.0.1:8001/api/supplier/" + this.$route.params.id, {
+      fetch("https://www.setrex.net/haircut/backend/public/api/supplier/" + this.$route.params.id, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,

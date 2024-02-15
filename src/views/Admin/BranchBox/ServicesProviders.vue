@@ -113,7 +113,7 @@ export default {
     fetchGeneralProviders() {
       return new Promise((resolve, reject) => {
         fetch(
-          "http://127.0.0.1:8001/api/provider/" +
+          "https://www.setrex.net/haircut/backend/public/api/provider/" +
             localStorage.getItem("branch_id"),
           {
             method: "GET",
@@ -136,7 +136,7 @@ export default {
       });
     },
     deleteGeneralProvider(generalProviderId) {
-      fetch("http://127.0.0.1:8001/api/provider/" + generalProviderId, {
+      fetch("https://www.setrex.net/haircut/backend/public/api/provider/" + generalProviderId, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -174,7 +174,7 @@ export default {
     search(event) {
       event.preventDefault();
       fetch(
-        "http://127.0.0.1:8001/api/provider/" +
+        "https://www.setrex.net/haircut/backend/public/api/provider/" +
           localStorage.getItem("branch_id"),
         {
           method: "POST",

@@ -96,7 +96,7 @@ export default {
   },
   mounted() {
     fetch(
-      "http://127.0.0.1:8001/api/taxedterm/" +
+      "https://www.setrex.net/haircut/backend/public/api/taxedterm/" +
         localStorage.getItem("branch_id"),
       {
         method: "GET",
@@ -110,7 +110,7 @@ export default {
       .then((data) => (this.allGeneralExpenses = data))
       .catch((err) => console.log(err.message));
     fetch(
-      "http://127.0.0.1:8001/api/taxedprovider/" +
+      "https://www.setrex.net/haircut/backend/public/api/taxedprovider/" +
         localStorage.getItem("branch_id"),
       {
         method: "GET",
@@ -128,7 +128,7 @@ export default {
     addTax(event) {
       event.preventDefault();
       this.isLoading = true;
-      fetch("http://127.0.0.1:8001/api/general-service", {
+      fetch("https://www.setrex.net/haircut/backend/public/api/general-service", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,

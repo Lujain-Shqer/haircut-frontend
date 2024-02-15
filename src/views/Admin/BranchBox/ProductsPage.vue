@@ -35,7 +35,7 @@
               <td>
                 <img
                   :src="
-                    'http://127.0.0.1:8001/storage/product_images/' +
+                    'https://www.setrex.net/haircut/backend/public/storage/product_images/' +
                     product.image
                   "
                   alt="product"
@@ -116,7 +116,7 @@ export default {
     fetchAllProducts() {
       return new Promise((resolve, reject) => {
         fetch(
-          "http://127.0.0.1:8001/api/product/" +
+          "https://www.setrex.net/haircut/backend/public/api/product/" +
             localStorage.getItem("branch_id"),
           {
             method: "GET",
@@ -139,7 +139,7 @@ export default {
       });
     },
     deleteProduct(productId) {
-      fetch("http://127.0.0.1:8001/api/product/" + productId, {
+      fetch("https://www.setrex.net/haircut/backend/public/api/product/" + productId, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -171,7 +171,7 @@ export default {
     search(event) {
       event.preventDefault();
       fetch(
-        "http://127.0.0.1:8001/api/product/" +
+        "https://www.setrex.net/haircut/backend/public/api/product/" +
           localStorage.getItem("branch_id"),
         {
           method: "POST",

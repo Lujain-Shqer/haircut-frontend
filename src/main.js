@@ -18,7 +18,7 @@ import "popper.js";
 
 import "normalize.css";
 import "bootstrap/dist/js/bootstrap.js";
-const hostName = "http://127.0.0.1:8001";
+const hostName = "https://www.setrex.net/haircut/backend/public";
 provide("hostName", hostName);
 createApp(App)
   .component("fa", FontAwesomeIcon)

@@ -102,7 +102,7 @@ export default {
   mounted() {
     return new Promise((resolve, reject) => {
       fetch(
-        "http://127.0.0.1:8001/api/order/" + localStorage.getItem("branch_id"),
+        "https://www.setrex.net/haircut/backend/public/api/order/" + localStorage.getItem("branch_id"),
         {
           method: "GET",
           headers: {
@@ -160,7 +160,7 @@ export default {
         this.salesTaxes = [];
       } else {
         fetch(
-          "http://127.0.0.1:8001/api/filter-order/" +
+          "https://www.setrex.net/haircut/backend/public/api/filter-order/" +
             localStorage.getItem("branch_id"),
           {
             method: "POST",
